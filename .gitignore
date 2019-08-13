@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/Opengl_Window
+/Debug
+/Opengl_Window/Debug
+/Opengl_Window/x64/Debug
+/x64/Debug
