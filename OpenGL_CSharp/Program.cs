@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
+
 namespace OpenGL_CSharp
 {
     class Program
@@ -14,7 +15,7 @@ namespace OpenGL_CSharp
         static void Main(string[] args)
         {
             //initialize window
-            var win = new GameWindow(800, 800, OpenTK.Graphics.GraphicsMode.Default, "Test", GameWindowFlags.Default);
+            var win = new GameWindow(800, 800, OpenTK.Graphics.GraphicsMode.Default, "Test", GameWindowFlags.Default, DisplayDevice.Default, 3, 3, OpenTK.Graphics.GraphicsContextFlags.Debug);
 
             //setupsceansettings
             SetupScene(win);
@@ -22,19 +23,9 @@ namespace OpenGL_CSharp
             win.UpdateFrame += Win_UpdateFrame; //on each fram do this           
             win.Closing += Win_Closing; //on termination do this
             win.KeyDown += Win_KeyDown; //keydown event
-            win.Unload += Win_Unload;
+
             //start game window
-            win.Run(3,3);
-
-        }
-
-        private static void Win_Unload(object sender, EventArgs e)
-        {
-            // After the program ends, we have to manually cleanup our buffers.
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.DeleteBuffer(pipe.vao);
-            GL.DeleteBuffer(pipe.vbo);
-            GL.DeleteBuffer(pipe.ebo);
+            win.Run(10);
 
         }
 
@@ -44,11 +35,11 @@ namespace OpenGL_CSharp
             {
                 pipe.offsetX += .2f;
             }
-            if(e.Key==OpenTK.Input.Key.Left)
+            if (e.Key == OpenTK.Input.Key.Left)
             {
                 pipe.offsetX -= .2f;
             }
-            if(e.Key==OpenTK.Input.Key.Escape)
+            if (e.Key == OpenTK.Input.Key.Escape)
             {
                 ((GameWindow)sender).Close();
             }
@@ -57,46 +48,38 @@ namespace OpenGL_CSharp
         static pipelinevars pipe;
         class pipelinevars
         {
-            public int programId, vbo,vao,ebo;
+            public int programId, vbo, vao, ebo;
             public float offsetX = 0.5f;
             public float[] vers;
             internal int[] indeces;
+            public int texid1;
+            internal int fragshad;
+            internal int vershad;
+            internal int texid2;
         }
         private static void Win_Load(object sender, EventArgs e)
         {
             var win = (GameWindow)sender;
-            //load vertix/Fragment shader
-            var vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
-            var fragshad = CreateShader(Shaders.FragmentShaders.Frag(), ShaderType.FragmentShader);
 
-            //create program, link shaders and test the results
-            int progid = CreatePrognLinkShader(vershad, fragshad);
-            GL.UseProgram(progid);
-
-            DrawShape();
-
-          
-        }
-
-        static void DrawShape()
-        {
             //defin the shap to be drawn
             pipe.vers = new float[]
              {
-                -pipe.offsetX,-.5f+pipe.offsetX,0,
-                 -pipe.offsetX,0f+pipe.offsetX,0,
-                .5f+pipe.offsetX,-.5f+pipe.offsetX,0,
-               00f+pipe.offsetX,.5f+pipe.offsetX,0
+               
+               // Position         Texture coordinates    Vertex Color
+             0.5f,  0.5f, 0.0f,      1.0f, 1.0f,         1f, 00f,00f, // top right
+             0.5f, -0.5f, 0.0f,      1.0f, 0.0f,         00f,00f,01f, // bottom right
+            -0.5f, -0.5f, 0.0f,      0.0f, 0.0f,         .5f,.5f,01f,// bottom left
+            -0.5f,  0.5f, 0.0f,      0.0f, 1.0f,         .1f,01f,.8f,// top left 
+
              };
 
             //define Indeces
             pipe.indeces = new int[]
             {
-                0,1,2,3
+                 0, 1, 3,
+                 1, 2, 3
             };
 
-            //setup vertix holder to the GPU memory
-            //--------------
 
             int vbo = pipe.vbo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo); //define the type of buffer in gpu memory
@@ -104,19 +87,70 @@ namespace OpenGL_CSharp
             //we need to define the type of data to be filled and the size in the memory
             GL.BufferData(BufferTarget.ArrayBuffer, pipe.vers.Length * sizeof(float), pipe.vers, BufferUsageHint.StaticDraw);
 
-            int vao = pipe.vao = GL.GenBuffer();
-            GL.BindVertexArray(vao);
-
-            //since we are using vertex, opengl doesn't understand the specs of the vertex so we use vertexpointerattribute for this
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0); //now activate that
-
             //element buffer
             pipe.ebo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, pipe.ebo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, pipe.indeces.Length * sizeof(int), pipe.indeces, BufferUsageHint.StaticRead);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, pipe.indeces.Length * sizeof(int), pipe.indeces, BufferUsageHint.StaticDraw);
+
+            //load vertix/Fragment shader
+            pipe.vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
+            pipe.fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
+
+            //create program, link shaders and test the results
+            int progid = CreatePrognLinkShader(pipe.vershad, pipe.fragshad);
+            GL.UseProgram(progid);
 
 
+            //load Textures
+            pipe.texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"C:\Users\mosta\Downloads\container.jpg");
+            Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
+
+            pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
+            Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+
+            //tel GPU the loation of the textures in the shaders
+            var txunloc1 = GL.GetUniformLocation(pipe.programId, "texture0");
+            var txunloc2 = GL.GetUniformLocation(pipe.programId, "texture1");
+            GL.Uniform1(txunloc1, 0);
+            GL.Uniform1(txunloc2, 1);
+                       
+            //Element buffer object
+            int vao = pipe.vao = GL.GenBuffer();
+            GL.BindVertexArray(vao);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, pipe.ebo);
+
+            //since we are using vertex, opengl doesn't understand the specs of the vertex so we use vertexpointerattribute for this
+            //now it is 5 instead of 3 for the texture coordinates
+            var verloc = GL.GetAttribLocation(pipe.programId, "aPos");
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(verloc); //now activate Vertexattrib
+
+            //GetTexture coordinates
+            var texloc = GL.GetAttribLocation(pipe.programId, "aTexCoord");
+            GL.EnableVertexAttribArray(texloc);
+            GL.VertexAttribPointer(texloc, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
+
+            //vertex Color
+            var vercolloc = GL.GetAttribLocation(pipe.programId, "aVerColor");
+            GL.EnableVertexAttribArray(vercolloc);
+            GL.VertexAttribPointer(vercolloc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
+
+        }
+
+
+
+        static void DrawShape()
+        {
+            //bind vertex object
+            GL.BindVertexArray(pipe.vao);
+
+            //setup vertix holder to the GPU memory
+            //--------------
+            Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
+            Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+
+            GL.UseProgram(pipe.programId);
 
         }
 
@@ -155,7 +189,9 @@ namespace OpenGL_CSharp
             GL.Viewport(100, 100, 700, 700);
             GL.ClearColor(Color.CornflowerBlue);//set background color
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line); //set polygon draw mode
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
+
+
 
         }
 
@@ -189,6 +225,10 @@ namespace OpenGL_CSharp
             // Delete all the resources.
             GL.DeleteBuffer(pipe.vbo);
             GL.DeleteVertexArray(pipe.vao);
+            GL.DeleteShader(pipe.vershad);
+            GL.DeleteShader(pipe.fragshad);
+            GL.DeleteTexture(pipe.texid1);
+            GL.DeleteTexture(pipe.texid2);
 
             GL.DeleteProgram(pipe.programId);
         }
@@ -201,7 +241,7 @@ namespace OpenGL_CSharp
             DrawShape();
 
             // GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-            GL.DrawElements(PrimitiveType.LineLoop, pipe.indeces.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, pipe.indeces.Length, DrawElementsType.UnsignedInt, 0);
             //swap the buffer (bring what has been rendered in theback to the front)
             var win = (GameWindow)sender;
             win.SwapBuffers();
