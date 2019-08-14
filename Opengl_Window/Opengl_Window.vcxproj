@@ -76,7 +76,7 @@
     <ReferencePath>D:\Revit_API\Downloaded Library\Source\OpenGL_Sources\glfw-3.3\build\src\Debug;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Revit_API\Downloaded Library\Source\OpenGL_Sources\glfw-3.3\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Revit_API\Downloaded Library\Source\OpenGL_Sources\glad\include;D:\Revit_API\Downloaded Library\Source\OpenGL_Sources\glfw-3.3\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Revit_API\Downloaded Library\Source\OpenGL_Sources\glfw-3.3\build\src\Debug;$(LibraryPath)</LibraryPath>
     <SourcePath>D:\Revit_API\Downloaded Library\Source\OpenGL_Sources\glfw-3.3\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
