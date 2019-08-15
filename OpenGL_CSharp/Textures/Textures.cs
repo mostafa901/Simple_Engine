@@ -93,6 +93,11 @@ namespace OpenGL_CSharp.Textures
             GL.BindTexture(TextureTarget.Texture2D, texId);
         }
 
-        
+        internal static void SetUniform(int programId, string name, int value)
+        {
+            var txunloc1 = GL.GetUniformLocation(programId, "texture0");
+           
+            GL.Uniform1(txunloc1, value);
+        }
     }
 }

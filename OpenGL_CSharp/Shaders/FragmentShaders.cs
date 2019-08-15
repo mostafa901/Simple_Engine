@@ -47,8 +47,8 @@ uniform sampler2D texture0;
 uniform sampler2D texture1;
 
 void main(){
-//outputColor = mix(texture(texture0,texCoord)*vec4(vcolor,1f),texture(texture1,texCoord),0.5);
-outputColor = texture(texture0,texCoord)*vec4(vcolor,1f);
+outputColor = mix(texture(texture0,texCoord)*vec4(vcolor,1f),texture(texture1,texCoord),0.5);
+outputColor = mix   (outputColor , texture(texture0,texCoord)*vec4(vcolor,1f),.5);
 }
 ";
         }

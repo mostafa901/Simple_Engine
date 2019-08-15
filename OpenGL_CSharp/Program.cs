@@ -25,7 +25,7 @@ namespace OpenGL_CSharp
             win.KeyDown += Win_KeyDown; //keydown event
 
             //start game window
-            win.Run(10);
+            win.Run(30);
 
         }
 
@@ -33,11 +33,14 @@ namespace OpenGL_CSharp
         {
             if (e.Key == OpenTK.Input.Key.Right)
             {
-                pipe.offsetX += .2f;
+                pipe.model *= Matrix4.CreateRotationZ(OpenTK.MathHelper.DegreesToRadians(30));
+                CreateShap();
             }
             if (e.Key == OpenTK.Input.Key.Left)
             {
-                pipe.offsetX -= .2f;
+                pipe.model *= Matrix4.CreateRotationZ(OpenTK.MathHelper.DegreesToRadians(-30));
+                CreateShap();
+
             }
             if (e.Key == OpenTK.Input.Key.Escape)
             {
@@ -56,23 +59,76 @@ namespace OpenGL_CSharp
             internal int fragshad;
             internal int vershad;
             internal int texid2;
+            public Matrix4 model = Matrix4.Identity * Matrix4.CreateRotationY(OpenTK.MathHelper.DegreesToRadians(30));
+            public Matrix4 view = Matrix4.CreateTranslation(0, 0, -3f);
+            public Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), 1f, 0.1f, 100f);
         }
         private static void Win_Load(object sender, EventArgs e)
         {
-            var win = (GameWindow)sender;
+            CreateShap();
+
+        }
+
+
+        class vertex
+        {
+            //Coordinates
+            public float X { get; set; }
+            public float Y { get; set; }
+            public float Z { get; set; }
+
+            //Texture
+            public float S { get; set; }
+            public float T { get; set; }
+
+            //Color
+            public float R { get; set; }
+            public float G { get; set; }
+            public float B { get; set; }
+            public float A { get; set; }
+
+            public vertex(float x, float y, float z, float s = 0, float t = 0, float r = 0, float g = 0, float b = 0, float a = 1)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+                S = s;
+                T = t;
+                R = r;
+                G = g;
+                B = b;
+                A = a;
+            }
+            public float[] data()
+            {
+                return new float[] { X, Y, Z, S, T, R, G, B };
+            }
+        }
+
+        class CreateCube
+        {
+            public List<vertex> points { get; set; }
+
+            public CreateCube()
+            {
+                points = new List<vertex>();
+                points.Add(new vertex(0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1f, 00f, 00f)); // top right
+                points.Add(new vertex(0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 00f, 00f, 01f)); // bottom right
+                points.Add(new vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, .5f, .5f, 01f));// bottom left
+                points.Add(new vertex(-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, .1f, 01f, .8f));// top left 
+            }
+        }
+
+
+        static void CreateShap()
+        {
+            //freeup GPU
+            cleanup();
 
             //defin the shap to be drawn
-            pipe.vers = new float[]
-             {
-               
-               // Position         Texture coordinates    Vertex Color
-             0.5f,  0.5f, 0.0f,      1.0f, 1.0f,         1f, 00f,00f, // top right
-             0.5f, -0.5f, 0.0f,      1.0f, 0.0f,         00f,00f,01f, // bottom right
-            -0.5f, -0.5f, 0.0f,      0.0f, 0.0f,         .5f,.5f,01f,// bottom left
-            -0.5f,  0.5f, 0.0f,      0.0f, 1.0f,         .1f,01f,.8f,// top left 
+            pipe.vers = new CreateCube().points.SelectMany(o => o.data()).ToArray();
 
-             };
-
+         
             //define Indeces
             pipe.indeces = new int[]
             {
@@ -92,13 +148,20 @@ namespace OpenGL_CSharp
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, pipe.ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, pipe.indeces.Length * sizeof(int), pipe.indeces, BufferUsageHint.StaticDraw);
 
+
             //load vertix/Fragment shader
             pipe.vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
             pipe.fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
 
+
             //create program, link shaders and test the results
             int progid = CreatePrognLinkShader(pipe.vershad, pipe.fragshad);
             GL.UseProgram(progid);
+
+            //Set MatrixTransformation            
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "model", ref pipe.model);
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "view", ref pipe.view);
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "projection", ref pipe.projection);
 
 
             //load Textures
@@ -108,12 +171,10 @@ namespace OpenGL_CSharp
             pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
             Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
 
-            //tel GPU the loation of the textures in the shaders
-            var txunloc1 = GL.GetUniformLocation(pipe.programId, "texture0");
-            var txunloc2 = GL.GetUniformLocation(pipe.programId, "texture1");
-            GL.Uniform1(txunloc1, 0);
-            GL.Uniform1(txunloc2, 1);
-                       
+            //tel GPU the loation of the textures in the shaders            
+            Textures.Textures.SetUniform(pipe.programId, "texture0", 0);
+            Textures.Textures.SetUniform(pipe.programId, "texture1", 1);
+
             //Element buffer object
             int vao = pipe.vao = GL.GenBuffer();
             GL.BindVertexArray(vao);
@@ -135,20 +196,22 @@ namespace OpenGL_CSharp
             var vercolloc = GL.GetAttribLocation(pipe.programId, "aVerColor");
             GL.EnableVertexAttribArray(vercolloc);
             GL.VertexAttribPointer(vercolloc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
-
         }
 
-
-
-        static void DrawShape()
+        static void DrawShape(FrameEventArgs e)
         {
             //bind vertex object
             GL.BindVertexArray(pipe.vao);
+
+            //updateMatrix
+            pipe.view *= Matrix4.CreateTranslation(0,0,-(float)OpenTK.MathHelper.DegreesToRadians(e.Time + 4));
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(pipe.view), ref pipe.view);
 
             //setup vertix holder to the GPU memory
             //--------------
             Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
             Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+
 
             GL.UseProgram(pipe.programId);
 
@@ -216,6 +279,11 @@ namespace OpenGL_CSharp
 
         private static void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            cleanup();
+        }
+
+        static void cleanup()
+        {
             //clear resources from here
             // Unbind all the resources by binding the targets to 0/null.
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
@@ -238,7 +306,7 @@ namespace OpenGL_CSharp
             //clear the scean from any drawing before drawing
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            DrawShape();
+            DrawShape(e);
 
             // GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
             GL.DrawElements(PrimitiveType.Triangles, pipe.indeces.Length, DrawElementsType.UnsignedInt, 0);
