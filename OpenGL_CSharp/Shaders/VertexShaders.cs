@@ -16,21 +16,21 @@ namespace OpenGL_CSharp.Shaders
 #version 330 core
 layout (location=0) in vec3 aPos;
 layout (location=1) in vec2 aTexCoord; 
-layout (location=2) in vec3 aVerColor; 
+layout (location=2) in vec4 aVerColor; 
 
 out vec2 texCoord;
-out vec3 vcolor;
+out vec4 vcolor;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 View;
+uniform mat4 Projection;
 
 void main()
 {
 texCoord = aTexCoord ;
 vcolor=aVerColor;
 
-gl_Position=  vec4(aPos,1.0f) * model * view * projection;
+gl_Position=  vec4(aPos,1.0f) * model * View * Projection;
 }
 ";
         }
@@ -39,6 +39,11 @@ gl_Position=  vec4(aPos,1.0f) * model * view * projection;
         {
             var matloc = GL.GetUniformLocation(programId, name);
             GL.UniformMatrix4(matloc, true, ref value);
+        }
+
+        internal static void SetUniformMatrix(int programId, string v, ref object projection)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -13,9 +13,10 @@ namespace OpenGL_CSharp.Shaders
             return @"
 #version 330 core
 out vec4 FragColor;
+in vec4 vcolor;
  
 void main(){
-FragColor=vec4(1.0f,1.0f,0,1.0f);
+FragColor=vcolor;
 }
 ";
         }
@@ -42,13 +43,13 @@ outputColor = texture(texture0,texCoord);
 
 out vec4 outputColor;
 in vec2 texCoord;
-in vec3 vcolor;
+in vec4 vcolor;
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 
 void main(){
-outputColor = mix(texture(texture0,texCoord)*vec4(vcolor,1f),texture(texture1,texCoord),0.5);
-outputColor = mix   (outputColor , texture(texture0,texCoord)*vec4(vcolor,1f),.5);
+outputColor = mix(texture(texture0,texCoord)*vec4(vcolor),texture(texture1,texCoord),0.5);
+outputColor = mix   (outputColor , texture(texture0,texCoord)*vec4(vcolor),.5);
 }
 ";
         }

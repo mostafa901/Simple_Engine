@@ -4,13 +4,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenGL_CSharp.Graphic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
+using OpenTK.Input;
 
 namespace OpenGL_CSharp
 {
-    class Program
+    partial class Program
     {
         static void Main(string[] args)
         {
@@ -19,36 +20,123 @@ namespace OpenGL_CSharp
 
             //setupsceansettings
             SetupScene(win);
+            pipe.win = win;
+
             win.Load += Win_Load; //one time load on start
             win.UpdateFrame += Win_UpdateFrame; //on each fram do this           
             win.Closing += Win_Closing; //on termination do this
             win.KeyDown += Win_KeyDown; //keydown event
-
+            win.MouseWheel += Win_MouseWheel;
             //start game window
             win.Run(30);
 
         }
 
+        private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            cam.Fov(e.DeltaPrecise);
+            cam.updateCamera();
+        }
+
         private static void Win_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
         {
+
+            var win = (GameWindow)sender;
+
             if (e.Key == OpenTK.Input.Key.Right)
             {
-                pipe.model *= Matrix4.CreateRotationZ(OpenTK.MathHelper.DegreesToRadians(30));
-                CreateShap();
+                cam.Position -= new Vector3(.2f, 0, 0);
+                cam.Target -= new Vector3(.2f, 0, 0);
             }
             if (e.Key == OpenTK.Input.Key.Left)
             {
-                pipe.model *= Matrix4.CreateRotationZ(OpenTK.MathHelper.DegreesToRadians(-30));
-                CreateShap();
+                cam.Position += new Vector3(.2f, 0, 0);
+                cam.Target += new Vector3(.2f, 0, 0);
 
             }
+
+            if (e.Key == OpenTK.Input.Key.Down)
+            {
+                cam.Position -= new Vector3(0f, .2f, 0);
+                cam.Target -= new Vector3(0f, .2f, 0);
+            }
+            if (e.Key == OpenTK.Input.Key.Up)
+            {
+                cam.Position += new Vector3(0f, 0.2f, 0);
+                cam.Target += new Vector3(0, 0.2f, 0);
+
+            }
+
             if (e.Key == OpenTK.Input.Key.Escape)
             {
                 ((GameWindow)sender).Close();
             }
-        }
 
+
+            if (e.Key == OpenTK.Input.Key.W)
+            {
+                Vangle += 10;
+
+                var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
+                cam.View = cam.View * m1;
+                cam.Position = cam.View.ExtractTranslation();
+            }
+
+            if (e.Key == OpenTK.Input.Key.S)
+            {
+                Vangle -= 10;
+                var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
+                cam.View = cam.View * m1;
+                cam.Position = cam.View.ExtractTranslation();
+            }
+
+            if (e.Key == OpenTK.Input.Key.A)
+            {
+                Hangle -= 10;
+                cam.Position = new Vector3((float)Math.Sin(MathHelper.DegreesToRadians(Hangle)) * r, cam.Position.Y, (float)Math.Cos(MathHelper.DegreesToRadians(Hangle)) * r);
+
+            }
+
+            if (e.Key == OpenTK.Input.Key.D)
+            {
+                Hangle += 10;
+                cam.Position = new Vector3((float)Math.Sin(MathHelper.DegreesToRadians(Hangle)) * r, cam.Position.Y, (float)Math.Cos(MathHelper.DegreesToRadians(Hangle)) * r);
+            }
+
+            var mouse = Mouse.GetState();
+
+
+
+            if (e.Key == Key.ControlLeft && win.Focused)
+            {
+                var dx = mouse.X / 800f - oldx;
+                var dy = mouse.Y / 800f - oldy;
+
+                win.CursorVisible = true;
+                cam.Target += new Vector3(dx, dy, 0);
+                oldx = mouse.X / 800f;
+                oldy = mouse.Y / 800f;
+            }
+            else
+            {
+                win.CursorVisible = true;
+                cam.Target = Vector3.Zero;
+            }
+
+
+            cam.updateCamera();
+
+
+        }
+        static float oldx = 0;
+        static float oldy = 0;
+
+        static float r = 5f;
+        static double Hangle = 0;
+        static double Vangle = 0;
         static pipelinevars pipe;
+        public static Camera cam = new Camera();
+
         class pipelinevars
         {
             public int programId, vbo, vao, ebo;
@@ -59,82 +147,18 @@ namespace OpenGL_CSharp
             internal int fragshad;
             internal int vershad;
             internal int texid2;
-            public Matrix4 model = Matrix4.Identity * Matrix4.CreateRotationY(OpenTK.MathHelper.DegreesToRadians(30));
-            public Matrix4 view = Matrix4.CreateTranslation(0, 0, -3f);
-            public Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), 1f, 0.1f, 100f);
+            public Matrix4 model = Matrix4.Identity;
+
+            public float speed = .3f;
+            internal GameWindow win;
         }
         private static void Win_Load(object sender, EventArgs e)
         {
-            CreateShap();
-
-        }
-
-
-        class vertex
-        {
-            //Coordinates
-            public float X { get; set; }
-            public float Y { get; set; }
-            public float Z { get; set; }
-
-            //Texture
-            public float S { get; set; }
-            public float T { get; set; }
-
-            //Color
-            public float R { get; set; }
-            public float G { get; set; }
-            public float B { get; set; }
-            public float A { get; set; }
-
-            public vertex(float x, float y, float z, float s = 0, float t = 0, float r = 0, float g = 0, float b = 0, float a = 1)
-            {
-                X = x;
-                Y = y;
-                Z = z;
-                S = s;
-                T = t;
-                R = r;
-                G = g;
-                B = b;
-                A = a;
-            }
-            public float[] data()
-            {
-                return new float[] { X, Y, Z, S, T, R, G, B };
-            }
-        }
-
-        class CreateCube
-        {
-            public List<vertex> points { get; set; }
-
-            public CreateCube()
-            {
-                points = new List<vertex>();
-                points.Add(new vertex(0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1f, 00f, 00f)); // top right
-                points.Add(new vertex(0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 00f, 00f, 01f)); // bottom right
-                points.Add(new vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, .5f, .5f, 01f));// bottom left
-                points.Add(new vertex(-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, .1f, 01f, .8f));// top left 
-            }
-        }
-
-
-        static void CreateShap()
-        {
-            //freeup GPU
-            cleanup();
 
             //defin the shap to be drawn
-            pipe.vers = new CreateCube().points.SelectMany(o => o.data()).ToArray();
-
-         
-            //define Indeces
-            pipe.indeces = new int[]
-            {
-                 0, 1, 3,
-                 1, 2, 3
-            };
+            var cube = new CreateCube();
+            pipe.vers = cube.points.SelectMany(o => o.data()).ToArray();
+            pipe.indeces = cube.Indices;
 
 
             int vbo = pipe.vbo = GL.GenBuffer();
@@ -148,6 +172,12 @@ namespace OpenGL_CSharp
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, pipe.ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, pipe.indeces.Length * sizeof(int), pipe.indeces, BufferUsageHint.StaticDraw);
 
+            //Element buffer object
+            int vao = pipe.vao = GL.GenBuffer();
+            GL.BindVertexArray(vao);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, pipe.vbo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, pipe.ebo);
+
 
             //load vertix/Fragment shader
             pipe.vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
@@ -158,54 +188,175 @@ namespace OpenGL_CSharp
             int progid = CreatePrognLinkShader(pipe.vershad, pipe.fragshad);
             GL.UseProgram(progid);
 
-            //Set MatrixTransformation            
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "model", ref pipe.model);
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "view", ref pipe.view);
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "projection", ref pipe.projection);
 
+            CreateShap();
 
             //load Textures
             pipe.texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"C:\Users\mosta\Downloads\container.jpg");
-            Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
 
             pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
+
+
+        }
+
+        class CreateCube
+        {
+            public List<Vertex> points { get; set; }
+
+            public CreateCube()
+            {
+                points = new List<Vertex>();
+
+                points.Add(
+                    new Vertex()
+                    {
+                        Position = new Vertex3(0.5f, 0.5f, -0.5f),
+                        TexCoor = new Vertex2(1.0f, 1.0f),
+                        Vcolor = new Vertex4(1f, 00f, 00f, 1.0f)
+                    }); // 00
+
+                points.Add(
+                    new Vertex()
+                    {
+                        Position = new Vertex3(0.5f, -0.5f, -0.5f),
+                        TexCoor = new Vertex2(1.0f, 0.0f),
+                        Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
+                    }); // 01
+
+                points.Add(
+                   new Vertex()
+                   {
+                       Position = new Vertex3(-0.5f, -0.5f, -0.5f),
+                       TexCoor = new Vertex2(0.0f, 0.0f),
+                       Vcolor = new Vertex4(0f, 0f, 01f, 1.0f)
+                   }); // 02
+
+                points.Add(
+                  new Vertex()
+                  {
+                      Position = new Vertex3(-0.5f, 0.5f, -0.5f),
+                      TexCoor = new Vertex2(0.0f, 1.0f),
+                      Vcolor = new Vertex4(.1f, 01f, 0f, 1.0f)
+                  });   // 03
+
+                points.Add(
+                   new Vertex()
+                   {
+                       Position = new Vertex3(0.5f, -0.5f, 0.5f),
+                       TexCoor = new Vertex2(0.0f, 0.0f),
+                       Vcolor = new Vertex4(0f, 1f, 01f, 1.0f)
+                   }); // 04
+
+                points.Add(
+                  new Vertex()
+                  {
+                      Position = new Vertex3(0.5f, 0.5f, 0.5f),
+                      TexCoor = new Vertex2(0.0f, 1.0f),
+                      Vcolor = new Vertex4(1f, 00f, .1f, 1.0f)
+                  });   // 05
+
+                points.Add(
+                   new Vertex()
+                   {
+                       Position = new Vertex3(-0.5f, -0.5f, 0.5f),
+                       TexCoor = new Vertex2(0.0f, 0.0f),
+                       Vcolor = new Vertex4(1f, 1f, 01f, 1.0f)
+                   }); // 06
+
+                points.Add(
+                  new Vertex()
+                  {
+                      Position = new Vertex3(-0.5f, 0.5f, 0.5f),
+                      TexCoor = new Vertex2(0.0f, 1.0f),
+                      Vcolor = new Vertex4(.3f, 00.3f, .3f, 1.0f)
+                  });   // 07  
+
+
+            }
+
+            //define Indeces
+            public int[] Indices { get; set; } =
+            new int[]
+                    {
+                         //backface
+                        6,7,4,
+                        7,5,4,
+
+                        //bottom
+                        1,2,6,
+                        4,1,6,
+
+                        //top
+                        0,7,3,
+                        0,5,7,
+
+                        //right face
+                       4,0,1,
+                        5,0,4,
+                         
+                        //left face
+                        6,3,7,
+                        6,2,3,
+
+                          //frontface
+                        3,2,1,
+                        3,1,0
+
+
+                };
+        }
+
+
+
+
+        static void CreateShap()
+        {
+            //freeup GPU
+            //   cleanup();
+
+
+            //Set MatrixTransformation            
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, "model", ref pipe.model);
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(Camera.View), ref cam.View);
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(Camera.Projection), ref cam.Projection);
+
+            Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
             Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
 
-            //tel GPU the loation of the textures in the shaders            
+            //tell GPU the loation of the textures in the shaders            
             Textures.Textures.SetUniform(pipe.programId, "texture0", 0);
-            Textures.Textures.SetUniform(pipe.programId, "texture1", 1);
+            // Textures.Textures.SetUniform(pipe.programId, "texture1", 1);
 
-            //Element buffer object
-            int vao = pipe.vao = GL.GenBuffer();
-            GL.BindVertexArray(vao);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, pipe.ebo);
 
             //since we are using vertex, opengl doesn't understand the specs of the vertex so we use vertexpointerattribute for this
             //now it is 5 instead of 3 for the texture coordinates
             var verloc = GL.GetAttribLocation(pipe.programId, "aPos");
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
+            GL.VertexAttribPointer(0, Vertex3.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 0);
             GL.EnableVertexAttribArray(verloc); //now activate Vertexattrib
 
             //GetTexture coordinates
             var texloc = GL.GetAttribLocation(pipe.programId, "aTexCoord");
             GL.EnableVertexAttribArray(texloc);
-            GL.VertexAttribPointer(texloc, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
+            GL.VertexAttribPointer(texloc, Vertex2.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 3 * sizeof(float));
 
             //vertex Color
             var vercolloc = GL.GetAttribLocation(pipe.programId, "aVerColor");
             GL.EnableVertexAttribArray(vercolloc);
-            GL.VertexAttribPointer(vercolloc, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
+            GL.VertexAttribPointer(vercolloc, Vertex4.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 5 * sizeof(float));
         }
 
-        static void DrawShape(FrameEventArgs e)
+
+
+
+        static void RenderShape(FrameEventArgs e)
         {
             //bind vertex object
             GL.BindVertexArray(pipe.vao);
 
-            //updateMatrix
-            pipe.view *= Matrix4.CreateTranslation(0,0,-(float)OpenTK.MathHelper.DegreesToRadians(e.Time + 4));
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(pipe.view), ref pipe.view);
+            //orient Camera
+
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
+            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
 
             //setup vertix holder to the GPU memory
             //--------------
@@ -251,10 +402,9 @@ namespace OpenGL_CSharp
             //defin viewport size
             GL.Viewport(100, 100, 700, 700);
             GL.ClearColor(Color.CornflowerBlue);//set background color
-            GL.CullFace(CullFaceMode.Back); //set which face to be hidden
-            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
-
-
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Front); //set which face to be hidden            
+            GL.PolygonMode(MaterialFace.Back, PolygonMode.Fill); //set polygon draw mode
 
         }
 
@@ -295,8 +445,7 @@ namespace OpenGL_CSharp
             GL.DeleteVertexArray(pipe.vao);
             GL.DeleteShader(pipe.vershad);
             GL.DeleteShader(pipe.fragshad);
-            GL.DeleteTexture(pipe.texid1);
-            GL.DeleteTexture(pipe.texid2);
+
 
             GL.DeleteProgram(pipe.programId);
         }
@@ -306,7 +455,7 @@ namespace OpenGL_CSharp
             //clear the scean from any drawing before drawing
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            DrawShape(e);
+            RenderShape(e);
 
             // GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
             GL.DrawElements(PrimitiveType.Triangles, pipe.indeces.Length, DrawElementsType.UnsignedInt, 0);
