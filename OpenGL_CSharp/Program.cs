@@ -189,17 +189,11 @@ namespace OpenGL_CSharp
                 //bind vertex object
                 GL.BindVertexArray(pipe.geos[i].vao);
 
-                //orient Camera, MatrixTransformation
-                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(BaseGeometry.model), ref pipe.geos[i].model);
+                
                 Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
                 Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
 
-                //Use vertix shaders holder to the GPU memory
-                //--------------
-                Textures.Textures.Link(TextureUnit.Texture0, pipe.geos[i].texid1);
-                // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
-
-                GL.UseProgram(pipe.programId);
+               
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
 
                 //clear the buffer
