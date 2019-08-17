@@ -19,7 +19,10 @@ namespace OpenGL_CSharp.Geometery
         public int vbo;
         public int ebo;
         public int vao;
-
+        public int texid1;
+        public int texid2;
+        public int vershad;
+        public int fragshad;
         public void Init()
         {
             var vers = points.SelectMany(o => o.data()).ToArray();
@@ -43,15 +46,15 @@ namespace OpenGL_CSharp.Geometery
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 
             //load vertix/Fragment shader
-            Program.pipe.vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
-            Program.pipe.fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
+            vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
+            fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
 
             //create program, link shaders and test the results
-            int progid = CreatePrognLinkShader(Program.pipe.vershad, Program.pipe.fragshad);
+            int progid = CreatePrognLinkShader(vershad, fragshad);
             GL.UseProgram(progid);
 
             //load Textures
-            Program.pipe.texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"C:\Users\mosta\Downloads\container.jpg");
+            texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"C:\Users\mosta\Downloads\container.jpg");
             //   pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
 
             //tell GPU the loation of the textures in the shaders            
@@ -95,7 +98,7 @@ namespace OpenGL_CSharp.Geometery
 
         static int CreatePrognLinkShader(int vershad, int fragshad)
         {
-            int progid = Program. pipe.programId = GL.CreateProgram();
+            int progid = Program.pipe.programId = GL.CreateProgram();
             GL.AttachShader(progid, vershad);
             GL.AttachShader(progid, fragshad);
             GL.LinkProgram(progid);

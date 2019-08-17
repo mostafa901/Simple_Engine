@@ -176,16 +176,13 @@ namespace OpenGL_CSharp
 
             //Use vertix shaders holder to the GPU memory
             //--------------
-            Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
+            Textures.Textures.Link(TextureUnit.Texture0, pipe.geos[i].texid1);
             // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
 
             GL.UseProgram(pipe.programId);
 
         }
-
-
-
-       
+ 
         private static void SetupScene(GameWindow win)
         {
             //intialize holder for the project main variables
