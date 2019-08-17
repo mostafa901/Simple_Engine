@@ -24,15 +24,35 @@ namespace OpenGL_CSharp
             pipe.win = win;
 
             win.Load += Win_Load; //one time load on start
-            win.UpdateFrame += Win_UpdateFrame; //on each fram do this           
+            win.UpdateFrame += Win_UpdateFrame; //on each frame do this     
+
+            //Navigate setting
+            //----------------
             win.Closing += Win_Closing; //on termination do this
             win.KeyDown += Win_KeyDown; //keydown event
             win.MouseWheel += Win_MouseWheel;
+
             //start game window
             win.Run(30);
+            
 
         }
+        private static void SetupScene(GameWindow win)
+        {
+            //intialize holder for the project main variables
+            pipe = new Pipelinevars();
+            //defin viewport size
+            GL.Viewport(100, 100, 700, 700);
+            GL.ClearColor(Color.CornflowerBlue);//set background color
+            GL.Enable(EnableCap.CullFace);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
+            GL.Enable(EnableCap.DepthTest);
+        }
 
+
+        #region Navigation
         private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             cam.Fov(e.DeltaPrecise);
@@ -121,20 +141,23 @@ namespace OpenGL_CSharp
                 win.CursorVisible = true;
                 cam.Target = Vector3.Zero;
             }
+
             cam.updateCamera();
         }
+
         static float oldx = 0;
         static float oldy = 0;
 
         static float r = 5f;
         static double Hangle = 0;
         static double Vangle = 0;
-        public static pipelinevars pipe;
-        public static Camera cam = new Camera();
+        #endregion
 
-        public class pipelinevars
+        public static Camera cam = new Camera();
+        public static Pipelinevars pipe; //just global class for all required variables
+        public class Pipelinevars
         {
-            public int programId;
+            public int programId = -1;
 
             public float offsetX = 0.5f;
             public float speed = .3f;
@@ -142,39 +165,49 @@ namespace OpenGL_CSharp
 
             public List<Geometery.BaseGeometry> geos = new List<BaseGeometry>();
         }
+
         private static void Win_Load(object sender, EventArgs e)
         {
-            setupGeoStructure();
-        }
-
-        static void setupGeoStructure()
-        {
-            //defin the shap to be drawn
-            // pipe.geos.Add(new Pyramid());
+            r = cam.Position.Length; //update the current distance from the camera to position 0
+            
+            //defin the shap to be drawn             
             pipe.geos.Add(new CreateCube());
-            pipe.geos.Add(new CreateCube());
-
+            pipe.geos.Add(new Pyramid());
             pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
             pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
-             
         }
 
-
-
-        private static void SetupScene(GameWindow win)
+        private static void Win_UpdateFrame(object sender, FrameEventArgs e)
         {
-            //intialize holder for the project main variables
-            pipe = new pipelinevars();
-            //defin viewport size
-            GL.Viewport(100, 100, 700, 700);
-            GL.ClearColor(Color.CornflowerBlue);//set background color
-            GL.Enable(EnableCap.CullFace);
-            GL.FrontFace(FrontFaceDirection.Ccw);
-            GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
-            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
-            GL.Enable(EnableCap.DepthTest);
-        }
+            //clear the scean from any drawing before drawing
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.DepthBufferBit); //this is required to redraw all the depth changes due to camera/View/Object movement
 
+            for (int i = 0; i < pipe.geos.Count; i++)
+            {
+                pipe.geos[i].Init();
+                //bind vertex object
+                GL.BindVertexArray(pipe.geos[i].vao);
+
+                //orient Camera, MatrixTransformation
+                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(BaseGeometry.model), ref pipe.geos[i].model);
+                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
+                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
+
+                //Use vertix shaders holder to the GPU memory
+                //--------------
+                Textures.Textures.Link(TextureUnit.Texture0, pipe.geos[i].texid1);
+                // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+
+                GL.UseProgram(pipe.programId);
+                GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
+
+                //clear the buffer
+                GL.BindVertexArray(0);
+            }
+            //swap the buffer (bring what has been rendered in theback to the front)
+            pipe.win.SwapBuffers();
+        }
 
         private static void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -198,49 +231,8 @@ namespace OpenGL_CSharp
                 GL.DeleteShader(pipe.geos[i].fragshad);
             }
 
-
-
             GL.DeleteProgram(pipe.programId);
         }
 
-        static void RenderShape(FrameEventArgs e, int i)
-        {
-            //bind vertex object
-            GL.BindVertexArray(pipe.geos[i].vao);
-
-            //orient Camera, MatrixTransformation
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(BaseGeometry.model), ref pipe.geos[i].model);
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
-            Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
-
-            //Use vertix shaders holder to the GPU memory
-            //--------------
-            Textures.Textures.Link(TextureUnit.Texture0, pipe.geos[i].texid1);
-            // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
-
-            GL.UseProgram(pipe.programId);
-
-        }
-
-        private static void Win_UpdateFrame(object sender, FrameEventArgs e)
-        {
-            //clear the scean from any drawing before drawing
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
-            // GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-
-
-            for (int i = 0; i < pipe.geos.Count; i++)
-            {
-                RenderShape(e, i);
-                GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
-                GL.BindVertexArray(0);
-            }
-
-            //swap the buffer (bring what has been rendered in theback to the front)
-            pipe.win.SwapBuffers();
-
-
-        }
     }
 }

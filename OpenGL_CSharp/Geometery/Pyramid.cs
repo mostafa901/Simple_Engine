@@ -12,6 +12,7 @@ namespace OpenGL_CSharp.Geometery
 
         public Pyramid()
         {
+            #region Points
             points = new List<Vertex>();
 
             points.Add(
@@ -39,7 +40,7 @@ namespace OpenGL_CSharp.Geometery
                    TexCoor = new Vertex2(0.5f, 0.5f),
                    Vcolor = new Vertex4(0f, 1f, 01f, 1.0f)
                }); // 02
-             
+
             points.Add(
                new Vertex()
                {
@@ -56,7 +57,7 @@ namespace OpenGL_CSharp.Geometery
                   Vcolor = new Vertex4(.3f, 00.3f, .3f, 1.0f)
               });   // 04
 
-             
+
             points.Add(
               new Vertex()
               {
@@ -90,7 +91,7 @@ namespace OpenGL_CSharp.Geometery
                   TexCoor = new Vertex2(0.0f, 1.0f),
                   Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
               }); // 08
-             
+
             points.Add(
               new Vertex()
               {
@@ -119,7 +120,8 @@ namespace OpenGL_CSharp.Geometery
                  Position = new Vertex3(0.5f, -0.5f, 0.5f),
                  TexCoor = new Vertex2(1.0f, 1.0f),
                  Vcolor = new Vertex4(0f, 0f, 01f, 1.0f)
-             }); // 12
+             }); // 12 
+            #endregion
 
             //define Indeces
             Indeces =
@@ -139,7 +141,7 @@ namespace OpenGL_CSharp.Geometery
 
                };
 
-            Init();
+            
 
         }
     }

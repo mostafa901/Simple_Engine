@@ -14,13 +14,14 @@ namespace OpenGL_CSharp.Geometery
         {
             points = new List<Vertex>();
 
+            #region Points
             points.Add(
-                new Vertex()
-                {
-                    Position = new Vertex3(0.5f, 0.5f, 0.5f),
-                    TexCoor = new Vertex2(1.0f, 1.0f),
-                    Vcolor = new Vertex4(1f, 00f, 00f, 1.0f)
-                }); // 00
+                   new Vertex()
+                   {
+                       Position = new Vertex3(0.5f, 0.5f, 0.5f),
+                       TexCoor = new Vertex2(1.0f, 1.0f),
+                       Vcolor = new Vertex4(1f, 00f, 00f, 1.0f)
+                   }); // 00
 
             points.Add(
                 new Vertex()
@@ -204,7 +205,8 @@ namespace OpenGL_CSharp.Geometery
                  Position = new Vertex3(0.5f, 0.5f, 0.5f),
                  TexCoor = new Vertex2(1.0f, 0.0f),
                  Vcolor = new Vertex4(.3f, 00.3f, .3f, 1.0f)
-             });   // 23
+             });   // 23 
+            #endregion
 
             //define Indeces
             Indeces =
@@ -234,7 +236,7 @@ namespace OpenGL_CSharp.Geometery
                         3,1,0
                  };
 
-            Init();
+            
         }
     }
 
