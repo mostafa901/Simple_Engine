@@ -52,7 +52,7 @@ namespace OpenGL_CSharp
         public Camera()
         {
             Target = Vector3.Zero;
-            Position = new Vector3(0, 0, -3);
+            Position = new Vector3(0, 0, 3);
             Direction = -Vector3.UnitZ;
             Right = Vector3.UnitZ;
             updateCamera();

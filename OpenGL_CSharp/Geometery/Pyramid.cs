@@ -17,16 +17,16 @@ namespace OpenGL_CSharp.Geometery
             points.Add(
                 new Vertex()
                 {
-                    Position = new Vertex3(0.5f, -0.5f, 0.5f),
-                    TexCoor = new Vertex2(1.0f, 0.0f),
+                    Position = new Vertex3(-0.5f, -0.5f, 0.5f),
+                    TexCoor = new Vertex2(0.0f, 0.0f),
                     Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
                 }); // 00
 
             points.Add(
                new Vertex()
                {
-                   Position = new Vertex3(-0.5f, -0.5f, 0.5f),
-                   TexCoor = new Vertex2(0.0f, 0.0f),
+                   Position = new Vertex3(0.5f, -0.5f, 0.5f),
+                   TexCoor = new Vertex2(01f, 0.0f),
                    Vcolor = new Vertex4(0f, 0f, 01f, 1.0f)
                }); // 01
 
@@ -35,48 +35,107 @@ namespace OpenGL_CSharp.Geometery
             points.Add(
                new Vertex()
                {
-                   Position = new Vertex3(0.5f, -0.5f, -0.5f),
-                   TexCoor = new Vertex2(0.0f, 0.0f),
+                   Position = new Vertex3(00f, 0.5f, 0f),
+                   TexCoor = new Vertex2(0.5f, 0.5f),
                    Vcolor = new Vertex4(0f, 1f, 01f, 1.0f)
                }); // 02
-
-
-
+             
             points.Add(
                new Vertex()
                {
-                   Position = new Vertex3(-0.5f, -0.5f, -0.5f),
+                   Position = new Vertex3(0.5f, -0.5f, 0.5f),
                    TexCoor = new Vertex2(0.0f, 0.0f),
-                   Vcolor = new Vertex4(1f, 1f, 01f, 1.0f)
+                   Vcolor = new Vertex4(0f, 0f, 01f, 1.0f)
                }); // 03
 
             points.Add(
               new Vertex()
               {
-                  Position = new Vertex3(0.0f, 0.5f, 00f),
-                  TexCoor = new Vertex2(0.0f, 1.0f),
+                  Position = new Vertex3(0.5f, -0.5f, -.5f),
+                  TexCoor = new Vertex2(1f, 0.0f),
                   Vcolor = new Vertex4(.3f, 00.3f, .3f, 1.0f)
               });   // 04
 
+             
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(0.5f, -0.5f, -.5f),
+                  TexCoor = new Vertex2(0.0f, 0.0f),
+                  Vcolor = new Vertex4(.3f, 00.3f, .3f, 1.0f)
+              });   // 05
+
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(-0.5f, -0.5f, -0.5f),
+                  TexCoor = new Vertex2(0.0f, 1.0f),
+                  Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
+              }); // 06
 
 
+
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(-0.5f, -0.5f, -0.5f),
+                  TexCoor = new Vertex2(0.0f, 0.0f),
+                  Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
+              }); // 07
+
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(-0.5f, -0.5f, 0.5f),
+                  TexCoor = new Vertex2(0.0f, 1.0f),
+                  Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
+              }); // 08
+             
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(-0.5f, -0.5f, 0.5f),
+                  TexCoor = new Vertex2(0.0f, 1.0f),
+                  Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
+              }); // 09
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(-0.5f, -0.5f, -0.5f),
+                  TexCoor = new Vertex2(0.0f, 0.0f),
+                  Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
+              }); // 10
+            points.Add(
+              new Vertex()
+              {
+                  Position = new Vertex3(0.5f, -0.5f, -.5f),
+                  TexCoor = new Vertex2(1.0f, 0.0f),
+                  Vcolor = new Vertex4(.3f, 00.3f, .3f, 1.0f)
+              });   // 11
+
+            points.Add(
+             new Vertex()
+             {
+                 Position = new Vertex3(0.5f, -0.5f, 0.5f),
+                 TexCoor = new Vertex2(1.0f, 1.0f),
+                 Vcolor = new Vertex4(0f, 0f, 01f, 1.0f)
+             }); // 12
 
             //define Indeces
             Indeces =
            new int[]
                    {
                          //backface                         
-                        2,3,4,
+                        06,02,05,
                         //bottom
-                        1,3,0,
-                        0,3,2,                        
+                        11,12,09,
+                        10,11,09,
                         //right face
-                       2,4,0,
+                       03,04,02,
                         //left face
-                        3,1,4,
-                        
+                        07,08,02,                        
                           //frontface
-                        0,4,1
+                        00,01,02
 
                };
 

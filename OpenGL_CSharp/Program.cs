@@ -134,14 +134,9 @@ namespace OpenGL_CSharp
 
         public class pipelinevars
         {
-            public   int programId;
+            public int programId;
 
             public float offsetX = 0.5f;
-            public int texid1;
-            internal int fragshad;
-            internal int vershad;
-            internal int texid2;
-
             public float speed = .3f;
             internal GameWindow win;
 
@@ -155,14 +150,60 @@ namespace OpenGL_CSharp
         static void setupGeoStructure()
         {
             //defin the shap to be drawn
-            pipe.geos.Add(new Pyramid());
+           // pipe.geos.Add(new Pyramid());
+            pipe.geos.Add(new CreateCube());
             pipe.geos.Add(new CreateCube());
 
-            pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0f, 0.5f, 0f);
+               pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f,0f, 0f);
+               pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
 
-           
 
-        } 
+
+        }
+
+
+
+        private static void SetupScene(GameWindow win)
+        {
+            //intialize holder for the project main variables
+            pipe = new pipelinevars();
+            //defin viewport size
+            GL.Viewport(100, 100, 700, 700);
+            GL.ClearColor(Color.CornflowerBlue);//set background color
+            GL.Enable(EnableCap.CullFace);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
+                                                                   // GL.Enable(EnableCap.DepthTest);
+        }
+
+
+        private static void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            cleanup();
+        }
+
+        static void cleanup()
+        {
+            //clear resources from here
+            // Unbind all the resources by binding the targets to 0/null.
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindVertexArray(0);
+            GL.UseProgram(0);
+
+            // Delete all the resources.
+            for (int i = 0; i < pipe.geos.Count; i++)
+            {
+                GL.DeleteBuffer(pipe.geos[i].vbo);
+                GL.DeleteVertexArray(pipe.geos[i].vao);
+                GL.DeleteShader(pipe.geos[i].vershad);
+                GL.DeleteShader(pipe.geos[i].fragshad);
+            }
+
+
+
+            GL.DeleteProgram(pipe.programId);
+        }
 
         static void RenderShape(FrameEventArgs e, int i)
         {
@@ -182,47 +223,6 @@ namespace OpenGL_CSharp
             GL.UseProgram(pipe.programId);
 
         }
- 
-        private static void SetupScene(GameWindow win)
-        {
-            //intialize holder for the project main variables
-            pipe = new pipelinevars();
-            //defin viewport size
-            GL.Viewport(100, 100, 700, 700);
-            GL.ClearColor(Color.CornflowerBlue);//set background color
-            GL.Enable(EnableCap.CullFace);
-            GL.FrontFace(FrontFaceDirection.Cw);
-            GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
-            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
-                                                                  //GL.Enable(EnableCap.DepthTest);
-        }
-
-       
-        private static void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            cleanup();
-        }
-
-        static void cleanup()
-        {
-            //clear resources from here
-            // Unbind all the resources by binding the targets to 0/null.
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.BindVertexArray(0);
-            GL.UseProgram(0);
-
-            // Delete all the resources.
-            for (int i = 0; i < pipe.geos.Count; i++)
-            {
-                GL.DeleteBuffer(pipe.geos[i].vbo);
-                GL.DeleteVertexArray(pipe.geos[i].vao);
-            }
-            GL.DeleteShader(pipe.vershad);
-            GL.DeleteShader(pipe.fragshad);
-
-
-            GL.DeleteProgram(pipe.programId);
-        }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)
         {
@@ -236,6 +236,7 @@ namespace OpenGL_CSharp
             {
                 RenderShape(e, i);
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
+                GL.BindVertexArray(0);
             }
 
             //swap the buffer (bring what has been rendered in theback to the front)
