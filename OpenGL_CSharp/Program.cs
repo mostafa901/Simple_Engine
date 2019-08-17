@@ -129,12 +129,12 @@ namespace OpenGL_CSharp
         static float r = 5f;
         static double Hangle = 0;
         static double Vangle = 0;
-        static pipelinevars pipe;
+        public static pipelinevars pipe;
         public static Camera cam = new Camera();
 
-        class pipelinevars
+        public class pipelinevars
         {
-            public int programId;
+            public   int programId;
 
             public float offsetX = 0.5f;
             public int texid1;
@@ -151,51 +151,18 @@ namespace OpenGL_CSharp
         {
             setupGeoStructure();
         }
-        
+
         static void setupGeoStructure()
         {
             //defin the shap to be drawn
-            pipe.geos.Add(new CreateCube());
             pipe.geos.Add(new Pyramid());
+            pipe.geos.Add(new CreateCube());
 
-            pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0f, 0, 0.5f);
+            pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0f, 0.5f, 0f);
 
-            //load vertix/Fragment shader
-            pipe.vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
-            pipe.fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
+           
 
-            //create program, link shaders and test the results
-            int progid = CreatePrognLinkShader(pipe.vershad, pipe.fragshad);
-            GL.UseProgram(progid);
-
-            //load Textures
-            pipe.texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"C:\Users\mosta\Downloads\container.jpg");
-         //   pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
-
-            //tell GPU the loation of the textures in the shaders            
-            Textures.Textures.SetUniform(pipe.programId, "texture0", 0);
-            // Textures.Textures.SetUniform(pipe.programId, "texture1", 1);
-
-            //since we are using vertex, opengl doesn't understand the specs of the vertex so we use vertexpointerattribute for this
-            //now it is 5 instead of 3 for the texture coordinates
-            var verloc = GL.GetAttribLocation(pipe.programId, "aPos");
-            GL.VertexAttribPointer(verloc, Vertex3.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 0);
-            GL.EnableVertexAttribArray(verloc); //now activate Vertexattrib
-
-            //GetTexture coordinates
-            var texloc = GL.GetAttribLocation(pipe.programId, "aTexCoord");
-            GL.EnableVertexAttribArray(texloc);
-            GL.VertexAttribPointer(texloc, Vertex2.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 3 * sizeof(float));
-
-            //vertex Color
-            var vercolloc = GL.GetAttribLocation(pipe.programId, "aVerColor");
-            GL.EnableVertexAttribArray(vercolloc);
-            GL.VertexAttribPointer(vercolloc, Vertex4.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 5 * sizeof(float));
-
-        }
-
-
-
+        } 
 
         static void RenderShape(FrameEventArgs e, int i)
         {
@@ -210,7 +177,7 @@ namespace OpenGL_CSharp
             //Use vertix shaders holder to the GPU memory
             //--------------
             Textures.Textures.Link(TextureUnit.Texture0, pipe.texid1);
-           // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+            // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
 
             GL.UseProgram(pipe.programId);
 
@@ -218,29 +185,7 @@ namespace OpenGL_CSharp
 
 
 
-        static int CreatePrognLinkShader(int vershad, int fragshad)
-        {
-            int progid = pipe.programId = GL.CreateProgram();
-            GL.AttachShader(progid, vershad);
-            GL.AttachShader(progid, fragshad);
-            GL.LinkProgram(progid);
-
-            //test if the prog is fine
-            var result = GL.GetProgramInfoLog(progid);
-            if (!string.IsNullOrEmpty(result))
-            {
-                Console.WriteLine(result);
-            }
-
-            //after linking there is no need to keep/attach the shaders and should be cleared from memory
-            GL.DetachShader(progid, vershad);
-            GL.DetachShader(progid, fragshad);
-            GL.DeleteShader(vershad);
-            GL.DeleteShader(fragshad);
-
-            return progid;
-        }
-
+       
         private static void SetupScene(GameWindow win)
         {
             //intialize holder for the project main variables
@@ -249,29 +194,13 @@ namespace OpenGL_CSharp
             GL.Viewport(100, 100, 700, 700);
             GL.ClearColor(Color.CornflowerBlue);//set background color
             GL.Enable(EnableCap.CullFace);
-            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.FrontFace(FrontFaceDirection.Cw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
-
+                                                                  //GL.Enable(EnableCap.DepthTest);
         }
 
-        //create shaders
-        static int CreateShader(string source, ShaderType shadtype)
-        {
-            int shadid = GL.CreateShader(shadtype);
-            GL.ShaderSource(shadid, source);
-            GL.CompileShader(shadid);
-
-            //test if the compilation is correct
-            var result = GL.GetShaderInfoLog(shadid);
-            if (!string.IsNullOrWhiteSpace(result))
-            {
-                Console.WriteLine(result);
-
-            }
-            return shadid;
-        }
-
+       
         private static void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             cleanup();
@@ -305,7 +234,7 @@ namespace OpenGL_CSharp
 
             // GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 
-            
+
             for (int i = 0; i < pipe.geos.Count; i++)
             {
                 RenderShape(e, i);
@@ -315,7 +244,7 @@ namespace OpenGL_CSharp
             //swap the buffer (bring what has been rendered in theback to the front)
             pipe.win.SwapBuffers();
 
-            
+
         }
     }
 }
