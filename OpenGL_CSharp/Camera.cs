@@ -24,7 +24,7 @@ namespace OpenGL_CSharp
 
         public Matrix4 Projection;
 
-        private float fov = MathHelper.DegreesToRadians(1);
+        private float fov = MathHelper.DegreesToRadians(15);
 
         public float Aspect = 1.0f;
 
@@ -52,7 +52,7 @@ namespace OpenGL_CSharp
         public Camera()
         {
             Target = Vector3.Zero;
-            Position = new Vector3(0, 0, 3);
+            Position = new Vector3(0, 0, 10);
             Direction = -Vector3.UnitZ;
             Right = Vector3.UnitZ;
             updateCamera();

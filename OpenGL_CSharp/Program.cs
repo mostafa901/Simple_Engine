@@ -150,15 +150,13 @@ namespace OpenGL_CSharp
         static void setupGeoStructure()
         {
             //defin the shap to be drawn
-           // pipe.geos.Add(new Pyramid());
+            // pipe.geos.Add(new Pyramid());
             pipe.geos.Add(new CreateCube());
             pipe.geos.Add(new CreateCube());
 
-               pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f,0f, 0f);
-               pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
-
-
-
+            pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
+            pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
+             
         }
 
 
@@ -174,7 +172,7 @@ namespace OpenGL_CSharp
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
-                                                                   // GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.DepthTest);
         }
 
 
