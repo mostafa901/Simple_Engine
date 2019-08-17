@@ -63,7 +63,7 @@ namespace OpenGL_CSharp
         {
 
             var win = (GameWindow)sender;
-
+            ;
             if (e.Key == OpenTK.Input.Key.Right)
             {
                 cam.Position -= new Vector3(.2f, 0, 0);
@@ -98,17 +98,22 @@ namespace OpenGL_CSharp
             {
                 Vangle += 10;
 
-                var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
-                cam.View = cam.View * m1;
-                cam.Position = cam.View.ExtractTranslation();
+                //var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
+                //cam.View = cam.View * m1;
+                //cam.Position = cam.View.ExtractTranslation();
+
+                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(MathHelper.DegreesToRadians(Vangle)) * r, (float)Math.Sin(MathHelper.DegreesToRadians(Vangle)) * r);
+
             }
 
             if (e.Key == OpenTK.Input.Key.S)
             {
                 Vangle -= 10;
-                var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
-                cam.View = cam.View * m1;
-                cam.Position = cam.View.ExtractTranslation();
+                //var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
+                //cam.View = cam.View * m1;
+                //cam.Position = cam.View.ExtractTranslation();
+                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(MathHelper.DegreesToRadians(Vangle)) * r,  (float)Math.Sin(MathHelper.DegreesToRadians(Vangle)) * r);
+
             }
 
             if (e.Key == OpenTK.Input.Key.A)

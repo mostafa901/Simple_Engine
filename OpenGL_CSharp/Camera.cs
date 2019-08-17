@@ -44,7 +44,7 @@ namespace OpenGL_CSharp
             }
             else
             {
-                fov = MathHelper.DegreesToRadians(fdeg); 
+                fov = MathHelper.DegreesToRadians(fdeg);
             }
 
         }
@@ -63,7 +63,18 @@ namespace OpenGL_CSharp
 
         public void updateCamera()
         {
-            Direction = Vector3.Normalize(Position - Target);
+            //Direction = Vector3.Normalize(Position - Target);
+
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            if (pitch < -89.0f)
+                pitch = -89.0f;
+
+
+            Direction.X = (float)Math.Sin(MathHelper.DegreesToRadians(yaw)) * (float)Math.Cos(MathHelper.DegreesToRadians(pitch));
+            Direction.Y = (float)Math.Sin(MathHelper.DegreesToRadians(pitch));
+            Direction.Z = -(float)Math.Cos(MathHelper.DegreesToRadians(yaw)) * (float)Math.Cos(MathHelper.DegreesToRadians(pitch));
+
             Up = Vector3.UnitY;
             Right = Vector3.Normalize(Vector3.Cross(Up, Direction));
             Up = Vector3.Cross(Direction, Right);

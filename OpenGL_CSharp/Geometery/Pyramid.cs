@@ -123,6 +123,11 @@ namespace OpenGL_CSharp.Geometery
              }); // 12 
             #endregion
 
+            //setup Object Color 
+            lightColor = new Vertex4(1.0f, 1.0f, 1.0f, 1.0f);
+            objectColor = new Vertex4(0.1f, 0.1f, 0.1f, 0.1f);
+
+
             //define Indeces
             Indeces =
            new int[]

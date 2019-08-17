@@ -13,10 +13,13 @@ namespace OpenGL_CSharp.Shaders
             return @"
 #version 330 core
 out vec4 FragColor;
-in vec4 vcolor;
+in vec4 vcolor; //vertex Color superceeded
+
+uniform vec4 objectColor;
+unifom vec4 lightColor;
  
 void main(){
-FragColor=vcolor;
+FragColor=vec4(lightColor*objectColor);
 }
 ";
         }
@@ -50,6 +53,22 @@ uniform sampler2D texture1;
 void main(){
 outputColor = mix(texture(texture0,texCoord)*vec4(vcolor),texture(texture1,texCoord),0.5);
 outputColor = mix   (outputColor , texture(texture0,texCoord)*vec4(vcolor),.5);
+}
+";
+        }
+
+        public static string LightFrag()
+        {
+            return @"
+#version 330 core
+out vec4 FragColor;
+in vec4 vcolor; //vertex Color superceeded
+
+uniform vec4 objectColor;
+unifom vec4 lightColor;
+ 
+void main(){
+FragColor=vec4(lightColor*objectColor);
 }
 ";
         }

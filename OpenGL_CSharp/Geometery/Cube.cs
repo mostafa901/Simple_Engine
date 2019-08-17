@@ -9,6 +9,7 @@ namespace OpenGL_CSharp.Geometery
 {
     class CreateCube : BaseGeometry
     {
+      
 
         public CreateCube()
         {
@@ -208,6 +209,12 @@ namespace OpenGL_CSharp.Geometery
              });   // 23 
             #endregion
 
+
+            //setupobjectColor
+            //---------------
+            lightColor = new Vertex4(1.0f, 1.0f, 1.0f, 1.0f);
+            objectColor = new Vertex4(0.1f, 0.1f, 0.1f, 0.1f);
+
             //define Indeces
             Indeces =
              new int[]
@@ -236,7 +243,7 @@ namespace OpenGL_CSharp.Geometery
                         3,1,0
                  };
 
-            
+
         }
     }
 

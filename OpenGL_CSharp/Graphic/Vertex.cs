@@ -10,6 +10,7 @@ namespace OpenGL_CSharp.Graphic
 
 
         public Vertex4 Vcolor { get; set; }
+    
         public Vertex2 TexCoor { get; set; }
         public Vertex3 Position { get; set; }
         public Vertex()
@@ -23,6 +24,7 @@ namespace OpenGL_CSharp.Graphic
             ls.AddRange(Position.data());
             ls.AddRange(TexCoor.data());
             ls.AddRange(Vcolor.data());
+          
 
             return ls.ToArray();
         }

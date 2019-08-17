@@ -14,6 +14,9 @@ namespace OpenGL_CSharp.Geometery
         public List<Vertex> points;
         public int[] Indeces;
 
+        public Vertex4 objectColor;
+        public Vertex4 lightColor;
+
         public Matrix4 model = Matrix4.Identity;
 
         public int vbo = -1;
@@ -33,7 +36,7 @@ namespace OpenGL_CSharp.Geometery
             GL.BindVertexArray(vao);
 
             if (vbo == -1) //no need to recreate if already created
-                vbo = GL.GenBuffer(); 
+                vbo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo); //define the type of buffer in gpu memory
                                                           //fill up the buffer with the data
                                                           //we need to define the type of data to be filled and the size in the memory
@@ -59,6 +62,18 @@ namespace OpenGL_CSharp.Geometery
             GL.VertexAttribPointer(vercolloc, Vertex4.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 5 * sizeof(float));
             GL.EnableVertexAttribArray(vercolloc);
 
+            ////object Color
+            ////------------
+            //var objcolloc = GL.GetAttribLocation(Program.pipe.programId, "objectColor");
+            //GL.VertexAttribPointer(objcolloc, Vertex4.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 9 * sizeof(float));
+            //GL.EnableVertexAttribArray(objcolloc);
+
+            ////Light Color
+            ////------------
+            //var Lighcolloc = GL.GetAttribLocation(Program.pipe.programId, "lightColor");
+            //GL.VertexAttribPointer(Lighcolloc, Vertex4.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 13 * sizeof(float));
+            //GL.EnableVertexAttribArray(Lighcolloc);
+
             //element buffer
             //--------------
             if (ebo == -1) ////no need to recreate if already created
@@ -73,6 +88,8 @@ namespace OpenGL_CSharp.Geometery
                 vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
                 fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
 
+               
+
                 //create program, link shaders and test the results
                 CreatePrognLinkShader(vershad, fragshad);
                 GL.UseProgram(Program.pipe.programId);
@@ -83,8 +100,8 @@ namespace OpenGL_CSharp.Geometery
             }
 
             //orient Camera, MatrixTransformation
-            Shaders.VertexShaders.SetUniformMatrix(Program.pipe.programId, nameof(BaseGeometry.model), ref model);  
-            
+            Shaders.VertexShaders.SetUniformMatrix(Program.pipe.programId, nameof(BaseGeometry.model), ref model);
+
             //Use vertix shaders holder to the GPU memory
             //--------------
             Textures.Textures.Link(TextureUnit.Texture0, texid1);
