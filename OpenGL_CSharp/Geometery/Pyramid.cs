@@ -17,7 +17,7 @@ namespace OpenGL_CSharp.Geometery
             points.Add(
                 new Vertex()
                 {
-                    Position = new Vertex3(0.5f, -0.5f, -0.5f),
+                    Position = new Vertex3(0.5f, -0.5f, 0.5f),
                     TexCoor = new Vertex2(1.0f, 0.0f),
                     Vcolor = new Vertex4(00f, 1f, 0f, 1.0f)
                 }); // 00
@@ -25,7 +25,7 @@ namespace OpenGL_CSharp.Geometery
             points.Add(
                new Vertex()
                {
-                   Position = new Vertex3(-0.5f, -0.5f, -0.5f),
+                   Position = new Vertex3(-0.5f, -0.5f, 0.5f),
                    TexCoor = new Vertex2(0.0f, 0.0f),
                    Vcolor = new Vertex4(0f, 0f, 01f, 1.0f)
                }); // 01

@@ -249,7 +249,7 @@ namespace OpenGL_CSharp
             GL.Viewport(100, 100, 700, 700);
             GL.ClearColor(Color.CornflowerBlue);//set background color
             GL.Enable(EnableCap.CullFace);
-            GL.FrontFace(FrontFaceDirection.Cw);
+            GL.FrontFace(FrontFaceDirection.Ccw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
 
