@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -64,22 +65,30 @@ namespace OpenGL_CSharp
 
             var win = (GameWindow)sender;
 
+            //var rh = Vector3.CalculateAngle(cam.Position, Vector3.UnitZ);
+            //var rv = Vector3.CalculateAngle(cam.Position, Vector3.UnitX);
+
+
+            //if (Math.Cos(rh) <= 0 && Math.Sin(rh) >= 0) Hangle = MathHelper.RadiansToDegrees(Math.PI - rh);
+            //if (Math.Cos(rh) <= 0 && Math.Sin(rh) <= 0) Hangle = MathHelper.RadiansToDegrees(Math.PI + rh);
+            //if (Math.Cos(rh) >= 0 && Math.Sin(rh) <= 0) Hangle = MathHelper.RadiansToDegrees(2 * Math.PI + rh);
+
+
+            Debug.WriteLine("Hangle: " + Hangle);
             if (e.Key == Key.Z || e.Key == Key.X)
             {
-                if(e.Key== Key.Z)
+                if (e.Key == Key.Z)
                 {
-                    BaseGeometry.specintens -= .1f;
+                    BaseGeometry.specintens -= 5f;
                 }
                 else
                 {
-                    BaseGeometry.specintens += .1f;
+                    BaseGeometry.specintens += 5f;
                 }
 
                 pipe.geos.ForEach(o =>
                 {
-                    
-                    BaseGeometry.specintens = BaseGeometry.specintens > 1 ? 1 : BaseGeometry.specintens;
-                    BaseGeometry.specintens = BaseGeometry.specintens < 0 ? 0 : BaseGeometry.specintens;
+                    BaseGeometry.specintens = BaseGeometry.specintens < 0 ? 0.1f : BaseGeometry.specintens;
 
                 });
             }
@@ -129,6 +138,8 @@ namespace OpenGL_CSharp
             if (e.Key == OpenTK.Input.Key.S)
             {
                 Vangle -= 10;
+
+
                 //var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
                 //cam.View = cam.View * m1;
                 //cam.Position = cam.View.ExtractTranslation();
@@ -139,6 +150,7 @@ namespace OpenGL_CSharp
             if (e.Key == OpenTK.Input.Key.A)
             {
                 Hangle -= 10;
+
                 cam.Position = new Vector3((float)Math.Sin(MathHelper.DegreesToRadians(Hangle)) * r, cam.Position.Y, (float)Math.Cos(MathHelper.DegreesToRadians(Hangle)) * r);
 
             }
@@ -146,6 +158,8 @@ namespace OpenGL_CSharp
             if (e.Key == OpenTK.Input.Key.D)
             {
                 Hangle += 10;
+
+
                 cam.Position = new Vector3((float)Math.Sin(MathHelper.DegreesToRadians(Hangle)) * r, cam.Position.Y, (float)Math.Cos(MathHelper.DegreesToRadians(Hangle)) * r);
             }
 

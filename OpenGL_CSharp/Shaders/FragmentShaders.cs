@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,7 +119,12 @@ FragColor = vec4((ambientstrength + diffusecolor + specularV) *objectColor,1.0f)
 }
 ";
         }
-
+         
+        public static string LightFrag2()
+        {
+            return File.ReadAllText("shaders/Light.frag");
+        }
+         
         public static void SetUniformV3(int programId, string name, Vector3 value)
         {
             var loc = GL.GetUniformLocation(programId, name);
@@ -127,6 +133,13 @@ FragColor = vec4((ambientstrength + diffusecolor + specularV) *objectColor,1.0f)
         }
 
         internal static void SetFloat(int programId, string name, float value)
+        {
+            var loc = GL.GetUniformLocation(programId, name);
+
+            GL.Uniform1(loc, value);
+        }
+
+        internal static void SetInt(int programId, string name, int value)
         {
             var loc = GL.GetUniformLocation(programId, name);
 

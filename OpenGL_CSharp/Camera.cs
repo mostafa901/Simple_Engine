@@ -67,8 +67,8 @@ namespace OpenGL_CSharp
 
             if (pitch > 89.0f)
                 pitch = 89.0f;
-            if (pitch < -89.0f)
-                pitch = -89.0f;
+            if (yaw < -89.0f)
+                yaw = -89.0f;
 
 
             Direction.X = (float)Math.Sin(MathHelper.DegreesToRadians(yaw)) * (float)Math.Cos(MathHelper.DegreesToRadians(pitch));

@@ -16,8 +16,8 @@ namespace OpenGL_CSharp.Geometery
         public int[] Indeces;
 
         public Vector3 objectColor;
-        public static Vector3 lightColor = new Vector3(1f, .5f, 1);
-        public static float specintens = 1f;
+        public static Vector3 lightColor = new Vector3(1f);
+        public static float specintens = 0.4f;
         public bool IsLight = false;
 
         public Matrix4 model = Matrix4.Identity;
@@ -54,7 +54,7 @@ namespace OpenGL_CSharp.Geometery
             {
                 vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
                 //  fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
-                lightshad = CreateShader(Shaders.FragmentShaders.LightFrag(), ShaderType.FragmentShader);
+                lightshad = CreateShader(Shaders.FragmentShaders.LightFrag2(), ShaderType.FragmentShader);
 
                 //create program, link shaders and test the results
                 CreatePrognLinkShader(vershad, lightshad);
@@ -62,13 +62,13 @@ namespace OpenGL_CSharp.Geometery
 
                 //load Textures
                 texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"Textures\container.jpg");
-                //   pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
+                texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"Textures\container_specular.jpg");
             }
 
             //Use vertix shaders holder to the GPU memory
             //--------------
             Textures.Textures.Link(TextureUnit.Texture0, texid1);
-            // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+            Textures.Textures.Link(TextureUnit.Texture1, texid2);
 
 
             //Define Vertex specs
@@ -110,10 +110,14 @@ namespace OpenGL_CSharp.Geometery
             //setup lighiting effect
             //----------------------
             GL.UseProgram(Program.pipe.programId); //we must link and use program first before applying light effects
-            FragmentShaders.SetUniformV3(Program.pipe.programId, nameof(objectColor), objectColor);
-            FragmentShaders.SetUniformV3(Program.pipe.programId, nameof(lightColor), lightColor);
-            FragmentShaders.SetUniformV3(Program.pipe.programId, "LightPos", new Vector3(1, 2, 3));
-            FragmentShaders.SetFloat(Program.pipe.programId, "specintens",specintens);
+                                                   //   FragmentShaders.SetUniformV3(Program.pipe.programId, "material.ambient", objectColor*.3f);            
+            FragmentShaders.SetInt(Program.pipe.programId, "material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
+            FragmentShaders.SetInt(Program.pipe.programId, "material.specular", 1);
+            FragmentShaders.SetFloat(Program.pipe.programId, "material.shininess", specintens);
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.ambient", new Vector3(.2f));
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.diffuse", new Vector3(.5f));
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.specular", lightColor);
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.position", new Vector3(0, 1, 4));
 
             //Set Camera Position to Shader to create Specular
             FragmentShaders.SetUniformV3(Program.pipe.programId, "ViewPos", Program.cam.Position);
@@ -121,7 +125,7 @@ namespace OpenGL_CSharp.Geometery
             //orient Camera, MatrixTransformation
             Shaders.VertexShaders.SetUniformMatrix(Program.pipe.programId, nameof(BaseGeometry.model), ref model);
 
-            
+
 
 
         }
