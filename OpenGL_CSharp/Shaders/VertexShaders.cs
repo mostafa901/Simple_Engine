@@ -21,6 +21,8 @@ layout (location=1) in vec2 aTexCoord;
 layout (location=2) in vec4 aVerColor; 
 layout (location=3) in vec3 aNormal; //Pixel Normal
 
+
+
 //out to fragment shaders, ensure same variables names applied there
 //-------------------------------------------------------------------
 out vec2 texCoord; 

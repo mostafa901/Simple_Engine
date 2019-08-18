@@ -79,6 +79,11 @@ in vec3 FragPos; //Pixel position due world coordinates
 uniform vec3 objectColor;
 uniform vec3 lightColor;
 uniform vec3 LightPos; 
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+uniform vec3 ViewPos; //View (Camera) Position
+uniform float specintens = 1f; //setupSpecular intenesty 
+
 
 void main(){
 
@@ -90,13 +95,26 @@ FragColor = vec4(ambientstrength * objectColor,1);
 }
 else FragColor=vec4(lightColor*objectColor,1);
 
-vec3 normal = normalize(PixelNormal);
-vec3 lightDir= normalize(LightPos-FragPos);
-float reflectionAngle = dot(lightDir,normal);
-float diffuseamount = max(reflectionAngle,0);
-vec3 diffusecolor = diffuseamount*lightColor;
-FragColor = vec4((ambientstrength + diffusecolor) *objectColor,1.0f);
+vec3 normal = normalize(PixelNormal); //notmalize Pixel normal, we only need Direction
+vec3 lightDir= normalize(LightPos-FragPos); //get the Vectore Ray between light position and target (Pixel) Position,
+float reflectionAngle = dot(lightDir,normal); //calculate the angle to use it as a degree of diffuse effeciency
+float diffuseamount = max(reflectionAngle,0); //if the angle is less tha 0 then the ray is not hitting the pixel
+vec3 diffusecolor = diffuseamount*lightColor; //multiply the diffuse value by the light color to get the amount of light required to lighten up object
 
+//Create Specular
+
+vec3 viewDir = normalize(ViewPos-FragPos); //get the direction from the pixel to the camera
+vec3 reflDir = reflect(-lightDir,PixelNormal); //get the reflection vector of the vector from source to pixel on Normal vector of pixel
+float spec = pow(max(dot(viewDir, reflDir),0),256); //pow here is for the radius of the specular the more the narrower
+vec3 specularV= specintens * spec * lightColor; //multiply all to get the actual specular intenisty and color and radius
+
+//Finally combine the results
+FragColor = vec4((ambientstrength + diffusecolor + specularV) *objectColor,1.0f); //multiply the sum of the ambient and diffuse by the object color to get the approiate color result.
+
+
+//now mix the result with the textures
+//FragColor = mix(texture(texture0,texCoord),FragColor,0.5);
+ 
 }
 ";
         }
@@ -108,5 +126,11 @@ FragColor = vec4((ambientstrength + diffusecolor) *objectColor,1.0f);
             GL.Uniform3(loc, value);
         }
 
+        internal static void SetFloat(int programId, string name, float value)
+        {
+            var loc = GL.GetUniformLocation(programId, name);
+
+            GL.Uniform1(loc, value);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace OpenGL_CSharp.Geometery
 
         public Vector3 objectColor;
         public static Vector3 lightColor = new Vector3(1f, .5f, 1);
+        public static float specintens = 1f;
         public bool IsLight = false;
 
         public Matrix4 model = Matrix4.Identity;
@@ -46,14 +47,13 @@ namespace OpenGL_CSharp.Geometery
                                                           //we need to define the type of data to be filled and the size in the memory
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
 
-
             //setup shaders
             //load vertix/Fragment shader
             //---------------------------
             if (texid1 == -1) //no need to recreate if already created
             {
                 vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
-                //fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
+                //  fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
                 lightshad = CreateShader(Shaders.FragmentShaders.LightFrag(), ShaderType.FragmentShader);
 
                 //create program, link shaders and test the results
@@ -64,6 +64,12 @@ namespace OpenGL_CSharp.Geometery
                 texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"Textures\container.jpg");
                 //   pipe.texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"D:\My Book\layan photo 6x4.jpg");
             }
+
+            //Use vertix shaders holder to the GPU memory
+            //--------------
+            Textures.Textures.Link(TextureUnit.Texture0, texid1);
+            // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+
 
             //Define Vertex specs
             //-------------------
@@ -90,7 +96,7 @@ namespace OpenGL_CSharp.Geometery
             var vNormal = GL.GetAttribLocation(Program.pipe.programId, "aNormal");
             GL.VertexAttribPointer(vNormal, Vertex3.vcount, VertexAttribPointerType.Float, false, Vertex.vcount * sizeof(float), 9 * sizeof(float));
             GL.EnableVertexAttribArray(vNormal);
-            
+
 
             //element buffer
             //--------------
@@ -99,21 +105,23 @@ namespace OpenGL_CSharp.Geometery
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.Length * sizeof(int), Indeces, BufferUsageHint.StaticDraw);
 
-            
+
 
             //setup lighiting effect
             //----------------------
             GL.UseProgram(Program.pipe.programId); //we must link and use program first before applying light effects
             FragmentShaders.SetUniformV3(Program.pipe.programId, nameof(objectColor), objectColor);
             FragmentShaders.SetUniformV3(Program.pipe.programId, nameof(lightColor), lightColor);
-             FragmentShaders.SetUniformV3(Program.pipe.programId, "LightPos",new Vector3(1,2,3));
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "LightPos", new Vector3(1, 2, 3));
+            FragmentShaders.SetFloat(Program.pipe.programId, "specintens",specintens);
+
+            //Set Camera Position to Shader to create Specular
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "ViewPos", Program.cam.Position);
+
             //orient Camera, MatrixTransformation
             Shaders.VertexShaders.SetUniformMatrix(Program.pipe.programId, nameof(BaseGeometry.model), ref model);
 
-            //Use vertix shaders holder to the GPU memory
-            //--------------
-            Textures.Textures.Link(TextureUnit.Texture0, texid1);
-            // Textures.Textures.Link(TextureUnit.Texture1, pipe.texid2);
+            
 
 
         }

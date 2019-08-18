@@ -11,9 +11,8 @@ using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 namespace OpenGL_CSharp.Textures
 {
     public class Textures
-    {
-
-
+    { 
+         
         public static int AddTexture(TextureUnit texu, string path)
         {
 
@@ -59,7 +58,7 @@ namespace OpenGL_CSharp.Textures
                     PixelType.UnsignedByte,
                     data.Scan0);
             }
-             
+
 
             // Now that our texture is loaded, we can set a few settings to affect how the image appears on rendering.
 
@@ -96,7 +95,7 @@ namespace OpenGL_CSharp.Textures
         internal static void SetUniform(int programId, string name, int value)
         {
             var txunloc1 = GL.GetUniformLocation(programId, name);
-           
+
             GL.Uniform1(txunloc1, value);
         }
     }

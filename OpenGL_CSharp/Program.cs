@@ -63,7 +63,27 @@ namespace OpenGL_CSharp
         {
 
             var win = (GameWindow)sender;
-            ;
+
+            if (e.Key == Key.Z || e.Key == Key.X)
+            {
+                if(e.Key== Key.Z)
+                {
+                    BaseGeometry.specintens -= .1f;
+                }
+                else
+                {
+                    BaseGeometry.specintens += .1f;
+                }
+
+                pipe.geos.ForEach(o =>
+                {
+                    
+                    BaseGeometry.specintens = BaseGeometry.specintens > 1 ? 1 : BaseGeometry.specintens;
+                    BaseGeometry.specintens = BaseGeometry.specintens < 0 ? 0 : BaseGeometry.specintens;
+
+                });
+            }
+
             if (e.Key == OpenTK.Input.Key.Right)
             {
                 cam.Position -= new Vector3(.2f, 0, 0);
@@ -230,6 +250,7 @@ namespace OpenGL_CSharp
                 GL.DeleteShader(pipe.geos[i].fragshad);
                 GL.DeleteShader(pipe.geos[i].texid1);
                 GL.DeleteShader(pipe.geos[i].texid2);
+
             }
 
             GL.DeleteProgram(pipe.programId);
