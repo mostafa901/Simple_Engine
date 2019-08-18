@@ -34,7 +34,7 @@ namespace OpenGL_CSharp
 
             //start game window
             win.Run(30);
-            
+
 
         }
         private static void SetupScene(GameWindow win)
@@ -43,7 +43,7 @@ namespace OpenGL_CSharp
             pipe = new Pipelinevars();
             //defin viewport size
             GL.Viewport(100, 100, 700, 700);
-            GL.ClearColor(Color.CornflowerBlue);//set background color
+            GL.ClearColor(Color.Black);//set background color
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
@@ -112,7 +112,7 @@ namespace OpenGL_CSharp
                 //var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
                 //cam.View = cam.View * m1;
                 //cam.Position = cam.View.ExtractTranslation();
-                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(MathHelper.DegreesToRadians(Vangle)) * r,  (float)Math.Sin(MathHelper.DegreesToRadians(Vangle)) * r);
+                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(MathHelper.DegreesToRadians(Vangle)) * r, (float)Math.Sin(MathHelper.DegreesToRadians(Vangle)) * r);
 
             }
 
@@ -174,7 +174,7 @@ namespace OpenGL_CSharp
         private static void Win_Load(object sender, EventArgs e)
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
-            
+
             //defin the shap to be drawn             
             pipe.geos.Add(new CreateCube());
             pipe.geos.Add(new Pyramid());
@@ -194,11 +194,11 @@ namespace OpenGL_CSharp
                 //bind vertex object
                 GL.BindVertexArray(pipe.geos[i].vao);
 
-                
+
                 Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
                 Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
 
-               
+
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
 
                 //clear the buffer
@@ -228,6 +228,8 @@ namespace OpenGL_CSharp
                 GL.DeleteVertexArray(pipe.geos[i].vao);
                 GL.DeleteShader(pipe.geos[i].vershad);
                 GL.DeleteShader(pipe.geos[i].fragshad);
+                GL.DeleteShader(pipe.geos[i].texid1);
+                GL.DeleteShader(pipe.geos[i].texid2);
             }
 
             GL.DeleteProgram(pipe.programId);

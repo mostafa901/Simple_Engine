@@ -95,7 +95,7 @@ namespace OpenGL_CSharp.Textures
 
         internal static void SetUniform(int programId, string name, int value)
         {
-            var txunloc1 = GL.GetUniformLocation(programId, "texture0");
+            var txunloc1 = GL.GetUniformLocation(programId, name);
            
             GL.Uniform1(txunloc1, value);
         }

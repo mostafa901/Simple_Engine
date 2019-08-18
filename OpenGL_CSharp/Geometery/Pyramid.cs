@@ -1,4 +1,5 @@
 ﻿using OpenGL_CSharp.Graphic;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,8 +125,9 @@ namespace OpenGL_CSharp.Geometery
             #endregion
 
             //setup Object Color 
-            lightColor = new Vertex4(1.0f, 1.0f, 1.0f, 1.0f);
-            objectColor = new Vertex4(0.1f, 0.1f, 0.1f, 0.1f);
+            
+            objectColor = new Vector3(.5f, 0.5f, 1f);
+            IsLight = true;
 
 
             //define Indeces
@@ -146,7 +148,32 @@ namespace OpenGL_CSharp.Geometery
 
                };
 
-            
+            //BackFace
+            points[02].Normal = new Vertex3(0, 0, -1);
+            points[05].Normal = new Vertex3(0, 0, -1);
+            points[06].Normal = new Vertex3(0, 0, -1);
+
+            //Bottom Face
+            points[09].Normal = new Vertex3(0, -1, 0);
+            points[10].Normal = new Vertex3(0, -1, 0);
+            points[11].Normal = new Vertex3(0, -1, 0);
+            points[12].Normal = new Vertex3(0, -1, 0);
+
+            //Right Face
+            points[02].Normal = new Vertex3(01, 0, 0);
+            points[03].Normal = new Vertex3(01, 0, 0);
+            points[04].Normal = new Vertex3(01, 0, 0);
+
+            //Left Face
+            points[02].Normal = new Vertex3(-1, 0, 0);
+            points[07].Normal = new Vertex3(-1, 0, 0);
+            points[08].Normal = new Vertex3(-1, 0, 0);
+
+            //Front Face
+            points[00].Normal = new Vertex3(0, 0, 1);
+            points[01].Normal = new Vertex3(0, 0, 1);
+            points[02].Normal = new Vertex3(0, 0, 1);
+
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using OpenGL_CSharp.Graphic;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace OpenGL_CSharp.Geometery
 {
     class CreateCube : BaseGeometry
     {
-      
+
 
         public CreateCube()
         {
@@ -22,6 +23,7 @@ namespace OpenGL_CSharp.Geometery
                        Position = new Vertex3(0.5f, 0.5f, 0.5f),
                        TexCoor = new Vertex2(1.0f, 1.0f),
                        Vcolor = new Vertex4(1f, 00f, 00f, 1.0f)
+
                    }); // 00
 
             points.Add(
@@ -212,9 +214,10 @@ namespace OpenGL_CSharp.Geometery
 
             //setupobjectColor
             //---------------
-            lightColor = new Vertex4(1.0f, 1.0f, 1.0f, 1.0f);
-            objectColor = new Vertex4(0.1f, 0.1f, 0.1f, 0.1f);
+            
+            objectColor = new Vector3(1f, 0.5f, 1f);
 
+             
             //define Indeces
             Indeces =
              new int[]
@@ -226,6 +229,7 @@ namespace OpenGL_CSharp.Geometery
                         //bottom
                         19,17,16,
                         19,18,17,
+                        
                         //top
                         21,22,23,
                         21,23,20,
@@ -242,6 +246,43 @@ namespace OpenGL_CSharp.Geometery
                         3,2,1,
                         3,1,0
                  };
+            //BackFace
+            points[08].Normal = new Vertex3(0, 0, -1);
+            points[09].Normal = new Vertex3(0, 0, -1);
+            points[10].Normal = new Vertex3(0, 0, -1);
+            points[11].Normal = new Vertex3(0, 0, -1);
+
+            //Bottom Face
+            points[16].Normal = new Vertex3(0, -1, 0);
+            points[17].Normal = new Vertex3(0, -1, 0);
+            points[18].Normal = new Vertex3(0, -1, 0);
+            points[19].Normal = new Vertex3(0, -1, 0);
+
+            //Top Face
+            points[20].Normal = new Vertex3(0, 1, 0);
+            points[21].Normal = new Vertex3(0, 1, 0);
+            points[22].Normal = new Vertex3(0, 1, 0);
+            points[23].Normal = new Vertex3(0, 1, 0);
+
+            //Right Face
+            points[04].Normal = new Vertex3(1, 0, 0);
+            points[05].Normal = new Vertex3(1, 0, 0);
+            points[06].Normal = new Vertex3(1, 0, 0);
+            points[07].Normal = new Vertex3(1, 0, 0);
+
+            //LeftFace
+            points[12].Normal = new Vertex3(-1, 0, 0);
+            points[13].Normal = new Vertex3(-1, 0, 0);
+            points[14].Normal = new Vertex3(-1, 0, 0);
+            points[15].Normal = new Vertex3(-1, 0, 0);
+
+            //Front Face
+            points[0].Normal = new Vertex3(0, 0, 1);
+            points[1].Normal = new Vertex3(0, 0, 1);
+            points[2].Normal = new Vertex3(0, 0, 1);
+            points[3].Normal = new Vertex3(0, 0, 1);
+
+
 
 
         }
