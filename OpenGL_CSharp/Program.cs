@@ -195,10 +195,10 @@ namespace OpenGL_CSharp
 
             pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
             pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
+            pipe.geos[2].model = pipe.geos[2].model * Matrix4.CreateTranslation(00f, 3f, 0f);
 
             var m1 = pipe.geos[0];
-            {
-                
+            {                
                     FragmentShaders.LoadFragment(new Vector3(1),
                                                  @"Textures\container.jpg",
                                                  @"Textures\container_specular.jpg",
@@ -209,7 +209,16 @@ namespace OpenGL_CSharp
                  
             }
             var lc = pipe.geos[2];
-            
+            {
+                FragmentShaders.LoadFragment(new Vector3(1),
+                                          @"Textures\container.jpg",
+                                          @"Textures\container_specular.jpg",
+                                          out lc.vershad,
+                                          out lc.lightshad,
+                                          out lc.texid1,
+                                          out lc.texid2);
+
+            }
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)

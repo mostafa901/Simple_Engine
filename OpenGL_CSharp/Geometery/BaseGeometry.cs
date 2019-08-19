@@ -30,12 +30,12 @@ namespace OpenGL_CSharp.Geometery
         public int vershad;
         public int fragshad;
         public int lightshad;
-
+        public float[] vers;
         public void Init()
         {
-           
 
-            var vers = points.SelectMany(o => o.data()).ToArray();
+
+            if (vers == null) vers = points.SelectMany(o => o.data()).ToArray();
 
             //Element buffer object
             if (vao == -1) //no need to recreate if already created
@@ -50,7 +50,7 @@ namespace OpenGL_CSharp.Geometery
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
 
 
-           
+
 #if false
             //setup shaders
             //load vertix/Fragment shader
@@ -127,9 +127,9 @@ namespace OpenGL_CSharp.Geometery
             //setup lighiting effect
             //----------------------
             GL.UseProgram(Program.pipe.programId); //we must link and use program first before applying light effects
-                                                   
+
             FragmentShaders.SetFloat(Program.pipe.programId, "material.shininess", specintens);
-            
+
 
             //Set Camera Position to Shader to create Specular
             FragmentShaders.SetUniformV3(Program.pipe.programId, "ViewPos", Program.cam.Position);
