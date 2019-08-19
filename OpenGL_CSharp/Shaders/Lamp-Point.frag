@@ -15,16 +15,14 @@ uniform float specintens = 1.0f; //setupSpecular intenesty
 
 struct Material {
     vec3  ambient;
-    vec3 diffuse;
-    vec3 specular;     
+    vec3  diffuse;
+    vec3  specular;     
 }; 
 
 uniform Material material;
-
-
-
+ 
 void main(){
  
-FragColor = vec4(ambient*diffuse*specular,1.0);
+FragColor = vec4(material.ambient*material.diffuse*material.specular,1.0);
  
 }

@@ -9,7 +9,7 @@ namespace OpenGL_CSharp.Graphic
         public static int vcount;
 
 
-        public Vertex4 Vcolor { get; set; }    
+        public Vertex3 Vcolor { get; set; }    
         public Vertex2 TexCoor { get; set; }
         public Vertex3 Position { get; set; }
         public Vertex3 Normal { get; set; }

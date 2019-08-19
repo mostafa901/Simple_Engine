@@ -54,8 +54,9 @@
     <Compile Include="Geometery\Pyramid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shaders\FragmentShaders.cs" />
-    <Compile Include="Shaders\VertexShaders.cs" />
+    <Compile Include="Shaders\BaseShader.cs" />
+    <Compile Include="Shaders\LampFragment.cs" />
+    <Compile Include="Shaders\Tex2Frag.cs" />
     <Compile Include="Textures\Textures.cs" />
     <Compile Include="Graphic\Vertex4.cs" />
     <Compile Include="Graphic\Vertex.cs" />

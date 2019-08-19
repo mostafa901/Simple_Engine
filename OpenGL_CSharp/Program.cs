@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenGL_CSharp.Geometery;
 using OpenGL_CSharp.Graphic;
@@ -44,14 +45,14 @@ namespace OpenGL_CSharp
             pipe = new Pipelinevars();
             //defin viewport size
             GL.Viewport(100, 100, 700, 700);
-            GL.ClearColor(0,0,.18f,1);//set background color
+            GL.ClearColor(0, 0, .18f, 1);//set background color
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
             GL.Enable(EnableCap.DepthTest);
         }
-        
+
         #region Navigation
         private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -177,7 +178,6 @@ namespace OpenGL_CSharp
         public static Pipelinevars pipe; //just global class for all required variables
         public class Pipelinevars
         {
-            public int programId = -1;
             public float offsetX = 0.5f;
             public float speed = .3f;
             internal GameWindow win;
@@ -188,28 +188,38 @@ namespace OpenGL_CSharp
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
+
+
             //defin the shap to be drawn             
             pipe.geos.Add(new CreateCube());
-            pipe.geos.Add(new Pyramid());
-            pipe.geos.Add(new CreateCube());
-
             pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
-            pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
+            pipe.geos[0].LoadGeometry();
 
-            var m1 = pipe.geos[0];
-            {
-                
-                    FragmentShaders.LoadFragment(new Vector3(1),
-                                                 @"Textures\container.jpg",
-                                                 @"Textures\container_specular.jpg",
-                                                 out m1.vershad,
-                                                 out m1.lightshad,
-                                                 out m1.texid1,
-                                                 out m1.texid2);
-                 
-            }
-            var lc = pipe.geos[2];
-            
+           
+
+#if true
+            var pyr = new Pyramid();
+            pipe.geos.Add(pyr);
+            pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
+            pyr.LoadGeometry();
+#endif
+
+
+
+
+
+#if false
+            var lamp = new CreateCube();
+            pipe.geos.Add(lamp);
+            lamp.model = lamp.model * Matrix4.CreateTranslation(0.75f, 3f, 0f);
+            lamp.setupGeometry();
+
+            var lampfrag = new LampFrag();
+            lampfrag.LoadLampPointFragment(new Vector3(1));
+            lamp.shader = lampfrag;
+#endif
+
+
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)
@@ -220,20 +230,20 @@ namespace OpenGL_CSharp
 
             for (int i = 0; i < pipe.geos.Count; i++)
             {
-                pipe.geos[i].Init();
-                //bind vertex object
-                GL.BindVertexArray(pipe.geos[i].vao);
+                var geo = pipe.geos[i];
+                geo.LoadGeometry();
+                //Binding Vertex array object
+                GL.BindVertexArray(geo.vao);
 
-
-                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
-                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
-
+                geo.shader.Use();
+                geo.shader.SetUniformMatrix(nameof(BaseGeometry.model), ref geo.model);
+                geo.shader.SetUniformMatrix(nameof(cam.View), ref cam.View);
+                geo.shader.SetUniformMatrix(nameof(cam.Projection), ref cam.Projection);
 
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
-
-                //clear the buffer
-                GL.BindVertexArray(0);
             }
+
+
             //swap the buffer (bring what has been rendered in theback to the front)
             pipe.win.SwapBuffers();
         }
@@ -254,14 +264,13 @@ namespace OpenGL_CSharp
             // Delete all the resources.
             for (int i = 0; i < pipe.geos.Count; i++)
             {
-                GL.DeleteBuffer(pipe.geos[i].vbo);
-                GL.DeleteVertexArray(pipe.geos[i].vao);
-                GL.DeleteShader(pipe.geos[i].vershad);
-                GL.DeleteShader(pipe.geos[i].fragshad);
-                GL.DeleteShader(pipe.geos[i].texid1);
-                GL.DeleteShader(pipe.geos[i].texid2);
+                var o = pipe.geos[i];
+                GL.DeleteBuffer(o.vbo);
+                GL.DeleteVertexArray(o.ebo);
+                GL.DeleteVertexArray(o.vao);
+
+                o.Dispose();
             }
-            GL.DeleteProgram(pipe.programId);
         }
     }
 }

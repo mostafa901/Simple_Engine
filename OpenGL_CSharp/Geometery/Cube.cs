@@ -282,9 +282,7 @@ namespace OpenGL_CSharp.Geometery
             points[2].Normal = new Vertex3(0, 0, 1);
             points[3].Normal = new Vertex3(0, 0, 1);
 
-
-
-
+            
         }
     }
 
