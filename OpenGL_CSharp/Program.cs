@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenGL_CSharp.Geometery;
 using OpenGL_CSharp.Graphic;
+using OpenGL_CSharp.Shaders;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -34,25 +35,23 @@ namespace OpenGL_CSharp
             win.MouseWheel += Win_MouseWheel;
 
             //start game window
-            win.Run(30);
-
-
+            win.Run(15);
         }
+
         private static void SetupScene(GameWindow win)
         {
             //intialize holder for the project main variables
             pipe = new Pipelinevars();
             //defin viewport size
             GL.Viewport(100, 100, 700, 700);
-            GL.ClearColor(Color.Black);//set background color
+            GL.ClearColor(0,0,.18f,1);//set background color
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
             GL.Enable(EnableCap.DepthTest);
         }
-
-
+        
         #region Navigation
         private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -62,19 +61,11 @@ namespace OpenGL_CSharp
 
         private static void Win_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
         {
-
             var win = (GameWindow)sender;
 
-            //var rh = Vector3.CalculateAngle(cam.Position, Vector3.UnitZ);
-            //var rv = Vector3.CalculateAngle(cam.Position, Vector3.UnitX);
+            Hangle = Math.Atan2(cam.Position.X, cam.Position.Z);
+            Vangle = Math.Atan2(cam.Position.Z, cam.Position.Y);
 
-
-            //if (Math.Cos(rh) <= 0 && Math.Sin(rh) >= 0) Hangle = MathHelper.RadiansToDegrees(Math.PI - rh);
-            //if (Math.Cos(rh) <= 0 && Math.Sin(rh) <= 0) Hangle = MathHelper.RadiansToDegrees(Math.PI + rh);
-            //if (Math.Cos(rh) >= 0 && Math.Sin(rh) <= 0) Hangle = MathHelper.RadiansToDegrees(2 * Math.PI + rh);
-
-
-            Debug.WriteLine("Hangle: " + Hangle);
             if (e.Key == Key.Z || e.Key == Key.X)
             {
                 if (e.Key == Key.Z)
@@ -95,26 +86,26 @@ namespace OpenGL_CSharp
 
             if (e.Key == OpenTK.Input.Key.Right)
             {
-                cam.Position -= new Vector3(.2f, 0, 0);
-                cam.Target -= new Vector3(.2f, 0, 0);
+
+                var oldr = cam.Position.Length;
+                cam.Position += new Vector3(1.1f, 0f, 0); ;
+                r += cam.Position.Length - r;
             }
             if (e.Key == OpenTK.Input.Key.Left)
             {
-                cam.Position += new Vector3(.2f, 0, 0);
-                cam.Target += new Vector3(.2f, 0, 0);
-
+                var oldr = cam.Position.Length;
+                cam.Position += new Vector3(-1.1f, 0f, 0); ;
+                r += cam.Position.Length - r;
             }
 
             if (e.Key == OpenTK.Input.Key.Down)
             {
-                cam.Position -= new Vector3(0f, .2f, 0);
-                cam.Target -= new Vector3(0f, .2f, 0);
+                cam.Position += new Vector3(0, -1.1f, 0);
             }
+
             if (e.Key == OpenTK.Input.Key.Up)
             {
-                cam.Position += new Vector3(0f, 0.2f, 0);
-                cam.Target += new Vector3(0, 0.2f, 0);
-
+                cam.Position += new Vector3(0, 1.1f, 0);
             }
 
             if (e.Key == OpenTK.Input.Key.Escape)
@@ -122,49 +113,38 @@ namespace OpenGL_CSharp
                 ((GameWindow)sender).Close();
             }
 
-
             if (e.Key == OpenTK.Input.Key.W)
             {
-                Vangle += 10;
+                Vangle += inrement;
 
-                //var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
-                //cam.View = cam.View * m1;
-                //cam.Position = cam.View.ExtractTranslation();
-
-                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(MathHelper.DegreesToRadians(Vangle)) * r, (float)Math.Sin(MathHelper.DegreesToRadians(Vangle)) * r);
+                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(Vangle) * r, (float)Math.Sin(Vangle) * r);
 
             }
 
             if (e.Key == OpenTK.Input.Key.S)
             {
-                Vangle -= 10;
+                Vangle -= inrement;
 
-
-                //var m1 = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(Vangle));
-                //cam.View = cam.View * m1;
-                //cam.Position = cam.View.ExtractTranslation();
-                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(MathHelper.DegreesToRadians(Vangle)) * r, (float)Math.Sin(MathHelper.DegreesToRadians(Vangle)) * r);
+                cam.Position = new Vector3(cam.Position.X, (float)Math.Cos(Vangle) * r, (float)Math.Sin(Vangle) * r);
 
             }
 
             if (e.Key == OpenTK.Input.Key.A)
             {
-                Hangle -= 10;
+                Hangle -= inrement;
 
-                cam.Position = new Vector3((float)Math.Sin(MathHelper.DegreesToRadians(Hangle)) * r, cam.Position.Y, (float)Math.Cos(MathHelper.DegreesToRadians(Hangle)) * r);
+                cam.Position = new Vector3((float)Math.Sin(Hangle) * r, cam.Position.Y, (float)Math.Cos(Hangle) * r);
 
             }
 
             if (e.Key == OpenTK.Input.Key.D)
             {
-                Hangle += 10;
+                Hangle += inrement;
 
-
-                cam.Position = new Vector3((float)Math.Sin(MathHelper.DegreesToRadians(Hangle)) * r, cam.Position.Y, (float)Math.Cos(MathHelper.DegreesToRadians(Hangle)) * r);
+                cam.Position = new Vector3((float)Math.Sin(Hangle) * r, cam.Position.Y, (float)Math.Cos(Hangle) * r);
             }
 
             var mouse = Mouse.GetState();
-
             if (e.Key == Key.ControlLeft && win.Focused)
             {
                 var dx = mouse.X / 800f - oldx;
@@ -188,6 +168,7 @@ namespace OpenGL_CSharp
         static float oldy = 0;
 
         static float r = 5f;
+        static float inrement = 0.1744f;
         static double Hangle = 0;
         static double Vangle = 0;
         #endregion
@@ -197,11 +178,9 @@ namespace OpenGL_CSharp
         public class Pipelinevars
         {
             public int programId = -1;
-
             public float offsetX = 0.5f;
             public float speed = .3f;
             internal GameWindow win;
-
             public List<Geometery.BaseGeometry> geos = new List<BaseGeometry>();
         }
 
@@ -212,8 +191,25 @@ namespace OpenGL_CSharp
             //defin the shap to be drawn             
             pipe.geos.Add(new CreateCube());
             pipe.geos.Add(new Pyramid());
+            pipe.geos.Add(new CreateCube());
+
             pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
             pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
+
+            var m1 = pipe.geos[0];
+            {
+                
+                    FragmentShaders.LoadFragment(new Vector3(1),
+                                                 @"Textures\container.jpg",
+                                                 @"Textures\container_specular.jpg",
+                                                 out m1.vershad,
+                                                 out m1.lightshad,
+                                                 out m1.texid1,
+                                                 out m1.texid2);
+                 
+            }
+            var lc = pipe.geos[2];
+            
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)
@@ -264,11 +260,8 @@ namespace OpenGL_CSharp
                 GL.DeleteShader(pipe.geos[i].fragshad);
                 GL.DeleteShader(pipe.geos[i].texid1);
                 GL.DeleteShader(pipe.geos[i].texid2);
-
             }
-
             GL.DeleteProgram(pipe.programId);
         }
-
     }
 }

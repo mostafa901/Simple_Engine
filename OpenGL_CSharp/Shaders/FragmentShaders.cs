@@ -119,12 +119,12 @@ FragColor = vec4((ambientstrength + diffusecolor + specularV) *objectColor,1.0f)
 }
 ";
         }
-         
+
         public static string LightFrag2()
         {
             return File.ReadAllText("shaders/Light.frag");
         }
-         
+
         public static void SetUniformV3(int programId, string name, Vector3 value)
         {
             var loc = GL.GetUniformLocation(programId, name);
@@ -144,6 +144,70 @@ FragColor = vec4((ambientstrength + diffusecolor + specularV) *objectColor,1.0f)
             var loc = GL.GetUniformLocation(programId, name);
 
             GL.Uniform1(loc, value);
+        }
+
+        public static void LoadFragment(Vector3 lightColor, string diffuse, string specular, out int vershad, out int lightshad, out int diffuseid,out int specularid)
+        {
+            //setup shaders
+            //load vertix/Fragment shader
+            //---------------------------
+
+            vershad = CreateShader(Shaders.VertexShaders.VShader(), ShaderType.VertexShader);
+            //  fragshad = CreateShader(Shaders.FragmentShaders.TexFrag2Tex(), ShaderType.FragmentShader);
+            lightshad = CreateShader(Shaders.FragmentShaders.LightFrag2(), ShaderType.FragmentShader);
+
+            //create program, link shaders and test the results
+            CreatePrognLinkShader(vershad, lightshad);
+            GL.UseProgram(Program.pipe.programId);
+
+            //load Textures
+            diffuseid = Textures.Textures.AddTexture(TextureUnit.Texture0, diffuse);
+            specularid = Textures.Textures.AddTexture(TextureUnit.Texture1, specular);
+
+            FragmentShaders.SetInt(Program.pipe.programId, "material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
+            FragmentShaders.SetInt(Program.pipe.programId, "material.specular", 1);
+
+           
+        }
+
+        //create shaders
+        static int CreateShader(string source, ShaderType shadtype)
+        {
+            int shadid = GL.CreateShader(shadtype);
+            GL.ShaderSource(shadid, source);
+            GL.CompileShader(shadid);
+
+            //test if the compilation is correct
+            var result = GL.GetShaderInfoLog(shadid);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                Console.WriteLine(result);
+
+            }
+            return shadid;
+        }
+
+        static int CreatePrognLinkShader(int vershad, int fragshad)
+        {
+            Program.pipe.programId = Program.pipe.programId == -1 ? GL.CreateProgram() : Program.pipe.programId;
+            GL.AttachShader(Program.pipe.programId, vershad);
+            GL.AttachShader(Program.pipe.programId, fragshad);
+            GL.LinkProgram(Program.pipe.programId);
+
+            //test if the prog is fine
+            var result = GL.GetProgramInfoLog(Program.pipe.programId);
+            if (!string.IsNullOrEmpty(result))
+            {
+                Console.WriteLine(result);
+            }
+
+            //after linking there is no need to keep/attach the shaders and should be cleared from memory
+            GL.DetachShader(Program.pipe.programId, vershad);
+            GL.DetachShader(Program.pipe.programId, fragshad);
+            GL.DeleteShader(vershad);
+            GL.DeleteShader(fragshad);
+
+            return Program.pipe.programId;
         }
     }
 }

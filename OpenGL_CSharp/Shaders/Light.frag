@@ -11,7 +11,7 @@ uniform vec3 LightPos;
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 uniform vec3 ViewPos; //View (Camera) Position
-uniform float specintens = 1f; //setupSpecular intenesty 
+uniform float specintens = 1.0f; //setupSpecular intenesty 
 
 struct Material {
     sampler2D  ambient;

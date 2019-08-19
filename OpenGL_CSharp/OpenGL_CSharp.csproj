@@ -68,6 +68,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\Lamp-Point.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\shader.ver">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -29,10 +29,12 @@ namespace OpenGL_CSharp.Geometery
         public int texid2 = -1;
         public int vershad;
         public int fragshad;
-        private int lightshad;
+        public int lightshad;
 
         public void Init()
         {
+           
+
             var vers = points.SelectMany(o => o.data()).ToArray();
 
             //Element buffer object
@@ -47,6 +49,9 @@ namespace OpenGL_CSharp.Geometery
                                                           //we need to define the type of data to be filled and the size in the memory
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
 
+
+           
+#if false
             //setup shaders
             //load vertix/Fragment shader
             //---------------------------
@@ -63,7 +68,21 @@ namespace OpenGL_CSharp.Geometery
                 //load Textures
                 texid1 = Textures.Textures.AddTexture(TextureUnit.Texture0, @"Textures\container.jpg");
                 texid2 = Textures.Textures.AddTexture(TextureUnit.Texture1, @"Textures\container_specular.jpg");
-            }
+
+                FragmentShaders.SetInt(Program.pipe.programId, "material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
+                FragmentShaders.SetInt(Program.pipe.programId, "material.specular", 1);
+                FragmentShaders.SetUniformV3(Program.pipe.programId, "light.ambient", new Vector3(.2f));
+                FragmentShaders.SetUniformV3(Program.pipe.programId, "light.diffuse", new Vector3(.5f));
+                FragmentShaders.SetUniformV3(Program.pipe.programId, "light.specular", lightColor);
+                FragmentShaders.SetUniformV3(Program.pipe.programId, "light.position", new Vector3(0, 3, 4));
+            } 
+#endif
+
+            //setuplight effect
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.ambient", new Vector3(.2f));
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.diffuse", new Vector3(.5f));
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.specular", lightColor);
+            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.position", new Vector3(0, 3, 4));
 
             //Use vertix shaders holder to the GPU memory
             //--------------
@@ -105,29 +124,18 @@ namespace OpenGL_CSharp.Geometery
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.Length * sizeof(int), Indeces, BufferUsageHint.StaticDraw);
 
-
-
             //setup lighiting effect
             //----------------------
             GL.UseProgram(Program.pipe.programId); //we must link and use program first before applying light effects
-                                                   //   FragmentShaders.SetUniformV3(Program.pipe.programId, "material.ambient", objectColor*.3f);            
-            FragmentShaders.SetInt(Program.pipe.programId, "material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
-            FragmentShaders.SetInt(Program.pipe.programId, "material.specular", 1);
+                                                   
             FragmentShaders.SetFloat(Program.pipe.programId, "material.shininess", specintens);
-            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.ambient", new Vector3(.2f));
-            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.diffuse", new Vector3(.5f));
-            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.specular", lightColor);
-            FragmentShaders.SetUniformV3(Program.pipe.programId, "light.position", new Vector3(0, 1, 4));
+            
 
             //Set Camera Position to Shader to create Specular
             FragmentShaders.SetUniformV3(Program.pipe.programId, "ViewPos", Program.cam.Position);
 
             //orient Camera, MatrixTransformation
             Shaders.VertexShaders.SetUniformMatrix(Program.pipe.programId, nameof(BaseGeometry.model), ref model);
-
-
-
-
         }
 
         //create shaders
