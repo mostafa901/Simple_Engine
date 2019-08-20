@@ -44,14 +44,14 @@ namespace OpenGL_CSharp
             pipe = new Pipelinevars();
             //defin viewport size
             GL.Viewport(100, 100, 700, 700);
-            GL.ClearColor(0,0,.18f,1);//set background color
+            GL.ClearColor(0, 0, .18f, 1);//set background color
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
             GL.Enable(EnableCap.DepthTest);
         }
-        
+
         #region Navigation
         private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -177,7 +177,7 @@ namespace OpenGL_CSharp
         public static Pipelinevars pipe; //just global class for all required variables
         public class Pipelinevars
         {
-            public int programId = -1;
+            //public int programId = -1;
             public float offsetX = 0.5f;
             public float speed = .3f;
             internal GameWindow win;
@@ -189,36 +189,22 @@ namespace OpenGL_CSharp
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
             //defin the shap to be drawn             
-            pipe.geos.Add(new CreateCube());
-            pipe.geos.Add(new Pyramid());
-            pipe.geos.Add(new CreateCube());
+
+            var cube = new CreateCube();
+            pipe.geos.Add(cube);
+            cube.setupgeo();
+
+            var pyr = new Pyramid();
+            pipe.geos.Add(pyr);
+            pyr.setupgeo();
 
             pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
             pipe.geos[1].model = pipe.geos[1].model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
-            pipe.geos[2].model = pipe.geos[2].model * Matrix4.CreateTranslation(00f, 3f, 0f);
 
-            var m1 = pipe.geos[0];
-            {                
-                    FragmentShaders.LoadFragment(new Vector3(1),
-                                                 @"Textures\container.jpg",
-                                                 @"Textures\container_specular.jpg",
-                                                 out m1.vershad,
-                                                 out m1.lightshad,
-                                                 out m1.texid1,
-                                                 out m1.texid2);
-                 
-            }
-            var lc = pipe.geos[2];
-            {
-                FragmentShaders.LoadFragment(new Vector3(1),
-                                          @"Textures\container.jpg",
-                                          @"Textures\container_specular.jpg",
-                                          out lc.vershad,
-                                          out lc.lightshad,
-                                          out lc.texid1,
-                                          out lc.texid2);
 
-            }
+
+
+
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)
@@ -229,13 +215,19 @@ namespace OpenGL_CSharp
 
             for (int i = 0; i < pipe.geos.Count; i++)
             {
-                pipe.geos[i].Init();
+                var o = pipe.geos[i];
+                o.render();
                 //bind vertex object
-                GL.BindVertexArray(pipe.geos[i].vao);
+                GL.BindVertexArray(o.vao);
 
+                //setuplight effect
+                FragmentShaders.SetUniformV3(o.programId, "light.ambient", new Vector3(.2f));
+                FragmentShaders.SetUniformV3(o.programId, "light.diffuse", new Vector3(.5f));
+                FragmentShaders.SetUniformV3(o.programId, "light.specular", new Vector3(1));
+                FragmentShaders.SetUniformV3(o.programId, "light.position", new Vector3(0, 3, 4));
 
-                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.View), ref cam.View);
-                Shaders.VertexShaders.SetUniformMatrix(pipe.programId, nameof(cam.Projection), ref cam.Projection);
+                Shaders.VertexShaders.SetUniformMatrix(o.programId, nameof(cam.View), ref cam.View);
+                Shaders.VertexShaders.SetUniformMatrix(o.programId, nameof(cam.Projection), ref cam.Projection);
 
 
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
@@ -269,8 +261,8 @@ namespace OpenGL_CSharp
                 GL.DeleteShader(pipe.geos[i].fragshad);
                 GL.DeleteShader(pipe.geos[i].texid1);
                 GL.DeleteShader(pipe.geos[i].texid2);
+                GL.DeleteProgram(pipe.geos[i].programId);
             }
-            GL.DeleteProgram(pipe.programId);
         }
     }
 }

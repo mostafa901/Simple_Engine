@@ -17,7 +17,7 @@ namespace OpenGL_CSharp.Textures
         {
 
             var texId = GL.GenTexture();
-            Link(texu, texId);
+            ActivateandLink(texu, texId);
 
             // For this example, we're going to use .NET's built-in System.Drawing library to load textures.
 
@@ -86,7 +86,7 @@ namespace OpenGL_CSharp.Textures
             return texId;
         }
 
-        public static void Link(TextureUnit txu, int texId)
+        public static void ActivateandLink(TextureUnit txu, int texId)
         {
             GL.ActiveTexture(txu);
             GL.BindTexture(TextureTarget.Texture2D, texId);
