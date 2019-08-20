@@ -188,15 +188,20 @@ namespace OpenGL_CSharp
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
-#if true
+ 
             var pyr = new Pyramid();
             pipe.geos.Add(pyr);
             pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
             pyr.LoadGeometry();
             var lmpshad = new LampFrag();
-            lmpshad.LoadLampPointFragment(new Vector3(1));
+             
+            lmpshad.LoadLampPointFragment();
             pyr.shader = lmpshad;
-#endif
+            pyr.shader.light.specular = new Vector3(1);
+            pyr.shader.light.ambient = new Vector3(1);
+            pyr.shader.light.diffuse = new Vector3(1);
+            pyr.shader.light.lightPosition = pyr.model.ExtractTranslation();
+ 
 
             //defin the shap to be drawn             
             var cube = new CreateCube();
@@ -204,22 +209,10 @@ namespace OpenGL_CSharp
             cube.model *= Matrix4.CreateTranslation(-0.75f, 0f, 0f);
             cube.LoadGeometry();
             cube.shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");
-            cube.shader.parent = cube;
-            cube.shader.lightColor = pyr.shader.lightColor;
-            cube.shader.lightPosition = pyr.model.ExtractTranslation();
 
-#if false
-            var lamp = new CreateCube();
-            pipe.geos.Add(lamp);
-            lamp.model = lamp.model * Matrix4.CreateTranslation(0.75f, 3f, 0f);
-            lamp.setupGeometry();
-
-            var lampfrag = new LampFrag();
-            lampfrag.LoadLampPointFragment(new Vector3(1));
-            lamp.shader = lampfrag;
-#endif
-
-
+            cube.shader.light = pyr.shader.light;
+            cube.shader.light.ambient = new Vector3(.1f);
+             
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)

@@ -11,18 +11,24 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Shaders
 {
-    public class BaseShader
+    public struct Light
     {
-        public BaseGeometry parent;
-        public Vector3 lightColor;
+        public Vector3 ambient;
+        public Vector3 diffuse;
+        public Vector3 specular;
         public Vector3 lightPosition;
 
+    }
+    public class BaseShader
+    {
+        public Light light;
         public readonly int programId = -1;
         public int vershad = -1;
 
         public readonly Dictionary<string, int> _uniformLocations;
         public BaseShader()
         {
+            
             programId = GL.CreateProgram();
             vershad = CreateShader(ReadVerShader(), ShaderType.VertexShader);
 
@@ -94,12 +100,10 @@ namespace OpenGL_CSharp.Shaders
         }
 
         public void SetUniformV3(string name, Vector3 value)
-        {
-//            if (_uniformLocations.ContainsKey(name))
-            {
+        { 
                 GL.UseProgram(programId);
                 GL.Uniform3(_uniformLocations[name], value);
-            }
+             
         }
 
         public void SetFloat(string name, float value)

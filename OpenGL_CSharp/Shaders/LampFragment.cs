@@ -13,7 +13,7 @@ namespace OpenGL_CSharp.Shaders
     {
         public int lampfragId = -1;
         public int lightshad = -1;
-         
+
         public LampFrag()
         {
 
@@ -23,11 +23,9 @@ namespace OpenGL_CSharp.Shaders
         {
             return File.ReadAllText("shaders/Lamp-Point.frag");
         }
-        
-        public void LoadLampPointFragment(Vector3 lightColor)
-        {
 
-            this.lightColor = lightColor;
+        public void LoadLampPointFragment()
+        {
 
             //setup shaders
             //load vertix/Fragment shader
@@ -47,9 +45,9 @@ namespace OpenGL_CSharp.Shaders
             base.Use();
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
-            SetUniformV3("material.diffuse", lightColor); //because this variable is of type sample2d, we need to specify which texture numberis used
-            SetUniformV3("material.ambient", lightColor);
-            SetUniformV3("material.specular", lightColor);
+            SetUniformV3("material.diffuse", light.diffuse); //because this variable is of type sample2d, we need to specify which texture numberis used
+            SetUniformV3("material.ambient", light.ambient);
+            SetUniformV3("material.specular", light.specular);
 
         }
 

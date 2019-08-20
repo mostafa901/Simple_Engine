@@ -14,10 +14,10 @@ namespace OpenGL_CSharp.Shaders
     {
         public int lightshad, diffuseid, specularid = -1;
         public float specintens = 10;
-  
-        public Tex2Frag(BaseGeometry parent)
+
+        public Tex2Frag()
         {
-            this.parent = parent;
+
         }
 
         public Tex2Frag(Vector3 vector3, string v1, string v2)
@@ -49,10 +49,9 @@ namespace OpenGL_CSharp.Shaders
             specularid = Textures.Textures.AddTexture(TextureUnit.Texture1, specular);
 
             GetVariables();
-
         }
 
-      
+
 
         public override void Use()
         {
@@ -62,19 +61,17 @@ namespace OpenGL_CSharp.Shaders
             //--------------
             Textures.Textures.Link(TextureUnit.Texture0, diffuseid);
             Textures.Textures.Link(TextureUnit.Texture1, specularid);
-
-            //setuplight effect
-            SetUniformV3("light.ambient", lightColor);
-            SetUniformV3("light.diffuse", lightColor);
-            SetUniformV3("light.position", lightPosition);
-            SetUniformV3("light.specular", lightColor);
-
-            SetFloat("material.shininess", specintens);            
+                       
+            SetFloat("material.shininess", specintens);
             SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular
             SetInt("material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
             SetInt("material.specular", 1);
-
-           
+            
+            //setuplight effect
+            SetUniformV3("light.ambient", light.ambient );
+            SetUniformV3("light.diffuse", light.diffuse);
+            SetUniformV3("light.position", light.lightPosition);
+            SetUniformV3("light.specular", light.specular);
 
         }
 
