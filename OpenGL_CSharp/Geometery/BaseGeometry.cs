@@ -38,7 +38,8 @@ namespace OpenGL_CSharp.Geometery
         public void RenderGeometry()
         {
             GL.BindVertexArray(vao);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
+
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 
             shader.Use();
@@ -66,7 +67,6 @@ namespace OpenGL_CSharp.Geometery
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
-            shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");            
              
 
             //element buffer

@@ -60,6 +60,29 @@ namespace OpenGL_CSharp.Shaders
             return File.ReadAllText("Shaders\\shader.ver");
         }
 
+        public void GetVariables()
+        {
+            // The shader is now ready to go, but first, we're going to cache all the shader uniform locations.
+            // Querying this from the shader is very slow, so we do it once on initialization and reuse those values
+            // later.
+
+            // First, we have to get the number of active uniforms in the shader.
+            GL.GetProgram(programId, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
+
+            // Loop over all the uniforms,
+            for (var i = 0; i < numberOfUniforms; i++)
+            {
+                // get the name of this uniform,
+                var key = GL.GetActiveUniform(programId, i, out _, out _);
+
+                // get the location,
+                var location = GL.GetUniformLocation(programId, key);
+
+                // and then add it to the dictionary.
+                _uniformLocations.Add(key, location);
+            }
+        }
+
         public void SetUniformMatrix(string name, ref Matrix4 value)
         {
             GL.UseProgram(programId);

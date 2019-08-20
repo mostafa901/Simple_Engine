@@ -33,18 +33,18 @@ namespace OpenGL_CSharp.Shaders
             //load vertix/Fragment shader
             //---------------------------
             lightshad = CreateShader(LampPoint(), ShaderType.FragmentShader);
-            //create program, link shaders and test the results
-            LinkShader(vershad, lightshad);
-
+             
             SetupStrids();
 
+            GetVariables();
         }
 
         public override void Use()
         {
             //we must use program before lighting
             base.Use();
-
+            //create program, link shaders and test the results
+            LinkShader(vershad, lightshad);
             SetUniformV3("material.diffuse", lightColor); //because this variable is of type sample2d, we need to specify which texture numberis used
             SetUniformV3("material.specular", lightColor);
             SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular

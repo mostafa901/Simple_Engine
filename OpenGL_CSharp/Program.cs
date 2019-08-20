@@ -191,17 +191,20 @@ namespace OpenGL_CSharp
 
 
             //defin the shap to be drawn             
-            pipe.geos.Add(new CreateCube());
+            var cube = new CreateCube();
+            pipe.geos.Add(cube);
             pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
             pipe.geos[0].LoadGeometry();
+            cube.shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");            
+            
 
-           
 
 #if true
             var pyr = new Pyramid();
             pipe.geos.Add(pyr);
             pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
             pyr.LoadGeometry();
+            pyr.shader = new LampFrag();
 #endif
 
 
