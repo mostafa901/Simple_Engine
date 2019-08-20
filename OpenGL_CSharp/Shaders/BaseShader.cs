@@ -13,6 +13,10 @@ namespace OpenGL_CSharp.Shaders
 {
     public class BaseShader
     {
+        public BaseGeometry parent;
+        public Vector3 lightColor;
+        public Vector3 lightPosition;
+
         public readonly int programId = -1;
         public int vershad = -1;
 
@@ -91,9 +95,11 @@ namespace OpenGL_CSharp.Shaders
 
         public void SetUniformV3(string name, Vector3 value)
         {
-            GL.UseProgram(programId);
-            GL.Uniform3(_uniformLocations[name], value);
-
+//            if (_uniformLocations.ContainsKey(name))
+            {
+                GL.UseProgram(programId);
+                GL.Uniform3(_uniformLocations[name], value);
+            }
         }
 
         public void SetFloat(string name, float value)
@@ -127,8 +133,7 @@ namespace OpenGL_CSharp.Shaders
             }
             return shadid;
         }
-
-
+        
         public int LinkShader(int vershad, int fragshad)
         {
             GL.AttachShader(programId, vershad);
@@ -144,11 +149,9 @@ namespace OpenGL_CSharp.Shaders
 
             GL.UseProgram(programId);
 
-            //after linking there is no need to keep/attach the shaders and should be cleared from memory
+            //after linking there is no need to keep attaching the shaders
             GL.DetachShader(programId, vershad);
-            GL.DetachShader(programId, fragshad);
-            GL.DeleteShader(vershad);
-            GL.DeleteShader(fragshad);
+            GL.DetachShader(programId, fragshad);            
 
             return programId;
         }

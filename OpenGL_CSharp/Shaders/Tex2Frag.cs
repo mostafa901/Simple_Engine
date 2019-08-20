@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenGL_CSharp.Geometery;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -13,11 +14,10 @@ namespace OpenGL_CSharp.Shaders
     {
         public int lightshad, diffuseid, specularid = -1;
         public float specintens = 10;
- 
-
-        public Tex2Frag()
+  
+        public Tex2Frag(BaseGeometry parent)
         {
-
+            this.parent = parent;
         }
 
         public Tex2Frag(Vector3 vector3, string v1, string v2)
@@ -50,7 +50,6 @@ namespace OpenGL_CSharp.Shaders
 
             GetVariables();
 
-            SetUniformV3("light.specular", lightColor);
         }
 
       
@@ -64,21 +63,25 @@ namespace OpenGL_CSharp.Shaders
             Textures.Textures.Link(TextureUnit.Texture0, diffuseid);
             Textures.Textures.Link(TextureUnit.Texture1, specularid);
 
+            //setuplight effect
+            SetUniformV3("light.ambient", lightColor);
+            SetUniformV3("light.diffuse", lightColor);
+            SetUniformV3("light.position", lightPosition);
+            SetUniformV3("light.specular", lightColor);
+
             SetFloat("material.shininess", specintens);            
             SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular
             SetInt("material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
             SetInt("material.specular", 1);
 
-            //setuplight effect
-            SetUniformV3("light.ambient", new Vector3(.2f));
-            SetUniformV3("light.diffuse", new Vector3(.5f));
-            SetUniformV3("light.position", new Vector3(0, 3, 4));
+           
+
         }
 
         public override void Dispose()
         {
-            GL.DeleteShader(diffuseid);
-            GL.DeleteShader(specularid);
+            GL.DeleteTexture(diffuseid);
+            GL.DeleteTexture(specularid);
             GL.DeleteShader(lightshad);
             base.Dispose();
         }

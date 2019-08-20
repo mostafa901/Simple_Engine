@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Geometery
 {
-    class BaseGeometry
+  public  class BaseGeometry
     {
         public List<Vertex> points;
         public int[] Indeces;
@@ -30,21 +30,16 @@ namespace OpenGL_CSharp.Geometery
         public BaseShader shader;
 
         public BaseGeometry()
-        {
-
-
+        { 
         }
 
         public void RenderGeometry()
         {
             GL.BindVertexArray(vao);
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
-
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-
-            shader.Use();
-
-
+            GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.Length * sizeof(int), Indeces, BufferUsageHint.StaticDraw);
+             
+            shader.Use(); 
         }
 
         public void LoadGeometry()
@@ -66,9 +61,7 @@ namespace OpenGL_CSharp.Geometery
             //we need to define the type of data to be filled and the size in the memory
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-
              
-
             //element buffer
             //--------------
             if (ebo == -1) ////no need to recreate if already created
@@ -79,9 +72,7 @@ namespace OpenGL_CSharp.Geometery
            
         }
 
-
-       
-
+         
         public void Dispose()
         {
             shader.Dispose();

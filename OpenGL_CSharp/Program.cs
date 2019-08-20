@@ -188,28 +188,25 @@ namespace OpenGL_CSharp
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
-
-
-            //defin the shap to be drawn             
-            var cube = new CreateCube();
-            pipe.geos.Add(cube);
-            pipe.geos[0].model = pipe.geos[0].model * Matrix4.CreateTranslation(-0.75f, 0f, 0f);
-            pipe.geos[0].LoadGeometry();
-            cube.shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");            
-            
-
-
 #if true
             var pyr = new Pyramid();
             pipe.geos.Add(pyr);
             pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
             pyr.LoadGeometry();
-            pyr.shader = new LampFrag();
+            var lmpshad = new LampFrag();
+            lmpshad.LoadLampPointFragment(new Vector3(1));
+            pyr.shader = lmpshad;
 #endif
 
-
-
-
+            //defin the shap to be drawn             
+            var cube = new CreateCube();
+            pipe.geos.Add(cube);
+            cube.model *= Matrix4.CreateTranslation(-0.75f, 0f, 0f);
+            cube.LoadGeometry();
+            cube.shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");
+            cube.shader.parent = cube;
+            cube.shader.lightColor = pyr.shader.lightColor;
+            cube.shader.lightPosition = pyr.model.ExtractTranslation();
 
 #if false
             var lamp = new CreateCube();
@@ -235,15 +232,14 @@ namespace OpenGL_CSharp
             {
                 var geo = pipe.geos[i];
                 geo.RenderGeometry();
-                                 
+
                 geo.shader.SetUniformMatrix(nameof(BaseGeometry.model), ref geo.model);
                 geo.shader.SetUniformMatrix(nameof(cam.View), ref cam.View);
                 geo.shader.SetUniformMatrix(nameof(cam.Projection), ref cam.Projection);
 
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
             }
-
-
+            
             //swap the buffer (bring what has been rendered in theback to the front)
             pipe.win.SwapBuffers();
         }

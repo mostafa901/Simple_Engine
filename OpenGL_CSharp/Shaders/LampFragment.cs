@@ -13,7 +13,7 @@ namespace OpenGL_CSharp.Shaders
     {
         public int lampfragId = -1;
         public int lightshad = -1;
-        Vector3 lightColor;
+         
         public LampFrag()
         {
 
@@ -33,7 +33,9 @@ namespace OpenGL_CSharp.Shaders
             //load vertix/Fragment shader
             //---------------------------
             lightshad = CreateShader(LampPoint(), ShaderType.FragmentShader);
-             
+            //create program, link shaders and test the results
+            LinkShader(vershad, lightshad);
+
             SetupStrids();
 
             GetVariables();
@@ -46,8 +48,9 @@ namespace OpenGL_CSharp.Shaders
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
             SetUniformV3("material.diffuse", lightColor); //because this variable is of type sample2d, we need to specify which texture numberis used
+            SetUniformV3("material.ambient", lightColor);
             SetUniformV3("material.specular", lightColor);
-            SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular
+
         }
 
         public override void Dispose()

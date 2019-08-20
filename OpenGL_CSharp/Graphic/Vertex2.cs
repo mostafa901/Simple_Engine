@@ -1,7 +1,7 @@
 ﻿namespace OpenGL_CSharp.Graphic
 {
 
-    class Vertex2
+  public  class Vertex2
     {
         public static int vcount = 2;
 

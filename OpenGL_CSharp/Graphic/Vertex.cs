@@ -4,7 +4,7 @@
 namespace OpenGL_CSharp.Graphic
 {
 
-    class Vertex
+  public  class Vertex
     {
         public static int vcount;
 
@@ -26,7 +26,6 @@ namespace OpenGL_CSharp.Graphic
             ls.AddRange(TexCoor.data());
             ls.AddRange(Vcolor.data());
             ls.AddRange(Normal.data());
-
 
             return ls.ToArray();
         }
