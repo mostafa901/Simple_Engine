@@ -47,21 +47,14 @@ namespace OpenGL_CSharp.Shaders
             //load Textures
             diffuseid = Textures.Textures.AddTexture(TextureUnit.Texture0, diffuse);
             specularid = Textures.Textures.AddTexture(TextureUnit.Texture1, specular);
-
-            //Use vertix shaders holder to the GPU memory
-            //--------------
-            Textures.Textures.Link(TextureUnit.Texture0, diffuseid);
-            Textures.Textures.Link(TextureUnit.Texture1, specularid);
-
+             
             // The shader is now ready to go, but first, we're going to cache all the shader uniform locations.
             // Querying this from the shader is very slow, so we do it once on initialization and reuse those values
             // later.
 
             // First, we have to get the number of active uniforms in the shader.
             GL.GetProgram(programId, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
-
              
-
             // Loop over all the uniforms,
             for (var i = 0; i < numberOfUniforms; i++)
             {
@@ -81,6 +74,11 @@ namespace OpenGL_CSharp.Shaders
         public override void Use()
         {
             base.Use();
+
+            //Use vertix shaders holder to the GPU memory
+            //--------------
+            Textures.Textures.Link(TextureUnit.Texture0, diffuseid);
+            Textures.Textures.Link(TextureUnit.Texture1, specularid);
 
             SetFloat("material.shininess", specintens);            
             SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular

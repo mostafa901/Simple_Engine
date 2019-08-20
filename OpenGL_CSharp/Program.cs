@@ -231,11 +231,8 @@ namespace OpenGL_CSharp
             for (int i = 0; i < pipe.geos.Count; i++)
             {
                 var geo = pipe.geos[i];
-                geo.LoadGeometry();
-                //Binding Vertex array object
-                GL.BindVertexArray(geo.vao);
-
-                geo.shader.Use();
+                geo.RenderGeometry();
+                                 
                 geo.shader.SetUniformMatrix(nameof(BaseGeometry.model), ref geo.model);
                 geo.shader.SetUniformMatrix(nameof(cam.View), ref cam.View);
                 geo.shader.SetUniformMatrix(nameof(cam.Projection), ref cam.Projection);

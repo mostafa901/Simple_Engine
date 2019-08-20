@@ -35,10 +35,27 @@ namespace OpenGL_CSharp.Geometery
 
         }
 
+        public void RenderGeometry()
+        {
+            GL.BindVertexArray(vao);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+
+            shader.Use();
+
+
+        }
+
         public void LoadGeometry()
         {
             if (vers == null) //no need to recreate if already created
-                vers = points.SelectMany(o => o.data()).ToArray();           
+                vers = points.SelectMany(o => o.data()).ToArray();
+
+            //Element buffer object
+            if (vao == -1) //no need to recreate if already created
+                vao = GL.GenBuffer();
+            //Binding Vertex array object
+            GL.BindVertexArray(vao);
 
             if (vbo == -1) //no need to recreate if already created
                 vbo = GL.GenBuffer();
@@ -50,15 +67,7 @@ namespace OpenGL_CSharp.Geometery
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
             shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");            
-
-
-            //Element buffer object
-            if (vao == -1) //no need to recreate if already created
-                vao = GL.GenBuffer();
-            //Binding Vertex array object
-            GL.BindVertexArray(vao);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+             
 
             //element buffer
             //--------------
