@@ -41,10 +41,9 @@ FragColor = vec4(light.ambient * vec3(texture(material.diffuse, texCoord)),1);
 }
 else 
 {
+
 //get ambient color
-
-vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoord));
-
+vec3 ambient = light.ambient * vec3(texture(material.ambient, texCoord));
 
 //get diffuse
 vec3 normal = normalize(PixelNormal); //notmalize Pixel normal, we only need Direction
@@ -52,10 +51,9 @@ vec3 lightDir = normalize(light.position - FragPos); //get the Vectore Ray betwe
 float reflectionAngle = dot(lightDir,normal); //calculate the angle to use it as a degree of diffuse effeciency
 float diffuseamount = max(reflectionAngle, 0); //if the angle is less tha 0 then the ray is not hitting the pixel
 
-vec3 diffuse =light.diffuse* diffuseamount * vec3(texture(material.diffuse, texCoord)); //multiply the diffuse value by the light color to get the amount of light required to lighten up object
+vec3 diffuse =light.diffuse * diffuseamount * vec3(texture(material.diffuse, texCoord)); //multiply the diffuse value by the light color to get the amount of light required to lighten up object
 
 //Create Specular
-
 vec3 viewDir = normalize(ViewPos-FragPos); //get the direction from the pixel to the camera
 vec3 reflDir = reflect(-lightDir,PixelNormal); //get the reflection vector of the vector from source to pixel on Normal vector of pixel
 float spec = pow(max(dot(viewDir, reflDir),0),material.shininess); //pow here is for the radius of the specular the more the narrower
