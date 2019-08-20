@@ -34,7 +34,7 @@ namespace OpenGL_CSharp.Shaders
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
 
-            SetupStrids();
+           // SetupStrids(); not required as we do not need any vertex information from the geometry
 
             GetVariables();
         }

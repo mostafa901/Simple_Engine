@@ -188,30 +188,36 @@ namespace OpenGL_CSharp
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
- 
+
             var pyr = new Pyramid();
             pipe.geos.Add(pyr);
             pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
             pyr.LoadGeometry();
             var lmpshad = new LampFrag();
-             
+
             lmpshad.LoadLampPointFragment();
             pyr.shader = lmpshad;
             pyr.shader.light.specular = new Vector3(1);
             pyr.shader.light.ambient = new Vector3(1);
             pyr.shader.light.diffuse = new Vector3(1);
             pyr.shader.light.lightPosition = pyr.model.ExtractTranslation();
- 
-            //defin the shap to be drawn             
-            var cube = new CreateCube();
-            pipe.geos.Add(cube);
-            cube.model *= Matrix4.CreateTranslation(-0.75f, 0f, 0f);
-            cube.LoadGeometry();
-            cube.shader = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg");
 
-            cube.shader.light = pyr.shader.light;
-            cube.shader.light.ambient = new Vector3(.1f);
-             
+            var shade =  new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg"); ;
+            for (int i = 0; i < 10; i++)
+            {
+                //defin the shap to be drawn             
+                var cube = new CreateCube();
+                pipe.geos.Add(cube);
+                var ang = (float)Math.Cos(i * 20);
+                cube.model *= Matrix4.CreateTranslation(-0.75f*ang, .2f*ang, .3f*ang);
+                cube.LoadGeometry();
+                cube.shader = shade;
+
+                cube.shader.light = pyr.shader.light;
+                cube.shader.light.ambient = new Vector3(.1f); //decrease the effect of the ambient for the materialed models
+                cube.shader.light.Direction = pyr.shader.light.lightPosition - cube.model.ExtractTranslation();
+
+            }
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)
@@ -231,7 +237,7 @@ namespace OpenGL_CSharp
 
                 GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
             }
-            
+
             //swap the buffer (bring what has been rendered in theback to the front)
             pipe.win.SwapBuffers();
         }

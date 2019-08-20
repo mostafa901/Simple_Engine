@@ -27,7 +27,7 @@ namespace OpenGL_CSharp.Shaders
 
         public string LightFrag2()
         {
-            return File.ReadAllText("shaders/Light.frag");
+            return File.ReadAllText("shaders/Text2DirectLight.frag");
         }
 
 
@@ -70,8 +70,9 @@ namespace OpenGL_CSharp.Shaders
             //setuplight effect
             SetUniformV3("light.ambient", light.ambient );
             SetUniformV3("light.diffuse", light.diffuse);
-            SetUniformV3("light.position", light.lightPosition);
             SetUniformV3("light.specular", light.specular);
+            SetUniformV3("light.position", light.lightPosition);
+            SetUniformV3("light.Direction", light.Direction);
 
         }
 

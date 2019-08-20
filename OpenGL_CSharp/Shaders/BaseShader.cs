@@ -17,7 +17,7 @@ namespace OpenGL_CSharp.Shaders
         public Vector3 diffuse;
         public Vector3 specular;
         public Vector3 lightPosition;
-
+        public Vector3 Direction;
     }
     public class BaseShader
     {
@@ -100,10 +100,17 @@ namespace OpenGL_CSharp.Shaders
         }
 
         public void SetUniformV3(string name, Vector3 value)
-        { 
+        {
+            if (_uniformLocations.ContainsKey(name))
+            {
                 GL.UseProgram(programId);
                 GL.Uniform3(_uniformLocations[name], value);
-             
+            }
+            else
+            {
+                //either there the variable is not used within shader
+                //or the variable is not correctly spelled or exists
+            }
         }
 
         public void SetFloat(string name, float value)

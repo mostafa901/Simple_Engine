@@ -75,8 +75,11 @@
     <None Include="Shaders\shader.ver">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\Light.frag">
+    <None Include="Shaders\Text2PointLight.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\Text2DirectLight.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Textures\container.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
