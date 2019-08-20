@@ -202,7 +202,6 @@ namespace OpenGL_CSharp
             pyr.shader.light.diffuse = new Vector3(1);
             pyr.shader.light.lightPosition = pyr.model.ExtractTranslation();
  
-
             //defin the shap to be drawn             
             var cube = new CreateCube();
             pipe.geos.Add(cube);
