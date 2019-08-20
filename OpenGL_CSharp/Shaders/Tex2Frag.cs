@@ -59,8 +59,8 @@ namespace OpenGL_CSharp.Shaders
 
             //Use vertix shaders holder to the GPU memory
             //--------------
-            Textures.Textures.Link(TextureUnit.Texture0, diffuseid);
-            Textures.Textures.Link(TextureUnit.Texture1, specularid);
+            Textures.Textures.ActivateandLink(TextureUnit.Texture0, diffuseid);
+            Textures.Textures.ActivateandLink(TextureUnit.Texture1, specularid);
                        
             SetFloat("material.shininess", specintens);
             SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular
