@@ -127,7 +127,7 @@ namespace OpenGL_CSharp.Geometery
             //setup Object Color 
             
             objectColor = new Vector3(.5f, 0.5f, 1f);
-            IsLight = true;
+            
 
 
             //define Indeces

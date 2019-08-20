@@ -14,10 +14,10 @@ namespace OpenGL_CSharp.Geometery
     {
         public List<Vertex> points;
         public int[] Indeces;
-
         public Vector3 objectColor;
-        public static float specintens = 0.4f;
-        public bool IsLight = false;
+
+
+        public static float specintens = 0.4f;  
 
         public Matrix4 model = Matrix4.Identity;
 
@@ -36,10 +36,14 @@ namespace OpenGL_CSharp.Geometery
         public void RenderGeometry()
         {
             GL.BindVertexArray(vao);
-            GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);            
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.Length * sizeof(int), Indeces, BufferUsageHint.StaticDraw);
-             
-            shader.Use(); 
+
+            shader.Use();
+
+            shader.SetUniformMatrix(nameof(BaseGeometry.model), ref model);
+            shader.SetUniformMatrix(nameof(Program.cam.View), ref Program.cam.View);
+            shader.SetUniformMatrix(nameof(Program.cam.Projection), ref Program.cam.Projection);
         }
 
         public void LoadGeometry()

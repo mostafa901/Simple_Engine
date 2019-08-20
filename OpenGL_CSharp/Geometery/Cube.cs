@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Geometery
 {
-    class CreateCube : BaseGeometry
+    class Cube : BaseGeometry
     {
 
 
-        public CreateCube()
+        public Cube()
         {
             points = new List<Vertex>();
 

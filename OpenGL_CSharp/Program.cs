@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using OpenGL_CSharp.Geometery;
 using OpenGL_CSharp.Graphic;
 using OpenGL_CSharp.Shaders;
+using OpenGL_CSharp.Shaders.Light;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -66,6 +67,24 @@ namespace OpenGL_CSharp
 
             Hangle = Math.Atan2(cam.Position.X, cam.Position.Z);
             Vangle = Math.Atan2(cam.Position.Z, cam.Position.Y);
+
+            if (e.Key == Key.F)
+            {
+                light.lightPosition += new Vector3(-1,0,0);
+            }
+
+            if (e.Key == Key.H)
+            {
+                light.lightPosition += new Vector3(1,0,0);
+            }
+            if (e.Key == Key.T)
+            {
+                light.lightPosition += new Vector3(0,1,0);
+            }
+            if (e.Key == Key.G)
+            {
+                light.lightPosition += new Vector3(0,-1,0);
+            }
 
             if (e.Key == Key.Z || e.Key == Key.X)
             {
@@ -184,40 +203,50 @@ namespace OpenGL_CSharp
             public List<Geometery.BaseGeometry> geos = new List<BaseGeometry>();
         }
 
+        static LightSource light = new LightSource();
+
         private static void Win_Load(object sender, EventArgs e)
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
+            //Creaate Light Source
+            light.Direction = new Vector3(0, 0, 1);
+            //light.lightPosition= new Vector3(.5f, 0.0f, 1f); 
 
-            var pyr = new Pyramid();
+            //Light Source Geometry
+            var pyr = new Cube();
             pipe.geos.Add(pyr);
             pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
             pyr.LoadGeometry();
-            var lmpshad = new LampFrag();
 
-            lmpshad.LoadLampPointFragment();
-            pyr.shader = lmpshad;
-            pyr.shader.light.specular = new Vector3(1);
-            pyr.shader.light.ambient = new Vector3(1);
-            pyr.shader.light.diffuse = new Vector3(1);
-            pyr.shader.light.lightPosition = pyr.model.ExtractTranslation();
+            pyr.shader = new LampFrag();
+            ((LampFrag)pyr.shader).LoadLampPointFragment();
 
-            var shade =  new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg"); ;
+            pyr.shader.light = light;
+            light.lightPosition = pyr.model.ExtractTranslation();
+
+            Random rn = new Random(5);
             for (int i = 0; i < 10; i++)
             {
+                var shade = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg"); ;
+
                 //defin the shap to be drawn             
-                var cube = new CreateCube();
+                var cube = new Cube();
                 pipe.geos.Add(cube);
-                var ang = (float)Math.Cos(i * 20);
-                cube.model *= Matrix4.CreateTranslation(-0.75f*ang, .2f*ang, .3f*ang);
+                var ang = (float)Math.Cos(i * 20) + rn.Next(-10, 10);
+                var ang1 = (float)Math.Cos(i * 30) + rn.Next(-10, 10);
+                var ang2 = (float)Math.Cos(i * 40) + rn.Next(-10, 10);
+                cube.model *= Matrix4.CreateTranslation(-0.75f * ang, .2f * ang1, .3f * ang2);
                 cube.LoadGeometry();
                 cube.shader = shade;
 
-                cube.shader.light = pyr.shader.light;
+                cube.shader.light = light;
                 cube.shader.light.ambient = new Vector3(.1f); //decrease the effect of the ambient for the materialed models
-                cube.shader.light.Direction = pyr.shader.light.lightPosition - cube.model.ExtractTranslation();
+                //if light source is point light
+                //cube.shader.light.Direction = pyr.shader.light.lightPosition - cube.model.ExtractTranslation();
 
             }
+
         }
 
         private static void Win_UpdateFrame(object sender, FrameEventArgs e)
@@ -230,12 +259,13 @@ namespace OpenGL_CSharp
             {
                 var geo = pipe.geos[i];
                 geo.RenderGeometry();
+                // geo.shader.Use();
 
-                geo.shader.SetUniformMatrix(nameof(BaseGeometry.model), ref geo.model);
-                geo.shader.SetUniformMatrix(nameof(cam.View), ref cam.View);
-                geo.shader.SetUniformMatrix(nameof(cam.Projection), ref cam.Projection);
 
-                GL.DrawElements(PrimitiveType.Triangles, pipe.geos[i].Indeces.Length, DrawElementsType.UnsignedInt, 0);
+
+
+
+                GL.DrawElements(PrimitiveType.Triangles, geo.Indeces.Length, DrawElementsType.UnsignedInt, 0);
             }
 
             //swap the buffer (bring what has been rendered in theback to the front)

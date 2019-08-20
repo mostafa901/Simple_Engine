@@ -25,7 +25,7 @@ namespace OpenGL_CSharp.Shaders
             Loadtx2Fragment(vector3, v1, v2);
         }
 
-        public string LightFrag2()
+        public string LightFrag2Source()
         {
             return File.ReadAllText("shaders/Text2DirectLight.frag");
         }
@@ -37,7 +37,7 @@ namespace OpenGL_CSharp.Shaders
             //setup shaders
             //load vertix/Fragment shader
             //---------------------------
-            lightshad = CreateShader(LightFrag2(), ShaderType.FragmentShader);
+            lightshad = CreateShader(LightFrag2Source(), ShaderType.FragmentShader);
 
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
@@ -52,10 +52,11 @@ namespace OpenGL_CSharp.Shaders
         }
 
 
-
         public override void Use()
         {
             base.Use();
+
+           
 
             //Use vertix shaders holder to the GPU memory
             //--------------
@@ -73,6 +74,9 @@ namespace OpenGL_CSharp.Shaders
             SetUniformV3("light.specular", light.specular);
             SetUniformV3("light.position", light.lightPosition);
             SetUniformV3("light.Direction", light.Direction);
+            SetFloat("light.Constant", light.Constance);
+            SetFloat("light.Linear", light.Linear);
+            SetFloat("light.Quaderic", light.Quaderic);
 
         }
 

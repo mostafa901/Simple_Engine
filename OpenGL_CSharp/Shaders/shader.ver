@@ -26,7 +26,7 @@ texCoord = aTexCoord ;
 vcolor=aVerColor;
 
 gl_Position=  vec4(aPos,1.0f) * model * View * Projection;
-PixelNormal=aNormal;
+PixelNormal=aNormal * mat3(transpose(inverse(model)));
 FragPos = vec3(model * vec4(aPos,1.0f));
 
 }

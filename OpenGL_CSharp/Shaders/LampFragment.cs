@@ -19,7 +19,7 @@ namespace OpenGL_CSharp.Shaders
 
         }
 
-        string LampPoint()
+        string LampPointSource()
         {
             return File.ReadAllText("shaders/Lamp-Point.frag");
         }
@@ -30,11 +30,11 @@ namespace OpenGL_CSharp.Shaders
             //setup shaders
             //load vertix/Fragment shader
             //---------------------------
-            lightshad = CreateShader(LampPoint(), ShaderType.FragmentShader);
+            lightshad = CreateShader(LampPointSource(), ShaderType.FragmentShader);
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
 
-           // SetupStrids(); not required as we do not need any vertex information from the geometry
+            SetupStrids();
 
             GetVariables();
         }
@@ -43,6 +43,7 @@ namespace OpenGL_CSharp.Shaders
         {
             //we must use program before lighting
             base.Use();
+          
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
             SetUniformV3("material.diffuse", light.diffuse); //because this variable is of type sample2d, we need to specify which texture numberis used

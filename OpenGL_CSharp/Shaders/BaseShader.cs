@@ -1,5 +1,6 @@
 ﻿using OpenGL_CSharp.Geometery;
 using OpenGL_CSharp.Graphic;
+using OpenGL_CSharp.Shaders.Light;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -11,24 +12,17 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Shaders
 {
-    public struct Light
-    {
-        public Vector3 ambient;
-        public Vector3 diffuse;
-        public Vector3 specular;
-        public Vector3 lightPosition;
-        public Vector3 Direction;
-    }
+    
     public class BaseShader
     {
-        public Light light;
+        public LightSource light;
         public readonly int programId = -1;
         public int vershad = -1;
 
         public readonly Dictionary<string, int> _uniformLocations;
         public BaseShader()
         {
-            
+             
             programId = GL.CreateProgram();
             vershad = CreateShader(ReadVerShader(), ShaderType.VertexShader);
 
@@ -115,15 +109,22 @@ namespace OpenGL_CSharp.Shaders
 
         public void SetFloat(string name, float value)
         {
-            GL.UseProgram(programId);
+            if (_uniformLocations.ContainsKey(name))
+            {
+                GL.UseProgram(programId);
 
-            GL.Uniform1(_uniformLocations[name], value);
+                GL.Uniform1(_uniformLocations[name], value);
+            }
+            else
+            {
+                //either there the variable is not used within shader
+                //or the variable is not correctly spelled or exists
+            }
         }
 
         public void SetInt(string name, int value)
         {
             GL.UseProgram(programId);
-
             GL.Uniform1(_uniformLocations[name], value);
         }
 
@@ -171,13 +172,14 @@ namespace OpenGL_CSharp.Shaders
         {
             GL.UseProgram(programId); //we must link and use program first before applying light effects
                                       //orient Camera, MatrixTransformation
+            //Update Vbo Structure
+            SetupStrids();
         }
 
         public virtual void Dispose()
         {
             GL.DeleteShader(vershad);
             GL.DeleteShader(programId);
-
         }
     }
 }
