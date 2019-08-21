@@ -10,8 +10,6 @@ namespace OpenGL_CSharp.Geometery
 {
     class Cube : BaseGeometry
     {
-
-
         public Cube()
         {
             points = new List<Vertex>();
@@ -246,6 +244,7 @@ namespace OpenGL_CSharp.Geometery
                         3,2,1,
                         3,1,0
                  };
+
             //BackFace
             points[08].Normal = new Vertex3(0, 0, -1);
             points[09].Normal = new Vertex3(0, 0, -1);

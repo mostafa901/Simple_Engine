@@ -70,20 +70,20 @@ namespace OpenGL_CSharp
 
             if (e.Key == Key.F)
             {
-                light.lightPosition += new Vector3(-1,0,0);
+                light.lightPosition += new Vector3(-5,0,0);
             }
 
             if (e.Key == Key.H)
             {
-                light.lightPosition += new Vector3(1,0,0);
+                light.lightPosition += new Vector3(5,0,0);
             }
             if (e.Key == Key.T)
             {
-                light.lightPosition += new Vector3(0,1,0);
+                light.lightPosition += new Vector3(0,0,5);
             }
             if (e.Key == Key.G)
             {
-                light.lightPosition += new Vector3(0,-1,0);
+                light.lightPosition += new Vector3(0,0,-5);
             }
 
             if (e.Key == Key.Z || e.Key == Key.X)
@@ -171,7 +171,8 @@ namespace OpenGL_CSharp
                 var dy = mouse.Y / 800f - oldy;
 
                 win.CursorVisible = true;
-                cam.Target += new Vector3(dx, dy, 0);
+                //cam.Target += new Vector3(dx, dy, 0);
+                light.Direction += new Vector3(dx, dy, 0);
                 oldx = mouse.X / 800f;
                 oldy = mouse.Y / 800f;
             }
@@ -210,13 +211,17 @@ namespace OpenGL_CSharp
             r = cam.Position.Length; //update the current distance from the camera to position 0
 
             //Creaate Light Source
-            light.Direction = new Vector3(0, 0, 1);
-            //light.lightPosition= new Vector3(.5f, 0.0f, 1f); 
+            cam.Direction = light.Direction = new Vector3(1, 0, 0);
+
+            var plan = new Plan();
+            pipe.geos.Add(plan);
+            plan.LoadGeometry();
+            plan.model *= Matrix4.CreateScale(12f) * Matrix4.CreateTranslation(new Vector3(0, -2, 0)) ;
+            plan.shader = new ObjectColor();
 
             //Light Source Geometry
             var pyr = new Cube();
-            pipe.geos.Add(pyr);
-            pyr.model = pyr.model * Matrix4.CreateTranslation(0.75f, 0f, 0f);
+            pipe.geos.Add(pyr);           
             pyr.LoadGeometry();
 
             pyr.shader = new LampFrag();
@@ -228,7 +233,7 @@ namespace OpenGL_CSharp
             Random rn = new Random(5);
             for (int i = 0; i < 10; i++)
             {
-                var shade = new Tex2Frag(new Vector3(1), @"Textures\container.jpg", @"Textures\container_specular.jpg"); ;
+                var shade = new Tex2Frag(@"Textures\container.jpg", @"Textures\container_specular.jpg"); ;
 
                 //defin the shap to be drawn             
                 var cube = new Cube();
@@ -236,7 +241,7 @@ namespace OpenGL_CSharp
                 var ang = (float)Math.Cos(i * 20) + rn.Next(-10, 10);
                 var ang1 = (float)Math.Cos(i * 30) + rn.Next(-10, 10);
                 var ang2 = (float)Math.Cos(i * 40) + rn.Next(-10, 10);
-                cube.model *= Matrix4.CreateTranslation(-0.75f * ang, .2f * ang1, .3f * ang2);
+                cube.model *= Matrix4.CreateTranslation(-0.75f * ang, .1f * ang1, .2f * ang2);
                 cube.LoadGeometry();
                 cube.shader = shade;
 
@@ -244,8 +249,9 @@ namespace OpenGL_CSharp
                 cube.shader.light.ambient = new Vector3(.1f); //decrease the effect of the ambient for the materialed models
                 //if light source is point light
                 //cube.shader.light.Direction = pyr.shader.light.lightPosition - cube.model.ExtractTranslation();
-
             }
+
+            //light.lightPosition = pipe.geos.Last().model.ExtractTranslation()+ new Vector3(0f, -02f, 0f);
 
         }
 
@@ -260,10 +266,6 @@ namespace OpenGL_CSharp
                 var geo = pipe.geos[i];
                 geo.RenderGeometry();
                 // geo.shader.Use();
-
-
-
-
 
                 GL.DrawElements(PrimitiveType.Triangles, geo.Indeces.Length, DrawElementsType.UnsignedInt, 0);
             }

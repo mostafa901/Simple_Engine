@@ -20,19 +20,17 @@ namespace OpenGL_CSharp.Shaders
 
         }
 
-        public Tex2Frag(Vector3 vector3, string v1, string v2)
+        public Tex2Frag( string v1, string v2)
         {
-            Loadtx2Fragment(vector3, v1, v2);
+            Loadtx2Fragment( v1, v2);
         }
 
         public string LightFrag2Source()
         {
             return File.ReadAllText("shaders/Text2DirectLight.frag");
         }
-
-
-
-        public void Loadtx2Fragment(Vector3 lightColor, string diffuse, string specular)
+        
+        public void Loadtx2Fragment( string diffuse, string specular)
         {
             //setup shaders
             //load vertix/Fragment shader
@@ -54,15 +52,16 @@ namespace OpenGL_CSharp.Shaders
 
         public override void Use()
         {
-            base.Use();
-
-           
-
             //Use vertix shaders holder to the GPU memory
             //--------------
+
             Textures.Textures.ActivateandLink(TextureUnit.Texture0, diffuseid);
             Textures.Textures.ActivateandLink(TextureUnit.Texture1, specularid);
-                       
+
+            base.Use();
+
+            
+            
             SetFloat("material.shininess", specintens);
             SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular
             SetInt("material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used

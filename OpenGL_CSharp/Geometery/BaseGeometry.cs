@@ -16,7 +16,6 @@ namespace OpenGL_CSharp.Geometery
         public int[] Indeces;
         public Vector3 objectColor;
 
-
         public static float specintens = 0.4f;  
 
         public Matrix4 model = Matrix4.Identity;
@@ -36,9 +35,9 @@ namespace OpenGL_CSharp.Geometery
         public void RenderGeometry()
         {
             GL.BindVertexArray(vao);
-            GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);            
+            GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);           
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.Length * sizeof(int), Indeces, BufferUsageHint.StaticDraw);
-
+         
             shader.Use();
 
             shader.SetUniformMatrix(nameof(BaseGeometry.model), ref model);
@@ -73,7 +72,6 @@ namespace OpenGL_CSharp.Geometery
             //Element Buffer
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.Length * sizeof(int), Indeces, BufferUsageHint.StaticDraw);
-           
         }
 
          
