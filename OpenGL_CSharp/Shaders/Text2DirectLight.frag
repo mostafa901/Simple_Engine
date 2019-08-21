@@ -42,11 +42,13 @@ void main(){
 //Calculate the light Direction
 vec3 lightDir = normalize(-light.Direction); //get the Vectore Ray between light position and target (Pixel) Position,
 
-float theta = cos(12.5);
-float theta2 = cos(12.75);
- float angle=dot(normalize(FragPos-light.position),light.Direction);
+float theta = cos(12.5f); //the hot area
+float theta2 = cos(12.9f); // the gradiant area + hot area
+float angle=dot(normalize(FragPos-light.position),light.Direction); //the actual angle of this pixel
+float gammadiff= theta-theta2; //get the gradient area
+float intens = clamp((angle-theta2)/gammadiff,0,1); //calculate intenisty
 
-  if(dot((FragPos-light.position),PixelNormal)>=0 || theta2>=angle)
+  if(dot((FragPos-light.position),PixelNormal)>=0 )
 {
  
 	FragColor = vec4(light.ambient * vec3(texture(material.diffuse, texCoord)),1);	
@@ -55,6 +57,8 @@ float theta2 = cos(12.75);
 
 else 
 {
+
+
 	float d=length(light.position-FragPos); //get the distance between light source and fragment position
 	float atten = 1.0/(light.Constant+light.Linear*d+light.Quaderic * d * d); //Calculate Attenuation
  
@@ -79,7 +83,9 @@ else
 	diffuse*=atten;
 
 	//Finally combine the results
-	FragColor = vec4((ambient + diffuse + specular),1.0f); //multiply the sum of the ambient and diffuse by the object color to get the approiate color result.
+	FragColor = vec4((ambient + diffuse + specular),1.0f)*intens; //multiply the sum of the ambient and diffuse by the object color to get the approiate color result.
+	
+	 
 
  }
 }

@@ -37,8 +37,8 @@ struct Light {
 
 uniform Light light;
 
-void main(){
-
+void main()
+{
 //Calculate the light Direction
 vec3 lightDir = normalize(light.Direction-FragPos); //get the Vectore Ray between light position and target (Pixel) Position,
 

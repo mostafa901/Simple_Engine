@@ -23,6 +23,7 @@ namespace OpenGL_CSharp.Shaders
           string ObjectColorFragSource()
         {
             return File.ReadAllText("shaders/ObjectColor.frag");
+            
         }
         
         public void LoadFrag()

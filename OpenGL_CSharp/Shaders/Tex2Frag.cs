@@ -27,7 +27,7 @@ namespace OpenGL_CSharp.Shaders
 
         public string LightFrag2Source()
         {
-            return File.ReadAllText("shaders/Text2DirectLight.frag");
+            return File.ReadAllText("shaders/Text2PointLight.frag");
         }
         
         public void Loadtx2Fragment( string diffuse, string specular)
