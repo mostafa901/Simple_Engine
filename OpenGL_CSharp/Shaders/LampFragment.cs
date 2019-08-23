@@ -46,9 +46,9 @@ namespace OpenGL_CSharp.Shaders
           
             //create program, link shaders and test the results
             LinkShader(vershad, lightshad);
-            SetUniformV3("material.diffuse", light.diffuse); //because this variable is of type sample2d, we need to specify which texture number is used
-            SetUniformV3("material.ambient", light.ambient);
-            SetUniformV3("material.specular", light.specular);
+            SetUniformV3("material.diffuse", new Vector3(1)); //because this variable is of type sample2d, we need to specify which texture number is used
+            SetUniformV3("material.ambient", new Vector3(1));
+            SetUniformV3("material.specular", new Vector3(1));
         }
 
         public override void Dispose()

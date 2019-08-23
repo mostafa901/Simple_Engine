@@ -13,7 +13,7 @@ namespace OpenGL_CSharp.Shaders
     public class ObjectColor : BaseShader
     {
         public int fragshad, diffuseid, specularid = -1;
-        public float specintens = 10;
+      
 
         public ObjectColor()
         {

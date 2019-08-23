@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using OpenGL_CSharp.Geometery;
 using OpenGL_CSharp.Graphic;
 using OpenGL_CSharp.Shaders;
@@ -45,7 +46,7 @@ namespace OpenGL_CSharp
             //intialize holder for the project main variables
             pipe = new Pipelinevars();
             //defin viewport size
-            GL.Viewport(100, 100, 700, 700);
+            GL.Viewport(0, 0, 800, 800);
             GL.ClearColor(0, 0, .18f, 1);//set background color
             GL.Enable(EnableCap.CullFace);
             GL.FrontFace(FrontFaceDirection.Ccw);
@@ -57,7 +58,14 @@ namespace OpenGL_CSharp
         #region Navigation
         private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            cam.Fov(e.DeltaPrecise);
+            if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
+            {
+                cam.Target += new Vector3(0, e.DeltaPrecise, 0);
+            }
+            else
+            {
+                cam.Fov(e.DeltaPrecise);
+            }
             cam.updateCamera();
         }
 
@@ -68,64 +76,50 @@ namespace OpenGL_CSharp
             Hangle = Math.Atan2(cam.Position.X, cam.Position.Z);
             Vangle = Math.Atan2(cam.Position.Z, cam.Position.Y);
 
-            if (e.Key == Key.F)
+            if (e.Key == Key.V)
             {
-                light.lightPosition += new Vector3(-5,0,0);
-            }
-
-            if (e.Key == Key.H)
-            {
-                light.lightPosition += new Vector3(5,0,0);
-            }
-            if (e.Key == Key.T)
-            {
-                light.lightPosition += new Vector3(0,0,5);
-            }
-            if (e.Key == Key.G)
-            {
-                light.lightPosition += new Vector3(0,0,-5);
+                pipe.geos.ForEach(o => o.shader.IsBlin = !o.shader.IsBlin);
             }
 
             if (e.Key == Key.Z || e.Key == Key.X)
             {
+
                 if (e.Key == Key.Z)
                 {
-                    BaseGeometry.specintens -= 5f;
+                    pipe.geos.ForEach(o => o.shader.specintens -= 1f);
+
                 }
                 else
                 {
-                    BaseGeometry.specintens += 5f;
+                    pipe.geos.ForEach(o => o.shader.specintens += 1f);
+
                 }
 
-                pipe.geos.ForEach(o =>
-                {
-                    BaseGeometry.specintens = BaseGeometry.specintens < 0 ? 0.1f : BaseGeometry.specintens;
 
-                });
             }
 
             if (e.Key == OpenTK.Input.Key.Right)
             {
 
                 var oldr = cam.Position.Length;
-                cam.Position += new Vector3(1.1f, 0f, 0); ;
+                cam.Target += new Vector3(.5f, 0f, 0); ;
                 r += cam.Position.Length - r;
             }
             if (e.Key == OpenTK.Input.Key.Left)
             {
                 var oldr = cam.Position.Length;
-                cam.Position += new Vector3(-1.1f, 0f, 0); ;
+                cam.Target += new Vector3(-.5f, 0f, 0); ;
                 r += cam.Position.Length - r;
             }
 
             if (e.Key == OpenTK.Input.Key.Down)
             {
-                cam.Position += new Vector3(0, -1.1f, 0);
+                cam.Target += new Vector3(0, -.5f, 0);
             }
 
             if (e.Key == OpenTK.Input.Key.Up)
             {
-                cam.Position += new Vector3(0, 1.1f, 0);
+                cam.Target += new Vector3(0, .5f, 0);
             }
 
             if (e.Key == OpenTK.Input.Key.Escape)
@@ -171,18 +165,20 @@ namespace OpenGL_CSharp
                 var dy = mouse.Y / 800f - oldy;
 
                 win.CursorVisible = true;
-                //cam.Target += new Vector3(dx, dy, 0);
-                light.Direction += new Vector3(dx, dy, 0);
+                cam.Target += new Vector3(dx, dy, 0);
+
                 oldx = mouse.X / 800f;
                 oldy = mouse.Y / 800f;
             }
             else
             {
                 win.CursorVisible = true;
-                cam.Target = Vector3.Zero;
+                //  cam.Target = Vector3.Zero;
             }
 
             cam.updateCamera();
+
+          
         }
 
         static float oldx = 0;
@@ -204,31 +200,141 @@ namespace OpenGL_CSharp
             public List<Geometery.BaseGeometry> geos = new List<BaseGeometry>();
         }
 
-        static LightSource light = new LightSource();
 
+        static List<LightSource> SetupLights()
+        {
+            var lsources = new List<LightSource>();
+
+            for (int i = 0; i < 2; i++)
+            {
+                var l = new LightSource();
+                l.LightType = i;
+                l.Direction = -Vector3.UnitY;
+                l.lightPosition = new Vector3(2, 4f, 0);
+                l.diffuse = new Vector3(1, 1, 1);
+
+                l.InnerAngle = 12.5f;
+                l.OuterAngle = 0;
+                lsources.Add(l);
+            }
+
+#if true
+            //sky light
+            lsources[1].diffuse = new Vector3(0, .01f, .2f);
+            lsources[1].specular = new Vector3(0, .01f, .2f);
+            lsources[1].ambient = new Vector3(0, .01f, .2f); 
+#endif
+
+            return lsources;
+
+        }
+
+
+        static private Matrix4 FromMatrix(Assimp.Matrix4x4 mat)
+        {
+            Matrix4 m = new Matrix4();
+            m.M11 = mat.A1;
+            m.M12 = mat.A2;
+            m.M13 = mat.A3;
+            m.M14 = mat.A4;
+            m.M21 = mat.B1;
+            m.M22 = mat.B2;
+            m.M23 = mat.B3;
+            m.M24 = mat.B4;
+            m.M31 = mat.C1;
+            m.M32 = mat.C2;
+            m.M33 = mat.C3;
+            m.M34 = mat.C4;
+            m.M41 = mat.D1;
+            m.M42 = mat.D2;
+            m.M43 = mat.D3;
+            m.M44 = mat.D4;
+            return m;
+
+        }
         private static void Win_Load(object sender, EventArgs e)
         {
             r = cam.Position.Length; //update the current distance from the camera to position 0
+            cam.Target = new Vector3(0, 1, 0);
+            //Create Light Source
+            List<LightSource> lightSources = SetupLights();
 
-            //Creaate Light Source
-            cam.Direction = light.Direction = new Vector3(1, 0, 0);
+            Assimp.AssimpContext imp = new Assimp.AssimpContext();
+            imp.SetConfig(new Assimp.Configs.NormalSmoothingAngleConfig(66f));
+            var scene = imp.ImportFile("Models/untitled.obj", Assimp.PostProcessSteps.Triangulate | Assimp.PostProcessSteps.FlipUVs);
+
+            var model = FromMatrix(scene.RootNode.Transform);
+            //  model.Transpose();
+            var srs = SetupLights();
+
+            scene.Meshes.ForEach(m =>
+            {
+                var duck = new BaseGeometry();
+
+                duck.points = new List<Vertex>();
+                duck.Indeces = new List<int>();
+
+                for (int j = 0; j < m.FaceCount; j++)
+                {
+                    var f = m.Faces[j];
+                    for (int i = 0; i < f.IndexCount; i++)
+                    {
+                        var ind = f.Indices[i];
+                        duck.Indeces.Add(ind);
+
+                        var ver = Vertex.FromVertex3(m.Vertices[ind]);
+                        var normal = Vertex.FromVertex3(m.Normals[ind]);
+                        var text = new Vertex2(0, 0);
+                        if (m.HasTextureCoords(0))
+                        {
+                            text = Vertex.FromVertex2(m.TextureCoordinateChannels[0][ind]);
+                        }
+
+                        var vcol = new Vertex4(1f, .5f, 0f, 1f);
+                        if (m.HasVertexColors(ind))
+                            vcol = Vertex.FromVertex4(m.VertexColorChannels[0][ind]);
+
+                        duck.points.Add(new Vertex()
+                        {
+                            Normal = normal,
+                            Position = ver,
+                            TexCoor = text,
+                            Vcolor = vcol
+                        });
+
+                        Debug.WriteLine($"\r\n\r\n--------------\r\nFace: {j}  - Ind: {ind}\r\n{duck.points.Count - 1}: {duck.points.Last().ToString()}");
+                    }
+
+
+                }
+
+                duck.LoadGeometry();
+                pipe.geos.Add(duck);
+              //  duck.model = model;
+                duck.objectColor = new Vector3(1f, 0f, 1f);
+                duck.shader = new Tex2Frag(duck.objectColor);
+                
+                duck.shader.LightSources = lightSources;
+
+            });
 
             var plan = new Plan();
             pipe.geos.Add(plan);
             plan.LoadGeometry();
-            plan.model *= Matrix4.CreateScale(12f) * Matrix4.CreateTranslation(new Vector3(0, -2, 0)) ;
-            plan.shader = new ObjectColor();
+            plan.model *= Matrix4.CreateTranslation(new Vector3(0, 0f, 0)) * Matrix4.CreateScale(22f);
+            plan.shader = new Tex2Frag(@"Textures\container.jpg", @"Textures\container_specular.jpg");
+            plan.shader.specintens = 3;
+            plan.shader.LightSources = lightSources;
+
+#if true
 
             //Light Source Geometry
             var pyr = new Cube();
-            pipe.geos.Add(pyr);           
+            // pipe.geos.Add(pyr);           
             pyr.LoadGeometry();
 
             pyr.shader = new LampFrag();
             ((LampFrag)pyr.shader).LoadLampPointFragment();
-
-            pyr.shader.light = light;
-            light.lightPosition = pyr.model.ExtractTranslation();
 
             Random rn = new Random(5);
             for (int i = 0; i < 10; i++)
@@ -245,13 +351,11 @@ namespace OpenGL_CSharp
                 cube.LoadGeometry();
                 cube.shader = shade;
 
-                cube.shader.light = light;
-                cube.shader.light.ambient = new Vector3(.1f); //decrease the effect of the ambient for the materialed models
-                //if light source is point light
-                //cube.shader.light.Direction = pyr.shader.light.lightPosition - cube.model.ExtractTranslation();
-            }
+                cube.shader.LightSources = lightSources;
 
-            //light.lightPosition = pipe.geos.Last().model.ExtractTranslation()+ new Vector3(0f, -02f, 0f);
+            }
+#endif
+
 
         }
 
@@ -267,7 +371,7 @@ namespace OpenGL_CSharp
                 geo.RenderGeometry();
                 // geo.shader.Use();
 
-                GL.DrawElements(PrimitiveType.Triangles, geo.Indeces.Length, DrawElementsType.UnsignedInt, 0);
+                GL.DrawElements(PrimitiveType.Triangles, geo.Indeces.ToArray().Length, DrawElementsType.UnsignedInt, 0);
             }
 
             //swap the buffer (bring what has been rendered in theback to the front)

@@ -43,7 +43,7 @@ namespace OpenGL_CSharp.Geometery
                 }//03
             };
 
-            Indeces = new int[]
+            Indeces = new List<int>
             {
                 0,1,2,
                 2,3,0

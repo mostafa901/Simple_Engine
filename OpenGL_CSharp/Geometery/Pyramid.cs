@@ -132,7 +132,7 @@ namespace OpenGL_CSharp.Geometery
 
             //define Indeces
             Indeces =
-           new int[]
+           new List<int>
                    {
                          //backface                         
                         06,02,05,

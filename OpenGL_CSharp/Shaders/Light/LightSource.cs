@@ -14,11 +14,13 @@ namespace OpenGL_CSharp.Shaders.Light
         public Vector3 specular = new Vector3(1);
         public Vector3 lightPosition = new Vector3(1);
         public Vector3 Direction = new Vector3(1);
+        public float OuterAngle = 0;
+        public float InnerAngle = 0;
+
+        public int LightType;  //0=>Point, 1=>Direction 2=>Spot Light
 
         public float Constance = 1;
         public float Linear = 0.09f;
-        public float Quaderic = .032f;
-
-
+        public float Quaderic = .032f; 
     }
 }

@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
@@ -13,7 +14,7 @@ namespace OpenGL_CSharp.Textures
     public class Textures
     { 
          
-        public static int AddTexture(TextureUnit texu, string path)
+        public static int AddTexture(TextureUnit texu, string path )
         {
 
             var texId = GL.GenTexture();

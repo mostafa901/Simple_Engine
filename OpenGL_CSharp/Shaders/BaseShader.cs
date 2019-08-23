@@ -15,11 +15,17 @@ namespace OpenGL_CSharp.Shaders
     
     public class BaseShader
     {
-        public LightSource light;
+        public List<LightSource> LightSources;
+        public float specintens = 30;
+        public Vector3 objectcolor;
+
         public readonly int programId = -1;
         public int vershad = -1;
 
         public readonly Dictionary<string, int> _uniformLocations;
+
+        public bool IsBlin=false; //Consider Blinn Speculare Calculations
+
         public BaseShader()
         {
              
@@ -89,8 +95,10 @@ namespace OpenGL_CSharp.Shaders
 
         public void SetUniformMatrix(string name, ref Matrix4 value)
         {
-            GL.UseProgram(programId);
-            GL.UniformMatrix4(_uniformLocations[name], true, ref value);
+         
+                GL.UseProgram(programId);
+                GL.UniformMatrix4(_uniformLocations[name], true, ref value);
+            
         }
 
         public void SetUniformV3(string name, Vector3 value)
@@ -107,6 +115,8 @@ namespace OpenGL_CSharp.Shaders
             }
         }
 
+       
+
         public void SetFloat(string name, float value)
         {
             if (_uniformLocations.ContainsKey(name))
@@ -119,13 +129,17 @@ namespace OpenGL_CSharp.Shaders
             {
                 //either there the variable is not used within shader
                 //or the variable is not correctly spelled or exists
+
             }
         }
 
         public void SetInt(string name, int value)
         {
-            GL.UseProgram(programId);
-            GL.Uniform1(_uniformLocations[name], value);
+            if (_uniformLocations.ContainsKey(name))
+            {
+                GL.UseProgram(programId);
+                GL.Uniform1(_uniformLocations[name], value);
+            }
         }
 
 
