@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -8,6 +9,8 @@ using System.Threading.Tasks;
 using OpenGL_CSharp.Geometery;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using RAAPSII_APPS.APP_Test.OpenGL;
+using Utility;
 
 namespace OpenGL_CSharp.Shaders
 {
@@ -38,7 +41,8 @@ namespace OpenGL_CSharp.Shaders
 
         public string LightFrag2Source()
         {
-            return File.ReadAllText("shaders/TexturedLight.frag");
+           return File.ReadAllText(Constants.conpaths(paths.BundlePath) + "\\" + Revit_Lib.UT_Rvt.RevitProduct + "\\shaders/TexturedLight.frag");
+		    
         }
 
         public void Loadtx2Fragment(string diffuse, string specular)
@@ -72,7 +76,7 @@ namespace OpenGL_CSharp.Shaders
             base.Use();
 
             SetFloat("material.shininess", specintens);
-            SetUniformV3("ViewPos", Program.cam.Position);//Set Camera Position to Shader to create Specular
+            SetUniformV3("ViewPos", Program.pipe.cam.Position);//Set Camera Position to Shader to create Specular
 
             SetFloat("ambientcoff", 0.15f);//Set Camera Position to Shader to create Specular
             SetInt("material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used

@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace OpenGL_CSharp.Shaders
 {
@@ -67,7 +68,7 @@ namespace OpenGL_CSharp.Shaders
 
         string ReadVerShader()
         {
-            return File.ReadAllText("Shaders\\shader.ver");
+            return File.ReadAllText(Constants.conpaths(paths.BundlePath) +"\\"+ Revit_Lib.UT_Rvt.RevitProduct + "\\shaders\\shader.ver");
         }
 
         public void GetVariables()

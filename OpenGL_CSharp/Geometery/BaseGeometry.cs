@@ -4,6 +4,7 @@ using OpenGL_CSharp.Graphic;
 using OpenGL_CSharp.Shaders;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using RAAPSII_APPS.APP_Test.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,11 +47,14 @@ namespace OpenGL_CSharp.Geometery
             GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.ToArray().Length * sizeof(int), Indeces.ToArray(), BufferUsageHint.StaticDraw);
 
-            shader.Use();
+			if (shader!=null)
+			{
+				shader.Use();
 
-            shader.SetUniformMatrix(nameof(BaseGeometry.model), ref model);
-            shader.SetUniformMatrix(nameof(Program.cam.View), ref Program.cam.View);
-            shader.SetUniformMatrix(nameof(Program.cam.Projection), ref Program.cam.Projection);
+				shader.SetUniformMatrix(nameof(BaseGeometry.model), ref model);
+				shader.SetUniformMatrix(nameof(Program.pipe.cam.View), ref Program.pipe.cam.View);
+				shader.SetUniformMatrix(nameof(Program.pipe.cam.Projection), ref Program.pipe.cam.Projection); 
+			}
         }
 
         public void LoadGeometry()

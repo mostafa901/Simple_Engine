@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenGL_CSharp.Geometery;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Utility;
 
 namespace OpenGL_CSharp.Shaders
 {
@@ -22,7 +23,7 @@ namespace OpenGL_CSharp.Shaders
           
           string ObjectColorFragSource()
         {
-            return File.ReadAllText("shaders/ObjectColor.frag");
+            return File.ReadAllText(Constants.conpaths(paths.BundlePath)+ "\\shaders\\ObjectColor.frag");
             
         }
         
