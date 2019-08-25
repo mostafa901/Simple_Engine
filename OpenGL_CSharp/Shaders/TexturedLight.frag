@@ -127,7 +127,7 @@ uniform Light Lights[NumberofLights];
 			vec3 viewDir = normalize(ViewPos-FragPos); //get the direction from the pixel to the camera
 			vec3 reflDir = reflect(-lightDir,PixelNormal); //get the reflection vector of the vector from source to pixel on Normal vector of pixel
 
-			float specular = 0;
+			vec3 specular ;
 			if(IsBlin==1)
 			{
 			vec3 halfwayDir = normalize(lightDir + viewDir);

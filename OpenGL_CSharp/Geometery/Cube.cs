@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Geometery
 {
-    class Cube : BaseGeometry
+   public class Cube : BaseGeometry
     {
         public Cube()
         {

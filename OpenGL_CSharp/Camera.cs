@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp
 {
-    class Camera
+  public  class Camera
     {
         //Camera Properties
 

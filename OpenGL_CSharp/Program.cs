@@ -201,33 +201,7 @@ namespace OpenGL_CSharp
         }
 
 
-        static List<LightSource> SetupLights()
-        {
-            var lsources = new List<LightSource>();
-
-            for (int i = 0; i < 2; i++)
-            {
-                var l = new LightSource();
-                l.LightType = i;
-                l.Direction = -Vector3.UnitY;
-                l.lightPosition = new Vector3(2, 4f, 0);
-                l.diffuse = new Vector3(1, 1, 1);
-
-                l.InnerAngle = 12.5f;
-                l.OuterAngle = 0;
-                lsources.Add(l);
-            }
-
-#if true
-            //sky light
-            lsources[1].diffuse = new Vector3(0, .01f, .2f);
-            lsources[1].specular = new Vector3(0, .01f, .2f);
-            lsources[1].ambient = new Vector3(0, .01f, .2f); 
-#endif
-
-            return lsources;
-
-        }
+        
 
 
         static private Matrix4 FromMatrix(Assimp.Matrix4x4 mat)
@@ -257,7 +231,7 @@ namespace OpenGL_CSharp
             r = cam.Position.Length; //update the current distance from the camera to position 0
             cam.Target = new Vector3(0, 1, 0);
             //Create Light Source
-            List<LightSource> lightSources = SetupLights();
+            List<LightSource> lightSources = LightSource. SetupLights();
 
             Assimp.AssimpContext imp = new Assimp.AssimpContext();
             imp.SetConfig(new Assimp.Configs.NormalSmoothingAngleConfig(66f));
@@ -265,9 +239,9 @@ namespace OpenGL_CSharp
 
             var model = FromMatrix(scene.RootNode.Transform);
             //  model.Transpose();
-            var srs = SetupLights();
+            var srs = LightSource.SetupLights();
 
-            scene.Meshes.ForEach(m =>
+			scene.Meshes.ForEach(m =>
             {
                 var duck = new BaseGeometry();
 
@@ -309,7 +283,7 @@ namespace OpenGL_CSharp
                 }
 
                 duck.LoadGeometry();
-                pipe.geos.Add(duck);
+              //  pipe.geos.Add(duck);
               //  duck.model = model;
                 duck.objectColor = new Vector3(1f, 0f, 1f);
                 duck.shader = new Tex2Frag(duck.objectColor);
