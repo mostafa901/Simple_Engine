@@ -24,11 +24,11 @@ namespace OpenGL_CSharp.Shaders.Light
 		public float Quaderic = .032f;
 
 
-		public static List<LightSource> SetupLights()
+		public static List<LightSource> SetupLights(int count)
 		{
 			var lsources = new List<LightSource>();
 
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < count; i++)
 			{
 				var l = new LightSource();
 				l.LightType = i;
@@ -41,7 +41,7 @@ namespace OpenGL_CSharp.Shaders.Light
 				lsources.Add(l);
 			}
 
-#if true
+#if false
 			//sky light
 			lsources[1].diffuse = new Vector3(0, .01f, .2f);
 			lsources[1].specular = new Vector3(0, .01f, .2f);

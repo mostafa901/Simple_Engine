@@ -80,7 +80,7 @@ namespace OpenGL_CSharp
 			Up = Vector3.Cross(Direction, Right);
 
 			View = Matrix4.LookAt(Position, Target, Up);
-			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 100f);
+			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 1000f);
 
 		}
 	}

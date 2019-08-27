@@ -8,7 +8,8 @@ namespace OpenGL_CSharp.Graphic
     {
         public new static int vcount = 2;
         public Vector2 vector2;
-        public Vertex2(float v1, float v2)
+		  
+		public Vertex2(float v1, float v2)
         {
             X = v1;
             Y = v2;

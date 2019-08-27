@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenGL_CSharp.Geometery;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Revit_Lib;
 using Utility;
 
 namespace OpenGL_CSharp.Shaders
@@ -23,7 +24,7 @@ namespace OpenGL_CSharp.Shaders
           
           string ObjectColorFragSource()
         {
-            return File.ReadAllText(Constants.conpaths(paths.BundlePath)+ "\\shaders\\ObjectColor.frag");
+            return File.ReadAllText(Constants.conpaths(paths.BundlePath)+"\\"+UT_Rvt.RevitProduct+ "\\shaders\\ObjectColor.frag");
             
         }
         

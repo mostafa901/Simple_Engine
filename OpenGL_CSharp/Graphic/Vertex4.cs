@@ -7,7 +7,11 @@ namespace OpenGL_CSharp.Graphic
     {
         public static new int vcount = 4;
         public OpenTK.Vector4 vector4;
-        public Vertex4(float v1, float v2, float v3, float v4) : base(v1, v2, v3)
+		
+
+		 
+
+		public Vertex4(float v1, float v2, float v3, float v4) : base(v1, v2, v3)
         {
 
             A = v4;
