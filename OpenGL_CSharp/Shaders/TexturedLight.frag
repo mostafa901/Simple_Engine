@@ -64,12 +64,12 @@ uniform Light Lights[NumberofLights];
 				//Light is Point light
 				if(light.LightType==0)
 				{			
-					result +=CalculatePointLight(light);			
+					result += CalculatePointLight(light);			
 				}
 
 				if(light.LightType==1)
 				{			 
-					result +=CalculateDirectionLight(light);			
+					result += CalculateDirectionLight(light);			
 				}
 			}
 			}

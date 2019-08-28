@@ -31,7 +31,7 @@ namespace OpenGL_CSharp.Shaders.Light
 			for (int i = 0; i < count; i++)
 			{
 				var l = new LightSource();
-				l.LightType = i;
+				l.LightType = 1;
 				l.Direction = -Vector3.UnitY;
 				l.lightPosition = new Vector3(2, 4f, 0);
 				l.diffuse = new Vector3(1, 1, 1);

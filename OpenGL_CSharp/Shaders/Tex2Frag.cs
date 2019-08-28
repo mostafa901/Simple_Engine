@@ -77,8 +77,7 @@ namespace OpenGL_CSharp.Shaders
 
             SetFloat("material.shininess", specintens);
             SetUniformV3("ViewPos", Program.pipe.cam.Position);//Set Camera Position to Shader to create Specular
-
-            SetFloat("ambientcoff", 0.15f);//Set Camera Position to Shader to create Specular
+            SetFloat("ambientcoff", 0.15f);
             SetInt("material.diffuse", 0); //because this variable is of type sample2d, we need to specify which texture numberis used
             SetInt("material.specular", 1);
             SetInt("TotalLightNumber", LightSources.Count);
