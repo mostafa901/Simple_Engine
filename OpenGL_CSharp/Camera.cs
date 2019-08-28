@@ -55,8 +55,9 @@ namespace OpenGL_CSharp
 			Position = new Vector3(0, 0, 10);
 			Direction = -Vector3.UnitZ;
 			Right = Vector3.UnitZ;
-			updateCamera();
+			r = 5;
 
+			updateCamera();
 		}
 
 
@@ -83,5 +84,138 @@ namespace OpenGL_CSharp
 			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 1000f);
 
 		}
+
+		#region Navigation
+		public void Control(System.Windows.Input.KeyEventArgs e)
+		{
+			var win = (MainWindow)sender;
+
+			Hangle = Math.Atan2(Program.pipe.cam.Position.X, Program.pipe.cam.Position.Z);
+			Vangle = Math.Atan2(Program.pipe.cam.Position.Z, Program.pipe.cam.Position.Y);
+
+			if (e.Key == Key.V)
+			{
+				Program.pipe.geos.ForEach(o => o.shader.IsBlin = !o.shader.IsBlin);
+			}
+
+			if (e.Key == Key.Z || e.Key == Key.X)
+			{
+
+				if (e.Key == Key.Z)
+				{
+					Program.pipe.geos.ForEach(o => o.shader.specintens -= 1f);
+
+				}
+				else
+				{
+					Program.pipe.geos.ForEach(o => o.shader.specintens += 1f);
+
+				}
+			}
+
+			if (e.Key == Key.Right)
+			{
+
+				var oldr = Program.pipe.cam.Position.Length;
+				Program.pipe.cam.Target += new Vector3(.5f, 0f, 0); ;
+				r += Program.pipe.cam.Position.Length - r;
+			}
+			if (e.Key == Key.Left)
+			{
+				var oldr = Program.pipe.cam.Position.Length;
+				Program.pipe.cam.Target += new Vector3(-.5f, 0f, 0); ;
+				r += Program.pipe.cam.Position.Length - r;
+			}
+
+			if (e.Key == Key.Down)
+			{
+				Program.pipe.cam.Target += new Vector3(0, -.5f, 0);
+			}
+
+			if (e.Key == Key.Up)
+			{
+				Program.pipe.cam.Target += new Vector3(0, .5f, 0);
+			}
+
+			if (e.Key == Key.Escape)
+			{
+				((MainWindow)sender).Close();
+			}
+
+			if (e.Key == Key.W)
+			{
+				Vangle += inrement;
+
+				Program.pipe.cam.Position = new Vector3(Program.pipe.cam.Position.X, (float)Math.Cos(Vangle) * r, (float)Math.Sin(Vangle) * r);
+
+			}
+
+			if (e.Key == Key.S)
+			{
+				Vangle -= inrement;
+
+				Program.pipe.cam.Position = new Vector3(Program.pipe.cam.Position.X, (float)Math.Cos(Vangle) * r, (float)Math.Sin(Vangle) * r);
+
+			}
+
+			if (e.Key == Key.A)
+			{
+				Hangle -= inrement;
+
+				Program.pipe.cam.Position = new Vector3((float)Math.Sin(Hangle) * r, Program.pipe.cam.Position.Y, (float)Math.Cos(Hangle) * r);
+
+			}
+
+			if (e.Key == Key.D)
+			{
+				Hangle += inrement;
+
+				Program.pipe.cam.Position = new Vector3((float)Math.Sin(Hangle) * r, Program.pipe.cam.Position.Y, (float)Math.Cos(Hangle) * r);
+			}
+
+			var mouse = OpenTK.Input.Mouse.GetState();
+			if (e.Key == Key.LeftCtrl && win.IsFocused)
+			{
+				var dx = mouse.X / 800f - oldx;
+				var dy = mouse.Y / 800f - oldy;
+
+
+				Program.pipe.cam.Target += new Vector3(dx, dy, 0);
+
+				oldx = mouse.X / 800f;
+				oldy = mouse.Y / 800f;
+			}
+			else
+			{
+
+				//  cam.Target = Vector3.Zero;
+			}
+
+			Program.pipe.cam.updateCamera();
+
+
+		}
+
+		public void WheelControl(System.Windows.Input.MouseWheelEventArgs e)
+		{
+			if (System.Windows.Input.Keyboard.IsKeyDown(Key.LeftShift))
+			{
+				Program.pipe.cam.Target += new Vector3(0, e.Delta, 0);
+			}
+			else
+			{
+				Program.pipe.cam.Fov(e.Delta);
+			}
+			Program.pipe.cam.updateCamera();
+		}
+
+		static float oldx = 0;
+		static float oldy = 0;
+
+		static float r = 5f;
+		static float inrement = 0.1744f;
+		static double Hangle = 0;
+		static double Vangle = 0;
+#endregion
 	}
 }

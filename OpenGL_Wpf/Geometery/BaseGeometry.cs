@@ -44,6 +44,9 @@ namespace OpenGL_CSharp.Geometery
 
 		public void RenderGeometry()
 		{
+			if (vers == null) //it will be null maually whenever we are updating position of verteces
+				vers = points.SelectMany(o => o.data()).ToArray();
+
 			GL.BindVertexArray(vao);
 			GL.BufferData(BufferTarget.ArrayBuffer, vers.Length * sizeof(float), vers, BufferUsageHint.StaticDraw);
 			GL.BufferData(BufferTarget.ElementArrayBuffer, Indeces.ToArray().Length * sizeof(int), Indeces.ToArray(), BufferUsageHint.StaticDraw);

@@ -17,9 +17,9 @@ using OpenTK.Input;
 
 namespace OpenGL_CSharp
 {
-	public partial class Program
+	public class Program
 	{
-		static void Main(string[] args)
+		public  Program()
 		{
 			//initialize window
 			var win = new GameWindow(800, 800, OpenTK.Graphics.GraphicsMode.Default, "Test", GameWindowFlags.Default, DisplayDevice.Default, 3, 3, OpenTK.Graphics.GraphicsContextFlags.Debug);
@@ -194,16 +194,23 @@ namespace OpenGL_CSharp
 		public class Pipelinevars
 		{
 			public Camera cam = new Camera();
+			public Camera cam2 = new Camera();			
 			public float offsetX = 0.5f;
 			public float speed = .3f;
 			internal GameWindow win;
 			public List<Geometery.BaseGeometry> geos = new List<BaseGeometry>();
+
+			public Pipelinevars()
+			{
+				cam2.Position = new Vector3(5, 2, 0);
+				geos.Add(cam2);
+				cam2.RenderCameraLine();
+				cam2.LoadGeometry();
+				cam2.shader = new ObjectColor();
+			}
 		}
 
-
-
-
-
+		 
 		static private Matrix4 FromMatrix(Assimp.Matrix4x4 mat)
 		{
 			Matrix4 m = new Matrix4();
@@ -329,8 +336,7 @@ namespace OpenGL_CSharp
 
 			}
 #endif
-
-
+			 
 		}
 
 		private static void Win_UpdateFrame(object sender, FrameEventArgs e)
