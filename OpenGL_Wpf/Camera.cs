@@ -22,8 +22,10 @@ namespace OpenGL_CSharp
 		public Vector3 Direction;
 		public Vector3 Right;
 		public Vector3 Target;
-		public float yaw = 0;
-		public float pitch = 0;
+		public Matrix4 Matyaw;
+		public float yaw;
+		public Matrix4 Matpitch;
+		public float pitch;
 		public Matrix4 View;
 		public Matrix4 Projection;
 		private float fov = MathHelper.DegreesToRadians(15);
@@ -84,8 +86,6 @@ namespace OpenGL_CSharp
 			primitiveType = PrimitiveType.Lines;
 			vers = null; //set this to null to update vertex information.
 		}
-
-
 		public void MoveForward(TimeSpan et)
 		{
 			// move target and position on the same Camera direction
@@ -96,18 +96,13 @@ namespace OpenGL_CSharp
 			Target = Target + (increment * Vector3.Normalize(Program.pipe.cam.Direction));
 
 		}
-
 		public void MoveRight(TimeSpan et)
-		{
-			// move target and position on the same Camera direction
+		{           // move target and position on the same Camera direction
 
 			var increment = 1f;
-
-			Position = Position + (increment * Vector3.Normalize(Program.pipe.cam.Right));
-			Target = Target + (increment * Vector3.Normalize(Program.pipe.cam.Right));
-
+			Position = Position - (increment * Vector3.Normalize(Program.pipe.cam.Right));
+			Target = Target - (increment * Vector3.Normalize(Program.pipe.cam.Right));
 		}
-
 		public void MoveBackward(TimeSpan et)
 		{
 			// move target and position on the same Camera direction
@@ -121,10 +116,49 @@ namespace OpenGL_CSharp
 		{
 			// move target and position on the same Camera direction
 			var increment = 1f;
-			Position = Position - (increment * Vector3.Normalize(Program.pipe.cam.Right));
-			Target = Target - (increment * Vector3.Normalize(Program.pipe.cam.Right));
+			Position = Position + (increment * Vector3.Normalize(Program.pipe.cam.Right));
+			Target = Target + (increment * Vector3.Normalize(Program.pipe.cam.Right));
 
 		}
+
+
+
+		public void FirstPerson(MouseEventArgs e)
+		{
+			if (Keyboard.IsKeyDown(Key.LeftShift))
+			{
+				var pos = e.GetPosition((OpenTK.Wpf.GLWpfControl)e.OriginalSource);
+
+				if (oldx != 0)
+				{
+					float dx = (float)pos.X - oldx;
+					float dy = (float)pos.Y - oldy;
+
+					yaw = 0.25f * dy;
+					pitch = 0.25f * dx;
+
+					//Matyaw = Matrix4.CreateRotationY(yaw); 
+					//Matpitch = Matrix4.CreateRotationX(pitch);
+					//var rotmat = Matpitch * Matyaw;
+					//var trans = Matrix4.CreateTranslation(-Position);
+					//View = rotmat * trans;
+
+					if (pitch > 89.0f)
+						pitch = 89.0f;
+					if (yaw < -89.0f)
+						yaw = -89.0f;
+					yaw += MathHelper.DegreesToRadians(yaw);
+					pitch += MathHelper.DegreesToRadians(pitch);
+					Direction.X = (float)Math.Cos(pitch) * (float)Math.Cos(yaw);
+					Direction.Y = (float)Math.Sin(pitch);
+					Direction.Z = (float)Math.Cos(pitch) * (float)Math.Sin(yaw);
+
+				}
+				oldx = (float)pos.X;
+				oldy = (float)pos.Y;
+			}
+		}
+
 
 		public void updateCamera()
 		{
@@ -143,7 +177,7 @@ namespace OpenGL_CSharp
 			Up = Vector3.UnitY;
 			Right = Vector3.Normalize(Vector3.Cross(Up, Direction));
 			Up = Vector3.Cross(Direction, Right);
-
+			 
 			View = Matrix4.LookAt(Position, Target, Up);
 			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 1000f);
 

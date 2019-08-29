@@ -73,22 +73,10 @@ namespace OpenGL_Wpf
 			  };
 		}
 
-		double oldx = 0;
-		double oldy = 0;
+		
 		private void MainWindow_MouseMove(object sender, MouseEventArgs e)
 		{
-			var pos = e.GetPosition(this);
-
-			if (oldx != 0)
-			{
-				double dx = pos.X - oldx;
-				double dy = pos.Y - oldy;
-				var increment = Program.pipe.cam.Right * new Vector3((float)dx, (float)dy, 1);
-				Program.pipe.cam.Position += increment;
-				Program.pipe.cam.updateCamera();
-			}
-			oldx = pos.X;
-			oldy = pos.Y;
+			Program.pipe.cam.FirstPerson(e);
 		}
 
 
