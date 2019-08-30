@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace OpenGL_CSharp.Geometery
 {
@@ -35,6 +36,7 @@ namespace OpenGL_CSharp.Geometery
 		public BaseShader shader;
 
 		public string modelpath = "";
+		private float increment = 0.5f;
 
 		public BoundingBox Bbx { get; set; }
 
@@ -100,6 +102,53 @@ namespace OpenGL_CSharp.Geometery
 		public BoundingBox GetBoundingBox()
 		{
 			return new BoundingBox(this);
+		}
+
+		public void ScaleGeo(float value = 1)
+		{
+			var matscale = Matrix4.CreateScale(value);
+
+			model = matscale * model;
+		}
+		public void RotateGeo(System.Windows.Input.KeyEventArgs e)
+		{
+
+			if (e.Key == Key.E)
+			{
+				var rotmatz = Matrix4.CreateRotationZ(increment);
+				model = rotmatz * model;
+			}
+
+			if (e.Key == Key.D)
+			{
+				var rotmatz = Matrix4.CreateRotationZ(-increment);
+				model = rotmatz * model;
+			}
+
+
+			if (e.Key == Key.W)
+			{
+				var rotmatz = Matrix4.CreateRotationY(increment);
+				model = rotmatz * model;
+			}
+
+			if (e.Key == Key.S)
+			{
+				var rotmatz = Matrix4.CreateRotationY(-increment);
+				model = rotmatz * model;
+			}
+
+			if (e.Key == Key.Q)
+			{
+				var rotmat = Matrix4.CreateRotationX(-increment);
+				model = rotmat * model;
+			}
+
+			if (e.Key == Key.A)
+			{
+				var rotmat = Matrix4.CreateRotationX(increment);
+				model = rotmat * model;
+			}
 		}
 	}
 }

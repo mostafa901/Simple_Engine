@@ -34,8 +34,7 @@ namespace OpenGL_CSharp
 			//Navigate setting
 			//----------------
 			win.Closing += Win_Closing; //on termination do this
-			win.KeyDown += Win_KeyDown; //keydown event
-			win.MouseWheel += Win_MouseWheel;
+		 
 
 			//start game window
 			win.Run(15);
@@ -55,140 +54,7 @@ namespace OpenGL_CSharp
 			GL.Enable(EnableCap.DepthTest);
 		}
 
-		#region Navigation
-		private static void Win_MouseWheel(object sender, MouseWheelEventArgs e)
-		{
-			if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
-			{
-				pipe.cam.Target += new Vector3(0, e.DeltaPrecise, 0);
-			}
-			else
-			{
-				pipe.cam.Fov(e.DeltaPrecise);
-			}
-			pipe.cam.updateCamera();
-		}
-
-		private static void Win_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
-		{
-			var win = (GameWindow)sender;
-
-			Hangle = Math.Atan2(pipe.cam.Position.X, pipe.cam.Position.Z);
-			Vangle = Math.Atan2(pipe.cam.Position.Z, pipe.cam.Position.Y);
-
-			if (e.Key == Key.V)
-			{
-				pipe.geos.ForEach(o => o.shader.IsBlin = !o.shader.IsBlin);
-			}
-
-			if (e.Key == Key.Z || e.Key == Key.X)
-			{
-
-				if (e.Key == Key.Z)
-				{
-					pipe.geos.ForEach(o => o.shader.specintens -= 1f);
-
-				}
-				else
-				{
-					pipe.geos.ForEach(o => o.shader.specintens += 1f);
-
-				}
-
-
-			}
-
-			if (e.Key == OpenTK.Input.Key.Right)
-			{
-
-				var oldr = pipe.cam.Position.Length;
-				pipe.cam.Target += new Vector3(.5f, 0f, 0); ;
-				r += pipe.cam.Position.Length - r;
-			}
-			if (e.Key == OpenTK.Input.Key.Left)
-			{
-				var oldr = pipe.cam.Position.Length;
-				pipe.cam.Target += new Vector3(-.5f, 0f, 0); ;
-				r += pipe.cam.Position.Length - r;
-			}
-
-			if (e.Key == OpenTK.Input.Key.Down)
-			{
-				pipe.cam.Target += new Vector3(0, -.5f, 0);
-			}
-
-			if (e.Key == OpenTK.Input.Key.Up)
-			{
-				pipe.cam.Target += new Vector3(0, .5f, 0);
-			}
-
-			if (e.Key == OpenTK.Input.Key.Escape)
-			{
-				((GameWindow)sender).Close();
-			}
-
-			if (e.Key == OpenTK.Input.Key.W)
-			{
-				Vangle += inrement;
-
-				pipe.cam.Position = new Vector3(pipe.cam.Position.X, (float)Math.Cos(Vangle) * r, (float)Math.Sin(Vangle) * r);
-
-			}
-
-			if (e.Key == OpenTK.Input.Key.S)
-			{
-				Vangle -= inrement;
-
-				pipe.cam.Position = new Vector3(pipe.cam.Position.X, (float)Math.Cos(Vangle) * r, (float)Math.Sin(Vangle) * r);
-
-			}
-
-			if (e.Key == OpenTK.Input.Key.A)
-			{
-				Hangle -= inrement;
-
-				pipe.cam.Position = new Vector3((float)Math.Sin(Hangle) * r, pipe.cam.Position.Y, (float)Math.Cos(Hangle) * r);
-
-			}
-
-			if (e.Key == OpenTK.Input.Key.D)
-			{
-				Hangle += inrement;
-
-				pipe.cam.Position = new Vector3((float)Math.Sin(Hangle) * r, pipe.cam.Position.Y, (float)Math.Cos(Hangle) * r);
-			}
-
-			var mouse = Mouse.GetState();
-			if (e.Key == Key.ControlLeft && win.Focused)
-			{
-				var dx = mouse.X / 800f - oldx;
-				var dy = mouse.Y / 800f - oldy;
-
-				win.CursorVisible = true;
-				pipe.cam.Target += new Vector3(dx, dy, 0);
-
-				oldx = mouse.X / 800f;
-				oldy = mouse.Y / 800f;
-			}
-			else
-			{
-				win.CursorVisible = true;
-				//  cam.Target = Vector3.Zero;
-			}
-
-			pipe.cam.updateCamera();
-
-
-		}
-
-		static float oldx = 0;
-		static float oldy = 0;
-
-		static float r = 5f;
-		static float inrement = 0.1744f;
-		static double Hangle = 0;
-		static double Vangle = 0;
-		#endregion
+		 
 
 		public static Pipelinevars pipe; //just global class for all required variables
 		public class Pipelinevars
@@ -235,7 +101,7 @@ namespace OpenGL_CSharp
 		}
 		private static void Win_Load(object sender, EventArgs e)
 		{
-			r = pipe.cam.Position.Length; //update the current distance from the camera to position 0
+			 
 			pipe.cam.Target = new Vector3(0, 1, 0);
 			//Create Light Source
 			List<LightSource> lightSources = LightSource.SetupLights(3);
