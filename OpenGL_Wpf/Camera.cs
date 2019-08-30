@@ -3,6 +3,9 @@ using OpenGL_CSharp.Graphic;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+#if RAAPSII
+using RAAPSII_APPS.APP_Test.OpenGL; 
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +33,7 @@ namespace OpenGL_CSharp
 		private float fov = MathHelper.DegreesToRadians(15);
 		public float Aspect = 1.0f;
 		public float DistanceToTarget = 5f;
-		public float MouseSensivity = 0.05f;
+		public float MouseSensivity = 0.025f;
 		static float oldx = 0;
 		static float oldy = 0;
 		static float increment = 0.1744f;
@@ -75,7 +78,7 @@ namespace OpenGL_CSharp
 			UpdateDistance();
 		}
 		public void MoveRight(TimeSpan et)
-		{   
+		{
 			// move target and position on the same Camera direction
 			Position = Position + (increment * Vector3.Normalize(Program.pipe.cam.Right));
 			Target = Target + (increment * Vector3.Normalize(Program.pipe.cam.Right));
@@ -110,8 +113,8 @@ namespace OpenGL_CSharp
 					float dy = (float)pos.X - oldx;
 					float dx = (float)pos.Y - oldy;
 
-					yaw += 0.025f * dy;
-					pitch += 0.025f * dx;
+					yaw += MouseSensivity * dy;
+					pitch += MouseSensivity * dx;
 
 					float maxang = 89;
 					if (pitch > maxang)
@@ -124,32 +127,36 @@ namespace OpenGL_CSharp
 					Matyaw = Matrix4.CreateRotationY(yaw);
 					Matpitch = Matrix4.CreateRotationX(pitch);
 					View = View * Matyaw * Matpitch;
-
-
 				}
-
 				oldx = (float)pos.X;
 				oldy = (float)pos.Y;
 
-				RenderCameraLine();
-
+				UpdateDistance();
 			}
 		}
 
 		void UpdateDistance()
 		{
+			UpdateDirections();
 			DistanceToTarget = (Position - Target).Length;
+		}
+
+		void UpdateDirections()
+		{
+			Direction = Position - Target;
+			Direction.Normalize();
+
+			Up = Vector3.UnitY;
+			Right = Vector3.Normalize(Vector3.Cross(Up, Direction));
+			Up = Vector3.Cross(Direction, Right);			 
 		}
 
 		public void updateCamera()
 		{
-			Up = Vector3.UnitY;
-			Right = Vector3.Normalize(Vector3.Cross(Up, Direction));
-			Up = Vector3.Cross(Direction, Right);
+			 
 			View = Matrix4.LookAt(Position, Target, Up);
 			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 1000f);
 			RenderCameraLine();
-			
 		}
 
 		public void Control(System.Windows.Input.KeyEventArgs e, TimeSpan t)
@@ -157,12 +164,20 @@ namespace OpenGL_CSharp
 			var currentHAngle = Math.Atan2(Position.X, Position.Z);
 			var currentVAngle = Math.Atan2(Position.Z, Position.Y);
 			var currentIAngle = Math.Atan2(Position.Y, Position.X);
-			
+
 			var stat = e.KeyStates;
 			var win = ((Window)e.OriginalSource);
 			if (e.Key == Key.Escape)
 			{
 				win.Close();
+			}
+
+			if (e.IsRepeat && e.Key == Key.Z)
+			{
+				Target = Vector3.Zero;
+				UpdateDistance();
+				updateCamera();
+				return;
 			}
 
 			if (e.Key == Key.V)
@@ -203,18 +218,19 @@ namespace OpenGL_CSharp
 
 			//Rotat Camera Around Z Axis
 			//---------------------------
-			if (e.Key == Key.W|| e.Key == Key.S)
+			if (e.Key == Key.W || e.Key == Key.S)
 			{
 				var theta = (currentIAngle + increment);
-				if(e.Key == Key.S)
+				if (e.Key == Key.S)
 					theta = (currentIAngle - increment);
 
 				var x = Math.Sin(theta) * DistanceToTarget;
 				var y = Math.Cos(theta) * DistanceToTarget;
 				Position.X = (float)y;
 				Position.Y = (float)x;
-				View = Matrix4.LookAt(Position, Target, Up);				 
-			} 
+				View = Matrix4.LookAt(Position, Target, Up);
+
+			}
 			//Rotat Camera Around Y Axis
 			//---------------------------
 			if (e.Key == Key.A || e.Key == Key.D)
@@ -227,7 +243,10 @@ namespace OpenGL_CSharp
 				Position.X = (float)x;
 				Position.Z = (float)y;
 				View = Matrix4.LookAt(Position, Target, Up);
-			}			 
+			}
+
+			UpdateDirections();
+			updateCamera();
 		}
 
 		public void Fov(float value)
