@@ -2,6 +2,7 @@
 using Assimp.Configs;
 using OpenGL_CSharp.Graphic;
 using OpenGL_CSharp.Shaders;
+using OpenGL_Wpf;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 #if RAAPSII
@@ -12,14 +13,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using Utility.MVVM;
 
 namespace OpenGL_CSharp.Geometery
 {
-	public class BaseGeometry
+	public class BaseGeometry : BaseDataObject
 	{
-		public List<Vertex> points;
-		public List<int> Indeces;
+		public List<Vertex> points = new List<Vertex>();
+		public List<int> Indeces = new List<int>();
 		public Vector3 objectColor;
 
 
@@ -38,10 +41,35 @@ namespace OpenGL_CSharp.Geometery
 		public string modelpath = "";
 		private float increment = 0.5f;
 
+		#region ShowModel
+
+		private bool _ShowModel = false;
+
+		public bool ShowModel
+		{
+			get
+			{
+				return _ShowModel;
+			}
+			set { SetProperty(ref _ShowModel, value); }
+
+		}
+		#endregion
+		 
 		public BoundingBox Bbx { get; set; }
 
 		public BaseGeometry()
 		{
+			MainWindow.mv.Geos.Add(this);
+			//setup Show model in the view Command
+			CMD.action = (a) =>
+			{
+				ShowModel = (bool)a;
+				if (ShowModel)
+				{
+					LoadGeometry();
+				}
+			};
 		}
 
 		public void RenderGeometry()
@@ -58,12 +86,12 @@ namespace OpenGL_CSharp.Geometery
 				shader.Use();
 
 				shader.SetUniformMatrix(nameof(BaseGeometry.model), ref model);
-				shader.SetUniformMatrix(nameof(Program.pipe.cam.View), ref Program.pipe.cam.View);
-				shader.SetUniformMatrix(nameof(Program.pipe.cam.Projection), ref Program.pipe.cam.Projection);
+				shader.SetUniformMatrix(nameof(MainWindow.mv.ViewCam.View), ref MainWindow.mv.ViewCam.View);
+				shader.SetUniformMatrix(nameof(MainWindow.mv.ViewCam.Projection), ref MainWindow.mv.ViewCam.Projection);
 			}
 		}
 
-		public void LoadGeometry()
+		public virtual void LoadGeometry()
 		{
 			if (vers == null) //no need to recreate if already created
 				vers = points.SelectMany(o => o.data()).ToArray();

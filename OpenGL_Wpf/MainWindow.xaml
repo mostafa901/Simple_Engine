@@ -5,9 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OpenGL_Wpf"
 		xmlns:opn="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
+		xmlns:vc="clr-namespace:OpenGL_Wpf.ViewControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-		<opn:GLWpfControl x:Name="GLWindow" Render="OpenTkControl_OnRender" />
+        Title="MainWindow" Height="450" Width="800" >
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="200"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<opn:GLWpfControl x:Name="GLWindow" 
+						  Render="OpenTkControl_OnRender" 
+						  Grid.Column="1"
+						  FocusManager.IsFocusScope="True"/>
+		<Grid Background="#FF282828"
+			  Grid.Column="0">
+			<StackPanel FocusManager.IsFocusScope="False">
+				<ComboBox ItemsSource="{Binding Geos}" 
+						  DisplayMemberPath="Name"
+						  VerticalAlignment="Center"
+						  SelectedItem="{Binding SelectedItem}"						  
+						  />
+				<vc:CameraControl DataContext="{Binding SelectedItem}"
+								  Visibility="{Binding Converter={StaticResource CameraConv},ConverterParameter=Visibility}"
+								  />
+				<vc:LightControl DataContext="{Binding SelectedItem}"
+								  Visibility="{Binding Converter={StaticResource LightConv},ConverterParameter=Visibility}"
+								  />
+				<vc:GeometryControl DataContext="{Binding SelectedItem}"
+								  Visibility="{Binding Converter={StaticResource GeometryConv},ConverterParameter=Visibility}"
+								  />
+			</StackPanel>
+		</Grid>
 	</Grid>
 </Window>

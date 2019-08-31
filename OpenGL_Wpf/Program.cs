@@ -11,6 +11,7 @@ using OpenGL_CSharp.Geometery;
 using OpenGL_CSharp.Graphic;
 using OpenGL_CSharp.Shaders;
 using OpenGL_CSharp.Shaders.Light;
+using OpenGL_Wpf;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -26,7 +27,7 @@ namespace OpenGL_CSharp
 
 			//setupsceansettings
 			SetupScene(win);
-			pipe.win = win;
+			PipeLine.pipe.win = win;
 
 			win.Load += Win_Load; //one time load on start
 			win.UpdateFrame += Win_UpdateFrame; //on each frame do this     
@@ -43,7 +44,7 @@ namespace OpenGL_CSharp
 		private static void SetupScene(GameWindow win)
 		{
 			//intialize holder for the project main variables
-			pipe = new Pipelinevars();
+			 
 			//defin viewport size
 			GL.Viewport(0, 0, 800, 800);
 			GL.ClearColor(0, 0, .18f, 1);//set background color
@@ -56,25 +57,7 @@ namespace OpenGL_CSharp
 
 		 
 
-		public static Pipelinevars pipe; //just global class for all required variables
-		public class Pipelinevars
-		{
-			public Camera cam = new Camera();
-			public Camera cam2 = new Camera();			
-			public float offsetX = 0.5f;
-			public float speed = .3f;
-			internal GameWindow win;
-			public List<Geometery.BaseGeometry> geos = new List<BaseGeometry>();
-
-			public Pipelinevars()
-			{
-				cam2.Position = new Vector3(5, 2, 0);
-				geos.Add(cam2);
-				cam2.RenderCameraLine();
-				cam2.LoadGeometry();
-				cam2.shader = new ObjectColor();
-			}
-		}
+		
 
 		 
 		static private Matrix4 FromMatrix(Assimp.Matrix4x4 mat)
@@ -102,7 +85,7 @@ namespace OpenGL_CSharp
 		private static void Win_Load(object sender, EventArgs e)
 		{
 			 
-			pipe.cam.Target = new Vector3(0, 1, 0);
+			//PipeLine.pipe.cam.Target = new Vector3(0, 1, 0);
 			//Create Light Source
 			List<LightSource> lightSources = LightSource.SetupLights(3);
 
@@ -156,7 +139,7 @@ namespace OpenGL_CSharp
 				}
 
 				duck.LoadGeometry();
-				//  pipe.geos.Add(duck);
+				//  PipeLine.pipe.geos.Add(duck);
 				//  duck.model = model;
 				duck.objectColor = new Vector3(1f, 0f, 1f);
 				duck.shader = new Tex2Frag(duck.objectColor);
@@ -166,7 +149,7 @@ namespace OpenGL_CSharp
 			});
 
 			var plan = new Plan();
-			pipe.geos.Add(plan);
+			PipeLine.pipe.geos.Add(plan);
 			plan.LoadGeometry();
 			plan.model *= Matrix4.CreateTranslation(new Vector3(0, 0f, 0)) * Matrix4.CreateScale(22f);
 			plan.shader = new Tex2Frag(@"Textures\container.jpg", @"Textures\container_specular.jpg");
@@ -177,7 +160,7 @@ namespace OpenGL_CSharp
 
 			//Light Source Geometry
 			var pyr = new Cube();
-			// pipe.geos.Add(pyr);           
+			// PipeLine.pipe.geos.Add(pyr);           
 			pyr.LoadGeometry();
 
 			pyr.shader = new LampFrag();
@@ -190,7 +173,7 @@ namespace OpenGL_CSharp
 
 				//defin the shap to be drawn             
 				var cube = new Cube();
-				pipe.geos.Add(cube);
+				PipeLine.pipe.geos.Add(cube);
 				var ang = (float)Math.Cos(i * 20) + rn.Next(-10, 10);
 				var ang1 = (float)Math.Cos(i * 30) + rn.Next(-10, 10);
 				var ang2 = (float)Math.Cos(i * 40) + rn.Next(-10, 10);
@@ -211,9 +194,9 @@ namespace OpenGL_CSharp
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 			GL.Clear(ClearBufferMask.DepthBufferBit); //this is required to redraw all the depth changes due to camera/View/Object movement
 
-			for (int i = 0; i < pipe.geos.Count; i++)
+			for (int i = 0; i < PipeLine.pipe.geos.Count; i++)
 			{
-				var geo = pipe.geos[i];
+				var geo = PipeLine.pipe.geos[i];
 				geo.RenderGeometry();
 				// geo.shader.Use();
 
@@ -221,7 +204,7 @@ namespace OpenGL_CSharp
 			}
 
 			//swap the buffer (bring what has been rendered in theback to the front)
-			pipe.win.SwapBuffers();
+			PipeLine.pipe.win.SwapBuffers();
 		}
 
 		private static void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -238,9 +221,9 @@ namespace OpenGL_CSharp
 			GL.UseProgram(0);
 
 			// Delete all the resources.
-			for (int i = 0; i < pipe.geos.Count; i++)
+			for (int i = 0; i < PipeLine.pipe.geos.Count; i++)
 			{
-				var o = pipe.geos[i];
+				var o = PipeLine.pipe.geos[i];
 				GL.DeleteBuffer(o.vbo);
 				GL.DeleteVertexArray(o.ebo);
 				GL.DeleteVertexArray(o.vao);

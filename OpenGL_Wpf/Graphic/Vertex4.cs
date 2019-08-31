@@ -1,4 +1,5 @@
 ﻿using Assimp;
+using OpenTK;
 
 namespace OpenGL_CSharp.Graphic
 {
@@ -7,7 +8,7 @@ namespace OpenGL_CSharp.Graphic
     {
         public static new int vcount = 4;
         public OpenTK.Vector4 vector4;
-		
+		 
 
 		 
 

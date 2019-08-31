@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenGL_Wpf.Geometery;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Geometery
 {
-    public class Plan : BaseGeometry
+    public class Plan : Geometry
     {
         public Plan()
         {
-            points = new List<Graphic.Vertex>()
+			Name = "Plan";
+
+			points = new List<Graphic.Vertex>()
             {
                 new Graphic.Vertex()
                 {

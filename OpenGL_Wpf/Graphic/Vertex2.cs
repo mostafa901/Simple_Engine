@@ -17,11 +17,41 @@ namespace OpenGL_CSharp.Graphic
             vector2 = new Vector2(X, Y);
         }
 
-      
 
-        //Texture
-        public float X { get; set; }
-        public float Y { get; set; }
+
+		//Texture
+
+		#region X
+
+		private float _X;
+
+		public float X
+		{
+			get
+			{
+				return _X;
+			}
+			set { SetProperty(ref _X, value); }
+
+		}
+		#endregion
+
+		#region Y
+
+		private float _Y;
+
+		public float Y
+		{
+			get
+			{
+				return _Y;
+			}
+			set { SetProperty(ref _Y, value); }
+
+		}
+		#endregion
+
+		 
 
         override public float[] data()
         {

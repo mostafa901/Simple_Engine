@@ -48,6 +48,9 @@
     <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="PrjShared_Utility">
+      <HintPath>..\..\Shared_Utility\PrjShared_Utility\PrjShared_Utility\bin\Debug\PrjShared_Utility.dll</HintPath>
+    </Reference>
     <Reference Include="QuickFont, Version=4.5.7053.25687, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\QuickFont.Desktop.4.5.7053.25687\lib\net45\QuickFont.dll</HintPath>
     </Reference>
@@ -78,6 +81,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Geometery\BaseGeometry.cs" />
     <Compile Include="Geometery\Cube.cs" />
+    <Compile Include="Geometery\Geometry.cs" />
     <Compile Include="Geometery\Plan.cs" />
     <Compile Include="Geometery\Pyramid.cs" />
     <Compile Include="Graphic\BoundingBox.cs" />
@@ -85,14 +89,32 @@
     <Compile Include="Graphic\Vertex2.cs" />
     <Compile Include="Graphic\Vertex3.cs" />
     <Compile Include="Graphic\Vertex4.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="MV_App.cs" />
     <Compile Include="Shaders\BaseShader.cs" />
     <Compile Include="Shaders\LampFragment.cs" />
     <Compile Include="Shaders\Light\LightSource.cs" />
     <Compile Include="Shaders\ObjectColor.cs" />
     <Compile Include="Shaders\Tex2Frag.cs" />
     <Compile Include="Textures\Textures.cs" />
-    <Compile Include="WindowNavigation.cs" />
+    <Compile Include="ViewControls\BaseControls\BindableProperty.cs" />
+    <Compile Include="ViewControls\BaseControls\BoolControl.xaml.cs">
+      <DependentUpon>BoolControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\BaseControls\Vertex3Control.xaml.cs">
+      <DependentUpon>Vertex3Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\CameraControl.xaml.cs">
+      <DependentUpon>CameraControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\Converters\GeometryConverter.cs" />
+    <Compile Include="ViewControls\Converters\LightConverter.cs" />
+    <Compile Include="ViewControls\Converters\CameraConverter.cs" />
+    <Compile Include="ViewControls\GeometryControl.xaml.cs">
+      <DependentUpon>GeometryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControls\LightControl.xaml.cs">
+      <DependentUpon>LightControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +127,26 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ViewControls\BaseControls\BoolControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\BaseControls\Vertex3Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\CameraControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\GeometryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewControls\LightControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -1,4 +1,5 @@
 ﻿using OpenGL_CSharp.Graphic;
+using OpenGL_Wpf.Geometery;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Geometery
 {
-   public class Cube : BaseGeometry
+   public class Cube : Geometry
     {
         public Cube()
         {
+			Name = "Cube";
             points = new List<Vertex>();
 
             #region Points

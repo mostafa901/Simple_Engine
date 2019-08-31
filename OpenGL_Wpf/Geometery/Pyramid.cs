@@ -1,4 +1,5 @@
 ﻿using OpenGL_CSharp.Graphic;
+using OpenGL_Wpf.Geometery;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace OpenGL_CSharp.Geometery
 {
-    class Pyramid : BaseGeometry
+    class Pyramid : Geometry
     {
 
         public Pyramid()
         {
-            #region Points
-            points = new List<Vertex>();
+			Name = "Pyramid";
+
+			#region Points
+			points = new List<Vertex>();
 
             points.Add(
                 new Vertex()

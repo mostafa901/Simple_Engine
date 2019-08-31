@@ -33,11 +33,11 @@ namespace OpenGL_Wpf
 	public partial class MainWindow : Window
 	{
 
-
+		public static MV_App mv;
 		public MainWindow()
 		{
 			InitializeComponent();
-
+			Name = "MainWindow";
 
 			WindowStyle = WindowStyle.None;
 			Background = System.Windows.Media.Brushes.Transparent;
@@ -55,100 +55,61 @@ namespace OpenGL_Wpf
 			var settings = new GLWpfControlSettings();
 			settings.MajorVersion = 3;
 			settings.MinorVersion = 6;
-			
+
 			GLWindow.Start(settings);
+			GLWindow.PreviewMouseLeftButtonDown += delegate
+			{
+				GLWindow.Focus();
+			};
 
 			GLWindow.Loaded += delegate
 			  {
-				  var c = Color4.FromHsv(new Vector4(0, 0, 0.3f, 0.5f));
-				  GL.ClearColor(c);//set background color
-				  
-				  var builderConfig = new QFontBuilderConfiguration(true)
-				  {
-					  ShadowConfig =
-				{
-					BlurRadius = 2,
-					BlurPasses = 1,
-					Type = ShadowType.Blurred
-				},
-					  TextGenerationRenderHint = TextGenerationRenderHint.ClearTypeGridFit,
-					  Characters = CharacterSet.General | CharacterSet.Japanese | CharacterSet.Thai | CharacterSet.Cyrillic
-				  };
+				  DataContext = mv = new MV_App();
 
-				  _myFont = new QFont("Fonts/! pepsi !.ttf", 72, builderConfig);
-				  _myFont2 = new QFont("Fonts/Onyx.ttf", 72, builderConfig);
-				  _drawing = new QFontDrawing();
-				  _controlsDrawing = new QFontDrawing();
-				  _controlsTextOpts = new QFontRenderOptions { Colour = Color.FromArgb(new Color4(0.8f, 0.1f, 0.1f, 1.0f).ToArgb()), DropShadowActive = true };
+				  var c = Color4.FromHsv(new Vector4(0, 0, 0.3f, 0.5f));
+				  GL.ClearColor(c);//set background color				 
 				  GL.Enable(EnableCap.CullFace);
 				  GL.FrontFace(FrontFaceDirection.Ccw);
 				  GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
 				  GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
 				  GL.Enable(EnableCap.DepthTest);
 
-				  Program.pipe = new Program.Pipelinevars();
+				  mv.ViewCam = new Camera("Camera 01");
+				  new Camera("Camera 02");
+
 
 				  var cub = new Cube();
 				  cub.LoadGeometry();
 				  //cub.shader = new ObjectColor();
 				  cub.shader = new Tex2Frag(new Vector3(1, .2f, .3f));
-				  cub.shader.LightSources = LightSource.SetupLights(3);
-				  Program.pipe.geos.Add(cub);
-
+				  cub.shader.LightSources = LightSource.SetupLights(1);
+				  
 			  };
 		}
 
 
 		private void MainWindow_MouseMove(object sender, MouseEventArgs e)
 		{
-			Program.pipe.cam.FirstPerson(e);
+			mv.ViewCam.FirstPerson(e);
 		}
 
 
 		TimeSpan elapsedTime;
-		private QFont _myFont;
-		private QFont _myFont2;
-		private QFontDrawing _drawing;
-		private QFontDrawing _controlsDrawing;
-		private QFontRenderOptions _controlsTextOpts;
-		float yOffset = 0;
+
 		private void OpenTkControl_OnRender(TimeSpan _elapsedTime)
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			elapsedTime = _elapsedTime;
-#if true
-
-			//Program.pipe.cam.updateCamera();
-
-			foreach (var geo in Program.pipe.geos)
+			
+			foreach (var geo in mv.Geos)
 			{
+				if (!geo.ShowModel) continue;
 				geo.RenderGeometry();
 				GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
 			}
 
-#if false
-
-			_drawing.DrawingPrimitives.Clear();
-			_drawing.Print(_myFont, "text1", new Vector3(0), QFontAlignment.Left);
-
-			// draw with options
-			var textOpts = new QFontRenderOptions()
-			{
-				Colour = Color.FromArgb(new Color4(0.8f, 0.1f, 0.1f, 1.0f).ToArgb()),
-				DropShadowActive = true
-			};
-			SizeF size = _drawing.Print(_myFont, "text2", new Vector3(.5f, .5f, .5f), QFontAlignment.Left, textOpts);
-
-			var dp = new QFontDrawingPrimitive(_myFont2);
-			size = dp.Print("tx2", new Vector3(0, (float)Height - yOffset, 0), new SizeF(100f, float.MaxValue), QFontAlignment.Left);
-			_drawing.DrawingPrimitives.Add(dp);
-
-			// after all changes do update buffer data and extend it's size if needed.
-			_drawing.RefreshBuffers();
-			_drawing.Draw(); 
-#endif
 			GL.Finish();
-#endif
+
 
 #if false
 			GL.LoadIdentity();
@@ -166,12 +127,12 @@ namespace OpenGL_Wpf
 		#region Navigation
 		private void Win_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			Program.pipe.cam.WheelControl(e);
+			mv.ViewCam.WheelControl(e);
 		}
 
 		private void Win_KeyDown(object sender, KeyEventArgs e)
 		{
-			Program.pipe.cam.Control(e, elapsedTime);
+			mv.ViewCam.Control(e, elapsedTime);
 		}
 		#endregion
 	}

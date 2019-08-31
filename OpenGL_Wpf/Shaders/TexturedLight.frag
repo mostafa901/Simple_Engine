@@ -59,25 +59,26 @@ uniform Light Lights[NumberofLights];
 			Light light = Lights[i];
 			if(TotalLightNumber>i)
 			{
-			if(isLightWithinRange(light))
-			{
-				//Light is Point light
-				if(light.LightType==0)
-				{			
-					result += CalculatePointLight(light);			
+				if(isLightWithinRange(light))
+				{
+					//Light is Point light
+					if(light.LightType==0)
+					{			
+						result += CalculatePointLight(light);			
+					}
+					//Direction Light
+					if(light.LightType==1)
+					{			 
+						result += CalculateDirectionLight(light);			
+					}
 				}
-
-				if(light.LightType==1)
-				{			 
-					result += CalculateDirectionLight(light);			
-				}
-			}
-			}
+			
 			
 			if(result==vec3(0)) result= vec3(ambientcoff * vec3(texture(material.diffuse, texCoord)));	
 				
 			//Finally combine the results
 			FragColor = vec4(result,1.0f); //multiply the sum of the ambient and diffuse by the object color to get the approiate color result.
+			}
 		} 
 	 }
 
@@ -117,7 +118,7 @@ uniform Light Lights[NumberofLights];
 
 			//get diffuse
 			vec3 normal = normalize(PixelNormal); //notmalize Pixel normal, we only need Direction
-			vec3 lightDir = normalize(light.position - FragPos); //get the Vectore Ray between light position and target (Pixel) Position,
+			vec3 lightDir = normalize(light.position-FragPos); //get the Vectore Ray between light position and target (Pixel) Position,
 			float reflectionAngle = dot(lightDir,normal); //calculate the angle to use it as a degree of diffuse effeciency
 			float diffuseamount = max(reflectionAngle, 0); //if the angle is less tha 0 then the ray is not hitting the pixel
 
