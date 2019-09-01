@@ -10,12 +10,14 @@ using RAAPSII_APPS.APP_Test.OpenGL;
 #endif
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Utility;
 using Utility.IO;
 using Utility.MVVM;
 
@@ -114,7 +116,7 @@ namespace OpenGL_CSharp
 		private void Initialize()
 		{
 			Target = new Vertex3(0, 0, 0);
-			Position = new Vertex3(0, 0, 10);
+			Position = new Vertex3(0, 2, 0);
 			Direction = -Vector3.UnitZ;
 			Right = Vector3.UnitX;
 			Up = Vector3.UnitY;
@@ -162,125 +164,69 @@ namespace OpenGL_CSharp
 				fov = MathHelper.DegreesToRadians(180);
 
 			}
-			
+
 #endif
 			else
 			{
 				fov = MathHelper.DegreesToRadians(fdeg);
 			}
 		}
-		public void WheelControl(MouseWheelEventArgs e)
-		{
-			var dis = e.Delta * MouseSensivity;
-			Fov(dis);
-			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 1000f);
-		}
+
 		public override void LoadGeometry()
 		{
 			points = new List<Graphic.Vertex>();
 			var Vc = new Vertex4(objectColor.X, objectColor.Y, objectColor.Z, 1);
+			points.Clear();
 
 			points.Add(new Graphic.Vertex()
 			{
 				Position = Position,
 				Normal = Vertex3.FromVertex3(Direction),
 				TexCoor = new Vertex2(0, 0),
-				Vcolor = Vc
-			});
+				Vcolor = new Vertex4(0, 0, 1, 1)
+			}); ;
 
 			points.Add(new Graphic.Vertex()
 			{
-				Position = Target,
+				Position = Vertex3.FromVertex3(Position.vector3 + Direction),
 				Normal = Vertex3.FromVertex3(Direction),
 				TexCoor = new Vertex2(0, 0),
-				Vcolor = Vc
+				Vcolor = new Vertex4(0, 0, 1, 1)
 			});
-			Indeces = new List<int> { 0, 1 };
+
+			//UpVector
+			points.Add(new Graphic.Vertex()
+			{
+				Position = Vertex3.FromVertex3(Position.vector3 + Up),
+				Normal = Vertex3.FromVertex3(Direction),
+				TexCoor = new Vertex2(0, 0),
+				Vcolor = new Vertex4(0, 1, 0, 1)
+			});
+
+			//RightVector
+			points.Add(new Graphic.Vertex()
+			{
+				Position = Vertex3.FromVertex3(Position.vector3 + Right),
+				Normal = Vertex3.FromVertex3(Direction),
+				TexCoor = new Vertex2(0, 0),
+				Vcolor = new Vertex4(1, 0, 0, 1)
+			});
+
+
+			Indeces = new List<int>
+			{
+				0, 1, //Target
+				0, 2, //UP
+				0, 3 //Right
+			};
 			primitiveType = PrimitiveType.Lines;
 
 			vers = null; //set this to null to update vertex information.						
 			base.LoadGeometry();
 			shader = new ObjectColor();
 		}
-		public void MoveForward(TimeSpan et)
-		{
-			// move target and position on the same Camera direction
-			Position.Update(Position.vector3 + (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Direction)));
-			Target.Update(Target.vector3 + (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Direction)));
-			View = Matrix4.LookAt(Position.vector3, Target.vector3, Up);
-			UpdateDistance();
-		}
-		public void MoveRight(TimeSpan et)
-		{
-			// move target and position on the same Camera direction
-			Position.Update(Position.vector3 + (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Right)));
-			Target.Update(Target.vector3 + (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Right)));
-			View = Matrix4.LookAt(Position.vector3, Target.vector3, Up);
-			UpdateDistance();
-		}
-		public void MoveBackward(TimeSpan et)
-		{
-			// move target and position on the same Camera direction
-			Position.Update(Position.vector3 - (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Direction)));
-			Target.Update(Target.vector3 - (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Direction)));
-			View = Matrix4.LookAt(Position.vector3, Target.vector3, Up);
-			UpdateDistance();
-		}
-		public void MoveLeft(TimeSpan et)
-		{
-			// move target and position on the same Camera direction			  
-			Position.Update(Position.vector3 - (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Right)));
-			Target.Update(Target.vector3 - (increment * Vector3.Normalize(MainWindow.mv.ViewCam.Right)));
-			View = Matrix4.LookAt(Position.vector3, Target.vector3, Up);
-			UpdateDistance();
-		}
 
-		public void FirstPerson(MouseEventArgs e)
-		{
-			if (Keyboard.IsKeyDown(Key.LeftAlt))
-			{
-				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
-				if (gl == null) return;
-				var pos = e.GetPosition(gl);
-
-				if (oldx != 0)
-				{
-					float dx = ((float)pos.X - oldx) * MouseSensivity;
-					float dy = ((float)pos.Y - oldy) * MouseSensivity * -1;
-
-					Target.X += dx;
-					Target.Y += dy;
-
-				}
-				oldx = (float)pos.X;
-				oldy = (float)pos.Y;
-			}
-			if (e.MiddleButton == MouseButtonState.Pressed)
-			{
-				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
-				if (gl == null) return;
-				var pos = e.GetPosition(gl);
-
-				if (oldx != 0)
-				{
-					float dx = 2 * ((float)pos.X - oldx) / (float)MainWindow.Instance.GLWindow.ActualWidth ;
-					float dy = 2 * ((float)pos.Y - oldy) / (float)MainWindow.Instance.GLWindow.ActualHeight * -1;
-					View *= Matrix4.CreateTranslation(dx, dy, 0);
-					//Position.X += dx;
-					//Position.Y += dy;
-					//Target.X += dx;
-					//Target.Y += dy;
-				}
-				oldx = (float)pos.X;
-				oldy = (float)pos.Y;
-			}
-			if (e.MiddleButton == MouseButtonState.Released)
-			{
-				oldx = 0;
-			}
-		}
-
-		void UpdateDistance()
+		public void UpdateDistance()
 		{
 			UpdateDirections();
 			DistanceToTarget = (Position.vector3 - Target.vector3).Length;
@@ -303,6 +249,80 @@ namespace OpenGL_CSharp
 			if (ShowModel) LoadGeometry();
 		}
 
+		bool middlemousepressed = false;
+		bool Rightmousepressed = false;
+
+		public void FirstPerson(MouseEventArgs e)
+		{
+			if (Keyboard.IsKeyDown(Key.LeftShift) && e.RightButton == MouseButtonState.Pressed)
+			{
+				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
+				if (gl == null) return;
+				var pos = e.GetPosition(gl);
+
+				if (oldx != 0)
+				{
+					float dx = ((float)pos.X - oldx) * MouseSensivity;
+					float dy = ((float)pos.Y - oldy) * MouseSensivity * -1;
+
+					Target.X += dx;
+					Target.Y += dy;
+
+				}
+				oldx = (float)pos.X;
+				oldy = (float)pos.Y;
+				Rightmousepressed = true;
+
+			}
+			if (e.MiddleButton == MouseButtonState.Pressed)
+			{
+				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
+				if (gl == null) return;
+				var pos = e.GetPosition(gl);
+
+				if (oldx != 0)
+				{
+					float dx = 2 * ((float)pos.X - oldx) / (float)MainWindow.Instance.GLWindow.ActualWidth;
+					float dy = 2 * ((float)pos.Y - oldy) / (float)MainWindow.Instance.GLWindow.ActualHeight * -1;
+
+					var vx = -dx * Vector3.Normalize(MainWindow.mv.ViewCam.Right);
+					var vy = -dy * Vector3.Normalize(MainWindow.mv.ViewCam.Up);
+
+					Position.Update(Position.vector3 + vx + vy);
+					Target.Update(Target.vector3 + vx + vy);
+					View = Matrix4.LookAt(Position.vector3, Target.vector3, Up);
+					UpdateDistance();
+					middlemousepressed = true;
+				}
+				oldx = (float)pos.X;
+				oldy = (float)pos.Y;
+			}
+			if (e.MiddleButton == MouseButtonState.Released)
+			{
+				if (middlemousepressed)
+				{
+					oldx = 0;
+					UpdateDirections();
+					middlemousepressed = false;
+				}
+				
+			}
+			if(e.RightButton == MouseButtonState.Released)
+			{
+				if (Rightmousepressed)
+				{
+					oldx = 0;
+					UpdateDirections();
+					Rightmousepressed = false;
+				}
+			}
+		}
+		public void WheelControl(MouseWheelEventArgs e)
+		{
+			var dis = -1 * e.Delta * MouseSensivity;
+			Fov(dis);
+			Projection = Matrix4.CreatePerspectiveFieldOfView(fov, Aspect, 0.01f, 1000f);
+		}
 		public void Control(System.Windows.Input.KeyEventArgs e, TimeSpan t)
 		{
 			var currentHAngle = Math.Atan2(Position.X, Position.Z);
@@ -345,25 +365,6 @@ namespace OpenGL_CSharp
 				{
 					MainWindow.mv.Geos.ForEach(o => o.shader.specintens += 1f);
 				}
-			}
-
-			if (e.Key == Key.Right)
-			{
-				MoveRight(t);
-			}
-			if (e.Key == Key.Left)
-			{
-				MoveLeft(t);
-			}
-
-			if (e.Key == Key.Down)
-			{
-				MoveBackward(t);
-			}
-
-			if (e.Key == Key.Up)
-			{
-				MoveForward(t);
 			}
 
 			//Rotat Camera Around Z Axis

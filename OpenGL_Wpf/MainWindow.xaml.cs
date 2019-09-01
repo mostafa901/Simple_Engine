@@ -78,12 +78,12 @@ namespace OpenGL_Wpf
 				  GL.Enable(EnableCap.DepthTest);
 				  GL.Enable(EnableCap.StencilTest);
 				  GL.DepthFunc(DepthFunction.Less);//this is the default value and can be ignored.
-					GL.StencilFunc(StencilFunction.Notequal, 1, 1);
+				  GL.StencilFunc(StencilFunction.Notequal, 1, 1);
 				  GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
 				  mv.ViewCam = new Camera("Camera 01");
 				  mv.ViewCam.Position.Update(new Vector3(4, 7, 8));
-				  mv.ViewCam.UpdateDirections();
+				  mv.ViewCam.UpdateDistance();
 				  mv.ViewCam.updateCamera();
 				  new Camera("Camera 02");
 
@@ -99,26 +99,12 @@ namespace OpenGL_Wpf
 					  cub.ShowModel = true;
 					  //cub.shader = new ObjectColor();
 					  cub.shader = new Tex2Frag(new Vector3(1, .2f, .3f));
-
 				  }
-#if false
-				  var plan = new Plan();
-				  plan.model *= Matrix4.CreateScale(3);
-				  plan.LoadGeometry();
-				  plan.ShowModel = true;
-				  plan.shader = new Tex2Frag(new Vector3(0, 1f, .3f)); 
-#endif
-
-
 			  };
 		}
 
 
-		private void MainWindow_MouseMove(object sender, MouseEventArgs e)
-		{
-			mv.ViewCam.FirstPerson(e);
-		}
-
+		
 
 		TimeSpan elapsedTime;
 
@@ -130,7 +116,7 @@ namespace OpenGL_Wpf
 			foreach (var geo in mv.Geos)
 			{
 				if (!geo.ShowModel) continue;
-				
+
 				if (geo is LightSource)
 				{
 					//update light positions
@@ -139,10 +125,10 @@ namespace OpenGL_Wpf
 				}
 
 
-				if (geo.Name == "Cube1")
+				if (geo.Name == "Cube0")
 				{
 
-					//now scale the cube a bit and redraw the stensil with the colot
+					//now scale the cube a bit and redraw the stencil with the color
 					GL.StencilFunc(StencilFunction.Notequal, 1, 1);
 					GL.StencilMask(0);
 					GL.Disable(EnableCap.DepthTest);
@@ -156,16 +142,17 @@ namespace OpenGL_Wpf
 					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
 					GL.StencilMask(1);
 					GL.Enable(EnableCap.DepthTest);
-					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation())*Matrix4.CreateScale(1/1.01f)* Matrix4.CreateTranslation(originalmat.ExtractTranslation());
+					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1 / 1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation());
 
 					//draw normal cube and record the sensil buffer as 1.
-					GL.StencilMask(0xFF);
-					GL.StencilFunc(StencilFunction.Always, 1, 1);					 
+					GL.StencilMask(1);
+					GL.StencilFunc(StencilFunction.Always, 1, 1);
 					geo.shader.SetInt($"SelectionMode", 0);
 
 					geo.RenderGeometry();
 					GL.FrontFace(geo.FaceDirection);
 					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+
 				}
 				else
 				{
@@ -195,13 +182,18 @@ namespace OpenGL_Wpf
 		#region Navigation
 		private void Win_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			mv.ViewCam.WheelControl(e);
+		if(GLWindow.IsMouseOver)	mv.ViewCam.WheelControl(e);
 		}
 
 		private void Win_KeyDown(object sender, KeyEventArgs e)
 		{
-			mv.ViewCam.Control(e, elapsedTime);
+			if (GLWindow.IsMouseOver) mv.ViewCam.Control(e, elapsedTime);
 		}
+		private void MainWindow_MouseMove(object sender, MouseEventArgs e)
+		{
+			mv.ViewCam.FirstPerson(e);
+		}
+
 		#endregion
 	}
 }

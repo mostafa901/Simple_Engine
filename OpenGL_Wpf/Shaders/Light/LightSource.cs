@@ -18,7 +18,7 @@ namespace OpenGL_CSharp.Shaders.Light
 
 		public Vector3 specular = new Vector3(.8f);
 
-		public Vector3 Direction = new Vector3(1);
+		public Vector3 Direction = new Vector3(1,0,0);
 		public float OuterAngle = 0;
 		public float InnerAngle = 0;
 
@@ -29,11 +29,11 @@ namespace OpenGL_CSharp.Shaders.Light
 		public float Quaderic = .032f;
 
 
-		 
+
 
 		#region LightPosition
 
-		private Vertex3 _LightPosition;
+		private Vertex3 _LightPosition=new Vertex3(0,0,0);
 
 		public Vertex3 LightPosition
 		{
@@ -116,8 +116,12 @@ namespace OpenGL_CSharp.Shaders.Light
 					specular = OldSpecular;
 				}
 			};
+			
+			LightPosition.PropertyChanged += delegate
+			{
+				Direction = LightPosition.vector3 + 1 * Direction.Normalized();
+			};
 
-			 
 		}
 
 
@@ -132,8 +136,8 @@ namespace OpenGL_CSharp.Shaders.Light
 				l.primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Lines;
 
 				l.LightType = 0;
-				l.Direction = -Vector3.UnitY;
-				l.LightPosition = Vertex3.FromVertex3(new Vector3(2, 2f, 0));
+				//l.Direction = -Vector3.UnitY;
+				l.LightPosition.Update(new Vector3(2, 2f, 0));
 				l.Diffuse = Vertex3.FromVertex3(new Vector3(1));
 
 				l.InnerAngle = 12.5f;
@@ -153,6 +157,7 @@ namespace OpenGL_CSharp.Shaders.Light
 		{
 			Indeces = new List<int> { 0, 1 };
 			var vcol = new Vertex4(objectColor.X, objectColor.Y, objectColor.Z, 1);
+			points.Clear();
 			points.Add(new Graphic.Vertex()
 			{
 				Position = LightPosition,
@@ -162,7 +167,7 @@ namespace OpenGL_CSharp.Shaders.Light
 			});
 			points.Add(new Graphic.Vertex()
 			{
-				Position = new Vertex3(0, 0, 0),
+				Position = Vertex3.FromVertex3(Direction),
 				TexCoor = new Vertex2(0, 0),
 				Normal = Vertex3.FromVertex3(Direction),
 				Vcolor = vcol

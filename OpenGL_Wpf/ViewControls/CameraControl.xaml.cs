@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenGL_CSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,9 +23,14 @@ namespace OpenGL_Wpf.ViewControls
 	{
 		public CameraControl()
 		{
-			InitializeComponent();
-
+			InitializeComponent();			
 		}
 
+		private void bt_ActivateCamera(object sender, RoutedEventArgs e)
+		{
+			MainWindow.mv.ViewCam = DataContext as Camera;
+			MainWindow.mv.ViewCam.UpdateDistance();
+			MainWindow.mv.ViewCam.updateCamera();
+		}
 	}
 }

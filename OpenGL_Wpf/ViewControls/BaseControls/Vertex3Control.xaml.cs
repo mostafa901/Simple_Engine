@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using OpenGL_CSharp.Graphic;
+using Utility.IO;
 
 namespace OpenGL_Wpf.ViewControls.BaseControls
 {
@@ -26,7 +28,7 @@ namespace OpenGL_Wpf.ViewControls.BaseControls
 			InitializeComponent();
 			txtname.DataContext = this;
 		}
-		 
+
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
 		{
 			//Regex regex = new Regex("[^0-9]+.-");
@@ -46,10 +48,30 @@ namespace OpenGL_Wpf.ViewControls.BaseControls
 			set { SetValue(DescNameprop, value); }
 
 		}
+
+
+
 		#endregion
 
+		private void AddValue(object sender, MouseWheelEventArgs e)
+		{
 
+			var txb = sender as TextBox;
+			if (txb == null)
+			{
+				e.Handled = true;
+			}
+			else
+			{
+				e.Handled = false;
+				float v = 0;
+				float.TryParse(txb.Text, out v);
+				var ver = txb.DataContext as Vertex3;
+				BindingExpression be = BindingOperations.GetBindingExpression(txb, ((DependencyProperty)TextBox.TextProperty));
+				string Name = be.ParentBinding.Path.Path;
+				ver.InjectPropertyValue(Name, v + e.Delta * 0.025f);
 
-
+			}
+		}
 	}
 }

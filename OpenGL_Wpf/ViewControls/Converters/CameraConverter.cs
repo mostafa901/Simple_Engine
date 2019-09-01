@@ -17,7 +17,9 @@ namespace OpenGL_Wpf.ViewControls.Converters
 			if(parameter.ToString() == nameof(Visibility))
 			{
 				if (value is Camera)
+				{
 					return Visibility.Visible;
+				}
 				else return Visibility.Collapsed;
 			}
 			return value;

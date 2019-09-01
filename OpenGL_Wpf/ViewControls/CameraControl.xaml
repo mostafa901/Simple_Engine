@@ -16,14 +16,18 @@
 			<basectrl:Vertex3Control DataContext="{Binding Target}" 
 									 DescName="Target"/>
 			<basectrl:BoolControl DescName="Show Model"
-								  IChecked="{Binding ShowModel}"
+								  IChecked="{Binding ShowModel,Mode=TwoWay}"
 									ICMD="{Binding CMD}"								  
 								  />
 			<basectrl:BoolControl DescName="Show Depth"
-								  IChecked="{Binding ShowDepth}"
-									ICMD="{Binding CMD_ShowDepth}"								  
-								  
+								  IChecked="{Binding ShowDepth,Mode=TwoWay}"
+									ICMD="{Binding CMD_ShowDepth}"
 								  />
+			<Button Content="Set Active"
+					Click="bt_ActivateCamera"
+					Width="50"
+					HorizontalAlignment="Left"
+					/>
 		</StackPanel>
 
 

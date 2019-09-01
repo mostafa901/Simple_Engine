@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenGL_CSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace OpenGL_Wpf.ViewControls.BaseControls
 		public BoolControl()
 		{
 			InitializeComponent();
-			Desc.DataContext = this;
+			Desc.DataContext = this;			 
 		}
 
 

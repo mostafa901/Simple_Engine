@@ -65,7 +65,7 @@ namespace OpenGL_Wpf
 				return _SelectedItem;
 			}
 			set
-			{
+			{			 
 				SetProperty(ref _SelectedItem, value); 
 			}
 		}

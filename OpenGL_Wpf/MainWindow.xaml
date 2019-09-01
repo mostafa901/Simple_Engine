@@ -8,7 +8,7 @@
 		xmlns:vc="clr-namespace:OpenGL_Wpf.ViewControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" >
-	<Grid Margin="10">
+	<Grid >
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="200"/>
 			<ColumnDefinition Width="*"/>
@@ -16,10 +16,11 @@
 		<opn:GLWpfControl x:Name="GLWindow" 
 						  Render="OpenTkControl_OnRender" 
 						  Grid.Column="1"
-						  FocusManager.IsFocusScope="True"/>
+						   />
 		<Grid Background="#FF282828"
 			  Grid.Column="0">
-			<StackPanel FocusManager.IsFocusScope="False">
+			<StackPanel  
+						Margin="10">
 				<ComboBox ItemsSource="{Binding Geos}" 
 						  DisplayMemberPath="Name"
 						  VerticalAlignment="Center"
