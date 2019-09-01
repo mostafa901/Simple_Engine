@@ -14,11 +14,12 @@
 			<Style TargetType="TextBox">
 				<Setter Property="Margin" Value="2"/>
 				<Setter Property="Width" Value="50"/>
+				<EventSetter Event="PreviewTextInput" Handler="NumberValidationTextBox"/>
 			</Style>
 		</StackPanel.Resources>
 		<TextBlock x:Name="txtname" Text="{Binding DescName}"
 					   Foreground="White"/>
-		<TextBox Text="{Binding Path=X}"/>
+		<TextBox Text="{Binding Path=X}" />
 		<TextBox Text="{Binding Path=Y}"/>
 		<TextBox Text="{Binding Path=Z}"/>
 	</StackPanel>

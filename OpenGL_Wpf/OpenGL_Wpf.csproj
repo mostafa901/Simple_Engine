@@ -89,6 +89,7 @@
     <Compile Include="Graphic\Vertex2.cs" />
     <Compile Include="Graphic\Vertex3.cs" />
     <Compile Include="Graphic\Vertex4.cs" />
+    <Compile Include="Import.cs" />
     <Compile Include="MV_App.cs" />
     <Compile Include="Shaders\BaseShader.cs" />
     <Compile Include="Shaders\LampFragment.cs" />

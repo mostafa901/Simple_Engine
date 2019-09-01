@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace OpenGL_Wpf.ViewControls.BaseControls
 {
@@ -25,9 +26,12 @@ namespace OpenGL_Wpf.ViewControls.BaseControls
 			InitializeComponent();
 			txtname.DataContext = this;
 		}
-
-
-		
+		 
+		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+		{
+			//Regex regex = new Regex("[^0-9]+.-");
+			//e.Handled = regex.IsMatch(e.Text);
+		}
 
 		#region DescName
 		public static readonly DependencyProperty DescNameprop = DependencyProperty.Register(nameof(DescName), typeof(string), typeof(Vertex3Control));
@@ -45,7 +49,7 @@ namespace OpenGL_Wpf.ViewControls.BaseControls
 		#endregion
 
 
-	 
+
 
 	}
 }

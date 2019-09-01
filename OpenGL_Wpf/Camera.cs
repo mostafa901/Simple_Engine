@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Utility.IO;
+using Utility.MVVM;
 
 namespace OpenGL_CSharp
 {
@@ -59,8 +60,6 @@ namespace OpenGL_CSharp
 		#region Position
 
 		private Vertex3 _Position;
-		private string v;
-
 		public Vertex3 Position
 		{
 			get
@@ -72,11 +71,40 @@ namespace OpenGL_CSharp
 				SetProperty(ref _Position, value);
 
 			}
-
 		}
 		#endregion
 
 
+		#region ShowDepth
+
+		private bool _ShowDepth;
+
+		public bool ShowDepth
+		{
+			get
+			{
+				return _ShowDepth;
+			}
+			set { SetProperty(ref _ShowDepth, value); }
+
+		}
+		#endregion
+
+		#region CMD_ShowDepth
+
+		private cus_CMD _CMD_ShowDepth;
+
+		public cus_CMD CMD_ShowDepth
+		{
+			get
+			{
+				if (_CMD_ShowDepth == null) _CMD_ShowDepth = new cus_CMD();
+				return _CMD_ShowDepth;
+			}
+			set { SetProperty(ref _CMD_ShowDepth, value); }
+
+		}
+		#endregion
 
 		public Camera()
 		{
@@ -107,6 +135,11 @@ namespace OpenGL_CSharp
 				UpdateDirections();
 				updateCamera();
 			};
+
+			CMD_ShowDepth.Action = (a) =>
+			{
+				ShowDepth = (bool)a;
+			};
 		}
 		public Camera(string v)
 		{
@@ -123,13 +156,13 @@ namespace OpenGL_CSharp
 			{
 				fov = MathHelper.DegreesToRadians(1);
 			}
-#if false
-			else if (fdeg > 45)
+#if true
+			else if (fdeg > 180)
 			{
-				fov = MathHelper.DegreesToRadians(45);
+				fov = MathHelper.DegreesToRadians(180);
 
 			}
-			else 
+			
 #endif
 			else
 			{
@@ -204,7 +237,7 @@ namespace OpenGL_CSharp
 
 		public void FirstPerson(MouseEventArgs e)
 		{
-			if (Keyboard.IsKeyDown(Key.LeftShift))
+			if (Keyboard.IsKeyDown(Key.LeftAlt))
 			{
 				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
 				if (gl == null) return;
@@ -221,6 +254,29 @@ namespace OpenGL_CSharp
 				}
 				oldx = (float)pos.X;
 				oldy = (float)pos.Y;
+			}
+			if (e.MiddleButton == MouseButtonState.Pressed)
+			{
+				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
+				if (gl == null) return;
+				var pos = e.GetPosition(gl);
+
+				if (oldx != 0)
+				{
+					float dx = 2 * ((float)pos.X - oldx) / (float)MainWindow.Instance.GLWindow.ActualWidth ;
+					float dy = 2 * ((float)pos.Y - oldy) / (float)MainWindow.Instance.GLWindow.ActualHeight * -1;
+					View *= Matrix4.CreateTranslation(dx, dy, 0);
+					//Position.X += dx;
+					//Position.Y += dy;
+					//Target.X += dx;
+					//Target.Y += dy;
+				}
+				oldx = (float)pos.X;
+				oldy = (float)pos.Y;
+			}
+			if (e.MiddleButton == MouseButtonState.Released)
+			{
+				oldx = 0;
 			}
 		}
 

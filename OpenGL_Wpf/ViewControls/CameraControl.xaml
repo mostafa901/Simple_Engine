@@ -17,7 +17,11 @@
 									 DescName="Target"/>
 			<basectrl:BoolControl DescName="Show Model"
 								  IChecked="{Binding ShowModel}"
-									ICMD="{Binding CMD}"
+									ICMD="{Binding CMD}"								  
+								  />
+			<basectrl:BoolControl DescName="Show Depth"
+								  IChecked="{Binding ShowDepth}"
+									ICMD="{Binding CMD_ShowDepth}"								  
 								  
 								  />
 		</StackPanel>

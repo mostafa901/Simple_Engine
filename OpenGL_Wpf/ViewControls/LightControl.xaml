@@ -9,11 +9,13 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
 		<basectrl:Vertex3Control DescName="Position"
-									 DataContext="{Binding Position}"/>
+									 DataContext="{Binding LightPosition}"/>
 		<basectrl:Vertex3Control DescName="Direction"
 									 DataContext="{Binding Direction}"/>
 		<basectrl:Vertex3Control DescName="Target"
 									 DataContext="{Binding Target}"/>
+		<basectrl:Vertex3Control DescName="Diffuse"
+									 DataContext="{Binding Diffuse}"/>
 		<basectrl:BoolControl DescName="Show Model"
 							  IChecked="{Binding ShowModel}"
 							  ICMD="{Binding CMD}"
@@ -22,6 +24,9 @@
 							  IChecked="{Binding OnOff}"
 							  ICMD="{Binding SwitchLight}"
 							  />
+		
+		
+		
 
 	</StackPanel>
 </UserControl>

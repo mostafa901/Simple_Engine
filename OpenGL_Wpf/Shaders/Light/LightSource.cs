@@ -15,9 +15,9 @@ namespace OpenGL_CSharp.Shaders.Light
 	public class LightSource : BaseGeometry
 	{
 		public Vector3 ambient = new Vector3(.2f);
-		public Vector3 diffuse = new Vector3(1);
+
 		public Vector3 specular = new Vector3(.8f);
-		public Vector3 lightPosition = new Vector3(1);
+
 		public Vector3 Direction = new Vector3(1);
 		public float OuterAngle = 0;
 		public float InnerAngle = 0;
@@ -29,52 +29,44 @@ namespace OpenGL_CSharp.Shaders.Light
 		public float Quaderic = .032f;
 
 
-		#region OnOff
+		 
 
-		private bool _OnOff = true;
-		Vector3 OldDiffuse;
-		Vector3 OldSpecular;
-		public bool OnOff
+		#region LightPosition
+
+		private Vertex3 _LightPosition;
+
+		public Vertex3 LightPosition
 		{
 			get
 			{
-				return _OnOff;
+				return _LightPosition;
 			}
-			set
-			{
-				SetProperty(ref _OnOff, value);				
-			}
+			set { SetProperty(ref _LightPosition, value); }
 
 		}
 		#endregion
 
-		public LightSource()
+
+		#region Diffuse
+
+		private Vertex3 _Diffuse;
+
+		public Vertex3 Diffuse
 		{
-			objectColor = new Vector3(1, 1, 0);
-			OldDiffuse = diffuse;
-			OldSpecular = specular;
-			SwitchLight.action = (a) =>
+			get
 			{
-				OnOff = (bool)a;
-				if (!OnOff)
-				{
-					specular = diffuse = new Vector3(0);
+				return _Diffuse;
+			}
+			set { SetProperty(ref _Diffuse, value); }
 
-				}
-				else
-				{
-					diffuse = OldDiffuse;
-					specular = OldSpecular;
-				}
-			};
 		}
-
+		#endregion
 
 		#region SwitchLight
 
 		private cus_CMD _SwitchLight;
 
-		public cus_CMD SwitchLight
+		public cus_CMD CMD_SwitchLight
 		{
 			get
 			{
@@ -85,6 +77,48 @@ namespace OpenGL_CSharp.Shaders.Light
 
 		}
 		#endregion
+
+		#region OnOff
+
+		private bool _OnOff = true;
+		Vertex3 OldDiffuse;
+		Vector3 OldSpecular;
+		public bool OnOff
+		{
+			get
+			{
+				return _OnOff;
+			}
+			set
+			{
+				SetProperty(ref _OnOff, value);
+			}
+
+		}
+		#endregion
+
+		public LightSource()
+		{
+			objectColor = new Vector3(1, 1, 0);
+			OldDiffuse = Diffuse;
+			OldSpecular = specular;
+			CMD_SwitchLight.action = (a) =>
+			{
+				OnOff = (bool)a;
+				if (!OnOff)
+				{
+					Diffuse.Update(new Vector3(0));
+					specular = Diffuse.vector3;
+				}
+				else
+				{
+					Diffuse = OldDiffuse;
+					specular = OldSpecular;
+				}
+			};
+
+			 
+		}
 
 
 		public static List<LightSource> SetupLights(int count)
@@ -99,8 +133,8 @@ namespace OpenGL_CSharp.Shaders.Light
 
 				l.LightType = 0;
 				l.Direction = -Vector3.UnitY;
-				l.lightPosition = new Vector3(2, 2f, 0);
-				l.diffuse = new Vector3(1, 1, 1);
+				l.LightPosition = Vertex3.FromVertex3(new Vector3(2, 2f, 0));
+				l.Diffuse = Vertex3.FromVertex3(new Vector3(1));
 
 				l.InnerAngle = 12.5f;
 				l.OuterAngle = 0;
@@ -121,7 +155,7 @@ namespace OpenGL_CSharp.Shaders.Light
 			var vcol = new Vertex4(objectColor.X, objectColor.Y, objectColor.Z, 1);
 			points.Add(new Graphic.Vertex()
 			{
-				Position = Vertex3.FromVertex3(lightPosition),
+				Position = LightPosition,
 				TexCoor = new Vertex2(0, 0),
 				Normal = Vertex3.FromVertex3(Direction),
 				Vcolor = vcol

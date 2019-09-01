@@ -41,6 +41,7 @@ namespace OpenGL_CSharp.Geometery
 		public string modelpath = "";
 		private float increment = 0.5f;
 
+
 		#region ShowModel
 
 		private bool _ShowModel = false;
@@ -57,7 +58,8 @@ namespace OpenGL_CSharp.Geometery
 		#endregion
 		 
 		public BoundingBox Bbx { get; set; }
-
+				
+		public override string Name { get => base.Name; set => base.Name = value; }
 		public BaseGeometry()
 		{
 			MainWindow.mv.Geos.Add(this);

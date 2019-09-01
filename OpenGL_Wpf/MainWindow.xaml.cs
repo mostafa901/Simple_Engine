@@ -34,10 +34,13 @@ namespace OpenGL_Wpf
 	{
 
 		public static MV_App mv;
+		public static MainWindow Instance;
 		public MainWindow()
 		{
 			InitializeComponent();
 			Name = "MainWindow";
+
+			Instance = this;
 
 			WindowStyle = WindowStyle.None;
 			Background = System.Windows.Media.Brushes.Transparent;
@@ -73,21 +76,40 @@ namespace OpenGL_Wpf
 				  GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
 				  GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
 				  GL.Enable(EnableCap.DepthTest);
+				  GL.Enable(EnableCap.StencilTest);
+				  GL.DepthFunc(DepthFunction.Less);//this is the default value and can be ignored.
+					GL.StencilFunc(StencilFunction.Notequal, 1, 1);
+				  GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
 				  mv.ViewCam = new Camera("Camera 01");
-				  mv.ViewCam.Position = new OpenGL_CSharp.Graphic.Vertex3(4, 7, 8);
+				  mv.ViewCam.Position.Update(new Vector3(4, 7, 8));
 				  mv.ViewCam.UpdateDirections();
 				  mv.ViewCam.updateCamera();
 				  new Camera("Camera 02");
 
+				  //setup global project lights
+				  BaseShader.LightSources = LightSource.SetupLights(1);
 
-				  var cub = new Cube();
-				  cub.LoadGeometry();
-				  cub.ShowModel = true;
-				  //cub.shader = new ObjectColor();
-				  cub.shader = new Tex2Frag(new Vector3(1, .2f, .3f));
-				  cub.shader.LightSources = LightSource.SetupLights(1);
-				  
+				  for (int i = 0; i < 20; i++)
+				  {
+					  var cub = new Cube();
+					  cub.Name += i;
+					  cub.model *= Matrix4.CreateTranslation(0, 0, i * 3);
+					  cub.LoadGeometry();
+					  cub.ShowModel = true;
+					  //cub.shader = new ObjectColor();
+					  cub.shader = new Tex2Frag(new Vector3(1, .2f, .3f));
+
+				  }
+#if false
+				  var plan = new Plan();
+				  plan.model *= Matrix4.CreateScale(3);
+				  plan.LoadGeometry();
+				  plan.ShowModel = true;
+				  plan.shader = new Tex2Frag(new Vector3(0, 1f, .3f)); 
+#endif
+
+
 			  };
 		}
 
@@ -102,14 +124,56 @@ namespace OpenGL_Wpf
 
 		private void OpenTkControl_OnRender(TimeSpan _elapsedTime)
 		{
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 			elapsedTime = _elapsedTime;
-			
+
 			foreach (var geo in mv.Geos)
 			{
 				if (!geo.ShowModel) continue;
-				geo.RenderGeometry();
-				GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+				
+				if (geo is LightSource)
+				{
+					//update light positions
+					geo.LoadGeometry();
+
+				}
+
+
+				if (geo.Name == "Cube1")
+				{
+
+					//now scale the cube a bit and redraw the stensil with the colot
+					GL.StencilFunc(StencilFunction.Notequal, 1, 1);
+					GL.StencilMask(0);
+					GL.Disable(EnableCap.DepthTest);
+					geo.shader.SetInt($"SelectionMode", 1);
+					var originalmat = geo.model;
+
+					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation());
+
+					geo.RenderGeometry();
+					GL.FrontFace(geo.FaceDirection);
+					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+					GL.StencilMask(1);
+					GL.Enable(EnableCap.DepthTest);
+					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation())*Matrix4.CreateScale(1/1.01f)* Matrix4.CreateTranslation(originalmat.ExtractTranslation());
+
+					//draw normal cube and record the sensil buffer as 1.
+					GL.StencilMask(0xFF);
+					GL.StencilFunc(StencilFunction.Always, 1, 1);					 
+					geo.shader.SetInt($"SelectionMode", 0);
+
+					geo.RenderGeometry();
+					GL.FrontFace(geo.FaceDirection);
+					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+				}
+				else
+				{
+					geo.RenderGeometry();
+					GL.FrontFace(geo.FaceDirection);
+					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+				}
+
 			}
 
 			GL.Finish();

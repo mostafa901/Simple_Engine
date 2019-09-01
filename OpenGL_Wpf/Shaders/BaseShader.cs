@@ -18,7 +18,7 @@ namespace OpenGL_CSharp.Shaders
     
     public class BaseShader
     {
-        public List<LightSource> LightSources;
+        public static List<LightSource> LightSources;
         public float specintens = 30;
         public Vector3 objectcolor;
 

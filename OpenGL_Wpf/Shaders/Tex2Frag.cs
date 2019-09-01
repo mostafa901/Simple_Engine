@@ -89,16 +89,17 @@ namespace OpenGL_CSharp.Shaders
             SetInt("material.specular", 1);
             SetInt("TotalLightNumber", LightSources.Count);
             SetInt("IsBlin", Convert.ToInt32(IsBlin));
+			SetInt($"ShowDepth", Convert.ToInt32(MainWindow.mv.ViewCam.ShowDepth));
 
 
-            for (int i = 0; i < LightSources.Count; i++)
+			for (int i = 0; i < LightSources.Count; i++)
             {
                 //setuplight effect
                 //-----------------
                 SetUniformV3($"Lights[{i}].ambient", LightSources[i].ambient);
-                SetUniformV3($"Lights[{i}].diffuse", LightSources[i].diffuse);
+                SetUniformV3($"Lights[{i}].diffuse", LightSources[i].Diffuse.vector3);
                 SetUniformV3($"Lights[{i}].specular", LightSources[i].specular);
-                SetUniformV3($"Lights[{i}].position", LightSources[i].lightPosition);
+                SetUniformV3($"Lights[{i}].position", LightSources[i].LightPosition.vector3);
                 SetUniformV3($"Lights[{i}].Direction", LightSources[i].Direction);
                 SetFloat($"Lights[{i}].InnerAngle", LightSources[i].InnerAngle);
                 SetFloat($"Lights[{i}].OuterAngle", LightSources[i].OuterAngle);
@@ -106,9 +107,10 @@ namespace OpenGL_CSharp.Shaders
                 SetFloat($"Lights[{i}].Linear", LightSources[i].Linear);
                 SetFloat($"Lights[{i}].Quaderic", LightSources[i].Quaderic);
                 SetInt($"Lights[{i}].LightType", LightSources[i].LightType);
-            }
 
-        }
+			}
+
+		}
 
         private void Setbool(string v, bool isBlin)
         {

@@ -15,6 +15,10 @@ uniform float specintens = 1.0f; //setupSpecular intenesty
 uniform float ambientcoff = 0.07f; //ambient coffecient intenesty 
 uniform int TotalLightNumber = 1; //ambient coffecient intenesty 
 uniform int IsBlin = 0; //consider Blinne shading calclations
+uniform int ShowDepth = 0; //Show depth Fragment Color, the deeper the more white
+uniform vec3 SelectionColor ; //Selection color
+uniform int SelectionMode=0 ; //Selection Mode
+
 
 struct Material {
     sampler2D  ambient;
@@ -50,6 +54,14 @@ uniform Light Lights[NumberofLights];
   bool isLightWithinRange(Light light);
   float GetAttenuation(Light light);
 
+   float near = 0.1; 
+float far  = 100.0; 
+  
+float LinearizeDepth(float depth) 
+{
+    float z = depth * 2.0 - 1.0; // back to NDC 
+    return (2.0 * near * far) / (far + near - z * (far - near));	
+}
 
 	void main()
 	{
@@ -73,14 +85,29 @@ uniform Light Lights[NumberofLights];
 					}
 				}
 			
-			
+			if(ShowDepth==0  && SelectionMode==0)
+			{
 			if(result==vec3(0)) result= vec3(ambientcoff * vec3(texture(material.diffuse, texCoord)));	
 				
 			//Finally combine the results
-			FragColor = vec4(result,1.0f); //multiply the sum of the ambient and diffuse by the object color to get the approiate color result.
+		 	 FragColor = vec4(result,1.0f); //multiply the sum of the ambient and diffuse by the object color to get the approiate color result.
+			 }
+			else if(SelectionMode==1)
+			{
+			 FragColor = vec4(1, .5, 0, .8);
 			}
+			else
+			{
+				float depth = LinearizeDepth(gl_FragCoord.z) / far; // divide by far for demonstration
+				FragColor = vec4(vec3(depth), 1.0);
+			}
+		}
 		} 
 	 }
+
+	 
+	
+
 
 	 float GetFadOut(Light light)
 	 {
