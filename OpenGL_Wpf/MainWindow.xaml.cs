@@ -75,11 +75,15 @@ namespace OpenGL_Wpf
 				  GL.Enable(EnableCap.DepthTest);
 
 				  mv.ViewCam = new Camera("Camera 01");
+				  mv.ViewCam.Position = new OpenGL_CSharp.Graphic.Vertex3(4, 7, 8);
+				  mv.ViewCam.UpdateDirections();
+				  mv.ViewCam.updateCamera();
 				  new Camera("Camera 02");
 
 
 				  var cub = new Cube();
 				  cub.LoadGeometry();
+				  cub.ShowModel = true;
 				  //cub.shader = new ObjectColor();
 				  cub.shader = new Tex2Frag(new Vector3(1, .2f, .3f));
 				  cub.shader.LightSources = LightSource.SetupLights(1);

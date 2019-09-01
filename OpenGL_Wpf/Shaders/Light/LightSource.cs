@@ -33,6 +33,7 @@ namespace OpenGL_CSharp.Shaders.Light
 
 		private bool _OnOff = true;
 		Vector3 OldDiffuse;
+		Vector3 OldSpecular;
 		public bool OnOff
 		{
 			get
@@ -41,8 +42,7 @@ namespace OpenGL_CSharp.Shaders.Light
 			}
 			set
 			{
-				SetProperty(ref _OnOff, value);
-				
+				SetProperty(ref _OnOff, value);				
 			}
 
 		}
@@ -52,13 +52,20 @@ namespace OpenGL_CSharp.Shaders.Light
 		{
 			objectColor = new Vector3(1, 1, 0);
 			OldDiffuse = diffuse;
+			OldSpecular = specular;
 			SwitchLight.action = (a) =>
 			{
 				OnOff = (bool)a;
-				if (OnOff)
-					diffuse = new Vector3(0);
+				if (!OnOff)
+				{
+					specular = diffuse = new Vector3(0);
+
+				}
 				else
+				{
 					diffuse = OldDiffuse;
+					specular = OldSpecular;
+				}
 			};
 		}
 
