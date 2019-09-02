@@ -271,9 +271,7 @@ namespace OpenGL_CSharp
 				oldx = (float)pos.X;
 				oldy = (float)pos.Y;
 				Rightmousepressed = true;
-
-			}
-			
+			}		
 			
 			if (e.RightButton == MouseButtonState.Released)
 			{

@@ -129,21 +129,11 @@ namespace OpenGL_Wpf
 				{
 
 					//now scale the cube a bit and redraw the stencil with the color
-					GL.StencilFunc(StencilFunction.Notequal, 1, 1);
+					GL.StencilFunc(StencilFunction.Always, 1, 1);
 					GL.StencilMask(1);
 					GL.Disable(EnableCap.DepthTest);
-					geo.shader.SetInt($"SelectionMode", 1);
-					var originalmat = geo.model;					 
-					geo.RenderGeometry();
-					GL.FrontFace(geo.FaceDirection);
-					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
-
-#if false
-					//draw normal cube and record the sensil buffer as 1.
-					GL.StencilMask(1);
-					GL.Enable(EnableCap.DepthTest);
-					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation()); 
-					GL.StencilFunc(StencilFunction.Always, 1, 1);
+					var originalmat = geo.model;
+					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation());
 					geo.shader.SetInt($"SelectionMode", 1);
 					geo.RenderGeometry();
 					GL.FrontFace(geo.FaceDirection);
@@ -151,11 +141,13 @@ namespace OpenGL_Wpf
 
 					//draw normal cube and record the sensil buffer as 1.
 					GL.StencilMask(0);
-					GL.Disable(EnableCap.StencilTest);
 					GL.Enable(EnableCap.DepthTest);
+					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1/1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation()); 
+					GL.StencilFunc(StencilFunction.Always, 1, 1);
 					geo.shader.SetInt($"SelectionMode", 0);
-					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1 / 1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation()); 
-#endif
+					geo.RenderGeometry();
+					GL.FrontFace(geo.FaceDirection);
+					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
 
 
 				}
