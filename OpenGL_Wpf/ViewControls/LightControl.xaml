@@ -24,6 +24,10 @@
 							  IChecked="{Binding OnOff}"
 							  ICMD="{Binding SwitchLight}"
 							  />
+		<basectrl:BoolControl DescName="Attenuate"
+							  IChecked="{Binding Attenuate}"
+							  ICMD="{Binding CMD_Attenuate}"
+							  />
 		
 		
 		

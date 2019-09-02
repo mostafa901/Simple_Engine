@@ -44,6 +44,8 @@ struct Light {
 	float OuterAngle;
 	
 	int LightType; //0=>Point, 1=>Direction 2=>Spot Light
+    int Attenuate; //Decrease Light due distance
+
 };
 #define NumberofLights 5
 uniform Light Lights[NumberofLights];
@@ -132,6 +134,7 @@ float LinearizeDepth(float depth)
 
 	  float GetAttenuation(Light light)
 	  {
+	  //decrease light intenisty by a value due distance
 		float d=length(light.position-FragPos); //get the distance between light source and fragment position
 		return 1.0/(light.Constant+light.Linear*d+light.Quaderic * d * d); //Calculate Attenuation
 	  }
@@ -168,7 +171,9 @@ float LinearizeDepth(float depth)
 			  specular = light.specular * spec * vec3(texture(material.specular,texCoord)); //multiply all to get the actual specular intenisty and color and radius
 			}
 
-			float atten = GetAttenuation(light);
+			float atten = 1;
+			if(light.Attenuate==1) 
+			atten=	GetAttenuation(light);
 			float intens =  GetFadOut(light);
 
 			ambient*=atten*intens;
@@ -202,6 +207,8 @@ float LinearizeDepth(float depth)
 		vec3 specular = light.specular * spec * vec3(texture(material.specular,texCoord)); //multiply all to get the actual specular intenisty and color and radius
  
 		float atten = 1;
+		if(light.Attenuate==1) 
+			atten=	GetAttenuation(light);
 		float intens =  1;
 		ambient*=atten*intens;
 		specular*=atten*intens;

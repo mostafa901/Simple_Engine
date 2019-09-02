@@ -107,6 +107,7 @@ namespace OpenGL_CSharp.Shaders
                 SetFloat($"Lights[{i}].Linear", LightSources[i].Linear);
                 SetFloat($"Lights[{i}].Quaderic", LightSources[i].Quaderic);
                 SetInt($"Lights[{i}].LightType", LightSources[i].LightType);
+                SetInt($"Lights[{i}].Attenuate", Convert.ToInt32(LightSources[i].Attenuate));
 
 			}
 

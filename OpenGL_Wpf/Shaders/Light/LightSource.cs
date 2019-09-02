@@ -26,9 +26,40 @@ namespace OpenGL_CSharp.Shaders.Light
 
 		public float Constance = 1;
 		public float Linear = 0.09f;
-		public float Quaderic = .032f;
+		public float Quaderic = .032f; //value used for attenuation calculations
 
 
+		#region Attenuate
+
+		private bool _Attenuate;
+
+		public bool Attenuate
+		{
+			get
+			{
+				return _Attenuate;
+			}
+			set { SetProperty(ref _Attenuate, value); }
+
+		}
+		#endregion
+
+
+		#region CMD_Attenuate
+
+		private cus_CMD _CMD_Attenuate;
+
+		public cus_CMD CMD_Attenuate
+		{
+			get
+			{
+				if (_CMD_Attenuate == null) _CMD_Attenuate = new cus_CMD();
+				return _CMD_Attenuate;
+			}
+			set { SetProperty(ref _CMD_Attenuate, value); }
+
+		}
+		#endregion
 
 
 		#region LightPosition
@@ -101,7 +132,13 @@ namespace OpenGL_CSharp.Shaders.Light
 		{
 			objectColor = new Vector3(1, 1, 0);
 			OldDiffuse = Diffuse;
-			OldSpecular = specular;
+			OldSpecular = specular;			
+
+			SetupActions();
+		}
+
+		private void SetupActions()
+		{
 			CMD_SwitchLight.action = (a) =>
 			{
 				OnOff = (bool)a;
@@ -116,14 +153,17 @@ namespace OpenGL_CSharp.Shaders.Light
 					specular = OldSpecular;
 				}
 			};
-			
+
 			LightPosition.PropertyChanged += delegate
 			{
 				Direction = LightPosition.vector3 + 1 * Direction.Normalized();
 			};
 
+			CMD_Attenuate.Action = (a) =>
+			{
+				Attenuate = (bool)a;
+			};
 		}
-
 
 		public static List<LightSource> SetupLights(int count)
 		{

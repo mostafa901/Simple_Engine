@@ -192,6 +192,7 @@ namespace OpenGL_Wpf
 		private void MainWindow_MouseMove(object sender, MouseEventArgs e)
 		{
 			mv.ViewCam.FirstPerson(e);
+			mv.ViewCam.PanView(e);
 		}
 
 		#endregion

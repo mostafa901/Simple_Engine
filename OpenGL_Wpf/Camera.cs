@@ -249,7 +249,6 @@ namespace OpenGL_CSharp
 			if (ShowModel) LoadGeometry();
 		}
 
-		bool middlemousepressed = false;
 		bool Rightmousepressed = false;
 
 		public void FirstPerson(MouseEventArgs e)
@@ -274,16 +273,37 @@ namespace OpenGL_CSharp
 				Rightmousepressed = true;
 
 			}
+			
+			
+			if (e.RightButton == MouseButtonState.Released)
+			{
+				if (Rightmousepressed)
+				{
+					oldx = 0;
+					UpdateDirections();
+					Rightmousepressed = false;
+				}
+			}
+		}
+		bool middlemousepressed = false;
+
+		public void PanView(MouseEventArgs e)
+		{
+
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
 				var gl = e.OriginalSource as OpenTK.Wpf.GLWpfControl;
 				if (gl == null) return;
 				var pos = e.GetPosition(gl);
-
+				int speed = 2;
+				if (Keyboard.IsKeyDown(Key.LeftShift))
+				{
+					speed = 5;
+				}
 				if (oldx != 0)
 				{
-					float dx = 2 * ((float)pos.X - oldx) / (float)MainWindow.Instance.GLWindow.ActualWidth;
-					float dy = 2 * ((float)pos.Y - oldy) / (float)MainWindow.Instance.GLWindow.ActualHeight * -1;
+					float dx = speed * ((float)pos.X - oldx) / (float)MainWindow.Instance.GLWindow.ActualWidth;
+					float dy = speed * ((float)pos.Y - oldy) / (float)MainWindow.Instance.GLWindow.ActualHeight * -1;
 
 					var vx = -dx * Vector3.Normalize(MainWindow.mv.ViewCam.Right);
 					var vy = -dy * Vector3.Normalize(MainWindow.mv.ViewCam.Up);
@@ -305,16 +325,7 @@ namespace OpenGL_CSharp
 					UpdateDirections();
 					middlemousepressed = false;
 				}
-				
-			}
-			if(e.RightButton == MouseButtonState.Released)
-			{
-				if (Rightmousepressed)
-				{
-					oldx = 0;
-					UpdateDirections();
-					Rightmousepressed = false;
-				}
+
 			}
 		}
 		public void WheelControl(MouseWheelEventArgs e)
