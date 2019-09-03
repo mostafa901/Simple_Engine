@@ -74,7 +74,7 @@ namespace OpenGL_Wpf
 				  GL.Enable(EnableCap.CullFace);
 				  GL.FrontFace(FrontFaceDirection.Ccw);
 				  GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
-				  GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
+				  GL.PolygonMode(MaterialFace.Front, PolygonMode.); //set polygon draw mode
 				  GL.Enable(EnableCap.DepthTest);
 				  GL.Enable(EnableCap.StencilTest);
 				  GL.DepthFunc(DepthFunction.Less);//this is the default value and can be ignored.
@@ -102,10 +102,7 @@ namespace OpenGL_Wpf
 				  }
 			  };
 		}
-
-
-		
-
+		 
 		TimeSpan elapsedTime;
 
 		private void OpenTkControl_OnRender(TimeSpan _elapsedTime)
@@ -123,49 +120,10 @@ namespace OpenGL_Wpf
 					geo.LoadGeometry();
 
 				}
-
-
-				if (geo.Name == "Cube0")
-				{
-
-					//now scale the cube a bit and redraw the stencil with the color
-					GL.StencilFunc(StencilFunction.Notequal, 1, 1);
-					GL.StencilMask(1);
-					GL.Disable(EnableCap.DepthTest);
-					geo.shader.SetInt($"SelectionMode", 1);
-					var originalmat = geo.model;					 
-					geo.RenderGeometry();
-					GL.FrontFace(geo.FaceDirection);
-					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
-
-#if false
-					//draw normal cube and record the sensil buffer as 1.
-					GL.StencilMask(1);
-					GL.Enable(EnableCap.DepthTest);
-					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation()); 
-					GL.StencilFunc(StencilFunction.Always, 1, 1);
-					geo.shader.SetInt($"SelectionMode", 1);
-					geo.RenderGeometry();
-					GL.FrontFace(geo.FaceDirection);
-					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
-
-					//draw normal cube and record the sensil buffer as 1.
-					GL.StencilMask(0);
-					GL.Disable(EnableCap.StencilTest);
-					GL.Enable(EnableCap.DepthTest);
-					geo.shader.SetInt($"SelectionMode", 0);
-					geo.model *= Matrix4.CreateTranslation(-originalmat.ExtractTranslation()) * Matrix4.CreateScale(1 / 1.01f) * Matrix4.CreateTranslation(originalmat.ExtractTranslation()); 
-#endif
-
-
-				}
-				else
-				{
-					geo.RenderGeometry();
-					GL.FrontFace(geo.FaceDirection);
-					GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
-				}
-
+				 
+				geo.RenderGeometry();
+				GL.FrontFace(geo.FaceDirection);
+				GL.DrawElements(geo.primitiveType, geo.Indeces.Count, DrawElementsType.UnsignedInt, 0);
 			}
 
 			GL.Finish();
@@ -187,7 +145,7 @@ namespace OpenGL_Wpf
 		#region Navigation
 		private void Win_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-		if(GLWindow.IsMouseOver)	mv.ViewCam.WheelControl(e);
+			if (GLWindow.IsMouseOver) mv.ViewCam.WheelControl(e);
 		}
 
 		private void Win_KeyDown(object sender, KeyEventArgs e)
