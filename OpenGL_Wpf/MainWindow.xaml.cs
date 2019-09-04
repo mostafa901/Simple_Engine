@@ -74,7 +74,7 @@ namespace OpenGL_Wpf
 				  GL.Enable(EnableCap.CullFace);
 				  GL.FrontFace(FrontFaceDirection.Ccw);
 				  GL.CullFace(CullFaceMode.Back); //set which face to be hidden            
-				  GL.PolygonMode(MaterialFace.Front, PolygonMode.); //set polygon draw mode
+				  GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill); //set polygon draw mode
 				  GL.Enable(EnableCap.DepthTest);
 				  GL.Enable(EnableCap.StencilTest);
 				  GL.DepthFunc(DepthFunction.Less);//this is the default value and can be ignored.
