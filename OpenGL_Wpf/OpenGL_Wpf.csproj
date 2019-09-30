@@ -48,9 +48,6 @@
     <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="PrjShared_Utility">
-      <HintPath>..\..\Shared_Utility\PrjShared_Utility\PrjShared_Utility\bin\Debug\PrjShared_Utility.dll</HintPath>
-    </Reference>
     <Reference Include="QuickFont, Version=4.5.7053.25687, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\QuickFont.Desktop.4.5.7053.25687\lib\net45\QuickFont.dll</HintPath>
     </Reference>
@@ -90,6 +87,12 @@
     <Compile Include="Graphic\Vertex3.cs" />
     <Compile Include="Graphic\Vertex4.cs" />
     <Compile Include="Import.cs" />
+    <Compile Include="MVVM\BaseDataObject.cs" />
+    <Compile Include="MVVM\BaseVModel.cs" />
+    <Compile Include="MVVM\CMD.cs" />
+    <Compile Include="MVVM\CoreViewModel.cs" />
+    <Compile Include="MVVM\ObservableObject.cs" />
+    <Compile Include="MVVM\ObservableRangeCollection.cs" />
     <Compile Include="MV_App.cs" />
     <Compile Include="Shaders\BaseShader.cs" />
     <Compile Include="Shaders\LampFragment.cs" />
