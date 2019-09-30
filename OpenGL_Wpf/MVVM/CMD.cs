@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -16,7 +15,6 @@ namespace Utility.MVVM
 
 		public event EventHandler CanExecuteChanged;
 
-		[JsonIgnore]
 		Action<object> action = (a) => { };
 
 		public Action<object> Action { get => action; set => action= value; }

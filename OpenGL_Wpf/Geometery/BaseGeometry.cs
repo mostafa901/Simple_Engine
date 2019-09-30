@@ -64,7 +64,7 @@ namespace OpenGL_CSharp.Geometery
 		{
 			MainWindow.mv.Geos.Add(this);
 			//setup Show model in the view Command
-			CMD.action = (a) =>
+			CMD.Action = (a) =>
 			{
 				ShowModel = (bool)a;
 				if (ShowModel)

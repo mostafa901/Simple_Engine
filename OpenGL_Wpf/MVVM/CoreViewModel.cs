@@ -14,8 +14,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
 
-using SQLite;
-using Newtonsoft.Json;
 
 namespace Utility.MVVM
 {

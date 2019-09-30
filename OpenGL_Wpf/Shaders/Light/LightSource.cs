@@ -139,7 +139,7 @@ namespace OpenGL_CSharp.Shaders.Light
 
 		private void SetupActions()
 		{
-			CMD_SwitchLight.action = (a) =>
+			CMD_SwitchLight.Action = (a) =>
 			{
 				OnOff = (bool)a;
 				if (!OnOff)

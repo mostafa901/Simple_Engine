@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using SQLite;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,15 +15,12 @@ namespace Utility.MVVM
 		/// <summary>
 		/// Id for item
 		/// </summary>
-		[PrimaryKey]
 		public Guid GuId { get; set; }
 
 		#region ContextMenuItems
 
 		private ObservableCollection<BaseDataObject> _ContextMenuItems;
 
-		[Ignore]
-		[JsonIgnore]
 		public ObservableCollection<BaseDataObject> ContextMenuItems
 		{
 			get
@@ -42,8 +37,6 @@ namespace Utility.MVVM
 
 		private ObservableCollection<BaseDataObject> _Items;
 
-		[Ignore]
-		[JsonIgnore]
 		public ObservableCollection<BaseDataObject> Items
 		{
 			get

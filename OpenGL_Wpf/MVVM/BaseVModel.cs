@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-using SQLite;
+﻿
 
 #if !Android && !Console
 
@@ -56,8 +54,6 @@ namespace Utility.MVVM
 
 		private cus_CMD refresh_CMD;
 
-		[Ignore]
-		[JsonIgnore]
 		public cus_CMD CMD_Refresh
 		{
 			get

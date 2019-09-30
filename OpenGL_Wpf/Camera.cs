@@ -18,7 +18,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Utility;
-using Utility.IO;
 using Utility.MVVM;
 
 namespace OpenGL_CSharp
@@ -271,8 +270,8 @@ namespace OpenGL_CSharp
 				oldx = (float)pos.X;
 				oldy = (float)pos.Y;
 				Rightmousepressed = true;
-			}		
-			
+			}
+
 			if (e.RightButton == MouseButtonState.Released)
 			{
 				if (Rightmousepressed)
@@ -343,7 +342,7 @@ namespace OpenGL_CSharp
 
 			if (win == null)
 			{
-				win = Utility.IO.wpf.FindParent<Window>(((FrameworkElement)e.OriginalSource), "");
+				win = MainWindow.Instance;
 			}
 
 			if (e.Key == Key.Escape)
@@ -361,18 +360,31 @@ namespace OpenGL_CSharp
 
 			if (e.Key == Key.V)
 			{
-				MainWindow.mv.Geos.ForEach(o => o.shader.IsBlin = !o.shader.IsBlin);
+				foreach (var o in MainWindow.mv.Geos)
+				{
+
+
+					o.shader.IsBlin = !o.shader.IsBlin;
+				}
 			}
 
 			if (e.Key == Key.Z || e.Key == Key.X)
 			{
 				if (e.Key == Key.Z)
 				{
-					MainWindow.mv.Geos.ForEach(o => o.shader.specintens -= 1f);
+					foreach (var o in MainWindow.mv.Geos)
+					{
+
+						o.shader.specintens -= 1f;
+					}
 				}
 				else
 				{
-					MainWindow.mv.Geos.ForEach(o => o.shader.specintens += 1f);
+					foreach (var o in MainWindow.mv.Geos)
+					{
+
+						 o.shader.specintens += 1f;
+					}
 				}
 			}
 

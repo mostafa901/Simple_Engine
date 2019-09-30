@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using OpenGL_CSharp.Graphic;
-using Utility.IO;
+using System.Diagnostics;
 
 namespace OpenGL_Wpf.ViewControls.BaseControls
 {
@@ -67,11 +67,56 @@ namespace OpenGL_Wpf.ViewControls.BaseControls
 				float v = 0;
 				float.TryParse(txb.Text, out v);
 				var ver = txb.DataContext as Vertex3;
-				BindingExpression be = BindingOperations.GetBindingExpression(txb, ((DependencyProperty)TextBox.TextProperty));
-				string Name = be.ParentBinding.Path.Path;
+				BindingExpression txtprop = BindingOperations.GetBindingExpression(txb, ((DependencyProperty)TextBox.TextProperty));
+				string Name = txtprop.ParentBinding.Path.Path;
 				ver.InjectPropertyValue(Name, v + e.Delta * 0.025f);
 
 			}
 		}
+	}
+
+	public static partial class Utility
+	{
+		#region PropertyInfo
+
+		public static void InjectPropertyValue(this object obj, string propname, object value)
+		{
+			try
+			{
+				if (value == null) return;
+
+				var props = obj.GetType().GetProperties();
+				var p = props.Where(o => o.Name == propname).First();
+				if (p.PropertyType == typeof(int))
+				{
+					int intval;
+					if (int.TryParse(value.ToString(), out intval))
+						p.SetValue(obj, intval);
+				}
+				else if (p.PropertyType == typeof(double))
+				{
+					double intval;
+					if (double.TryParse(value.ToString(), out intval))
+						p.SetValue(obj, intval);
+				}
+				else if (p.PropertyType == typeof(float))
+				{
+					float intval;
+					if (float.TryParse(value.ToString(), out intval))
+						p.SetValue(obj, intval);
+				}
+				else if (p.PropertyType == typeof(DateTime))
+				{
+					p.SetValue(obj, DateTime.Parse(value.ToString()));
+				}
+				else p.SetValue(obj, value);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Error Injecting Value to object.\r\n"+ex.ToString());
+			}
+		}
+
+		#endregion PropertyInfo
 	}
 }

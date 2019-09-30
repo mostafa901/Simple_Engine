@@ -1,11 +1,7 @@
-﻿using Newtonsoft.Json;
-using SQLite;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Linq;
-using Utility.IO;
 
 
 #if !Android && !Console
@@ -41,7 +37,6 @@ namespace Utility.MVVM
 
 		private object _DataContext;
 
-		[Ignore]
 		public object DataContext
 		{
 			get
@@ -89,15 +84,12 @@ namespace Utility.MVVM
 
 
 
-		[Ignore]
-		[JsonIgnore]
 		public bool? ActionResult { get; set; } = false;
 
 		#region Name
 
 		private string name = "";
 
-		[Display(AutoGenerateField = true, Order = 2)]
 		virtual public string Name
 		{
 			get
@@ -113,7 +105,6 @@ namespace Utility.MVVM
 
 		private string code;
 
-		[Display(AutoGenerateField = true, Order = 1)]
 		virtual public string Code
 		{
 			get
@@ -130,8 +121,6 @@ namespace Utility.MVVM
 		private cus_CMD cMD;
 
 		[XmlIgnore]
-		[Ignore]
-		[JsonIgnore]
 		public cus_CMD CMD
 		{
 			get
@@ -165,8 +154,6 @@ namespace Utility.MVVM
 
 		private object _Icon;
 
-		[Ignore]
-		[JsonIgnore]
 		public object Icon
 		{
 			get
@@ -182,7 +169,6 @@ namespace Utility.MVVM
 		#region Width
 
 		private double _Width=25;
-		[Ignore]
 		public double Width
 		{
 			get
@@ -197,7 +183,6 @@ namespace Utility.MVVM
 		#region Height
 
 		private double _Height=25;
-		[Ignore]
 		public double Height
 		{
 			get
@@ -213,7 +198,6 @@ namespace Utility.MVVM
 		#region Angle
 
 		private double _Angle;
-		[Ignore]
 		public double Angle
 		{
 			get
@@ -231,8 +215,6 @@ namespace Utility.MVVM
 
 		private string _ToolTip;
 
-		[Ignore]
-		[JsonIgnore]
 		public string ToolTip
 		{
 			get
@@ -300,8 +282,6 @@ namespace Utility.MVVM
 
 		private Visibility _Visible;
 
-		[Ignore]
-		[JsonIgnore]
 		virtual public Visibility Visible
 
 		{
@@ -322,8 +302,6 @@ namespace Utility.MVVM
 
 		private bool _IsBusy = false;
 
-		[Ignore]
-		[JsonIgnore]
 		public bool IsBusy
 		{
 			get
@@ -337,10 +315,7 @@ namespace Utility.MVVM
 
 		#endregion IsBusy
 
-#if !RAAPSII && !Android
-		public override string ToString() => this.GetStrings();
-
-#endif
+ 
 	}
 
 }

@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Utility.IO;
 using Utility.MVVM;
 
 namespace OpenGL_Wpf
