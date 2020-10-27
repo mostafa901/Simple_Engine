@@ -1,55 +1,30 @@
-﻿using com.sun.java.swing.plaf.motif;
-using ImGuiNET;
-using Simple_Engine.CoreModel;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using OpenXmlPowerTools;
-using Shared_Lib.Extention;
-using Shared_Lib.Extention.Serialize_Ex;
+using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.Water.Render;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Media3D;
 using Point = System.Drawing.Point;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space
+namespace Simple_Engine.Engine.Space.Camera
 {
-    public class CameraModel : IRenderable
+    public partial class CameraModel : IRenderable
     {
-        public static CameraModel ActiveCamera;
-        private Base_Geo hoockedModel;
-        private Scene scene;
-        private bool loadUI;
-
-        private Point StartPoint = new Point();
-
+       
         public CameraModel()
         {
         }
 
-        public CameraModel(Scene activeScene, bool loadUI)
+        public CameraModel(SceneModel activeScene, bool loadUI)
         {
             Name = "Active Camera";
             this.scene = activeScene;
@@ -63,65 +38,12 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
 
         public AnimationComponent Animate { get; set; }
 
-        [JsonIgnore]
-        public IRenderable.BoundingBox BBX { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public Vector3 Direction { get; set; } = new Vector3(0, 0, 1);
-
-        public float FarDistance { get; set; } = 2000f;
-
-        public float FOV { get; private set; } = 45;
-
-        public float Height { get; set; } = 10;
-
-        public int Id { get; set; }
-
-        public bool IsPrespective { get; set; } = false;
-
-        public string Name { get; set; }
-
-        public float NearDistance { get; set; } = .1f;
-
-        public float Pitch { get; set; }
-
-        public Vector3 Position { get; set; }
-
-        public Matrix4 ProjectionTransform { get; set; } = Matrix4.Identity;
-
-        public Vector3 Right { get; set; } = new Vector3(1, 0, 0);
-
-        public float Roll { get; set; }
-
-        public Vector3 Target { get; set; }
-
-        public ImgUI_Controls Ui_Controls { get; set; }
-
-        public Vector3 UP { get; set; } = new Vector3(0, 1, 0);
-
-        public Matrix4 ViewTransform { get; set; } = Matrix4.Identity;
-
-        public float Width { get; set; } = 10;
-
-        //how much we are looking up - down wards
-        public float Yaw { get; set; }
+     
 
         public void Activate_Ortho()
         {
             ProjectionTransform = Matrix4.CreateOrthographic(Width, Height, NearDistance, FarDistance);
             IsPrespective = false;
-        }
-
-        //how much we are looking left or right
-        public void Activate_PanCameraModel()
-        {
- 
-            scene.game.MouseMove += (s, e) =>
-            {
-                if (e.Mouse.MiddleButton == ButtonState.Pressed)
-                {
-                    PanCamera(e.Position);
-                }
-            };
         }
 
         public void ActivatePrespective()
@@ -172,57 +94,6 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             UpdateCamera();
         }
 
-        public void Create_UIControls()
-        {
-            Ui_Controls = new Imgui_Window($"Camera {Name}");
-
-            new Imgui_String(Ui_Controls, "Name", () => Name, (x) =>
-            {
-                Name = x;
-            });
-
-            new Imgui_DragFloat(Ui_Controls, "Width", () => Width, (x) =>
-            {
-                Width += x;
-                UpdateViewMode();
-            });
-            new Imgui_DragFloat(Ui_Controls, "Height", () => Height, (x) =>
-            {
-                Height += x;
-                UpdateViewMode();
-            });
-
-            new Imgui_DragFloat3(Ui_Controls, "Position", () => Position, (x) =>
-            {
-                Position += x;
-                UpdateCamera();
-            });
-
-            new Imgui_CheckBox(Ui_Controls, "Display Mode", () => IsPrespective, (x) =>
-            {
-                if (x)
-                {
-                    ActivatePrespective();
-                }
-                else
-                {
-                    Activate_Ortho();
-                }
-            });
-        }
-
-        private void UpdateViewMode()
-        {
-            if (!IsPrespective)
-            {
-                Activate_Ortho();
-            }
-            else
-            {
-                ActivatePrespective();
-            }
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -263,7 +134,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
         }
 
         public void Live_Update(Shader ShaderModel)
-        { 
+        {
             ShaderModel.SetMatrix4(ShaderModel.Location_ViewTransform, ViewTransform);
             ShaderModel.SetMatrix4(ShaderModel.Location_ProjectionTransform, ProjectionTransform);
         }
@@ -273,33 +144,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             return Core.Serialize.Import.LoadModel<CameraModel>(path);
         }
 
-        public void PanCamera(Point position)
-        {
-            if (Imgui_Helper.IsAnyCaptured()) return;
-            float speed = GetSpeed();
-
-            var dx = position.X - StartPoint.X;
-            var dy = position.Y - StartPoint.Y;
-
-            var HorztransVector = Right * (-dx * speed);
-            var VertransVector = UP * (dy * speed);
-            var transVector = HorztransVector + VertransVector;
-            Position += transVector;
-
-            if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
-            {
-                Target -= transVector;
-            }
-            else
-            {
-                Target += transVector;
-            }
-
-            UpdateCamera();
-            StartPoint = position;
-        }
-
-        public ISelectable PickObject(Point mousePosition, Scene activeScene, FBO_MTargets targetfbo)
+        public ISelectable PickObject(Point mousePosition, SceneModel activeScene, FBO_MTargets targetfbo)
         {
             //var mouseRayVector = Extract_RayFromScreen(mousePosition);
             float? dist = null;
@@ -358,11 +203,6 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             throw new NotImplementedException();
         }
 
-        public void Render_UIControls()
-        {
-            Ui_Controls?.BuildModel();
-        }
-
         public void RenderModel()
         {
             throw new NotImplementedException();
@@ -374,14 +214,6 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             Engine.Core.Serialize.IO.Save(this, path);
 
             return path;
-        }
-
-        public void Setup_Events()
-        {
-            Activate_PanCameraModel();
-            Activate_MoveTarget();
-            scene.game.MouseWheel += Game_MouseWheel;
-            scene.game.KeyDown += Game_KeyDown;
         }
 
         public void UpdateBoundingBox()
@@ -416,108 +248,9 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             CameraModel.ActiveCamera.AnimateCamrea(pos, target);
         }
 
-        private void Activate_MoveTarget()
-        {
-            scene.game.MouseMove += (s, e) =>
-            {
-                if (e.Mouse.RightButton == ButtonState.Pressed)
-                {
-                    MoveTarget(e.Position);
-                }
-            };
-        }
-
         private void Evaluate_DirectionVector()
         {
             Direction = (Position - Target).Normalized();//this direction is inverted
-        }
-
-        private void Game_KeyDown(object sender, KeyboardKeyEventArgs e)
-        {
-            if (Imgui_Helper.IsAnyCaptured()) return;
-            float speed = 1f;
-            Vector3 transvector = new Vector3();
-
-            if (e.Key == Key.C && e.Alt)
-            {
-                if (Base_Geo.SelectedModel == null)
-                {
-                    ScopeTo(scene.BBX);
-                }
-                else
-                {
-                    ScopeTo(Base_Geo.SelectedModel.BBX);
-                }
-            }
-            // Evaluate_UPVector();
-            if (Base_Geo.SelectedModel == null)
-            {
-                if (e.Key == Key.W)
-                {
-                    transvector = -speed * Direction;
-                }
-                if (e.Key == Key.S)
-                {
-                    transvector = speed * Direction;
-                }
-                if (e.Key == Key.A)
-                {
-                    transvector = Right.Normalized() * -speed;
-                }
-                if (e.Key == Key.D)
-                {
-                    transvector = Right.Normalized() * speed;
-                }
-                Position += transvector;
-                Target += transvector;
-            }
-
-            UpdateCamera();
-        }
-
-        private void Game_Load(object sender, EventArgs e)
-        {
-            Create_UIControls();
-        }
-
-        private void Game_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            StartPoint = e.Position;
-        }
-
-        private void Game_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (Imgui_Helper.IsAnyCaptured()) return;
-            if (Keyboard.GetState().IsKeyDown(Key.AltLeft))
-            {
-                if (IsPrespective)
-                {
-                    UpdateFOV(FOV + e.Delta);
-                }
-            }
-            else
-            {
-                if (IsPrespective)
-                {
-                    var speed = GetSpeed();
-
-                    //Evaluate_UPVector();
-                    var displacement = Direction.Normalized() * -e.Delta * speed;
-                    Position += displacement;
-                    if (hoockedModel == null)
-                    {
-                        Target += displacement;
-                    }
-                    UpdateCamera();
-                }
-                else
-                {
-                    Height += 10 * Math.Sign(-e.Delta);
-                    Width += 10 * Math.Sign(-e.Delta);
-
-                    Activate_Ortho();
-                }
-            }
         }
 
         private Vector3 Get_NormalizedDeviceCoordinates(Point mousePosition)
@@ -546,17 +279,6 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             return new Vector3(ray_wrdEnd);
         }
 
-        private float GetSpeed()
-        {
-            var speed = (float)DisplayManager.UpdatePeriod * .005f;
-
-            if (Keyboard.GetState().IsKeyDown(Key.ControlLeft))
-            {
-                speed *= 100;
-            }
-            return speed;
-        }
-
         private void modelMove(object sender, MoveingEvent e)
         {
             var newLocation = e.Transform.ExtractTranslation();
@@ -579,6 +301,18 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
 
             UpdateCamera();
             StartPoint = position;
+        }
+
+        private void UpdateViewMode()
+        {
+            if (!IsPrespective)
+            {
+                Activate_Ortho();
+            }
+            else
+            {
+                ActivatePrespective();
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Render;
+﻿using Simple_Engine.Engine.Render;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space.Render.PostProcess
+namespace Simple_Engine.Engine.Space.Render.PostProcess
 {
     public class PostProcess_Shader : Shader
     {
@@ -18,7 +18,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space.Render.PostProcess
 
         public PostProcess_Shader(PostProcessName postProcessType) : base(ShaderMapType.LightnColor, ShaderPath.PostProcess)
         {
-            var path = @"./Views/ThreeD/Engine/Space/Render/PostProcess/Source/";
+            var path = @"./Engine/Space/Render/PostProcess/Source/";
 
             string vertPath = $"{path}PostProcess_Vert.vert";
             string fragPath = "";

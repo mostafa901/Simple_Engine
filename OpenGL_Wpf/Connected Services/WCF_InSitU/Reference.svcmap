@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="614a3250-99b6-4154-a04e-9bd926e7b9cf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8000/InSitU/InSitUCore/Communication/WCF/Wcf_InSituService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Wcf_InSituService.xsd" MetadataType="Schema" ID="e350935d-e07e-4af4-87a0-c40a6644b5d8" SourceId="1" SourceUrl="http://localhost:8000/InSitU/InSitUCore/Communication/WCF/Wcf_InSituService?xsd=xsd1" />
+    <MetadataFile FileName="Wcf_InSituService1.xsd" MetadataType="Schema" ID="3825a120-f830-44a9-8dd2-a61dd3f23adf" SourceId="1" SourceUrl="http://localhost:8000/InSitU/InSitUCore/Communication/WCF/Wcf_InSituService?xsd=xsd0" />
+    <MetadataFile FileName="Wcf_InSituService.disco" MetadataType="Disco" ID="988ae2ab-6fa0-4505-bed3-f99c6ca31cea" SourceId="1" SourceUrl="http://localhost:8000/InSitU/InSitUCore/Communication/WCF/Wcf_InSituService?disco" />
+    <MetadataFile FileName="Wcf_InSituService.wsdl" MetadataType="Wsdl" ID="8e6a56db-4902-429e-9d76-031c90c11b09" SourceId="1" SourceUrl="http://localhost:8000/InSitU/InSitUCore/Communication/WCF/Wcf_InSituService?wsdl" />
+    <MetadataFile FileName="Wcf_InSituService1.wsdl" MetadataType="Wsdl" ID="cdf7e0ed-fd48-45fc-89b6-b97ab070adf8" SourceId="1" SourceUrl="http://localhost:8000/InSitU/InSitUCore/Communication/WCF/Wcf_InSituService?wsdl=wsdl0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

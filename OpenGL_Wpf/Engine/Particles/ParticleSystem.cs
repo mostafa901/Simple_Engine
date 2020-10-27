@@ -1,5 +1,5 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Render;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Render;
 using OpenTK;
 using Shared_Lib;
 using Shared_Lib.Extention;
@@ -8,14 +8,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.Space.Scene;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Particles.Render
+namespace Simple_Engine.Engine.Particles.Render
 {
     public static class ParticleSystem
     {
 
 
-        public static void Draw(Space.Scene scene, IDrawable sourceModel)
+        public static void Draw(SceneModel scene, IDrawable sourceModel)
         {
             foreach (var model in sourceModel.Particles)
             {

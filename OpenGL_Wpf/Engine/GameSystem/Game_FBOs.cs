@@ -1,12 +1,12 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Space.Render.PostProcess;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
+﻿using Simple_Engine.Engine.Space.Render.PostProcess;
+using Simple_Engine.Engine.Water.Render;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
+namespace Simple_Engine.Engine.GameSystem
 {
     public class Game_FBOs
     {

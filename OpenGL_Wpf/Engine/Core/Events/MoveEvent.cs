@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Events
+namespace Simple_Engine.Engine.Core.Events
 {
     public class MoveingEvent : EventArgs
     {

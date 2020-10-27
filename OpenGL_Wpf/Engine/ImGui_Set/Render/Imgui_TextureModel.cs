@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Render
+namespace Simple_Engine.Engine.ImGui_Set.Render
 {
     public enum TextureCoordinate
     {

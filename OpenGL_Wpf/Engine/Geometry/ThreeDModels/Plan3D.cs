@@ -1,12 +1,11 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Render;
-using Simple_Engine.Views.ThreeD.Engine.GUI.Render;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Render;
+using Simple_Engine.Engine.GUI.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using org.apache.poi.hssf.record;
 using Shared_Lib;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels
+namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
     public class Plan3D : Base_Geo3D
     {

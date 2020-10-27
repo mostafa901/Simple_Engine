@@ -1,13 +1,12 @@
-﻿using com.sun.org.apache.bcel.@internal.classfile;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Fonts.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
+﻿
+using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Fonts.Core;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib.Extention;
@@ -17,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Fonts
+namespace Simple_Engine.Engine.Fonts
 {
     public class GuiFont :IRenderable
     {

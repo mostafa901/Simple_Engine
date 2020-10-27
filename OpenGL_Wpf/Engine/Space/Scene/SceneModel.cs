@@ -1,56 +1,34 @@
-﻿using com.sun.tools.@internal.ws.wsdl.framework;
-using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.Fonts.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Cube;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Illumination.Render;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Particles.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space.Environment;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using javax.swing;
-using net.sf.mpxj.mpp;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using Shared_Lib.Extention;
 using Shared_Lib.Extention.Serialize_Ex;
-using Shared_Lib.IO;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Particles.Render;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Space.Environment;
+using Simple_Engine.Engine.Water.Render;
+using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
-using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static Simple_Engine.Views.ThreeD.Engine.Water.Render.FBO;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space
+namespace Simple_Engine.Engine.Space.Scene
 {
-    public class Scene : IRenderable
+    public partial class SceneModel : IRenderable
     {
-        public List<FBO> FBOs = new List<FBO>();
-        public GuiFont GuiTextModel;
-        public bool IsToonMode = false;
-        public Stack<IDrawable> ModelsforUpload = new Stack<IDrawable>();
-        public Stack<IDrawable> ModelstoRemove = new Stack<IDrawable>();
-        public Shader SelectedShader;
-        public SkyBox SkyBoxModel;
+        public static SceneModel ActiveScene;
 
-        public Scene(Game mainGame)
+        public SceneModel(Game mainGame)
         {
             game = mainGame;
             Lights = new List<Light>();
@@ -61,19 +39,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
         }
 
         public IRenderable.BoundingBox BBX { get; set; }
-        public List<CameraModel> CameraModels { get; set; } = new List<CameraModel>();
-
-        [JsonIgnore]
-        public Game game { get; }
-
-        public List<IDrawable> geoModels { get; private set; } = new List<IDrawable>();
-        public int Id { get; set; }
-        public List<Light> Lights { get; set; }
-        public string Name { get; set; }
-        public Fog SceneFog { get; set; }
-        public List<IDrawable> systemModels { get; private set; } = new List<IDrawable>();
-        public ImgUI_Controls Ui_Controls { get; set; }
-        public AnimationComponent Animate { get; set; }
+      
 
         public void BuildModel()
         {
@@ -87,13 +53,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
         }
 
-        public void Create_UIControls()
-        {
-            Ui_Controls = new Imgui_Window("Scene");
-            var models = geoModels.Where(o => o is Base_Geo).Where(o => !(o is ClipPlan)).Cast<Base_Geo>().ToArray();
-            var i = new Imgui_ListBox(Ui_Controls, "Elements", models, (x) => { x.Set_Selected(false); }, (x) => { x.Set_Selected(true); });
-        }
-
+      
         void IRenderable.Dispose()
         {
             throw new NotImplementedException();
@@ -138,7 +98,6 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
                 max = ModelsforUpload.Count;
             }
 
-            
             for (int i = 0; i < max; i++)
             {
                 var model = ModelsforUpload.Pop();
@@ -151,26 +110,16 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
                 model.UpdateBoundingBox();
                 UpdateBoundingBox();
             }
-           
+
             this.Ui_Controls.SubControls.Remove(this.Ui_Controls.SubControls.First(o => o.Name == "Elements"));
             Create_UIControls();
         }
 
-        public void Render_UIControls()
-        {
-            Ui_Controls.BuildModel();
-            foreach (var light in Lights)
-            {
-                light.Render_UIControls();
-            }
-
-            CameraModel.ActiveCamera.Render_UIControls();
-        }
-
+       
         public void RenderModel()
         {
             Render_UIControls();
-           CameraModel.ActiveCamera.Animate.Update();
+            CameraModel.ActiveCamera.Animate.Update();
         }
 
         public string Save()
@@ -296,13 +245,14 @@ namespace Simple_Engine.Views.ThreeD.Engine.Space
             if (e.IsPressed && e.Button == MouseButton.Left)
             {
                 var model = CameraModel.ActiveCamera.PickObject(e.Position, this, game.gameFbos.mTargets_FBO);
+               
                 return;
             }
         }
 
         private void Setup_Camera()
         {
-            var ActiveCamera = new CameraModel(Game.Context.ActiveScene, true);
+            var ActiveCamera = new CameraModel(this, true);
             ActiveCamera.Position = new Vector3(-2, 0, -2);
             ActiveCamera.Target = new Vector3(0, 0, 0);
             ActiveCamera.Setup_Events();

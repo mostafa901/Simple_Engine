@@ -1,14 +1,12 @@
-﻿using com.sun.tools.doclets.formats.html;
-using DocumentFormat.OpenXml.Drawing;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.InputControls;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.ToolBox;
 using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics;
@@ -19,8 +17,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Space.Scene;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Illumination
+namespace Simple_Engine.Engine.Illumination
 {
     public class Light : IRenderable
     {
@@ -33,12 +33,12 @@ namespace Simple_Engine.Views.ThreeD.Engine.Illumination
             Attenuation = light.Attenuation;
             LightColor = light.LightColor;
             LightPosition = light.LightPosition;
-            Game.Context.ActiveScene.Lights.Add(this);
+            SceneModel.ActiveScene.Lights.Add(this);
         }
 
         public Light()
         {
-            Game.Context.ActiveScene.Lights.Add(this);
+            SceneModel.ActiveScene.Lights.Add(this);
             Game.Context.Load += Game_Load;
         }
 
@@ -90,7 +90,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Illumination
                     LightRay.IsSystemModel = true;
                     LightRay.IsActive = false;
                     LightRay.BuildModel();
-                    Game.Context.ActiveScene.UpLoadModels(LightRay);
+                    SceneModel.ActiveScene.UpLoadModels(LightRay);
                 }
 
                 {
@@ -179,7 +179,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Illumination
             CastShadow = true;
             if (lightCamera == null)
             {
-                lightCamera = new CameraModel(Game.Context.ActiveScene,false);
+                lightCamera = new CameraModel(SceneModel.ActiveScene,false);
                 lightCamera.Target = new Vector3(50, 0, 50);
 
                 lightCamera.Activate_Ortho();
@@ -198,13 +198,13 @@ namespace Simple_Engine.Views.ThreeD.Engine.Illumination
         {
             ShaderModel.SetInt(ShaderModel.MaxLightLocation, Shader.MaximumLight);
             UpLoadLightColor(ShaderModel);
-            ShaderModel.SetArray3(ShaderModel.LightPositionsLocation, Game.Context.ActiveScene.Lights.Select(o => o.LightPosition), new Vector3());
-            ShaderModel.SetArray3(ShaderModel.AttenuationLightLocation, Game.Context.ActiveScene.Lights.Select(o => o.Attenuation), new Vector3(1, 0, 0));
+            ShaderModel.SetArray3(ShaderModel.LightPositionsLocation, SceneModel.ActiveScene.Lights.Select(o => o.LightPosition), new Vector3());
+            ShaderModel.SetArray3(ShaderModel.AttenuationLightLocation, SceneModel.ActiveScene.Lights.Select(o => o.Attenuation), new Vector3(1, 0, 0));
         }
 
         private static void UpLoadLightColor(Shader ShaderModel)
         {
-            ShaderModel.SetArray4(ShaderModel.LightColorLocation, Game.Context.ActiveScene.Lights.Select(o => o.LightColor), new Vector4());
+            ShaderModel.SetArray4(ShaderModel.LightColorLocation, SceneModel.ActiveScene.Lights.Select(o => o.LightColor), new Vector4());
         }
     }
 }

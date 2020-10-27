@@ -1,13 +1,13 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Space;
+﻿using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Space;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine
+namespace Simple_Engine.Engine
 {
     public class AnimationComponent
     {

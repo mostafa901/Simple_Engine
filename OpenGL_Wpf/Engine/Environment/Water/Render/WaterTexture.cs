@@ -1,6 +1,6 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -8,9 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Simple_Engine.Views.ThreeD.Engine.Water.Render.FBO;
+using static Simple_Engine.Engine.Water.Render.FBO;
+using Simple_Engine.Engine.Space.Scene;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
+namespace Simple_Engine.Engine.Water.Render
 {
     internal class WaterTexture : Base_Texture
     {
@@ -33,7 +34,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
             var fbo = new Water_FBOReflection(Game.Context.Width, Game.Context.Height);
             fbo.ClipPlan = clipPlan;
             textureModel.TextureId = fbo.TextureId;
-            Game.Context.ActiveScene.FBOs.Add(fbo);
+            SceneModel.ActiveScene.FBOs.Add(fbo);
             TextureIds.Add(textureModel);
         }
 
@@ -43,14 +44,14 @@ namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
             var fbo = new Water_FBORefraction(Game.Context.Width, Game.Context.Height);
             fbo.ClipPlan = clipPlan;
             textureModel.TextureId = fbo.TextureId;
-            Game.Context.ActiveScene.FBOs.Add(fbo);
+            SceneModel.ActiveScene.FBOs.Add(fbo);
             TextureIds.Add(textureModel);
         }
 
         internal void AddDepthTexture(TextureUnit textureUnit)
         {
             var textureModel = new TextureSample2D(textureUnit);
-            var fbo = Game.Context.ActiveScene.FBOs.Last();
+            var fbo = SceneModel.ActiveScene.FBOs.Last();
             textureModel.TextureId = fbo.TextureDepthId;
             TextureIds.Add(textureModel);
         }

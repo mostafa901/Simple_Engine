@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using OpenTK.Graphics;
 using System.Threading;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Render
+namespace Simple_Engine.Engine.ImGui_Set.Render
 {
     struct UniformFieldInfo
     {

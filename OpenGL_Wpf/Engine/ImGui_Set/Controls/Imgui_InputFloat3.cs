@@ -1,5 +1,5 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Extentions;
+using Simple_Engine.Extentions;
 using OpenTK;
 using Shared_Lib.Extention;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls
+namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
     internal class Imgui_InputFloat3 : ImgUI_Controls
     {

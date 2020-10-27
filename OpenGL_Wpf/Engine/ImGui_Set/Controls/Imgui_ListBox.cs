@@ -1,12 +1,12 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls
+namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
     internal class Imgui_ListBox : ImgUI_Controls
     {

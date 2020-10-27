@@ -1,10 +1,9 @@
-﻿using com.sun.tools.javac.jvm;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Water.Render;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -15,8 +14,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.Space.Camera;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Illumination.Render
+namespace Simple_Engine.Engine.Illumination.Render
 {
     public class Shadow_FBO : FBO
     {

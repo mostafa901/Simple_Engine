@@ -1,56 +1,23 @@
-﻿using com.sun.pept.presentation;
-using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.GUI;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Illumination.Render;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Primitives;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Engine.Space.Render.PostProcess;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using ImGuiNET;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using org.apache.commons.collections4.functors;
-using org.apache.poi.hssf.dev;
-using Shared_Lib;
-using Shared_Lib.Extention;
-using Shared_Lib.IO;
-using Shared_Library.Extention;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
+using Simple_Engine.Engine.Illumination.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.Water.Render;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Configuration;
-using System.Web.UI.Design;
-using System.Windows;
-using System.Windows.Media.Effects;
 
-namespace Simple_Engine.Views.ThreeD.Engine
+namespace Simple_Engine.Engine
 {
     public class Game : GameWindow
     {
         public static Game Context;
 
-        public Scene ActiveScene;
 
         public Game_FBOs gameFbos;
 
@@ -62,25 +29,28 @@ namespace Simple_Engine.Views.ThreeD.Engine
                                 , GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default
         )
         {
+            WCF_System.Wcf_Engine.Start_Wcf_Engine();
+
             GameDebuger.DebugMode();
             DisplayManager.Initialize();
 
             Context = this;
 
-            ActiveScene = new Scene(this);
-            ActiveScene.BuildModel();
+            SceneModel.ActiveScene = new SceneModel(this);
+            SceneModel.ActiveScene.BuildModel();
 
             uiGame = new Game_UI(this);
             gameEvents = new Game_Events(this);
             gameFbos = new Game_FBOs(this);
         }
 
+       
         protected override void OnLoad(EventArgs e)
         {
-            var terrain = GameFactory.Draw_Terran(ActiveScene) as Terran;
+            var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
             terrain.IsSystemModel = true;
-            GameFactory.DrawDragon(ActiveScene, terrain);
-            ActiveScene.FBOs.Add(new Shadow_FBO(ActiveScene.Lights.First(), 1024, 1024));
+            GameFactory.DrawDragon(SceneModel.ActiveScene, terrain);
+            SceneModel.ActiveScene.FBOs.Add(new Shadow_FBO(SceneModel.ActiveScene.Lights.First(), 1024, 1024));
 
             base.OnLoad(e);
         }
@@ -88,14 +58,14 @@ namespace Simple_Engine.Views.ThreeD.Engine
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             uiGame.Update((float)e.Time);
-            ActiveScene.PrepareForRender(null);
-            foreach (var fbo in ActiveScene.FBOs)
+            SceneModel.ActiveScene.PrepareForRender(null);
+            foreach (var fbo in SceneModel.ActiveScene.FBOs)
             {
                 if (fbo.Name == FBO.FboName.undefined) continue;
                 fbo.BindFrameBuffer();
                 fbo.ClearFrame();
 
-                fbo.RenderFrame(ActiveScene.geoModels);
+                fbo.RenderFrame(SceneModel.ActiveScene.geoModels);
                 fbo.UnbindCurrentBuffer();
             }
 
@@ -108,7 +78,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
 
             ClearFrame();
 
-            ActiveScene.Render();
+            SceneModel.ActiveScene.Render();
 
             gameFbos.mTargets_FBO.UnbindCurrentBuffer();
             gameFbos.mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
@@ -149,9 +119,11 @@ namespace Simple_Engine.Views.ThreeD.Engine
 
         protected override void OnUnload(EventArgs e)
         {
-            ActiveScene.Dispose();
+            SceneModel.ActiveScene.Dispose();
             uiGame.Dispose();
             base.OnUnload(e);
+
+            WCF_System.Wcf_Engine.Stop_Wcf_Engine();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -181,7 +153,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             //gameFactory.DrawSkyBox();
 
             Terran terrain = null;
-            terrain = GameFactory.Draw_Terran(ActiveScene) as Terran;
+            terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
             //var dragon = gameFactory.DrawDragon(terrain);
 
             //   gameFactory.DrawStreetLamp(terrain);

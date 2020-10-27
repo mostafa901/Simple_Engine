@@ -1,6 +1,6 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Extentions;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -9,9 +9,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
+namespace Simple_Engine.Engine.Water.Render
 {
     public abstract class FBO
     {

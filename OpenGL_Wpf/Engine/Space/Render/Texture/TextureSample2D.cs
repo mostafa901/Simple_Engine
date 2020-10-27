@@ -1,4 +1,4 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
+﻿using Simple_Engine.Engine.Core.Abstracts;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Render.Texture
+namespace Simple_Engine.Engine.Render.Texture
 {
     public class TextureSample2D : Base_Texture
     {

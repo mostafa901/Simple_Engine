@@ -1,6 +1,6 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.Terrain.Render
+namespace Simple_Engine.Engine.Geometry.Terrain.Render
 {
     public class TerrainTexture : Base_Texture
     {
         public TerrainTexture() : base(TextureMode.Blend)
         {
-            var blendTexture = new TextureSample2D(@"./Views/ThreeD/SampleModels/LandScape/Texture/blendMap.png", TextureUnit.Texture0);
-            var grassFlowerTexture = new TextureSample2D(@"./Views/ThreeD/SampleModels/LandScape/Texture/grassflowers.png", TextureUnit.Texture1);
-            var roadTexture = new TextureSample2D(@"./Views/ThreeD/SampleModels/LandScape/Texture/path.png", TextureUnit.Texture2);
-            var dirtTexture = new TextureSample2D(@"./Views/ThreeD/SampleModels/LandScape/Texture/mud.png", TextureUnit.Texture3);
-            var grassTexture = new TextureSample2D(@"./Views/ThreeD/SampleModels/LandScape/Texture/grassy2.png", TextureUnit.Texture4);
+            var blendTexture = new TextureSample2D(@"./SampleModels/LandScape/Texture/blendMap.png", TextureUnit.Texture0);
+            var grassFlowerTexture = new TextureSample2D(@"./SampleModels/LandScape/Texture/grassflowers.png", TextureUnit.Texture1);
+            var roadTexture = new TextureSample2D(@"./SampleModels/LandScape/Texture/path.png", TextureUnit.Texture2);
+            var dirtTexture = new TextureSample2D(@"./SampleModels/LandScape/Texture/mud.png", TextureUnit.Texture3);
+            var grassTexture = new TextureSample2D(@"./SampleModels/LandScape/Texture/grassy2.png", TextureUnit.Texture4);
 
             TextureIds.Add(blendTexture);
             TextureIds.Add(grassFlowerTexture);

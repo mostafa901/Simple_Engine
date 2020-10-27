@@ -1,23 +1,14 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using org.apache.commons.collections4.bag;
-using Shared_Lib.Extention;
-using sun.security.provider;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.ToolBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Render
+namespace Simple_Engine.Engine.Render
 {
     abstract public class EngineRenderer
     {
@@ -62,11 +53,15 @@ namespace Simple_Engine.Views.ThreeD.Engine.Render
         {
             GL.Enable(EnableCap.CullFace); //avoid rendering Faces that are..
 
-            if (geometryModel.CullMode != CullFaceMode.FrontAndBack)
+            if (Shader.ClipGlobal)
+            {
+                GL.Disable(EnableCap.CullFace);
+            }
+            else if (geometryModel.CullMode != CullFaceMode.FrontAndBack)
             {
                 GL.CullFace(geometryModel.CullMode); //back from Camera
             }
-            else
+            else  
             {
                 DisableCulling();
             }

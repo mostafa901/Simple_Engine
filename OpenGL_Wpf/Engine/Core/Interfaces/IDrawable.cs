@@ -1,10 +1,9 @@
-﻿using DocumentFormat.OpenXml.Office.Word;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Render;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Geometry.InputControls;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Render;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -13,9 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
+using Simple_Engine.Engine.Illumination;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Interfaces
+namespace Simple_Engine.Engine.Core.Interfaces
 {
     public interface IDrawable : IRenderable
     {

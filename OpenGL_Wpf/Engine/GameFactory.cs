@@ -1,55 +1,39 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.Fonts.Core;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Cube;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Terrain.Render;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Cube.Render;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.Fonts.Core;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Cube;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render;
 
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Cube.Render;
 
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.GUI.Render;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Opticals;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Particles.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Engine.Water;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.GUI.Render;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Opticals;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Water;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 using Shared_Lib;
-using Shared_Lib.Extention;
-using Shared_Lib.Extention.Serialize_Ex;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media.Effects;
+using Simple_Engine.Engine.Space.Scene;
 
-namespace Simple_Engine.Views.ThreeD.Engine
+namespace Simple_Engine.Engine
 {
     public static class GameFactory
     {
-        public static GeometryModel CreateSpheare(Scene scene, Vector3 position)
+        public static GeometryModel CreateSpheare(SceneModel scene, Vector3 position)
         {
-            var PivotModel = Importer.Import.OBJFile(@"./Views/ThreeD/SampleModels/Primatives/Sphere.obj");
+            var PivotModel = Importer.Import.OBJFile(@"./SampleModels/Primatives/Sphere.obj");
             PivotModel.ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Default);
             PivotModel.DefaultColor = new Vector4(1, 0, 0, 1);
 
@@ -59,13 +43,14 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return PivotModel;
         }
 
-        public static void Draw_Hilbert(Scene scene)
+        
+        public static void Draw_Hilbert(SceneModel scene)
         {
             var hilbret = new Hilbert(5);
             scene.UpLoadModels(hilbret);
         }
 
-        public static List<Plan3D> Draw_Pushes(Scene scene, Terran terrain)
+        public static List<Plan3D> Draw_Pushes(SceneModel scene, Terran terrain)
         {
             List<Plan3D> plans = new List<Plan3D>();
             for (int n = 0; n < 15; n++)
@@ -115,7 +100,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return plans;
         }
 
-        public static void Draw_Rectangle(Scene scene)
+        public static void Draw_Rectangle(SceneModel scene)
         {
             var rec = new Plan3D(.25f);
 
@@ -131,7 +116,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             scene.UpLoadModels(rec);
         }
 
-        public static Base_Geo3D Draw_Terran(Scene scene)
+        public static Base_Geo3D Draw_Terran(SceneModel scene)
         {
             var terran = new Terran(100, 100);
             terran.AllowReflect = true;
@@ -141,7 +126,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return terran;
         }
 
-        public static Base_Geo3D DrawCube(Scene scene)
+        public static Base_Geo3D DrawCube(SceneModel scene)
         {
             var cube = new CubeModel(2);
             cube.BuildModel();
@@ -168,9 +153,9 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return cube;
         }
 
-        public static Base_Geo3D DrawDragon(Scene scene, Terran terrain)
+        public static Base_Geo3D DrawDragon(SceneModel scene, Terran terrain)
         {
-            var dragon = Importer.Import.OBJFile(@"./views/ThreeD/SampleModels/Dragon/dragon.obj");
+            var dragon = Importer.Import.OBJFile(@"./SampleModels/Dragon/dragon.obj");
 
             if (terrain != null)
             {
@@ -219,7 +204,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return mesh;
         }
 
-        public static Base_Geo3D DrawEarth(Scene scene)
+        public static Base_Geo3D DrawEarth(SceneModel scene)
         {
             var earth = new Plan3D(20);
             earth.BuildModel();
@@ -248,7 +233,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return earth;
         }
 
-        public static List<GeometryModel> DrawSimple_EngineGeometry(Scene scene, string filename)
+        public static List<GeometryModel> DrawSimple_EngineGeometry(SceneModel scene, string filename)
         {
             //string filename = @"C:\Users\Moustafa.Khalil\OneDrive\Revit API\Building.ssd";
 
@@ -267,14 +252,14 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return geos;
         }
 
-        public static void DrawLine(Scene scene)
+        public static void DrawLine(SceneModel scene)
         {
             Line l = new Line(new Vector3(0, 0, 0), new Vector3(1, 0, 1));
 
             scene.UpLoadModels(l);
         }
 
-        public static void DrawSkyBox(Scene scene)
+        public static void DrawSkyBox(SceneModel scene)
         {
             var cube = new CubeModel(Game.Context.Width);
             cube.BuildModel();
@@ -284,7 +269,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
             scene.UpLoadModels(scene.SkyBoxModel);
         }
 
-        public static StreetLamp DrawStreetLamp(Scene scene, Terran terrain)
+        public static StreetLamp DrawStreetLamp(SceneModel scene, Terran terrain)
         {
             var lamp = Importer.Import.OBJFile(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\SampleModels\LandScape\model\lamp.obj");
             StreetLamp stlamp = new StreetLamp(lamp);
@@ -303,14 +288,14 @@ namespace Simple_Engine.Views.ThreeD.Engine
             return stlamp;
         }
 
-        public static void DrawWater(Scene scene)
+        public static void DrawWater(SceneModel scene)
         {
             var water = new WaterModel();
             water.BuildModel();
             scene.UpLoadModels(water);
         }
 
-        internal static void DrawText(Scene scene)
+        internal static void DrawText(SceneModel scene)
         {
             FontFactory.GenerateFont();
 
@@ -321,9 +306,6 @@ namespace Simple_Engine.Views.ThreeD.Engine
             scene.GuiTextModel = GuiTextModel;
         }
 
-        private class t
-        {
-            public int x { get; set; }
-        }
+       
     }
 }

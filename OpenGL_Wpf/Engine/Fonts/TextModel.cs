@@ -1,26 +1,12 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Shared_Lib.Extention;
-using System;
+﻿using OpenTK;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Render;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Fonts
+namespace Simple_Engine.Engine.Fonts
 {
     public class RawTextModel : Base_Geo2D
     {
-       
         public Offset CharOffset { get; set; }
 
         public List<Kerning> Kerns = new List<Kerning>();
@@ -53,12 +39,12 @@ namespace Simple_Engine.Views.ThreeD.Engine.Fonts
             {
                 Renderer = new FontRender(this);
             }
-            base.RenderModel();
+            Renderer.RenderModel();
         }
 
         public Vector2 GetOffset(RawTextModel previouseChr)
         {
-            Vector2 offset = new Vector2(0,CharOffset.Y);
+            Vector2 offset = new Vector2(0, CharOffset.Y);
 
             foreach (var k in Kerns)
             {
@@ -97,7 +83,6 @@ namespace Simple_Engine.Views.ThreeD.Engine.Fonts
 
         public override void Setup_Position()
         {
-            
         }
 
         public override void Live_Update(Shader ShaderModel)

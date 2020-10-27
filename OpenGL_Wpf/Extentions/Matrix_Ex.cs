@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using OpenTK;
 
-namespace Simple_Engine.Views.ThreeD.Extentions
+namespace Simple_Engine.Extentions
 {
     public static class Matrix_Ex
     {

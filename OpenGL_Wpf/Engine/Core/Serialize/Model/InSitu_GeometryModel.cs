@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Importer
+namespace Simple_Engine.Engine.Importer.Model
 {
     public class Simple_Engine_GeometryModel
     {

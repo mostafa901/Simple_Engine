@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office.CustomUI;
-using ImGuiNET;
+﻿using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls
+namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
     //for more examples:
     //https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp

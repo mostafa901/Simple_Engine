@@ -1,9 +1,9 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Extentions;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Extentions;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -14,8 +14,10 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Space.Scene;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Abstracts
+namespace Simple_Engine.Engine.Core.Abstracts
 {
     public enum TextureMode
     {
@@ -224,7 +226,7 @@ https://en.wikipedia.org/wiki/Anisotropic_filtering
             {
                 ShaderModel.SetBool(ShaderModel.Location_EnableNormalMap, EnableNormalMap);
 
-                ShaderModel.SetArray3(ShaderModel.LightEyePositionLocation, Game.Context.ActiveScene.Lights.Select(o => o.GetEyeSpacePosition(CameraModel.ActiveCamera.ViewTransform)), new Vector3());
+                ShaderModel.SetArray3(ShaderModel.LightEyePositionLocation, SceneModel.ActiveScene.Lights.Select(o => o.GetEyeSpacePosition(CameraModel.ActiveCamera.ViewTransform)), new Vector3());
             }
 
             ShaderModel.SetInt(ShaderModel.Location_DiffuseMap, 0);

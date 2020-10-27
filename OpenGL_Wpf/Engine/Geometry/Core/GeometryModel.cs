@@ -1,10 +1,10 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.InputControls;
+using Simple_Engine.Engine.Geometry.Render;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Extentions;
+using Simple_Engine.ToolBox;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -23,7 +23,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.Core
+namespace Simple_Engine.Engine.Geometry.Core
 {
     public class GeometryModel : Base_Geo3D, ISelectable
     {

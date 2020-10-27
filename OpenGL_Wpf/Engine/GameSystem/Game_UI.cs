@@ -1,8 +1,8 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Space;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Space;
 using OpenTK;
 using Shared_Lib.Extention;
 using Shared_Lib.IO;
@@ -11,8 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.Space.Camera;
 
-namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
+namespace Simple_Engine.Engine.GameSystem
 {
     public class Game_UI
     {
@@ -85,13 +87,13 @@ namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
             var imgui_Importbutton = new Imgui_Button(filemenu, "Import Model",
                         (x) =>
                         {
-                            game.ActiveScene.DisposeModels();
+                            SceneModel.ActiveScene.DisposeModels();
 
                             string path = UT_System.LoadFiles(Core.Serialize.Import.GetFilter(Core.Serialize.Import.filter.Simple_EngineModel)).FirstOrDefault();
 
                             if (path != null)
                             {
-                                GameFactory.DrawSimple_EngineGeometry(game.ActiveScene, path);
+                                GameFactory.DrawSimple_EngineGeometry(SceneModel.ActiveScene, path);
                             }
 
                             ImGui.CloseCurrentPopup();
@@ -105,7 +107,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
                 string path = UT_System.SaveFilePath(Core.Serialize.Import.GetFilter(Core.Serialize.Import.filter.Simple_EngineModel));
                 if (path != null)
                 {
-                    Core.Serialize.IO.Save(game.ActiveScene.geoModels, path);
+                    Core.Serialize.IO.Save(SceneModel.ActiveScene.geoModels, path);
                 }
                 ImGui.CloseCurrentPopup();
             });
