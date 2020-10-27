@@ -75,50 +75,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Camera.cs" />
-    <Compile Include="Geometery\BaseGeometry.cs" />
-    <Compile Include="Geometery\Cube.cs" />
-    <Compile Include="Geometery\Geometry.cs" />
-    <Compile Include="Geometery\Plan.cs" />
-    <Compile Include="Geometery\Pyramid.cs" />
-    <Compile Include="Graphic\BoundingBox.cs" />
-    <Compile Include="Graphic\Vertex.cs" />
-    <Compile Include="Graphic\Vertex2.cs" />
-    <Compile Include="Graphic\Vertex3.cs" />
-    <Compile Include="Graphic\Vertex4.cs" />
-    <Compile Include="Import.cs" />
-    <Compile Include="MVVM\BaseDataObject.cs" />
-    <Compile Include="MVVM\BaseVModel.cs" />
-    <Compile Include="MVVM\CMD.cs" />
-    <Compile Include="MVVM\CoreViewModel.cs" />
-    <Compile Include="MVVM\ObservableObject.cs" />
-    <Compile Include="MVVM\ObservableRangeCollection.cs" />
-    <Compile Include="MV_App.cs" />
-    <Compile Include="Shaders\BaseShader.cs" />
-    <Compile Include="Shaders\LampFragment.cs" />
-    <Compile Include="Shaders\Light\LightSource.cs" />
-    <Compile Include="Shaders\ObjectColor.cs" />
-    <Compile Include="Shaders\Tex2Frag.cs" />
-    <Compile Include="Textures\Textures.cs" />
-    <Compile Include="ViewControls\BaseControls\BindableProperty.cs" />
-    <Compile Include="ViewControls\BaseControls\BoolControl.xaml.cs">
-      <DependentUpon>BoolControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControls\BaseControls\Vertex3Control.xaml.cs">
-      <DependentUpon>Vertex3Control.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControls\CameraControl.xaml.cs">
-      <DependentUpon>CameraControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControls\Converters\GeometryConverter.cs" />
-    <Compile Include="ViewControls\Converters\LightConverter.cs" />
-    <Compile Include="ViewControls\Converters\CameraConverter.cs" />
-    <Compile Include="ViewControls\GeometryControl.xaml.cs">
-      <DependentUpon>GeometryControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControls\LightControl.xaml.cs">
-      <DependentUpon>LightControl.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,28 +87,152 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ViewControls\BaseControls\BoolControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="OpenGL_Wpf\App.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="ViewControls\BaseControls\Vertex3Control.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="OpenGL_Wpf\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ViewControls\CameraControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ViewControls\GeometryControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ViewControls\LightControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenGL_Wpf\Engine\AnimationComponent.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Abstracts\Base_Geo.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Abstracts\Base_Geo2D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Abstracts\Base_Geo3D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Abstracts\Base_Material.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Abstracts\Base_Texture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Abstracts\FloorModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Animation.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Events\MoveEvent.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Events\SelectedEvent.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IAnimatable.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IDrawable 2D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IDrawable 3D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IDrawable.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IHelper.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IMaterial.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\IRenderable.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Interfaces\ISelectable.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Serialize\Import.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Serialize\Importer\Import_InsItuGeometry.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Serialize\Importer\Import_Obj.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Serialize\Importer\InSitu_GeometryModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Serialize\IO.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Core\Serialize\JsonTools.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Fog.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\Render\WaterMaterial.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\Render\WaterRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\Render\WaterShader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\Render\WaterTexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\Render\Water_FBOReflection.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\Render\Water_FBORefraction.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\Water\WaterModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\WorldBox\Render\SkyBoxRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\WorldBox\Render\SkyBoxTexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\WorldBox\SkyBox.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Environment\WorldSystem.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\CharacterModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\Core\FontInfo.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\Core\GenerateFont.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\GuiFont.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\Render\FontRender.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\Render\FontShader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\Render\FontTexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\TextManager.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Fonts\TextModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Game.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GameFactory.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GameSystem\Debugging.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GameSystem\DisplayManager.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GameSystem\Game_Events.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GameSystem\Game_FBOs.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GameSystem\Game_UI.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Axis\AxisPlan.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Axis\Render\AxisPlanRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Core\GeometryModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Core\Mesh3D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\InputControls\KeyControl.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Render\GeometryRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Terrain\Render\Renderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Terrain\Render\TerrainTexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\Terrain\Terran.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Clips\ClipPlan.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Cube\CubeModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Cube\Render\CubeRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Cube\Render\CubeShader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Cube\Render\CubeTexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Plan3D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\StreetLamp.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\TwoD\Hilbert.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\TwoD\Line.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Geometry\TwoD\Plan.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GUI\GuiModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GUI\Render\GUIRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GUI\Render\GUIShader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\GUI\Render\GUITexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Illumination\Light.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Illumination\Render\Shadow_FBO.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Illumination\Render\Shadow_Shader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Button.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_CheckBox.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Color.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\ImgUI_Controls.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_DragFloat.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_DragFloat3.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Expander.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Group.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_InputFloat.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_InputFloat3.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_ListBox.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_MenuBar.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_MenuItem.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_PopModalWindow.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_SliderAngle.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_SliderFloat4.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_SliderInt.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_String.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_ToolTip.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Vector3.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Vector4.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Controls\Imgui_Window.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\ImGuiController.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Imgui_Generator.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Imgui_Helper.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Render\ImGui_ShaderModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Render\Imgui_TextureModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\ImGui_Set\Utility.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Particles\ParticleModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Particles\ParticleSystem.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Particles\Render\ParticleMesh.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Particles\Render\ParticleRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Particles\Render\ParticleShader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Particles\Render\ParticleTexture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Primitives\baseVertex.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Primitives\Vertex3.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\CameraModel.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\EnginRenderer.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\FBO.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\FBO_MTargets.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\Opticals\Gloss.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\FBO_Texture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\PostProcess_Shader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\PostProcess_Texture.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\PostRender_Effects.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\Shader.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\Texture\TextureCube.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Render\Texture\TextureSample2D.cs" />
+    <Compile Include="OpenGL_Wpf\Engine\Space\Scene.cs" />
+    <Compile Include="OpenGL_Wpf\Extentions\Matrix_Ex.cs" />
+    <Compile Include="OpenGL_Wpf\Extentions\Vector_Ex.cs" />
+    <Compile Include="OpenGL_Wpf\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpenGL_Wpf\MV_App.cs" />
+    <Compile Include="OpenGL_Wpf\Program.cs" />
+    <Compile Include="OpenGL_Wpf\ToolBox\Math.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -170,73 +250,120 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Fonts\! pepsi !.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Fonts\Onyx.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\duck.dae">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\firehydrant.obj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\untitled.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="OpenTK.dll.config" />
-    <None Include="packages.config" />
+    <None Include="OpenGL_Wpf\App.config" />
+    <None Include="OpenGL_Wpf\Engine\Environment\Water\Render\Source\FragmentShader_Water.frag" />
+    <None Include="OpenGL_Wpf\Engine\Environment\Water\Render\Source\VertexShader_Water.vert" />
+    <None Include="OpenGL_Wpf\Engine\Environment\WorldBox\Render\Source\SkyBox_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Environment\WorldBox\Render\Source\SkyBox_Vert.vert" />
+    <None Include="OpenGL_Wpf\Engine\Fonts\Render\Source\FragmentShader_Font.frag" />
+    <None Include="OpenGL_Wpf\Engine\Fonts\Render\Source\TextMap\arial_regular_90.fnt" />
+    <None Include="OpenGL_Wpf\Engine\Fonts\Render\Source\VertexShader_Font.vert" />
+    <None Include="OpenGL_Wpf\Engine\Geometry\Terrain\Render\Source\FragmentShader_Blend.frag" />
+    <None Include="OpenGL_Wpf\Engine\Geometry\Terrain\Render\Source\VertexShader_Blend.vert" />
+    <None Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Cube\Render\Source\FragmentShader_Cube.frag" />
+    <None Include="OpenGL_Wpf\Engine\Geometry\ThreeDModels\Cube\Render\Source\VertexShader_Cube.vert" />
+    <None Include="OpenGL_Wpf\Engine\GUI\Render\Source\FragmentShader_GUI.frag" />
+    <None Include="OpenGL_Wpf\Engine\GUI\Render\Source\VertexShader_GUI.vert" />
+    <None Include="OpenGL_Wpf\Engine\Illumination\Render\Source\Shadow_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Illumination\Render\Source\Shadow_Vert.vert" />
+    <None Include="OpenGL_Wpf\Engine\Particles\Render\Source\FragmentShader_Particle.frag" />
+    <None Include="OpenGL_Wpf\Engine\Particles\Render\Source\VertexShader_Particle.vert" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\Source\Blur_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\Source\Contrast_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\Source\PostProcess_HBlurVert.vert" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\Source\PostProcess_Vert.vert" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\PostProcess\Source\Sepia_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\Color_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\Color_Vert.vert" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\Default_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\Default_Vert.vert" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Default.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Effects.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Fog.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Light.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Shadow.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Texture2D.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_TextureCube.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Vert_2DTexture.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Vert_3DTexture.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Vert_Default.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Vert_Fog.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Vert_Light.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\lib\Vert_Shadow.glsl" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\SingleColor_Frag.frag" />
+    <None Include="OpenGL_Wpf\Engine\Space\Render\Source\SingleColor_Vert.vert" />
+    <None Include="OpenGL_Wpf\Extentions\UT_Model" />
+    <None Include="OpenGL_Wpf\OpenGL_Wpf.csproj" />
+    <None Include="OpenGL_Wpf\OpenTK.dll.config" />
+    <None Include="OpenGL_Wpf\packages.config" />
+    <None Include="OpenGL_Wpf\SampleModels\Dragon\dragon.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\Dragon\stall.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\bunny.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\dragon.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\exampleOBJ.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\fern.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\grass.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\grassModel.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\lamp.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\lowPolyTree.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\stall.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\tree.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\LandScape\model\Tree1.obj" />
+    <None Include="OpenGL_Wpf\SampleModels\Primatives\Sphere.obj" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Shaders\common.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\Direction.frag">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\Lamp-Point.frag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\ObjectColor.frag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\shader.ver">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\TexturedLight.frag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Textures\car.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="OpenGL_Wpf\Engine\Environment\Water\Render\Source\WaterNoise.png" />
+    <Resource Include="OpenGL_Wpf\Engine\Environment\Water\Render\Source\WaterNormalMap.png" />
+    <Resource Include="OpenGL_Wpf\Engine\Fonts\Render\Source\TextMap\arial_regular_90.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Crate\crateNormalMap.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Crate\CrateTexture.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Dragon\dragonSkin.jpg" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\back.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\blendMap.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\bottom.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\dirt.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\fern.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\flower.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\front.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\grassFlowers.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\grassTexture.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\grassy.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\grassy2.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\HeightMap.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\left.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\lowPolyTree.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\mud.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\nightBack.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\nightBottom.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\nightFront.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\nightLeft.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\nightRight.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\nightTop.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\path.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\pinkFlowers.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\right.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\stallTexture.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\TextureAtlas.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\top.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\tree.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\LandScape\Texture\white.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\earth_diff.jpg" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\earth_NormalMap.jpg" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\earth_SpecularMap.jpg" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\FireAtlas.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\grass.jpg" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\push01.png" />
+    <Resource Include="OpenGL_Wpf\SampleModels\Texture\star-images-9441.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Textures\container.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Textures\container_specular.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Textures\grd.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Textures\grd_inv.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Content Include=".gitignore" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

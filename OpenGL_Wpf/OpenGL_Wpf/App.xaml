@@ -1,0 +1,12 @@
+﻿<Application x:Class="OpenGL_Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:OpenGL_Wpf"
+			 xmlns:Converters="clr-namespace:OpenGL_Wpf.ViewControls.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+		<Converters:CameraConverter x:Key="CameraConv"/>
+		<Converters:LightConverter x:Key="LightConv"/>
+		<Converters:GeometryConverter x:Key="GeometryConv"/>
+	</Application.Resources>
+</Application>

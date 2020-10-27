@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Opengl_Window
+/Debug
+/Opengl_Window/Debug
+/Opengl_Window/x64/Debug
+/x64/Debug
+/OpenGL_CSharp/bin/Debug
+/OpenGL_CSharp/obj/Debug
+/OpenGL_Wpf/bin/Debug
+/OpenGL_Wpf/obj/Debug
+/OpenGL_CSharp/.vs/OpenGL_CSharp/v15
+/OpenGL_CSharp/.vs/OpenGL_CSharp/v16/Server/sqlite3
+/OpenGL_CSharp/.vs/OpenGL_CSharp/v16
