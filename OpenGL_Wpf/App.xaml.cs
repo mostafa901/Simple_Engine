@@ -1,4 +1,5 @@
 ﻿using Simple_Engine.Engine;
+using System;
 using System.Windows;
 
 namespace Simple_Engine
@@ -14,6 +15,8 @@ namespace Simple_Engine
             {
                 game.Run(30);
             }
+
+            Environment.Exit(0);
         }
     }
 }
