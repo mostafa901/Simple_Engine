@@ -62,6 +62,9 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -80,6 +83,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\WCF_InSitU\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Engine\WCF_System\IWcf_Engine.cs" />
+    <Compile Include="Engine\WCF_System\Wcf_EngineService.cs" />
+    <Compile Include="Engine\WCF_System\Wcf_Service.cs" />
     <Compile Include="ToolBox\Math.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -241,6 +252,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\WCF_InSitU\Wcf_InSituService.wsdl" />
+    <None Include="Connected Services\WCF_InSitU\Wcf_InSituService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WCF_InSitU\Wcf_InSituService1.wsdl" />
+    <None Include="Connected Services\WCF_InSitU\Wcf_InSituService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Engine\Environment\Water\Render\Source\FragmentShader_Water.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -364,6 +383,7 @@
     </None>
     <None Include="Extentions\UT_Model" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\WcfServiceLibrary1.CompositeType.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -541,6 +561,27 @@
       <Project>{299bc186-d87e-4bc3-bcce-62b1f631feb9}</Project>
       <Name>Shared_Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\WCF_InSitU\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_InSitU\Wcf_InSituService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_InSitU\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_InSitU\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_InSitU\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets" Condition="Exists('..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets')" />

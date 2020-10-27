@@ -293,6 +293,14 @@ namespace Simple_Engine.Engine.Space
             if (e.IsPressed && e.Button == MouseButton.Left)
             {
                 var model = CameraModel.ActiveCamera.PickObject(e.Position, this, game.gameFbos.mTargets_FBO);
+                if(model!=null)
+                {
+                    Task.Run(() =>
+                    {
+                        var srv = new WCF_InSitU.Wcf_InSituClient("WSHttpBinding_IWcf_InSitu");
+                        srv.ListDocument(Guid.Parse("0d10bbc5-4f11-4f30-95a8-6a6f353fbb6e"));
+                    });
+                }
                 return;
             }
         }

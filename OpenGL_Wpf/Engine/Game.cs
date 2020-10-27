@@ -1,43 +1,17 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Fonts;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Geometry;
-using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Engine.Geometry.TwoD;
-using Simple_Engine.Engine.GUI;
-using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Illumination.Render;
-using Simple_Engine.Engine.ImGui_Set;
-using Simple_Engine.Engine.ImGui_Set.Controls;
-using Simple_Engine.Engine.Primitives;
-using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space;
-using Simple_Engine.Engine.Space.Render.PostProcess;
 using Simple_Engine.Engine.Water.Render;
-using Simple_Engine.Extentions;
-using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using Shared_Lib;
 using Shared_Lib.Extention;
-using Shared_Lib.IO;
-using Shared_Library.Extention;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Effects;
+using System.ServiceModel.Discovery;
 
 namespace Simple_Engine.Engine
 {
@@ -57,6 +31,10 @@ namespace Simple_Engine.Engine
                                 , GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default
         )
         {
+            WCF_System.Wcf_Engine.Start_Wcf_Engine();
+
+
+
             GameDebuger.DebugMode();
             DisplayManager.Initialize();
 
@@ -68,8 +46,11 @@ namespace Simple_Engine.Engine
             uiGame = new Game_UI(this);
             gameEvents = new Game_Events(this);
             gameFbos = new Game_FBOs(this);
+             
+            
         }
 
+      
         protected override void OnLoad(EventArgs e)
         {
             var terrain = GameFactory.Draw_Terran(ActiveScene) as Terran;
@@ -147,6 +128,9 @@ namespace Simple_Engine.Engine
             ActiveScene.Dispose();
             uiGame.Dispose();
             base.OnUnload(e);
+
+            WCF_System.Wcf_Engine.Stop_Wcf_Engine();
+
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
