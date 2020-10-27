@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set
+namespace Simple_Engine.Engine.ImGui_Set
 {
 
     static class Util

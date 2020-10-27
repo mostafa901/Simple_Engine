@@ -1,24 +1,20 @@
-﻿using com.sun.java.swing.plaf.motif;
-using ImGuiNET;
-using Simple_Engine.CoreModel;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using Newtonsoft.Json;
+﻿using ImGuiNET;
+using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Water.Render;
+using Simple_Engine.Extentions;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using OpenXmlPowerTools;
 using Shared_Lib.Extention;
 using Shared_Lib.Extention.Serialize_Ex;
 using System;
@@ -33,8 +29,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Media3D;
 using Point = System.Drawing.Point;
+using Newtonsoft.Json;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space
+namespace Simple_Engine.Engine.Space
 {
     public class CameraModel : IRenderable
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space
+namespace Simple_Engine.Engine.Space
 {
    public static class WorldSystem
     {

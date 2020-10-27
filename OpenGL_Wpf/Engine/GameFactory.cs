@@ -1,55 +1,38 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.Fonts.Core;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Cube;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Terrain.Render;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Cube.Render;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.Fonts.Core;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Cube;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render;
 
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Cube.Render;
 
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.GUI.Render;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Opticals;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Particles.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Engine.Water;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.GUI.Render;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Opticals;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Water;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 using Shared_Lib;
-using Shared_Lib.Extention;
-using Shared_Lib.Extention.Serialize_Ex;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media.Effects;
 
-namespace Simple_Engine.Views.ThreeD.Engine
+namespace Simple_Engine.Engine
 {
     public static class GameFactory
     {
         public static GeometryModel CreateSpheare(Scene scene, Vector3 position)
         {
-            var PivotModel = Importer.Import.OBJFile(@"./Views/ThreeD/SampleModels/Primatives/Sphere.obj");
+            var PivotModel = Importer.Import.OBJFile(@"./SampleModels/Primatives/Sphere.obj");
             PivotModel.ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Default);
             PivotModel.DefaultColor = new Vector4(1, 0, 0, 1);
 
@@ -170,7 +153,7 @@ namespace Simple_Engine.Views.ThreeD.Engine
 
         public static Base_Geo3D DrawDragon(Scene scene, Terran terrain)
         {
-            var dragon = Importer.Import.OBJFile(@"./views/ThreeD/SampleModels/Dragon/dragon.obj");
+            var dragon = Importer.Import.OBJFile(@"./SampleModels/Dragon/dragon.obj");
 
             if (terrain != null)
             {

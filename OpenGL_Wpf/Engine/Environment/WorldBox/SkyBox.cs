@@ -1,13 +1,12 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Cube;
-using Simple_Engine.Views.ThreeD.Engine.Illumination.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using OfficeOpenXml.Drawing.Chart;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Cube;
+using Simple_Engine.Engine.Illumination.Render;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -17,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Illumination
+namespace Simple_Engine.Engine.Illumination
 {
     public class SkyBox : Base_Geo3D
     {

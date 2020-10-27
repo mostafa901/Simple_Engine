@@ -26,6 +26,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,14 +37,31 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImGui.NET, Version=1.78.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ImGui.NET.1.78.0\lib\netstandard2.0\ImGui.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=3.2.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OpenTK.3.2.1\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -222,67 +241,175 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Engine\Environment\Water\Render\Source\FragmentShader_Water.frag" />
-    <None Include="Engine\Environment\Water\Render\Source\VertexShader_Water.vert" />
-    <None Include="Engine\Environment\WorldBox\Render\Source\SkyBox_Frag.frag" />
-    <None Include="Engine\Environment\WorldBox\Render\Source\SkyBox_Vert.vert" />
-    <None Include="Engine\Fonts\Render\Source\FragmentShader_Font.frag" />
+    <None Include="Engine\Environment\Water\Render\Source\FragmentShader_Water.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Environment\Water\Render\Source\VertexShader_Water.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Environment\WorldBox\Render\Source\SkyBox_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Environment\WorldBox\Render\Source\SkyBox_Vert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Fonts\Render\Source\FragmentShader_Font.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.fnt" />
-    <None Include="Engine\Fonts\Render\Source\VertexShader_Font.vert" />
-    <None Include="Engine\Geometry\Terrain\Render\Source\FragmentShader_Blend.frag" />
-    <None Include="Engine\Geometry\Terrain\Render\Source\VertexShader_Blend.vert" />
-    <None Include="Engine\Geometry\ThreeDModels\Cube\Render\Source\FragmentShader_Cube.frag" />
-    <None Include="Engine\Geometry\ThreeDModels\Cube\Render\Source\VertexShader_Cube.vert" />
-    <None Include="Engine\GUI\Render\Source\FragmentShader_GUI.frag" />
-    <None Include="Engine\GUI\Render\Source\VertexShader_GUI.vert" />
-    <None Include="Engine\Illumination\Render\Source\Shadow_Frag.frag" />
-    <None Include="Engine\Illumination\Render\Source\Shadow_Vert.vert" />
-    <None Include="Engine\Particles\Render\Source\FragmentShader_Particle.frag" />
-    <None Include="Engine\Particles\Render\Source\VertexShader_Particle.vert" />
-    <None Include="Engine\Space\Render\PostProcess\Source\Blur_Frag.frag" />
-    <None Include="Engine\Space\Render\PostProcess\Source\Contrast_Frag.frag" />
-    <None Include="Engine\Space\Render\PostProcess\Source\PostProcess_HBlurVert.vert" />
-    <None Include="Engine\Space\Render\PostProcess\Source\PostProcess_Vert.vert" />
-    <None Include="Engine\Space\Render\PostProcess\Source\Sepia_Frag.frag" />
-    <None Include="Engine\Space\Render\Source\Color_Frag.frag" />
-    <None Include="Engine\Space\Render\Source\Color_Vert.vert" />
-    <None Include="Engine\Space\Render\Source\Default_Frag.frag" />
-    <None Include="Engine\Space\Render\Source\Default_Vert.vert" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_Default.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_Effects.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_Fog.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_Light.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_Shadow.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_Texture2D.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Frag_TextureCube.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Vert_2DTexture.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Vert_3DTexture.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Vert_Default.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Vert_Fog.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Vert_Light.glsl" />
-    <None Include="Engine\Space\Render\Source\lib\Vert_Shadow.glsl" />
-    <None Include="Engine\Space\Render\Source\SingleColor_Frag.frag" />
-    <None Include="Engine\Space\Render\Source\SingleColor_Vert.vert" />
+    <None Include="Engine\Fonts\Render\Source\VertexShader_Font.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Geometry\Terrain\Render\Source\FragmentShader_Blend.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Geometry\Terrain\Render\Source\VertexShader_Blend.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Geometry\ThreeDModels\Cube\Render\Source\FragmentShader_Cube.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Geometry\ThreeDModels\Cube\Render\Source\VertexShader_Cube.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\GUI\Render\Source\FragmentShader_GUI.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\GUI\Render\Source\VertexShader_GUI.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Illumination\Render\Source\Shadow_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Illumination\Render\Source\Shadow_Vert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Particles\Render\Source\FragmentShader_Particle.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Particles\Render\Source\VertexShader_Particle.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\PostProcess\Source\Blur_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\PostProcess\Source\Contrast_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\PostProcess\Source\PostProcess_HBlurVert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\PostProcess\Source\PostProcess_Vert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\PostProcess\Source\Sepia_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\Color_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\Color_Vert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\Default_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\Default_Vert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_Default.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_Effects.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_Fog.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_Light.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_Shadow.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_Texture2D.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Frag_TextureCube.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Vert_2DTexture.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Vert_3DTexture.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Vert_Default.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Vert_Fog.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Vert_Light.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\lib\Vert_Shadow.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\SingleColor_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\Source\SingleColor_Vert.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Extentions\UT_Model" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SampleModels\Dragon\dragon.obj" />
-    <None Include="SampleModels\Dragon\stall.obj" />
-    <None Include="SampleModels\LandScape\model\bunny.obj" />
-    <None Include="SampleModels\LandScape\model\dragon.obj" />
-    <None Include="SampleModels\LandScape\model\exampleOBJ.obj" />
-    <None Include="SampleModels\LandScape\model\fern.obj" />
-    <None Include="SampleModels\LandScape\model\grass.obj" />
-    <None Include="SampleModels\LandScape\model\grassModel.obj" />
-    <None Include="SampleModels\LandScape\model\lamp.obj" />
-    <None Include="SampleModels\LandScape\model\lowPolyTree.obj" />
-    <None Include="SampleModels\LandScape\model\stall.obj" />
-    <None Include="SampleModels\LandScape\model\tree.obj" />
-    <None Include="SampleModels\LandScape\model\Tree1.obj" />
-    <None Include="SampleModels\Primatives\Sphere.obj" />
+    <None Include="SampleModels\Dragon\dragon.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Dragon\stall.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\bunny.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\dragon.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\exampleOBJ.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\fern.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\grass.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\grassModel.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\lamp.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\lowPolyTree.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\stall.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\tree.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\model\Tree1.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Primatives\Sphere.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -291,45 +418,123 @@
     <Resource Include="Engine\Environment\Water\Render\Source\WaterNoise.png" />
     <Resource Include="Engine\Environment\Water\Render\Source\WaterNormalMap.png" />
     <Resource Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.png" />
-    <Resource Include="SampleModels\Crate\crateNormalMap.png" />
-    <Resource Include="SampleModels\Crate\CrateTexture.png" />
-    <Resource Include="SampleModels\Dragon\dragonSkin.jpg" />
-    <Resource Include="SampleModels\LandScape\Texture\back.png" />
-    <Resource Include="SampleModels\LandScape\Texture\blendMap.png" />
-    <Resource Include="SampleModels\LandScape\Texture\bottom.png" />
-    <Resource Include="SampleModels\LandScape\Texture\dirt.png" />
-    <Resource Include="SampleModels\LandScape\Texture\fern.png" />
-    <Resource Include="SampleModels\LandScape\Texture\flower.png" />
-    <Resource Include="SampleModels\LandScape\Texture\front.png" />
-    <Resource Include="SampleModels\LandScape\Texture\grassFlowers.png" />
-    <Resource Include="SampleModels\LandScape\Texture\grassTexture.png" />
-    <Resource Include="SampleModels\LandScape\Texture\grassy.png" />
-    <Resource Include="SampleModels\LandScape\Texture\grassy2.png" />
-    <Resource Include="SampleModels\LandScape\Texture\HeightMap.png" />
-    <Resource Include="SampleModels\LandScape\Texture\left.png" />
-    <Resource Include="SampleModels\LandScape\Texture\lowPolyTree.png" />
-    <Resource Include="SampleModels\LandScape\Texture\mud.png" />
-    <Resource Include="SampleModels\LandScape\Texture\nightBack.png" />
-    <Resource Include="SampleModels\LandScape\Texture\nightBottom.png" />
-    <Resource Include="SampleModels\LandScape\Texture\nightFront.png" />
-    <Resource Include="SampleModels\LandScape\Texture\nightLeft.png" />
-    <Resource Include="SampleModels\LandScape\Texture\nightRight.png" />
-    <Resource Include="SampleModels\LandScape\Texture\nightTop.png" />
-    <Resource Include="SampleModels\LandScape\Texture\path.png" />
-    <Resource Include="SampleModels\LandScape\Texture\pinkFlowers.png" />
-    <Resource Include="SampleModels\LandScape\Texture\right.png" />
-    <Resource Include="SampleModels\LandScape\Texture\stallTexture.png" />
-    <Resource Include="SampleModels\LandScape\Texture\TextureAtlas.png" />
-    <Resource Include="SampleModels\LandScape\Texture\top.png" />
-    <Resource Include="SampleModels\LandScape\Texture\tree.png" />
-    <Resource Include="SampleModels\LandScape\Texture\white.png" />
-    <Resource Include="SampleModels\Texture\earth_diff.jpg" />
-    <Resource Include="SampleModels\Texture\earth_NormalMap.jpg" />
-    <Resource Include="SampleModels\Texture\earth_SpecularMap.jpg" />
-    <Resource Include="SampleModels\Texture\FireAtlas.png" />
-    <Resource Include="SampleModels\Texture\grass.jpg" />
-    <Resource Include="SampleModels\Texture\push01.png" />
-    <Resource Include="SampleModels\Texture\star-images-9441.png" />
+    <None Include="SampleModels\Crate\crateNormalMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Crate\CrateTexture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Dragon\dragonSkin.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\back.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\blendMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\bottom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\dirt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\fern.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\flower.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\front.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\grassFlowers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\grassTexture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\grassy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\grassy2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\HeightMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\lowPolyTree.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\mud.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\nightBack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\nightBottom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\nightFront.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\nightLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\nightRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\nightTop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\path.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\pinkFlowers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\stallTexture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\TextureAtlas.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\top.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\tree.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\LandScape\Texture\white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\earth_diff.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\earth_NormalMap.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\earth_SpecularMap.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\FireAtlas.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\grass.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\push01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SampleModels\Texture\star-images-9441.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared_Library\Shared_Library\Shared_Library.csproj">
@@ -338,4 +543,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets" Condition="Exists('..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets'))" />
+  </Target>
 </Project>

@@ -1,7 +1,6 @@
-﻿using DocumentFormat.OpenXml.VariantTypes;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
+﻿using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Importer
+namespace Simple_Engine.Engine.Importer
 {
     public static partial class Import
     {

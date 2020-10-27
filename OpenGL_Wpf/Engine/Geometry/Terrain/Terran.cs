@@ -1,14 +1,13 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Terrain.Render;
-using Simple_Engine.Views.ThreeD.Engine.Illumination.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Terrain.Render;
+using Simple_Engine.Engine.Illumination.Render;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib.Extention;
-using sun.nio.fs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels
+namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
     public class Terran : Base_Geo3D, ISelectable
     {

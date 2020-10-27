@@ -1,14 +1,14 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Water.Render;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space.Render.PostProcess
+namespace Simple_Engine.Engine.Space.Render.PostProcess
 {
     public class FBO_Texture : FBO
     {

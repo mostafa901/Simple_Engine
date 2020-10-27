@@ -1,5 +1,5 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
+﻿using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
 using Newtonsoft.Json;
 using OpenTK;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Interfaces
+namespace Simple_Engine.Engine.Core.Interfaces
 {
     public interface IRenderable
     {

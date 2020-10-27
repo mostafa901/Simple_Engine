@@ -1,9 +1,9 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Cube.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Extentions;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.Cube
+namespace Simple_Engine.Engine.Geometry.Cube
 {
     public class CubeModel : Base_Geo3D, ISelectable
     {

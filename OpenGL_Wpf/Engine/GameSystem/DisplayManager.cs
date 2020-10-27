@@ -1,14 +1,6 @@
-﻿using ImGuiNET;
-using org.omg.CORBA;
-using sun.util.resources.cldr.en;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System;
 
-namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
+namespace Simple_Engine.Engine.GameSystem
 {
     public static class DisplayManager
     {

@@ -1,18 +1,17 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Geometry.Core;
 
-using Simple_Engine.Views.ThreeD.Engine.Render;
+using Simple_Engine.Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-using org.apache.poi.ss.formula.functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD
+namespace Simple_Engine.Engine.Geometry.TwoD
 {
     public class Hilbert: Base_Geo2D
     {

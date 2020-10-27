@@ -1,31 +1,28 @@
-﻿using com.sun.pept.presentation;
-using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.GUI;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Illumination.Render;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Primitives;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Engine.Space.Render.PostProcess;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using ImGuiNET;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.GUI;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Illumination.Render;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Primitives;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Space.Render.PostProcess;
+using Simple_Engine.Engine.Water.Render;
+using Simple_Engine.Extentions;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using org.apache.commons.collections4.functors;
-using org.apache.poi.hssf.dev;
 using Shared_Lib;
 using Shared_Lib.Extention;
 using Shared_Lib.IO;
@@ -39,12 +36,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Configuration;
-using System.Web.UI.Design;
 using System.Windows;
 using System.Windows.Media.Effects;
 
-namespace Simple_Engine.Views.ThreeD.Engine
+namespace Simple_Engine.Engine
 {
     public class Game : GameWindow
     {

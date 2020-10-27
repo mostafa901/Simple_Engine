@@ -1,11 +1,8 @@
-﻿using com.sun.tools.javadoc;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using javax.naming;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.ToolBox;
 using Microsoft.Win32;
-using net.sf.mpxj.primavera.suretrak;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -13,11 +10,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core
+namespace Simple_Engine.Engine.Core
 {
     public class AnimVector3
     {
+        public bool Completed = false;
+        private Vector3 diffVector = new Vector3();
+        private double keyFramDuration = 0;
         private List<KeyFrame> KeyFrames = new List<KeyFrame>();
+
+        private double Timeelapsed = 0;
 
         public AnimVector3(IRenderable model, double duration, Vector3 start, Vector3 end, Action<Vector3> animationAction)
         {
@@ -29,16 +31,10 @@ namespace Simple_Engine.Views.ThreeD.Engine.Core
             GenrateKeyFrames(duration, end);
         }
 
+        public Action<Vector3> AnimationAction { get; }
+        public Vector3 End { get; }
         public IRenderable Model { get; }
         public Vector3 Start { get; }
-        public Vector3 End { get; }
-        public Action<Vector3> AnimationAction { get; }
-        public bool Completed = false;
-        private double Timeelapsed = 0;
-
-        private Vector3 diffVector = new Vector3();
-        private double keyFramDuration = 0;
-
         public void Update()
         {
             Timeelapsed += DisplayManager.UpdatePeriod;

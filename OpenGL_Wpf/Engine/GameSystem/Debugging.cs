@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
+namespace Simple_Engine.Engine.GameSystem
 {
     public static class GameDebuger
     {

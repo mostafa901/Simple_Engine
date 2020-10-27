@@ -1,28 +1,25 @@
-﻿using com.sun.tools.@internal.ws.wsdl.framework;
-using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.Fonts;
-using Simple_Engine.Views.ThreeD.Engine.Fonts.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Cube;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Illumination.Render;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Particles.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space.Environment;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using javax.swing;
-using net.sf.mpxj.mpp;
+﻿using ImGuiNET;
+using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.Fonts.Core;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Cube;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Illumination.Render;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Particles.Render;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Environment;
+using Simple_Engine.Engine.Water.Render;
+using Simple_Engine.Extentions;
+using Simple_Engine.ToolBox;
 using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -36,9 +33,9 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Simple_Engine.Views.ThreeD.Engine.Water.Render.FBO;
+using static Simple_Engine.Engine.Water.Render.FBO;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Space
+namespace Simple_Engine.Engine.Space
 {
     public class Scene : IRenderable
     {

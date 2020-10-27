@@ -1,11 +1,10 @@
-﻿using com.sun.jdi;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Fonts.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Render;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Fonts.Core;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -14,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Fonts
+namespace Simple_Engine.Engine.Fonts
 {
     public class CharacterModel : Base_Geo2D
     {

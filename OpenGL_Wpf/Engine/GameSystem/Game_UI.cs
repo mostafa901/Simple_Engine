@@ -1,8 +1,8 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core.Serialize;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Space;
+using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Space;
 using OpenTK;
 using Shared_Lib.Extention;
 using Shared_Lib.IO;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.GameSystem
+namespace Simple_Engine.Engine.GameSystem
 {
     public class Game_UI
     {

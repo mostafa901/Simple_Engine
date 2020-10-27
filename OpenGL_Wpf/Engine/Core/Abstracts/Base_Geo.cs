@@ -1,20 +1,17 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Vml.Office;
-using Simple_Engine.Views.ThreeD.Engine.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Axis;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Cube;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using Newtonsoft.Json;
+﻿using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Axis;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.Cube;
+using Simple_Engine.Engine.Geometry.InputControls;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib;
@@ -25,10 +22,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Simple_Engine.Views.ThreeD.Engine.Core.Interfaces.IDrawable;
-using static Simple_Engine.Views.ThreeD.Engine.Core.Interfaces.IRenderable;
+using static Simple_Engine.Engine.Core.Interfaces.IDrawable;
+using static Simple_Engine.Engine.Core.Interfaces.IRenderable;
+using Newtonsoft.Json;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Abstracts
+namespace Simple_Engine.Engine.Core.Abstracts
 {
     public abstract class Base_Geo : IDrawable
     {

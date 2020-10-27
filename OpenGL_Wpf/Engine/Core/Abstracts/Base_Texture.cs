@@ -1,9 +1,9 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Extentions;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Extentions;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Abstracts
+namespace Simple_Engine.Engine.Core.Abstracts
 {
     public enum TextureMode
     {

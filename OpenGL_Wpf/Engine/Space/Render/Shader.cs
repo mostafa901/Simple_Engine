@@ -1,12 +1,12 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Opticals;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Engine.Space.Environment;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Opticals;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Space.Environment;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Render
+namespace Simple_Engine.Engine.Render
 {
     public enum ShaderMapType
     {
@@ -187,7 +187,7 @@ namespace Simple_Engine.Views.ThreeD.Engine.Render
 
         private void InitalizeShader(ShaderPath shaderModelType)
         {
-            string path = @"./Views/ThreeD/Engine/Space/Render/Source/";
+            string path = @"./Engine/Space/Render/Source/";
             Debug.WriteLine($"Loading Shader: {shaderModelType}");
             switch (shaderModelType)
             {
@@ -203,52 +203,52 @@ namespace Simple_Engine.Views.ThreeD.Engine.Render
                     }
                 case ShaderPath.SkyBox:
                     {
-                        path = @"./Views/ThreeD/Engine/Space/Environment/WorldBox/Render/Source/";
+                        path = @"./Engine/Space/Environment/WorldBox/Render/Source/";
 
                         Setup_Shader($"{path}SkyBox_Vert.vert", $"{path}SkyBox_Frag.frag");
                         break;
                     }
                 case ShaderPath.GUI:
                     {
-                        path = @"./Views/ThreeD/Engine/GUI/Render/Source/";
+                        path = @"./Engine/GUI/Render/Source/";
 
                         Setup_Shader($"{path}VertexShader_GUI.vert", $"{path}FragmentShader_GUI.frag");
                         break;
                     }
                 case ShaderPath.Particle:
                     {
-                        path = @"./Views/ThreeD/Engine/Particles/Render/Source/";
+                        path = @"./Engine/Particles/Render/Source/";
                         Setup_Shader($"{path}VertexShader_Particle.vert", $"{path}FragmentShader_Particle.frag");
                         break;
                     }
                 case ShaderPath.Terrain:
                     {
-                        path = @"./Views/ThreeD/Engine/Geometry/Terrain/Render/Source/";
+                        path = @"./Engine/Geometry/Terrain/Render/Source/";
 
                         Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag");
                         break;
                     }
                 case ShaderPath.Cube:
                     {
-                        path = @"./Views/ThreeD/Engine/Geometry/ThreeDModels/Cube/Render/Source/";
+                        path = @"./Engine/Geometry/ThreeDModels/Cube/Render/Source/";
                         Setup_Shader($"{path}VertexShader_Cube.vert", $"{path}FragmentShader_Cube.frag");
                         break;
                     }
                 case ShaderPath.Water:
                     {
-                        path = @"./Views/ThreeD/Engine/water/Render/Source/";
+                        path = @"./Engine/water/Render/Source/";
                         Setup_Shader($"{path}VertexShader_Water.vert", $"{path}FragmentShader_Water.frag");
                         break;
                     }
                 case ShaderPath.SingleColor:
                     {
-                        path = @"./Views/ThreeD/Engine/Space/Render/Source/";
+                        path = @"./Engine/Space/Render/Source/";
                         Setup_Shader($"{path}SingleColor_Vert.vert", $"{path}SingleColor_Frag.frag");
                         break;
                     }
                 case ShaderPath.Shadow:
                     {
-                        path = @"./Views/ThreeD/Engine/illumination/Render/Source/";
+                        path = @"./Engine/illumination/Render/Source/";
                         Setup_Shader($"{path}Shadow_vert.vert", $"{path}Shadow_Frag.frag");
                         break;
                     }

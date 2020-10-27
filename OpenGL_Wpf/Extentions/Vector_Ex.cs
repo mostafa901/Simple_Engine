@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace Simple_Engine.Views.ThreeD.Extentions
+namespace Simple_Engine.Extentions
 {
     public static class Vector_Ex
     {

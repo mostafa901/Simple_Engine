@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using Shared_Lib.Extention;
+﻿using Shared_Lib.Extention;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Fonts
+namespace Simple_Engine.Engine.Fonts
 {
     public class TextManager
     {
@@ -58,8 +57,8 @@ namespace Simple_Engine.Views.ThreeD.Engine.Fonts
                     model.Kerns.Add(kern);
                 }
             }
-            model.Width = int.Parse(xele.GetAttribute("width"));
-            model.Height = model.CharacterBox.Height;
+            model.SetWidth(int.Parse(xele.GetAttribute("width")));
+            model.SetHeight(model.CharacterBox.Height);
             model.TextScale = Scale;
             return model;
         }

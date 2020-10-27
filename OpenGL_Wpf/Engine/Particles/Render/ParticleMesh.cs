@@ -1,8 +1,7 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using java.security;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using Shared_Lib;
 using System;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Particles.Render
+namespace Simple_Engine.Engine.Particles.Render
 {
     public class ParticleMesh : Mesh3D
     {

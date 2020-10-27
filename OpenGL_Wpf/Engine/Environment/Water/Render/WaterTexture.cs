@@ -1,6 +1,6 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Render.Texture;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.Texture;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Simple_Engine.Views.ThreeD.Engine.Water.Render.FBO;
+using static Simple_Engine.Engine.Water.Render.FBO;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
+namespace Simple_Engine.Engine.Water.Render
 {
     internal class WaterTexture : Base_Texture
     {

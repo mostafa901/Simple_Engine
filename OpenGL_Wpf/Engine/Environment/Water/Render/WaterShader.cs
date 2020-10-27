@@ -1,14 +1,12 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using sun.security.action;
+﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
+namespace Simple_Engine.Engine.Water.Render
 {
     internal class WaterShader : Shader
     {

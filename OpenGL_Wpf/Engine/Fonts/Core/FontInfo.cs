@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Fonts.Core
+namespace Simple_Engine.Engine.Fonts.Core
 {
     public class FontInfo
     {

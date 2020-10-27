@@ -1,4 +1,4 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
+﻿using Simple_Engine.Engine.Core.Interfaces;
 using Shared_Lib.Extention.Serialize_Ex;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Core.Serialize
+namespace Simple_Engine.Engine.Core.Serialize
 {
     public static class Import
     {

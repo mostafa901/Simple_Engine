@@ -5,13 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Render;
+using Simple_Engine.Engine.ImGui_Set.Render;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set
+namespace Simple_Engine.Engine.ImGui_Set
 {
     /// <summary>
     /// A modified version of Veldrid.ImGui's ImGuiRenderer.

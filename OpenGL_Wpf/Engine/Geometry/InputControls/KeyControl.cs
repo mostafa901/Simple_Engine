@@ -1,13 +1,10 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.GameSystem;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.TwoD;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set;
-using Simple_Engine.Views.ThreeD.ToolBox;
-using Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Interop.Word;
-using mshtml;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.ImGui_Set;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Input;
 using System;
@@ -16,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls
+namespace Simple_Engine.Engine.Geometry.InputControls
 {
     public class KeyControl
     {

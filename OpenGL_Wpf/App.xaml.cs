@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Simple_Engine.Engine;
 using System.Windows;
 
 namespace Simple_Engine
@@ -13,5 +8,12 @@ namespace Simple_Engine
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            using (var game = new Game(1200, 800, "Game"))
+            {
+                game.Run(30);
+            }
+        }
     }
 }

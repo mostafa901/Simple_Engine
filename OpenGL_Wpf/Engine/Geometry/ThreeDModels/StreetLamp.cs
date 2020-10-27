@@ -1,17 +1,16 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.ToolBox;
 using OpenTK;
-using PdfSharp.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Geometry.ThreeDModels
+namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
     public class StreetLamp : GeometryModel
     {

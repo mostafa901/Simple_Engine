@@ -1,8 +1,8 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.Extentions;
+﻿using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.Extentions;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Fonts
+namespace Simple_Engine.Engine.Fonts
 {
     public class FontRender : EngineRenderer
     {

@@ -1,4 +1,4 @@
-﻿using Simple_Engine.Views.ThreeD.Engine;
+﻿using Simple_Engine.Engine;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.ToolBox
+namespace Simple_Engine.ToolBox
 {
     public static class eMath
     {

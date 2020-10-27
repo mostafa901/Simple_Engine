@@ -1,4 +1,4 @@
-namespace Simple_Engine.Simple_Engine.Views.ThreeD.Extentions
+namespace Simple_Engine.Simple_Engine.Extentions
 {
 //https://github.com/LapisSea/OpenGL-Bullet-engine/blob/master/src/com/lapissea/opengl/resources/model/ModelUtil.java
 public static class UT_Model

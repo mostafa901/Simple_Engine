@@ -1,10 +1,9 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Extentions;
-using javax.sound.sampled;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Extentions;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set
+namespace Simple_Engine.Engine.ImGui_Set
 {
     public static class Imgui_Generator
     {

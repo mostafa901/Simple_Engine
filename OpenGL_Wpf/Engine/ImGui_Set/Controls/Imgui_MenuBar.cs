@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls
+namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
     public class Imgui_MenuBar : ImgUI_Controls
     {

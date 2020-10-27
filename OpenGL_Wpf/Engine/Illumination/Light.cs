@@ -1,14 +1,12 @@
-﻿using com.sun.tools.doclets.formats.html;
-using DocumentFormat.OpenXml.Drawing;
-using Simple_Engine.Views.ThreeD.Engine.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.InputControls;
-using Simple_Engine.Views.ThreeD.Engine.ImGui_Set.Controls;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Geometry.InputControls;
+using Simple_Engine.Engine.ImGui_Set.Controls;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.ToolBox;
 using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics;
@@ -20,7 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Illumination
+namespace Simple_Engine.Engine.Illumination
 {
     public class Light : IRenderable
     {

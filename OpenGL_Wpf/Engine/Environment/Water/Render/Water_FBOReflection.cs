@@ -1,11 +1,10 @@
-﻿using DocumentFormat.OpenXml.Office.Drawing;
-using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Illumination;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Space;
-using Simple_Engine.Views.ThreeD.ToolBox;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space;
+using Simple_Engine.ToolBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib.Extention;
@@ -17,7 +16,7 @@ using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Water.Render
+namespace Simple_Engine.Engine.Water.Render
 {
     public class Water_FBOReflection : FBO
     {

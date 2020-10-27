@@ -1,10 +1,10 @@
-﻿using Simple_Engine.Views.ThreeD.Engine.Core.Abstracts;
-using Simple_Engine.Views.ThreeD.Engine.Core.Interfaces;
-using Simple_Engine.Views.ThreeD.Engine.Geometry.Core;
-using Simple_Engine.Views.ThreeD.Engine.Core.Events;
-using Simple_Engine.Views.ThreeD.Engine.Particles;
-using Simple_Engine.Views.ThreeD.Engine.Render;
-using Simple_Engine.Views.ThreeD.Engine.Water.Render;
+﻿using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Particles;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Water.Render;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Views.ThreeD.Engine.Water
+namespace Simple_Engine.Engine.Water
 {
     public class WaterModel : Base_Geo2D
     {
