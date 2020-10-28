@@ -35,6 +35,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
             {
                 scale = .5f;
             }
+            
             if (ImGui.DragFloat3(Name, ref val, 1*scale, float.NegativeInfinity, float.PositiveInfinity))
             {
                 var vec3 = val.ToVector();

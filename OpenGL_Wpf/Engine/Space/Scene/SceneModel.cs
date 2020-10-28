@@ -120,6 +120,7 @@ namespace Simple_Engine.Engine.Space.Scene
         {
             Render_UIControls();
             CameraModel.ActiveCamera.Animate.Update();
+            CameraModel.ActiveCamera.RenderModel();
         }
 
         public string Save()

@@ -3,7 +3,6 @@ using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.ImGui_Set;
-using Simple_Engine.ToolBox;
 using System;
 using System.Drawing;
 
@@ -141,10 +140,10 @@ namespace Simple_Engine.Engine.Space.Camera
             var VertransVector = UP * (dy * speed);
             var transVector = HorztransVector + VertransVector;
             Position += transVector;
-            eMath.
+
             if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
             {
-                Target -= transVector;
+                //rotate around object, no need to translate target
             }
             else
             {
@@ -154,7 +153,6 @@ namespace Simple_Engine.Engine.Space.Camera
             UpdateCamera();
             StartPoint = mousePosition;
         }
-
 
         //how much we are looking left or right
         public void Activate_PanCameraModel()
@@ -167,7 +165,5 @@ namespace Simple_Engine.Engine.Space.Camera
                 }
             };
         }
-
-
     }
 }
