@@ -33,7 +33,7 @@ namespace Simple_Engine.Engine.WCF_System
             {
                 Console.WriteLine("An exception occurred: {0}", ce.Message);
                 selfHost.Abort();
-                Debugger.Break();
+             //   Debugger.Break();
             }
         }
 

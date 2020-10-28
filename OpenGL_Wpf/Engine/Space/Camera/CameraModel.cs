@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.ImGui_Set;
-using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
@@ -19,7 +18,8 @@ namespace Simple_Engine.Engine.Space.Camera
 {
     public partial class CameraModel : IRenderable
     {
-       
+        private Line cameraLine;
+
         public CameraModel()
         {
         }
@@ -38,7 +38,27 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public AnimationComponent Animate { get; set; }
 
-     
+        private void set_IsDirectionVisible(bool value)
+        {
+            if (!value)
+            {
+
+                cameraLine.IsActive = false;
+            }
+            else
+            {
+                if (cameraLine == null)
+                {
+                    cameraLine = new Line(Position, Target);
+                    cameraLine.IsSystemModel = true;
+                    cameraLine.DefaultColor = new Vector4(1, 0, 0, 1);
+                }
+                cameraLine.IsActive = true;
+
+                SceneModel.ActiveScene.UpLoadModels(cameraLine);
+            }
+            IsDirectionVisible = value;
+        }
 
         public void Activate_Ortho()
         {
@@ -86,7 +106,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public void Circulate(float time)
         {
-            float r = 10;
+         
             var camx = (float)Math.Sin(time);
             var camy = (float)Math.Cos(time);
             Position = new Vector3(camx, 0, camy);
@@ -205,7 +225,6 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public void RenderModel()
         {
-            throw new NotImplementedException();
         }
 
         public string Save()

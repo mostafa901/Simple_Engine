@@ -77,6 +77,7 @@ namespace Simple_Engine.Engine.Geometry
         public override void Live_Update(Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
+
         }
 
         public override void RenderModel()

@@ -18,7 +18,8 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
            
             ButtonAction = buttonAction;
         }
-
+        public float Min = 0;
+        public float Max = float.PositiveInfinity;
         private Func<float> InitialValue;
         private float PreviousValue = 1 * (float)Math.E;
         public Action<float> ButtonAction { get; set; }
@@ -31,7 +32,8 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
                 PreviousValue = InitialValue();
             }
             var val = InitialValue();
-            if (ImGui.DragFloat(Name, ref val, .01f, 0, float.PositiveInfinity))
+            
+            if (ImGui.DragFloat(Name, ref val, .01f, Min, Max))
             {
                 var vec3 = (val - PreviousValue);
                 ButtonAction(vec3);
