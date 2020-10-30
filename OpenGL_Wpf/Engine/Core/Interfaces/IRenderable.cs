@@ -20,13 +20,12 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         public string Name { get; set; }
 
-        [JsonIgnore]
-        public ImgUI_Controls Ui_Controls { get; set; }
+
+        public Vector4 DefaultColor { get; set; }
 
         void BuildModel();
 
-        void Create_UIControls();
-
+    
         void Dispose();
 
         void Live_Update(Shader ShaderModel);

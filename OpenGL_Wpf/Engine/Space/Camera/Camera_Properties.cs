@@ -19,7 +19,7 @@ namespace Simple_Engine.Engine.Space.Camera
         [JsonIgnore]
         public IRenderable.BoundingBox BBX { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        bool IsDirectionVisible;
+     public bool IsDirectionVisible;
         public Vector3 Direction { get; set; } = new Vector3(0, 0, 1);
 
         public float FarDistance { get; set; } = 2000f;

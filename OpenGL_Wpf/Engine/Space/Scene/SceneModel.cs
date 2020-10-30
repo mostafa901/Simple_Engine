@@ -1,26 +1,22 @@
-﻿using Newtonsoft.Json;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using Shared_Lib.Extention.Serialize_Ex;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
-using Simple_Engine.Engine.Fonts;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.ImGui_Set;
-using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Environment;
-using Simple_Engine.Engine.Water.Render;
 using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Space.Scene
 {
@@ -31,7 +27,7 @@ namespace Simple_Engine.Engine.Space.Scene
         public SceneModel(Game mainGame)
         {
             game = mainGame;
-            Lights = new List<Light>();
+            Lights = new List<LightModel>();
             BBX = new IRenderable.BoundingBox();
 
             Setup_RenderSetings();
@@ -39,7 +35,7 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public IRenderable.BoundingBox BBX { get; set; }
-      
+        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void BuildModel()
         {
@@ -53,7 +49,6 @@ namespace Simple_Engine.Engine.Space.Scene
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
         }
 
-      
         void IRenderable.Dispose()
         {
             throw new NotImplementedException();
@@ -67,10 +62,7 @@ namespace Simple_Engine.Engine.Space.Scene
             Lights.First().Live_Update(ShaderModel);
         }
 
-        public IRenderable Load(string path)
-        {
-            return null;
-        }
+       
 
         public void PostRender(Shader ShaderModel)
         {
@@ -111,11 +103,8 @@ namespace Simple_Engine.Engine.Space.Scene
                 UpdateBoundingBox();
             }
 
-            this.Ui_Controls.SubControls.Remove(this.Ui_Controls.SubControls.First(o => o.Name == "Elements"));
-            Create_UIControls();
         }
 
-       
         public void RenderModel()
         {
             Render_UIControls();
@@ -208,24 +197,26 @@ namespace Simple_Engine.Engine.Space.Scene
             {
                 var model = geoModels.ElementAt(i);
 
-                if (!model.IsActive) continue;
-
-                model.PrepareForRender(model.ShaderModel);
-
-                model.Renderer.Draw();
-
-                model.ShaderModel.Stop();
-
-                model.Render_UIControls();
-
-                if (model.Particles != null)
+                if (model.IsActive)
                 {
-                    foreach (var particle in model.Particles)
+                    model.PrepareForRender(model.ShaderModel);
+
+                    model.Renderer.Draw();
+
+                    model.ShaderModel.Stop();
+
+                    if (model.Particles != null)
                     {
-                        ParticleSystem.Draw(this, model);
+                        foreach (var particle in model.Particles)
+                        {
+                            ParticleSystem.Draw(this, model);
+                        }
                     }
                 }
+               
             }
+
+            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel);
         }
 
         internal void UpLoadModels(IDrawable model)
@@ -236,7 +227,6 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Game_Load(object sender, EventArgs e)
         {
-            Create_UIControls();
         }
 
         private void Game_MouseDown(object sender, MouseButtonEventArgs e)
@@ -245,8 +235,8 @@ namespace Simple_Engine.Engine.Space.Scene
 
             if (e.IsPressed && e.Button == MouseButton.Left)
             {
-                var model = CameraModel.ActiveCamera.PickObject(e.Position, this, game.gameFbos.mTargets_FBO);
-               
+                var model = CameraModel.ActiveCamera.PickObject(e.Position);
+
                 return;
             }
         }
@@ -282,9 +272,10 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_SceneLight()
         {
-            var sunlight = new Light();
-            sunlight.LightColor = new Vector4(1.3f);
+            var sunlight = new LightModel();
+            sunlight.DefaultColor = new Vector4(1.3f);
             sunlight.LightPosition = new Vector3(-10000, 10000, -10000);
+            LightModel.SelectedLight = sunlight;
         }
     }
 }

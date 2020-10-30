@@ -1,63 +1,46 @@
-﻿using Simple_Engine.Engine.ImGui_Set;
-using Simple_Engine.Engine.ImGui_Set.Controls;
+﻿using ImGuiNET;
 using OpenTK.Input;
+using Shared_Lib.MVVM;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Static;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.GameSystem
 {
-    public class Game_Events
+    public partial class Game
     {
-        private Game game;
-        private Imgui_PopModalWindow exitmsg;
-
-        public event EventHandler RenderingUI;
-
-        public void OnRenderingUI()
+        public void Setup_Events()
         {
-            RenderingUI?.Invoke(null, null);
+            KeyDown += Game_KeyDown;
+            MouseDown += Game_MouseDown;
         }
 
-        public Game_Events(Game game)
+        private void Game_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.game = game;
-
-            game.KeyDown += Game_KeyDown;
+            if (Base_Geo.SelectedModel != null && e.Button == MouseButton.Right)
+            {
+                RunOnUIThread(() => ImGui.OpenPopup("Model context"));
+            }
         }
 
         private void Game_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
-                if (RenderingUI == null)
+                ShowExitMessage();
+            }
+            if (e.Key == Key.Delete)
+            {
+                if (Base_Geo.SelectedModel != null)
                 {
-                    RenderingUI += showExitMessage;
+                    Base_Geo.SelectedModel.Delete();
                 }
             }
         }
 
-        private void showExitMessage(object sender, EventArgs e)
+        private void ShowExitMessage()
         {
-            if (exitmsg == null)
-            {
-                exitmsg = new Imgui_PopModalWindow(null, "Exit", "Do you Want To Exit?", () => true, (x) =>
-                {
-                    if (x)
-                    {
-                        game.Exit();
-                    }
-                    exitmsg = null;
-                    RenderingUI -= showExitMessage;
-
-                });
-            }
-            else
-            {
-                exitmsg.BuildModel();
-            }
+            UI_Game.Render_Exit();
         }
     }
 }

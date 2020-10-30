@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Fonts
 {
@@ -34,7 +35,7 @@ namespace Simple_Engine.Engine.Fonts
             Finfo = _finfo;
             //Ratio of the Character Height size 18 on a screen 244 pixels
             //https://websemantics.uk/tools/font-size-conversion-pixel-point-em-rem-percent/
-            scaledHeight = 48 / (float)Game.Context.Height;
+            scaledHeight = 48 / (float)Game.Instance.Height;
             scaleValue = scaledHeight / (float)Finfo.LineHeight;
         }
 

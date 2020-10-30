@@ -3,7 +3,6 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Axis;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Cube;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.ImGui_Set;
@@ -26,10 +25,13 @@ using static Simple_Engine.Engine.Core.Interfaces.IDrawable;
 using static Simple_Engine.Engine.Core.Interfaces.IRenderable;
 using Newtonsoft.Json;
 using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.Core.Static;
+using Shared_Lib.MVVM;
+using Simple_Engine.Engine.Static.InputControl;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {
-    public abstract class Base_Geo : IDrawable
+    public abstract class Base_Geo :  IDrawable
     {
         public static Base_Geo SelectedModel;
         private CubeModel SelectionBox;
@@ -52,17 +54,20 @@ namespace Simple_Engine.Engine.Core.Abstracts
             PivotPoint = new Vector3();
             ClipPlans = new List<ClipPlan>();
             IsActive = true;
-            Ui_Controls = new Imgui_Window(Name ?? "Model");
             Animate = new AnimationComponent(this);
-            if (this is ISelectable)
-            {
-                model_KeyControl = new KeyControl(this as ISelectable);
-            }
+            
 
             onSelectedEvent += delegate
             {
-                Create_UIControls();
+
             };
+            onDeSelectedEvent += delegate
+            {
+                Core.Static.UI_Geo.OpenContext = false;
+                SelectedModel = null;
+            };
+
+            
         }
 
         public event EventHandler<MoveingEvent> MoveEvent;
@@ -97,8 +102,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public Base_Material Material { get; set; }
         public List<Mesh3D> Meshes { get; set; }
 
-        [JsonIgnore]
-        public KeyControl model_KeyControl { get; set; }
 
         public string Name { get; set; }
         public List<Vector3> Normals { get; set; }
@@ -133,8 +136,9 @@ namespace Simple_Engine.Engine.Core.Abstracts
         private bool Selected { get; set; }
 
         private float Width { get; set; } = 1;
+        public string Uid { get; set; }
 
-        public void ActivateShadowMap(Light lightSource)
+        public void ActivateShadowMap(LightModel lightSource)
         {
             if (CastShadow)
             {
@@ -173,7 +177,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void Create_UIControls()
         {
-            Imgui_Generator.GenerateControls(this, Ui_Controls);
+            //Imgui_Generator.GenerateControls(this, Ui_Controls);
         }
 
         public void Dispose()
@@ -223,7 +227,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void Live_Update(Shader ShaderModel)
         {
-            model_KeyControl?.ActionKey();
+            KeyControl.Update_ActionKey();
             ShaderModel.Live_Update();
             TextureModel?.Live_Update(ShaderModel);
             Material?.Live_Update();
@@ -481,6 +485,11 @@ namespace Simple_Engine.Engine.Core.Abstracts
             {
                 SceneModel.ActiveScene.RemoveModels(clip);
             }
+        }
+
+        internal void Delete()
+        {
+            UI_Geo.DeleteModel(this);
         }
     }
 }

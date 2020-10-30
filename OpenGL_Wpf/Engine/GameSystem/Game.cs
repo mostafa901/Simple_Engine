@@ -2,6 +2,7 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using Shared_Lib.MVVM;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination.Render;
@@ -10,20 +11,15 @@ using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Simple_Engine.Engine
+namespace Simple_Engine.Engine.GameSystem
 {
-    public class Game : GameWindow
+    public partial class Game : GameWindow
     {
-        public static Game Context;
-
-
-        public Game_FBOs gameFbos;
-
-        public Game_Events gameEvents;
-
-        public Game_UI uiGame;
+        public static Game Instance;
+          
 
         public Game(int width, int height, string title) : base(width, height, new GraphicsMode(ColorFormat.Empty, 24, 8, 0), title
                                 , GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default
@@ -34,19 +30,20 @@ namespace Simple_Engine.Engine
             GameDebuger.DebugMode();
             DisplayManager.Initialize();
 
-            Context = this;
+            Instance = this;
 
             SceneModel.ActiveScene = new SceneModel(this);
             SceneModel.ActiveScene.BuildModel();
 
-            uiGame = new Game_UI(this);
-            gameEvents = new Game_Events(this);
-            gameFbos = new Game_FBOs(this);
-        }
+            Setup_Events();
+            SetupFBOs();
+    }
 
        
         protected override void OnLoad(EventArgs e)
         {
+            Setup_GameUI();
+
             var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
             terrain.IsSystemModel = true;
             GameFactory.DrawDragon(SceneModel.ActiveScene, terrain);
@@ -55,9 +52,23 @@ namespace Simple_Engine.Engine
             base.OnLoad(e);
         }
 
+        Stack<Action> OnUIThreadActions = new Stack<Action>();
+        List<cus_CMD> RenderOnUIThreadActions = new List<cus_CMD>();
+        public void RunOnUIThread(Action action)
+        {
+            OnUIThreadActions.Push(action);
+        }
+        public void RenderOnUIThread(cus_CMD action)
+        {
+            RenderOnUIThreadActions.Add(action);
+        }
+        public void Dispose_RenderOnUIThread(cus_CMD action)
+        {
+            RenderOnUIThreadActions.Remove(action);
+        }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            uiGame.Update((float)e.Time);
+            UpdateUI((float)e.Time);
             SceneModel.ActiveScene.PrepareForRender(null);
             foreach (var fbo in SceneModel.ActiveScene.FBOs)
             {
@@ -71,8 +82,8 @@ namespace Simple_Engine.Engine
 
             //texture_FBO.BindFrameBuffer();
             //texture_FBO.ClearFrame();
-            gameFbos.mTargets_FBO.BindFrameBuffer();
-            gameFbos.mTargets_FBO.ClearFrame();
+            mTargets_FBO.BindFrameBuffer();
+            mTargets_FBO.ClearFrame();
             //GL.Enable(EnableCap.StencilTest);
             //GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
@@ -80,8 +91,8 @@ namespace Simple_Engine.Engine
 
             SceneModel.ActiveScene.Render();
 
-            gameFbos.mTargets_FBO.UnbindCurrentBuffer();
-            gameFbos.mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
+            mTargets_FBO.UnbindCurrentBuffer();
+            mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
 
             //texture_FBO.UnbindCurrentBuffer();
 
@@ -95,7 +106,16 @@ namespace Simple_Engine.Engine
 
             ImGui.ShowDemoWindow();
             DisplayManager.FixTime();
-            uiGame.Render();
+
+            while (OnUIThreadActions.Count!=0)
+            {
+                OnUIThreadActions.Pop().Invoke();
+            }
+            for (int i = 0; i < RenderOnUIThreadActions.Count; i++)
+            {
+                RenderOnUIThreadActions[i].Execute(null);
+            }
+            RenderUI();
 
             base.Context.SwapBuffers();
             base.OnRenderFrame(e);
@@ -110,17 +130,17 @@ namespace Simple_Engine.Engine
             CameraModel.ActiveCamera.ActivatePrespective();
 
             //Update OtherFrames
-            gameFbos.mTargets_FBO.UpdateSize(Width, Height);
+            mTargets_FBO.UpdateSize(Width, Height);
 
             // Tell ImGui of the new size
-            uiGame.UpdateSize();
+            UpdateSizeUI();
             base.OnResize(e);
         }
 
         protected override void OnUnload(EventArgs e)
         {
             SceneModel.ActiveScene.Dispose();
-            uiGame.Dispose();
+            _controller?.Dispose();
             base.OnUnload(e);
 
             WCF_System.Wcf_Engine.Stop_Wcf_Engine();

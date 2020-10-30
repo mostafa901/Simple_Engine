@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Particles.Render
 {
@@ -49,12 +50,12 @@ namespace Simple_Engine.Engine.Particles.Render
 
         private bool UpdateParticle()
         {
-            Velocity = Velocity + new Vector3(0, (float)(WorldSystem.GRAVITY * parentParticle.GravityEffect * (float)Game.Context.RenderPeriod), 0);
+            Velocity = Velocity + new Vector3(0, (float)(WorldSystem.GRAVITY * parentParticle.GravityEffect * (float)Game.Instance.RenderPeriod), 0);
             Vector3 change = new Vector3(Velocity);
-            change *= (float)Game.Context.RenderPeriod;
+            change *= (float)Game.Instance.RenderPeriod;
             Position += change * .1f;
             ScaleValue *= 0.995f;
-            elapsedTime += (float)Game.Context.RenderPeriod;
+            elapsedTime += (float)Game.Instance.RenderPeriod;
             if (elapsedTime > LifeLength)
             {
                 return true;

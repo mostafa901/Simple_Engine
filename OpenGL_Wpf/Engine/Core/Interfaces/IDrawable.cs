@@ -1,7 +1,6 @@
 ﻿using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Core.Events;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
 using OpenTK;
@@ -24,16 +23,13 @@ namespace Simple_Engine.Engine.Core.Interfaces
         public bool CanBeSaved { get; set; }
         public bool CastShadow { get; set; }
         CullFaceMode CullMode { get; set; }
-        Vector4 DefaultColor { get; set; }
         PrimitiveType DrawType { get; set; }
-        public int Id { get; set; }
+
         List<int> Indeces { get; set; }
         public bool IsActive { get; set; }
         public bool IsBlended { get; set; }
         bool IsSystemModel { get; set; }
         Matrix4 LocalTransform { get; set; }
-        public KeyControl model_KeyControl { get; set; }
-        public string Name { get; set; }
         List<Vector3> Normals { get; set; }
         List<Vector3> NormalTangent { get; set; }
         public List<ParticleModel> Particles { get; set; }
@@ -43,7 +39,9 @@ namespace Simple_Engine.Engine.Core.Interfaces
         Shader ShaderModel { get; set; }
         List<Vector2> TextureCoordinates { get; set; }
         Base_Texture TextureModel { get; set; }
-        void ActivateShadowMap(Light lightSource);
+        public string Uid { get; set; }
+
+        void ActivateShadowMap(LightModel lightSource);
 
         void MoveLocal(Vector3 displacement);
 

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Fonts;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
@@ -31,7 +32,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public List<IDrawable> geoModels { get; private set; } = new List<IDrawable>();
         public int Id { get; set; }
-        public List<Light> Lights { get; set; }
+        public List<LightModel> Lights { get; set; }
         public string Name { get; set; }
         public Fog SceneFog { get; set; }
         public List<IDrawable> systemModels { get; private set; } = new List<IDrawable>();

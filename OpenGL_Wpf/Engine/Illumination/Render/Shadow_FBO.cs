@@ -22,9 +22,9 @@ namespace Simple_Engine.Engine.Illumination.Render
     {
         private Shadow_Shader shadow_shader;
 
-        public Light SunLight { get; }
+        public LightModel SunLight { get; }
 
-        public Shadow_FBO(Light sunLight, int _width, int _height) : base(_width, _height)
+        public Shadow_FBO(LightModel sunLight, int _width, int _height) : base(_width, _height)
         {
             SunLight = sunLight;
             Name = FboName.Shadow;

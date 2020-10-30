@@ -12,11 +12,16 @@ namespace Simple_Engine.Engine.Space.Camera
     {
         private float GetSpeed()
         {
-            var speed = (float)DisplayManager.UpdatePeriod * .005f;
 
+            var speed = (float)DisplayManager.UpdatePeriod * .0005f;
             if (Keyboard.GetState().IsKeyDown(Key.ControlLeft))
             {
-                speed *= 100;
+                return speed*4 ;
+            }
+            else
+            {
+                
+
             }
             return speed;
         }
@@ -83,9 +88,23 @@ namespace Simple_Engine.Engine.Space.Camera
             UpdateCamera();
         }
 
+        private void MoveTarget(Point position)
+        {
+            if (Imgui_Helper.IsAnyCaptured()) return;
+            float speed = GetSpeed();
+
+            var dx = position.X - StartPoint.X;
+            var dy = position.Y - StartPoint.Y;
+            Target += UP * -dy * speed;
+            Target += Right * dx * speed;
+
+            UpdateCamera();
+            StartPoint = position;
+        }
+
         private void Game_Load(object sender, EventArgs e)
         {
-            Create_UIControls();
+           
         }
 
         private void Game_MouseDown(object sender, MouseButtonEventArgs e)
@@ -107,7 +126,7 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 if (IsPrespective)
                 {
-                    var speed = GetSpeed();
+                    var speed = GetSpeed()*100;
 
                     //Evaluate_UPVector();
                     var displacement = Direction.Normalized() * -e.Delta * speed;
@@ -144,6 +163,10 @@ namespace Simple_Engine.Engine.Space.Camera
             if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
             {
                 //rotate around object, no need to translate target
+                if(Base_Geo.SelectedModel!=null)
+                {
+                    AnimateCamreaTarget(Base_Geo.SelectedModel.BBX.CG,100);
+                }
             }
             else
             {

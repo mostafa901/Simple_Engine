@@ -30,6 +30,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
         {
             if (ImGui.ListBox(Name, ref currentSelection, Values, Values.Length))
             {
+             
                 if (previousSelection != -1)
                 {
                     UnSelectedAction(objValues[previousSelection]);
@@ -41,6 +42,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
                     SelectedAction(objValues[currentSelection]);
                 }
             }
+            ImGui.GetWindowDrawList().AddRectFilled(new System.Numerics.Vector2(0), new System.Numerics.Vector2(50), 1, 1, ImDrawCornerFlags.All);
         }
 
         public override void EndModel()

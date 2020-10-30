@@ -49,6 +49,10 @@
     <Reference Include="OpenTK, Version=3.2.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OpenTK.3.2.1\lib\net20\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="Shared_Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Shared_Library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -88,9 +92,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Light.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Camera.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Game.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Geo.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Shared.cs" />
+    <Compile Include="Engine\GameSystem\Game_Actions.cs" />
+    <Compile Include="Engine\ImGui_Set\Controls\Imgui_Separator.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Properties.cs" />
-    <Compile Include="Engine\Space\Camera\Camera_UI.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Events.cs" />
+    <Compile Include="Engine\Space\Scene\Scene_Actions.cs" />
     <Compile Include="Engine\Space\Scene\Scene_Properties.cs" />
     <Compile Include="Engine\Space\Scene\Scene_UI.cs" />
     <Compile Include="Engine\WCF_System\IWcf_Engine.cs" />
@@ -123,8 +135,8 @@
     <Compile Include="Engine\Core\Interfaces\IMaterial.cs" />
     <Compile Include="Engine\Core\Interfaces\IRenderable.cs" />
     <Compile Include="Engine\Core\Interfaces\ISelectable.cs" />
-    <Compile Include="Engine\Core\Serialize\Import.cs" />
-    <Compile Include="Engine\Core\Serialize\Importer\Import_InsItuGeometry.cs" />
+    <Compile Include="Engine\Core\Serialize\Importer\Import_Helper.cs" />
+    <Compile Include="Engine\Core\Serialize\Loader.cs" />
     <Compile Include="Engine\Core\Serialize\Importer\Import_Obj.cs" />
     <Compile Include="Engine\Core\Serialize\Model\InSitu_GeometryModel.cs" />
     <Compile Include="Engine\Core\Serialize\IO.cs" />
@@ -150,7 +162,7 @@
     <Compile Include="Engine\Fonts\Render\FontTexture.cs" />
     <Compile Include="Engine\Fonts\TextManager.cs" />
     <Compile Include="Engine\Fonts\TextModel.cs" />
-    <Compile Include="Engine\Game.cs" />
+    <Compile Include="Engine\GameSystem\Game.cs" />
     <Compile Include="Engine\GameFactory.cs" />
     <Compile Include="Engine\GameSystem\Debugging.cs" />
     <Compile Include="Engine\GameSystem\DisplayManager.cs" />
@@ -161,7 +173,6 @@
     <Compile Include="Engine\Geometry\Axis\Render\AxisPlanRenderer.cs" />
     <Compile Include="Engine\Geometry\Core\GeometryModel.cs" />
     <Compile Include="Engine\Geometry\Core\Mesh3D.cs" />
-    <Compile Include="Engine\Geometry\InputControls\KeyControl.cs" />
     <Compile Include="Engine\Geometry\Render\GeometryRenderer.cs" />
     <Compile Include="Engine\Geometry\Terrain\Render\Renderer.cs" />
     <Compile Include="Engine\Geometry\Terrain\Render\TerrainTexture.cs" />
@@ -180,7 +191,7 @@
     <Compile Include="Engine\GUI\Render\GUIRenderer.cs" />
     <Compile Include="Engine\GUI\Render\GUIShader.cs" />
     <Compile Include="Engine\GUI\Render\GUITexture.cs" />
-    <Compile Include="Engine\Illumination\Light.cs" />
+    <Compile Include="Engine\Illumination\LightModel.cs" />
     <Compile Include="Engine\Illumination\Render\Shadow_FBO.cs" />
     <Compile Include="Engine\Illumination\Render\Shadow_Shader.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_Button.cs" />
@@ -200,7 +211,7 @@
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_SliderAngle.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_SliderFloat4.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_SliderInt.cs" />
-    <Compile Include="Engine\ImGui_Set\Controls\Imgui_String.cs" />
+    <Compile Include="Engine\ImGui_Set\Controls\Imgui_InputString.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_ToolTip.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_Vector3.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_Vector4.cs" />
@@ -562,12 +573,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared_Library\Shared_Library\Shared_Library.csproj">
-      <Project>{299bc186-d87e-4bc3-bcce-62b1f631feb9}</Project>
-      <Name>Shared_Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
@@ -587,6 +592,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\Geometry\InputControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets" Condition="Exists('..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets')" />

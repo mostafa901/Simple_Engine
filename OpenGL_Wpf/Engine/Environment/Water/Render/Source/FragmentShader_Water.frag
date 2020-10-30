@@ -68,7 +68,7 @@ void main()
 	vec3 reflectedlight = reflect(fromLightSource[0], normalColor);
 	float specular = max(dot(reflectedlight, ToCamera),0);
 	specular =pow(specular, ShiningDamp);
-	vec3 specularHighlight = LightColor[0] * specular * ReflectionIndex;
+	vec4 specularHighlight = LightColor[0] * specular * ReflectionIndex;
 
 	float reflectionFactor = dot(ToCamera,vec3(0,1,0));	
  	reflectionFactor  = pow(reflectionFactor, .5f);
@@ -76,7 +76,7 @@ void main()
 	//FragColor = reflectionColour;
 	//return;
 	FragColor = mix(reflectionColour, refractionColour, reflectionFactor);
-	FragColor = mix(FragColor, vec4(0,.2,.5,1), 0.3f) + vec4(specularHighlight,0);
+	FragColor = mix(FragColor, vec4(0,.2,.5,1), 0.3f) + specularHighlight;
 	FragColor.a = clamp(waterdepth/3,0,1);
 
 	 

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Simple_Engine.Engine.Water.Render.FBO;
 using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -31,7 +32,7 @@ namespace Simple_Engine.Engine.Water.Render
         public void AddReflection(TextureUnit textureUnit, Vector4 clipPlan)
         {
             var textureModel = new TextureSample2D(textureUnit);
-            var fbo = new Water_FBOReflection(Game.Context.Width, Game.Context.Height);
+            var fbo = new Water_FBOReflection(Game.Instance.Width, Game.Instance.Height);
             fbo.ClipPlan = clipPlan;
             textureModel.TextureId = fbo.TextureId;
             SceneModel.ActiveScene.FBOs.Add(fbo);
@@ -41,7 +42,7 @@ namespace Simple_Engine.Engine.Water.Render
         public void AddRefraction(TextureUnit textureUnit, Vector4 clipPlan)
         {
             var textureModel = new TextureSample2D(textureUnit);
-            var fbo = new Water_FBORefraction(Game.Context.Width, Game.Context.Height);
+            var fbo = new Water_FBORefraction(Game.Instance.Width, Game.Instance.Height);
             fbo.ClipPlan = clipPlan;
             textureModel.TextureId = fbo.TextureId;
             SceneModel.ActiveScene.FBOs.Add(fbo);
@@ -59,7 +60,7 @@ namespace Simple_Engine.Engine.Water.Render
         public override void Live_Update(Shader shaderModel)
         {
             base.Live_Update(shaderModel);
-            moveFactor += WaveSpeed * (float)Game.Context.RenderPeriod;
+            moveFactor += WaveSpeed * (float)Game.Instance.RenderPeriod;
             moveFactor = moveFactor % 1;
             if (shaderModel is WaterShader shader)
             {

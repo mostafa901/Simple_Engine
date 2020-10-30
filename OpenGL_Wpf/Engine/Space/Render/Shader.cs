@@ -1,23 +1,18 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry;
-using Simple_Engine.Engine.Geometry.Core;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Opticals;
-using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Environment;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Simple_Engine.Engine.Space.Camera;
-using Simple_Engine.Engine.Space.Scene;
 
 namespace Simple_Engine.Engine.Render
 {
@@ -175,7 +170,7 @@ namespace Simple_Engine.Engine.Render
 
         #endregion Properties
 
-        public Stack<Action> ExternalActions = new Stack<Action>();
+        public Stack<Action> RunOnUIThread { get; set; } = new Stack<Action>();
 
         private static string INCLUDEdIRECTIVE = "#include";
 
@@ -183,8 +178,6 @@ namespace Simple_Engine.Engine.Render
         {
             ShaderType = mapType;
             ShaderModelType = shaderModelType;
-
-            InitalizeShader(shaderModelType);
         }
 
         private void InitalizeShader(ShaderPath shaderModelType)
@@ -330,9 +323,9 @@ namespace Simple_Engine.Engine.Render
 
         public virtual void Live_Update()
         {
-            while (ExternalActions.Any())
+            while (RunOnUIThread.Any())
             {
-                var action = ExternalActions.Pop();
+                var action = RunOnUIThread.Pop();
                 action();
             }
         }
@@ -403,9 +396,9 @@ namespace Simple_Engine.Engine.Render
             AttenuationLightLocation = new List<int>();
             LightEyePositionLocation = new List<int>();
 
-            GetArrayLocations(nameof(Light.LightColor), LightColorLocation, MaximumLight);
-            GetArrayLocations(nameof(Light.LightPosition), LightPositionsLocation, MaximumLight);
-            GetArrayLocations(nameof(Light.Attenuation), AttenuationLightLocation, MaximumLight);
+            GetArrayLocations("LightColor", LightColorLocation, MaximumLight);
+            GetArrayLocations(nameof(LightModel.LightPosition), LightPositionsLocation, MaximumLight);
+            GetArrayLocations(nameof(LightModel.Attenuation), AttenuationLightLocation, MaximumLight);
             GetArrayLocations("LightEyePosition", LightEyePositionLocation, MaximumLight);
         }
 
@@ -510,8 +503,8 @@ namespace Simple_Engine.Engine.Render
         {
             if (ProgramID == 0)
             {
-                // InitalizeShader(ShaderModelType);
-                Debugger.Break();
+            //this is incase the shadermodel is created from a different thread.
+                InitalizeShader(ShaderModelType);
             }
 
             GL.UseProgram(ProgramID);

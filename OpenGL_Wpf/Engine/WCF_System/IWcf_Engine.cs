@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceModel;
 
 namespace Simple_Engine.Engine.WCF_System
 {
-    [ServiceContract(Namespace = "http://Simple_Engine")]
-    interface IWcf_Engine
+    [ServiceContract(Namespace = "http://Simple_Engine",ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
+    internal interface IWcf_Engine
     {
-        
+        [OperationContract]
+        void DisplayMessage(string message);
 
         [OperationContract]
-         void DisplayMessage(string message);
+        string ScopeToModel(string jsGeometry);
     }
 }

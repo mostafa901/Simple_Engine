@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Fonts
 {
-    public class GuiFont :IRenderable
+    public class GuiFont : IRenderable
     {
         private List<CharacterModel> characterModels;
 
@@ -32,6 +32,7 @@ namespace Simple_Engine.Engine.Fonts
         public IRenderable.BoundingBox BBX { get ; set ; }
         public ImgUI_Controls Ui_Controls { get ; set ; }
         public AnimationComponent Animate { get; set; }
+        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public GuiFont(string text, float lineWidth)
         {

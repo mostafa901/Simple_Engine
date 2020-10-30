@@ -4,14 +4,15 @@ using Simple_Engine.Engine.Core;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry;
-using Simple_Engine.Engine.ImGui_Set;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
 using System;
 using System.IO;
 using System.Linq;
+using static Shared_Lib.IO.UT_System;
 using Point = System.Drawing.Point;
 
 namespace Simple_Engine.Engine.Space.Camera
@@ -28,7 +29,7 @@ namespace Simple_Engine.Engine.Space.Camera
         {
             Name = "Active Camera";
             this.scene = activeScene;
-            this.loadUI = loadUI;
+            
 
             ActivatePrespective();
             scene.game.MouseDown += Game_MouseDown;
@@ -37,12 +38,12 @@ namespace Simple_Engine.Engine.Space.Camera
         }
 
         public AnimationComponent Animate { get; set; }
+        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        private void set_IsDirectionVisible(bool value)
+        public void Set_IsDirectionVisible(bool value)
         {
             if (!value)
             {
-
                 cameraLine.IsActive = false;
             }
             else
@@ -73,15 +74,17 @@ namespace Simple_Engine.Engine.Space.Camera
             IsPrespective = true;
         }
 
-        public void AnimateCamrea(Vector3 ToPosition, Vector3 ToTargetPosition)
+        public void AnimateCamreaPosition(Vector3 ToPosition, float duration = 1000)
         {
-            float duration = 1000;
             Animate.AnimPositions.Add(new AnimVector3(this, duration, Position, ToPosition, (x) =>
             {
                 Position = x;
                 UpdateCamera();
             }));
+        }
 
+        public void AnimateCamreaTarget(Vector3 ToTargetPosition, float duration = 1000)
+        {
             Animate.AnimPositions.Add(new AnimVector3(this, duration, Target, ToTargetPosition, (x) =>
               {
                   Target = x;
@@ -106,7 +109,6 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public void Circulate(float time)
         {
-         
             var camx = (float)Math.Sin(time);
             var camy = (float)Math.Cos(time);
             Position = new Vector3(camx, 0, camy);
@@ -161,18 +163,19 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public IRenderable Load(string path)
         {
-            return Core.Serialize.Import.LoadModel<CameraModel>(path);
+            return null;
         }
 
-        public ISelectable PickObject(Point mousePosition, SceneModel activeScene, FBO_MTargets targetfbo)
+        public ISelectable PickObject(Point mousePosition)
         {
-            //var mouseRayVector = Extract_RayFromScreen(mousePosition);
-            float? dist = null;
+            FBO_MTargets targetfbo = Game.Instance.mTargets_FBO;
+
+          
             ISelectable selectedModel = null;
             bool found = false;
-            for (int i = 0; i < activeScene.geoModels.Count; i++)
+            for (int i = 0; i < SceneModel.ActiveScene.geoModels.Count; i++)
             {
-                var model = activeScene.geoModels.ElementAt(i) as ISelectable;
+                var model = SceneModel.ActiveScene.geoModels.ElementAt(i) as ISelectable;
                 if (model is null) continue;
                 if (model.ShaderModel.EnableInstancing) continue;
 
@@ -185,7 +188,7 @@ namespace Simple_Engine.Engine.Space.Camera
                     GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, targetfbo.FBOId);
                     GL.ReadBuffer(ReadBufferMode.ColorAttachment1);
                     float[] pixelColor = new float[4];
-                    GL.ReadPixels(mousePosition.X, Game.Context.Height - mousePosition.Y - 1, 1, 1, PixelFormat.Rgba, PixelType.Float, pixelColor);
+                    GL.ReadPixels(mousePosition.X, Game.Instance.Height - mousePosition.Y - 1, 1, 1, PixelFormat.Rgba, PixelType.Float, pixelColor);
                     GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
 
                     //check if the mouse is indeed over the model, or just close by another object
@@ -264,7 +267,8 @@ namespace Simple_Engine.Engine.Space.Camera
             var direction = Position - target;
             var range = (modelBBX.Max - modelBBX.CG).Length * 2;
             var pos = target + direction.Normalized() * range;
-            CameraModel.ActiveCamera.AnimateCamrea(pos, target);
+            CameraModel.ActiveCamera.AnimateCamreaPosition(pos);
+            CameraModel.ActiveCamera.AnimateCamreaTarget(target);
         }
 
         private void Evaluate_DirectionVector()
@@ -308,21 +312,7 @@ namespace Simple_Engine.Engine.Space.Camera
             UpdateCamera();
         }
 
-        private void MoveTarget(Point position)
-        {
-            if (Imgui_Helper.IsAnyCaptured()) return;
-            float speed = GetSpeed();
-
-            var dx = position.X - StartPoint.X;
-            var dy = position.Y - StartPoint.Y;
-            Target += UP * -dy * speed;
-            Target += Right * dx * speed;
-
-            UpdateCamera();
-            StartPoint = position;
-        }
-
-        private void UpdateViewMode()
+        public void UpdateViewMode()
         {
             if (!IsPrespective)
             {
@@ -332,6 +322,11 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 ActivatePrespective();
             }
+        }
+
+        public void Render_UIControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

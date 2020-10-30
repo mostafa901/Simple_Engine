@@ -23,8 +23,8 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
         public void AddInstance(Vector4 lightColor, Matrix4 transform)
         {
-            var light = new Light();
-            light.LightColor = lightColor;
+            var light = new LightModel();
+            light.DefaultColor = lightColor;
             light.Attenuation = Attenuation;
 
             light.LightPosition = transform.ExtractTranslation() + new Vector3(0, 10, 0);

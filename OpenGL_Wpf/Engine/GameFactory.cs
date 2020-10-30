@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine
 {
@@ -186,7 +187,7 @@ namespace Simple_Engine.Engine
             {
                 mesh.Floor?.OnMoving(dragon);
 
-                count += (float)Game.Context.RenderPeriod / 2;
+                count += (float)Game.Instance.RenderPeriod / 2;
                 var pps = (int)Math.Ceiling(count);
                 if (pps > 0)
                 {
@@ -233,24 +234,7 @@ namespace Simple_Engine.Engine
             return earth;
         }
 
-        public static List<GeometryModel> DrawSimple_EngineGeometry(SceneModel scene, string filename)
-        {
-            //string filename = @"C:\Users\Moustafa.Khalil\OneDrive\Revit API\Building.ssd";
-
-            var geos = Engine.Core.Serialize.IO.LoadModels<List<GeometryModel>>(filename);
-
-            
-
-            foreach (var geo in geos)
-            {
-                geo.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
-                scene.UpLoadModels(geo);
-            }
-           
-            // geos.Save(filename);
-
-            return geos;
-        }
+        
 
         public static void DrawLine(SceneModel scene)
         {
@@ -261,7 +245,7 @@ namespace Simple_Engine.Engine
 
         public static void DrawSkyBox(SceneModel scene)
         {
-            var cube = new CubeModel(Game.Context.Width);
+            var cube = new CubeModel(Game.Instance.Width);
             cube.BuildModel();
             scene.SkyBoxModel = new SkyBox(cube);
             scene.SkyBoxModel.AllowReflect = true;
@@ -299,7 +283,7 @@ namespace Simple_Engine.Engine
         {
             FontFactory.GenerateFont();
 
-            var GuiTextModel = new GuiFont("This is my first Line!", Game.Context.Width);
+            var GuiTextModel = new GuiFont("This is my first Line!", Game.Instance.Width);
             GuiTextModel.TextPosition = new Vector2(-.751f, .75f);
             GuiTextModel.BuildModel();
 

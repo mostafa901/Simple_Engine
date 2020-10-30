@@ -7,32 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Engine.Core.Serialize
+namespace Simple_Engine.Engine.Core.Serialize.Importer
 {
-    public static class Import
+    public static class Import_Helper
     {
         public enum filter
         {
-            Simple_EngineModel
+            Simple_EngineModel,
+            Json
         }
         public static string GetFilter(filter filterType)
         {
             switch (filterType)
             {
                 case filter.Simple_EngineModel:
-                    {
                         return "Simple_EngineModel files|*.ssd";
-                    }
-                    break;
+                case filter.Json:
+                    return "Json files|*.json";
+
                 default:
                     return "";
             }
         }
-        public static T LoadModel<T>(string path) where T : IRenderable
-        {
-
-            return File.ReadAllText(path).JDeserialize<T>(JsonTools.GetSettings());
-
-        }
+       
     }
 }

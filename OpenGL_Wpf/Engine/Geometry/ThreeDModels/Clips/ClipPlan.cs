@@ -32,10 +32,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
             IsBlended = true;
         }
 
-        public override void Create_UIControls()
-        {
-            base.Create_UIControls();
-        }
+  
 
         public void SetAsGlobal(bool globalValue)
         {

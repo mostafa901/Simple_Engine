@@ -16,16 +16,16 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
         {
             Width = 400;
             Name = name;
-            ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable;
+            ImGui.GetIO().ConfigFlags = ImGuiConfigFlags.DockingEnable;
         }
 
         private bool isOpen = false;
 
-        public ImGuiWindowFlags flag = ImGuiWindowFlags.AlwaysUseWindowPadding | ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.AlwaysVerticalScrollbar;
+        public ImGuiWindowFlags flag { get; set; } = ImGuiWindowFlags.AlwaysUseWindowPadding;
 
         public override void BuildModel()
         {
-            ImGui.SetNextWindowDockID(1, ImGuiCond.Always);
+            ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
             // Main body of the Demo window starts here.
             if (!ImGui.Begin(Name, ref isOpen, flag))
             {

@@ -2,7 +2,6 @@
 using Simple_Engine.Engine.Geometry.Axis;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Core.Events;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles;

@@ -1,6 +1,5 @@
 ﻿using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Extentions;

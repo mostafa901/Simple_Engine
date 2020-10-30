@@ -1,6 +1,5 @@
 ﻿using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Geometry.Core;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.Render;
 using OpenTK;
 using OpenTK.Graphics;

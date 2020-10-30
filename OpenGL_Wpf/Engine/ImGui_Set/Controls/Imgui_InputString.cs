@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
-    internal class Imgui_String : ImgUI_Controls
+    internal class Imgui_InputString : ImgUI_Controls
     {
-        public Imgui_String(ImgUI_Controls guiWindow, string name, Func<string> initialValue, Action<string> changeAction) : base(guiWindow)
+        public Imgui_InputString(ImgUI_Controls guiWindow, string name, Func<string> initialValue, Action<string> changeAction) : base(guiWindow)
         {
 
             Name = name;

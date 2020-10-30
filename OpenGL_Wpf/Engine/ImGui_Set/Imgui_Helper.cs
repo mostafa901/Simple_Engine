@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using Simple_Engine.Engine.GameSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Simple_Engine.Engine.ImGui_Set
 
         public static bool IsAnyCaptured()
         {
-            return ImGui.IsAnyItemHovered() || ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow);
+           return ImGui.IsAnyItemHovered() || ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow) && Game.Instance.f;
+            
         }
     }
 }

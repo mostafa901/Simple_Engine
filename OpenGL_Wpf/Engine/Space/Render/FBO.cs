@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -133,7 +134,7 @@ namespace Simple_Engine.Engine.Water.Render
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             //required if we need to render a different window size from the original window
-            GL.Viewport(0, 0, Game.Context.Width, Game.Context.Height);
+            GL.Viewport(0, 0, Game.Instance.Width, Game.Instance.Height);
         }
 
         public virtual void CleanUp()

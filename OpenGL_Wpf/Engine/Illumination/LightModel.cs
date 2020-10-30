@@ -1,64 +1,57 @@
-﻿using Simple_Engine.Engine.Core;
-using Simple_Engine.Engine.Core.Interfaces;
+﻿using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry;
-using Simple_Engine.Engine.Geometry.Core;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
-using Simple_Engine.ToolBox;
-using Newtonsoft.Json;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Illumination
 {
-    public class Light : IRenderable
+    public class LightModel : IRenderable
     {
-        public bool CastShadow = false;
+        public bool CastShadow   = false;
         public CameraModel lightCamera;
         public bool Active = true;
-
-        public Light(Light light)
+        public static LightModel SelectedLight;
+        public LightModel(LightModel light)
         {
             Attenuation = light.Attenuation;
-            LightColor = light.LightColor;
+            DefaultColor = light.DefaultColor;
             LightPosition = light.LightPosition;
             SceneModel.ActiveScene.Lights.Add(this);
         }
 
-        public Light()
+        public LightModel()
         {
             SceneModel.ActiveScene.Lights.Add(this);
-            Game.Context.Load += Game_Load;
+            Game.Instance.Load += Game_Load;
         }
 
         private void Game_Load(object sender, EventArgs e)
         {
-            Create_UIControls();
+           
         }
 
         public Vector3 Attenuation { get; set; } = new Vector3(1, 0, 0);
         public IRenderable.BoundingBox BBX { get; set; }
+
+        
+
         public int Id { get; set; }
-        public Vector4 LightColor { get; set; } = new Vector4(.5f, .5f, .5f, 1);
+        public Vector4 DefaultColor { get; set; } = new Vector4(.5f, .5f, .5f, 1);
         public Vector3 LightPosition { get; set; }
         public string Name { get; set; }
         
         public ImgUI_Controls Ui_Controls { get; set; }
         public int ShadowMapId { get; internal set; }
         public AnimationComponent Animate { get; set; }
+        public float Intensity { get; set; } = 1;
 
-        private Line LightRay;
+        public Line LightRay;
 
         public void BuildModel()
         {
@@ -66,52 +59,10 @@ namespace Simple_Engine.Engine.Illumination
 
         public void Create_UIControls()
         {
-            Ui_Controls = new Imgui_Window( "Light");
-            new Imgui_CheckBox(Ui_Controls, "CastShadow", ()=>CastShadow, (x) =>
-               {
-                   CastShadow = !CastShadow;
-               });
-
-            new Imgui_Color(Ui_Controls, "Color", LightColor, (x) =>
-            {
-                LightColor = x;
-            });
-
-            new Imgui_DragFloat(Ui_Controls, "Intensity", ()=>1, (x) =>
-            {
-                LightColor += new Vector4(x, x, x, 0);
-            });
-
-            new Imgui_CheckBox(Ui_Controls, "Show Light Ray",()=> false, (x) =>
-            {
-                if (LightRay == null)
-                {
-                    LightRay = new Line(new Vector3(), new Vector3(1));
-                    LightRay.IsSystemModel = true;
-                    LightRay.IsActive = false;
-                    LightRay.BuildModel();
-                    SceneModel.ActiveScene.UpLoadModels(LightRay);
-                }
-
-                {
-                    LightRay.IsActive = !LightRay.IsActive;
-                    if (LightRay.IsActive)
-                    {
-                        UpdateLightRay();
-                    }
-                }
-            });
-
-            var imgui_pos = new Imgui_DragFloat3(Ui_Controls, "Position", ()=>LightPosition, (x) =>
-            {
-                LightPosition += x;
-                SetShadowTransform();
-                UpdateLightRay();
-            });
-            imgui_pos.Width = 200;
+            
         }
 
-        private void UpdateLightRay()
+        public void UpdateLightRay()
         {
             if (LightRay == null) return;
 
@@ -176,7 +127,7 @@ namespace Simple_Engine.Engine.Illumination
 
         public void SetShadowTransform()
         {
-            CastShadow = true;
+             
             if (lightCamera == null)
             {
                 lightCamera = new CameraModel(SceneModel.ActiveScene,false);
@@ -204,7 +155,7 @@ namespace Simple_Engine.Engine.Illumination
 
         private static void UpLoadLightColor(Shader ShaderModel)
         {
-            ShaderModel.SetArray4(ShaderModel.LightColorLocation, SceneModel.ActiveScene.Lights.Select(o => o.LightColor), new Vector4());
+            ShaderModel.SetArray4(ShaderModel.LightColorLocation, SceneModel.ActiveScene.Lights.Select(o => o.DefaultColor), new Vector4());
         }
     }
 }

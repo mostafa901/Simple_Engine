@@ -1,7 +1,6 @@
 ﻿using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Events;
-using Simple_Engine.Engine.Geometry.InputControls;
 using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
@@ -26,7 +25,6 @@ namespace Simple_Engine.Engine.Geometry.Core
 
         public Mesh3D(IDrawable parent)
         {
-            model_KeyControl = new KeyControl(this);
             Parent = parent;
             var bbx = parent.BBX;
             SetWidth(bbx.Width);

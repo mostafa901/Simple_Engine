@@ -15,7 +15,6 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
             SetWindowFlag(ImGuiWindowFlags.MenuBar);
         }
 
-        public int Width { get; }
 
         private bool show_app_main_menu_bar = true;
 
