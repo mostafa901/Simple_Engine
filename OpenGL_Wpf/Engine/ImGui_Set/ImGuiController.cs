@@ -373,7 +373,7 @@ void main()
             // Render command lists
             int vtx_offset = 0;
             int idx_offset = 0;
-            for (int n = 0; n < draw_data.CmdListsCount; n++)
+            for (int n = 0; n < 1; n++)
             {
                 ImDrawListPtr cmd_list = draw_data.CmdListsRange[n];
                 for (int cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
@@ -391,7 +391,7 @@ void main()
 
                         // We do _windowHeight - (int)clip.W instead of (int)clip.Y because gl has flipped Y when it comes to these coordinates
                         var clip = pcmd.ClipRect;
-                        GL.Scissor((int)clip.X, _windowHeight - (int)clip.W, (int)(clip.Z - clip.X), (int)(clip.W - clip.Y));
+                        GL.Scissor((int)clip.X,0 , (int)(clip.Z - clip.X), (int)(clip.Y));
                         
                         Util.CheckGLError("Scissor");
 
