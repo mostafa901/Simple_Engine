@@ -28,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -92,6 +93,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Engine\Core\Serialize\Importer\Import_Revit.cs" />
     <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Light.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Camera.cs" />
@@ -595,6 +597,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Engine\Geometry\InputControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cimgui.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shared_Library.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets" Condition="Exists('..\..\packages\ImGui.NET.1.78.0\build\net40\ImGui.NET.targets')" />

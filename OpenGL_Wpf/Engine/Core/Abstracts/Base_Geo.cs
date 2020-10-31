@@ -31,7 +31,7 @@ using Simple_Engine.Engine.Static.InputControl;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {
-    public abstract class Base_Geo :  IDrawable
+    public abstract class Base_Geo : IDrawable
     {
         public static Base_Geo SelectedModel;
         private CubeModel SelectionBox;
@@ -55,7 +55,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             ClipPlans = new List<ClipPlan>();
             IsActive = true;
             Animate = new AnimationComponent(this);
-            
+
 
             onSelectedEvent += delegate
             {
@@ -63,11 +63,11 @@ namespace Simple_Engine.Engine.Core.Abstracts
             };
             onDeSelectedEvent += delegate
             {
-                Core.Static.UI_Geo.OpenContext = false;
+                UI_Shared.OpenContext = false;
                 SelectedModel = null;
             };
 
-            
+
         }
 
         public event EventHandler<MoveingEvent> MoveEvent;
@@ -239,7 +239,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
                 ShaderModel.SetFloat(ShaderModel.Location_IsSelected, (float)Convert.ToInt32(Selected));
             }
 
-            ShaderModel.SetBool(ShaderModel.Location_EnableClipPlan, EnableClipPlans || Shader.ClipGlobal);
             if ((EnableClipPlans || Shader.ClipGlobal) && !(this is ClipPlan))
             {
                 if (Shader.ClipGlobal)
@@ -384,6 +383,11 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void Set_Selected(bool value)
         {
+            if (SelectedModel != null && SelectedModel != this)
+            {
+                SelectedModel.Set_Selected(false);
+            }
+            
             if (Selected != value)
             {
                 Selected = value;
@@ -450,6 +454,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
             else
             {
+                SelectedModel = this;
                 onSelectedEvent?.Invoke(this, e);
             }
         }
@@ -464,6 +469,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
         private ClipPlan Generate_ClipPlan(Vector3 direction, EnableCap ClipDistance)
         {
             var clip = new ClipPlan(direction, ClipDistance, 10f);
+            clip.Name = "Clip " + (direction.X > 0 ? "X" : direction.Y > 0 ? "Y" : "Z");
             if (direction == Vector3.UnitY)
             {
                 clip.Rotate(90, new Vector3(1, 0, 0));

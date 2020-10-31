@@ -1,20 +1,9 @@
-﻿using Simple_Engine.Engine.ImGui_Set.Controls;
-using Simple_Engine.Engine.Render;
-using OpenTK;
-
-using OpenTK;
-
-using OpenTK.Graphics;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Simple_Engine.Engine.Render;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
 {
-
     public class ClipPlan : Plan3D
     {
         //todo: shade the clipped part
@@ -31,8 +20,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
             MoveWorld(clipDirection * offsetValue);
             IsBlended = true;
         }
-
-  
 
         public void SetAsGlobal(bool globalValue)
         {
@@ -81,18 +68,21 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
                     ClipOffset = trans.X;
 
                     ShaderModel.SetVector4(ShaderModel.Location_ClipPlanX, new Vector4(-ClipDirection, ClipOffset));
+                    ShaderModel.SetBool(ShaderModel.Location_EnableClipPlanX, IsActive);
                 }
                 if (ClipDirection.Y > 0)
                 {
                     ClipOffset = trans.Y;
 
                     ShaderModel.SetVector4(ShaderModel.Location_ClipPlanY, new Vector4(-ClipDirection, ClipOffset));
+                    ShaderModel.SetBool(ShaderModel.Location_EnableClipPlanY, IsActive);
                 }
                 if (ClipDirection.Z > 0)
                 {
                     ClipOffset = trans.Z;
 
                     ShaderModel.SetVector4(ShaderModel.Location_ClipPlanZ, new Vector4(-ClipDirection, ClipOffset));
+                    ShaderModel.SetBool(ShaderModel.Location_EnableClipPlanZ, IsActive);
                 }
             }
         }

@@ -1,34 +1,30 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
-using Shared_Lib.Extention.Serialize_Ex;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simple_Engine.Engine.Core.Serialize.Importer
+﻿namespace Simple_Engine.Engine.Core.Serialize.Importer
 {
     public static class Import_Helper
     {
         public enum filter
         {
+            All,
             Simple_EngineModel,
             Json
         }
+
         public static string GetFilter(filter filterType)
         {
             switch (filterType)
             {
                 case filter.Simple_EngineModel:
-                        return "Simple_EngineModel files|*.ssd";
+                    return "Simple_EngineModel files|*.ssd";
+
                 case filter.Json:
                     return "Json files|*.json";
+
+                case filter.All:
+                    return string.Join("|", GetFilter(filter.Json), GetFilter(filter.Simple_EngineModel));
 
                 default:
                     return "";
             }
         }
-       
     }
 }

@@ -161,7 +161,7 @@ namespace Simple_Engine.Engine.GameSystem
             );
         }
 
-        private void LoadModels()
+        private void injectModels()
         {
             //var gui = new GuiModel(.25f, .25f, 0.5f, 0);
             //gui.BuildModel();

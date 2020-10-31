@@ -13,7 +13,7 @@ namespace Simple_Engine.Engine.Core.Static
         {
             if (thisgame == null) return;
             game = thisgame;
-          
+
             RenderWindow();
         }
 
@@ -21,14 +21,18 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
+            
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
+
             if (ImGui.Begin("Game", ref isWindowOpen, ImGuiWindowFlags.MenuBar| ImGuiWindowFlags.DockNodeHost))
             {
                 Render_MenuBar();
 
-                // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
+            ImGui.PopStyleVar();
+
+           
         }
 
         internal static void Render_Exit()
@@ -47,7 +51,7 @@ namespace Simple_Engine.Engine.Core.Static
             {
                 string title = "Exit";
                 ImGui.OpenPopup(title);
-                UI_Shared.Render_YesNOModalMessage(title, "Exit Engine?", responseAction);
+                UI_Shared.Render_YesNOModalMessage(title, "Exit Engine?\r\nAny changes will not be saved.", responseAction);
             };
             game.RenderOnUIThread(cmd);
         }
@@ -71,17 +75,20 @@ namespace Simple_Engine.Engine.Core.Static
             {
                 if (ImGui.Button("Load Models"))
                 {
-                    game.ImportModels();
+                    game.LoadModels();
                 }
+
                 if (ImGui.Button("Save Models"))
                 {
                     game.SaveModels();
                 }
-
+                ImGui.Separator();
+                if (ImGui.Button("Import Models"))
+                {
+                    game.ImportModels();
+                }
                 ImGui.EndMenu();
             }
         }
-
-
     }
 }

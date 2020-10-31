@@ -1,6 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using Simple_Engine.Engine.Geometry.Axis.Render;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Extentions;
 
@@ -22,9 +22,13 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
-            if (ImGui.Begin("Camera", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost))
+            //ImGui.SetNextWindowDockID(0, ImGuiCond.Always);
+            ImGui.SetNextWindowPos(new System.Numerics.Vector2(0, 20));
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - 20));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
+            if (ImGui.Begin("Camera", ref isWindowOpen,   ImGuiWindowFlags.None))
             {
+                ImGui.Text("Camera Settings");
                 UI_Shared.Render_Name(camera);
 
                 RenderDisplayMode();
@@ -37,6 +41,8 @@ namespace Simple_Engine.Engine.Core.Static
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
+            ImGui.PopStyleVar();
+
         }
 
         private static void Render_FOV()
@@ -95,7 +101,6 @@ namespace Simple_Engine.Engine.Core.Static
             var val = camera.Height;
             if (ImGui.DragFloat("Height", ref val))
             {
-
                 camera.Height = MathHelper.Clamp(val, 50, 2000);
                 camera.UpdateViewMode();
             }
@@ -106,13 +111,9 @@ namespace Simple_Engine.Engine.Core.Static
             var val = camera.Width;
             if (ImGui.DragFloat("Width", ref val))
             {
-
                 camera.Width = MathHelper.Clamp(val, 50, 2000);
                 camera.UpdateViewMode();
             }
         }
-
-      
-         
     }
 }

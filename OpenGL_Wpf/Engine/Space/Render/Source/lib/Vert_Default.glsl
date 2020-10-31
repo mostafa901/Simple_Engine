@@ -24,7 +24,10 @@ uniform mat4 LocalTransform;
 uniform vec4 ClipPlanX;
 uniform vec4 ClipPlanY;
 uniform vec4 ClipPlanZ;
-uniform bool EnableClipPlan;
+uniform bool Enable_ClipPlanX;
+uniform bool Enable_ClipPlanY;
+uniform bool Enable_ClipPlanZ;
+
 
 
 
@@ -41,19 +44,19 @@ void LoadSurfaceNormal(mat4 modelTransform)
 
 void CheckClipPlan(vec4 worldPosition)
 {
-	if(EnableClipPlan)
-	   {
-			gl_ClipDistance[0] = dot(ClipPlanX,worldPosition);
-			gl_ClipDistance[1] = dot(ClipPlanY,worldPosition);
-			gl_ClipDistance[2] = dot(ClipPlanZ,worldPosition);
-	   }
-	   else
-	   {
+	//if(EnableClipPlan)
+	   //{
+			gl_ClipDistance[0] = Enable_ClipPlanX? dot(ClipPlanX,worldPosition): 1;
+			gl_ClipDistance[1] = Enable_ClipPlanY? dot(ClipPlanY,worldPosition): 1;
+			gl_ClipDistance[2] = Enable_ClipPlanZ? dot(ClipPlanZ,worldPosition): 1;
+	   //}
+	  // else
+	  // {
 	   //this is required to update openGL there is no clipping here from a previous clipped model
-			gl_ClipDistance[0] = 1;
-			gl_ClipDistance[1] = 1;
-			gl_ClipDistance[2] = 1;
-	   }
+			// gl_ClipDistance[0] = 1;
+			// gl_ClipDistance[1] = 1;
+			// gl_ClipDistance[2] = 1;
+	  // }
 }
 
 mat4 GetLocalMatrix()

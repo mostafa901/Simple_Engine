@@ -2,6 +2,7 @@
 using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.ImGui_Set;
 using Simple_Engine.ToolBox;
@@ -20,7 +21,7 @@ namespace Simple_Engine.Engine.Static.InputControl
         {
             ISelectable model = Base_Geo.SelectedModel as ISelectable;
             if (model == null) return;
-            if (Imgui_Helper.IsAnyCaptured()) return;
+            if (UI_Shared.IsAnyCaptured()) return;
             if (!model.GetSelected()) return;
 
             float moveStep = (float)DisplayManager.UpdatePeriod * .01f ;

@@ -1,9 +1,11 @@
 ﻿using ImGuiNET;
 using OpenTK;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
+using System.Collections.Generic;
 
 namespace Simple_Engine.Engine.Core.Static
 {
@@ -23,12 +25,13 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
-            if (ImGui.Begin("Light", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost))
+            
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
+            if (ImGui.Begin("Light", ref isWindowOpen,   ImGuiWindowFlags.None))
             {
                 UI_Shared.Render_Name(light);
 
-                Render_CastShadow();
+                UI_Shared.Render_CastShadow(light);
                 Render_Color();
                 Render_Intenisty();
                 Render_ShowLightRay();
@@ -37,6 +40,7 @@ namespace Simple_Engine.Engine.Core.Static
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
+            ImGui.PopStyleVar();
         }
 
         private static void Render_Position()
@@ -91,9 +95,6 @@ namespace Simple_Engine.Engine.Core.Static
             UI_Shared.Render_Color(light);
         }
 
-        private static void Render_CastShadow()
-        {
-            ImGui.Checkbox("CastShadow", ref light.CastShadow);
-        }
+        
     }
 }

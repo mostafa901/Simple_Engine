@@ -20,6 +20,7 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         public string Name { get; set; }
 
+        public bool CastShadow { get; set; }
 
         public Vector4 DefaultColor { get; set; }
 

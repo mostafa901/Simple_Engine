@@ -22,6 +22,17 @@ namespace Simple_Engine.Engine.GameSystem
 
             if (path != null)
             {
+                Task.Run(() => { Importer.Import.Revit_ExportFile(path); });
+            }
+
+        }
+
+        public void LoadModels()
+        {
+            string path = UT_System.LoadFiles(GetFilter(filter.Simple_EngineModel)).FirstOrDefault();
+
+            if (path != null)
+            {
                 Task.Run(() => { Loader.Load_GeoFile(path); });
             }
 
@@ -29,7 +40,7 @@ namespace Simple_Engine.Engine.GameSystem
 
         public void SaveModels()
         {
-            string path = UT_System.LoadFiles(GetFilter(filter.Json)).FirstOrDefault();
+            string path = UT_System.SaveFilePath(GetFilter(filter.Simple_EngineModel));
 
             if (path != null)
             {

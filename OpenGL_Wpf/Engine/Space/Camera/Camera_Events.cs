@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.ImGui_Set;
 using System;
@@ -47,7 +48,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         private void Game_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
-            if (Imgui_Helper.IsAnyCaptured()) return;
+            if (UI_Shared.IsAnyCaptured()) return;
             float speed = 1f;
             Vector3 transvector = new Vector3();
 
@@ -90,7 +91,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         private void MoveTarget(Point position)
         {
-            if (Imgui_Helper.IsAnyCaptured()) return;
+            if (UI_Shared.IsAnyCaptured()) return;
             float speed = GetSpeed();
 
             var dx = position.X - StartPoint.X;
@@ -114,7 +115,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         private void Game_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (Imgui_Helper.IsAnyCaptured()) return;
+            if (UI_Shared.IsAnyCaptured()) return;
             if (Keyboard.GetState().IsKeyDown(Key.AltLeft))
             {
                 if (IsPrespective)
@@ -149,7 +150,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public void PanCamera(Point mousePosition)
         {
-            if (Imgui_Helper.IsAnyCaptured()) return;
+            if (UI_Shared.IsAnyCaptured()) return;
             float speed = GetSpeed();
 
             var dx = mousePosition.X - StartPoint.X;

@@ -22,7 +22,7 @@ namespace Simple_Engine.Engine.Core.Serialize
         {
             var js = new JsonSerializerSettings();
             js.Converters.Add(new VectorConverter());
-            js.Formatting = Formatting.Indented;
+           // js.Formatting = Formatting.Indented;
 #if false
             js.ContractResolver = new JsonTools.JsonResolver(
                new List<Type>

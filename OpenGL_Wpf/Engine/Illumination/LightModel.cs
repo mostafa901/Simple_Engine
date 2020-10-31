@@ -13,7 +13,7 @@ namespace Simple_Engine.Engine.Illumination
 {
     public class LightModel : IRenderable
     {
-        public bool CastShadow   = false;
+        
         public CameraModel lightCamera;
         public bool Active = true;
         public static LightModel SelectedLight;
@@ -50,6 +50,7 @@ namespace Simple_Engine.Engine.Illumination
         public int ShadowMapId { get; internal set; }
         public AnimationComponent Animate { get; set; }
         public float Intensity { get; set; } = 1;
+       public bool CastShadow { get ; set; }
 
         public Line LightRay;
 

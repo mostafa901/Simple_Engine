@@ -21,7 +21,6 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         public bool AllowReflect { get; set; }
         public bool CanBeSaved { get; set; }
-        public bool CastShadow { get; set; }
         CullFaceMode CullMode { get; set; }
         PrimitiveType DrawType { get; set; }
 

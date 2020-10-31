@@ -120,6 +120,11 @@ namespace Simple_Engine.Engine.Render
         public int Location_ClipPlanY { get; private set; } = -1;
 
         public int Location_ClipPlanZ { get; private set; } = -1;
+        public int Location_EnableClipPlanX { get; private set; } = -1;
+
+        public int Location_EnableClipPlanY { get; private set; } = -1;
+
+        public int Location_EnableClipPlanZ { get; private set; } = -1;
 
         //Texture
         public int Location_CubeDiffuseMap { get; set; } = -1;
@@ -131,8 +136,6 @@ namespace Simple_Engine.Engine.Render
         public int Location_DefaultColor { get; set; } = -1;
 
         public int Location_DiffuseMap { get; set; } = -1;
-
-        public int Location_EnableClipPlan { get; private set; } = -1;
 
         public int Location_EnableNormalMap { get; set; } = -1;
 
@@ -361,7 +364,10 @@ namespace Simple_Engine.Engine.Render
             Location_ClipPlanX = GetLocation("ClipPlanX");
             Location_ClipPlanY = GetLocation("ClipPlanY");
             Location_ClipPlanZ = GetLocation("ClipPlanZ");
-            Location_EnableClipPlan = GetLocation("EnableClipPlan");
+            
+            Location_EnableClipPlanX = GetLocation("Enable_ClipPlanX");
+            Location_EnableClipPlanY = GetLocation("Enable_ClipPlanY");
+            Location_EnableClipPlanZ = GetLocation("Enable_ClipPlanZ");
 
             //Texture
             Location_CubeDiffuseMap = GetLocation("CubeDiffuseMap");
@@ -503,7 +509,7 @@ namespace Simple_Engine.Engine.Render
         {
             if (ProgramID == 0)
             {
-            //this is incase the shadermodel is created from a different thread.
+                //this is incase the shadermodel is created from a different thread.
                 InitalizeShader(ShaderModelType);
             }
 

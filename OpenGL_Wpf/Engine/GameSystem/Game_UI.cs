@@ -8,7 +8,6 @@ namespace Simple_Engine.Engine.GameSystem
     public partial class Game
     {
         private ImGuiController _controller;
-
         public void Setup_GameUI()
         {
             _controller = new ImGuiController(Width, Height);
@@ -21,6 +20,7 @@ namespace Simple_Engine.Engine.GameSystem
             ImGui.CaptureMouseFromApp(true);
             ImGui.GetIO().ConfigFlags = ImGuiConfigFlags.DockingEnable;
             ImGui.GetIO().ConfigDockingAlwaysTabBar = true;
+
         }
 
         private void Game_KeyPress(object sender, KeyPressEventArgs e)

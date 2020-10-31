@@ -22,8 +22,9 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public void Render_UIControls()
         {
-            UI_Light.RenderUI(LightModel.SelectedLight);
             UI_Camera.RenderUI(CameraModel.ActiveCamera);
+            UI_Light.RenderUI(LightModel.SelectedLight);
+
         }
     }
 }

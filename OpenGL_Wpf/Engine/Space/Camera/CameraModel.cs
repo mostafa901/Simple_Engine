@@ -12,7 +12,6 @@ using Simple_Engine.Engine.Water.Render;
 using System;
 using System.IO;
 using System.Linq;
-using static Shared_Lib.IO.UT_System;
 using Point = System.Drawing.Point;
 
 namespace Simple_Engine.Engine.Space.Camera
@@ -29,7 +28,6 @@ namespace Simple_Engine.Engine.Space.Camera
         {
             Name = "Active Camera";
             this.scene = activeScene;
-            
 
             ActivatePrespective();
             scene.game.MouseDown += Game_MouseDown;
@@ -39,6 +37,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public AnimationComponent Animate { get; set; }
         public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Set_IsDirectionVisible(bool value)
         {
@@ -170,7 +169,6 @@ namespace Simple_Engine.Engine.Space.Camera
         {
             FBO_MTargets targetfbo = Game.Instance.mTargets_FBO;
 
-          
             ISelectable selectedModel = null;
             bool found = false;
             for (int i = 0; i < SceneModel.ActiveScene.geoModels.Count; i++)
@@ -194,9 +192,7 @@ namespace Simple_Engine.Engine.Space.Camera
                     //check if the mouse is indeed over the model, or just close by another object
                     var pickedColor = new Vector4((float)Math.Round(pixelColor[0], 2), (float)Math.Round(pixelColor[1], 2), (float)Math.Round(pixelColor[2], 2), (float)Math.Round(pixelColor[3], 2));
 
-                    model.Set_Selected(model.DefaultColor == pickedColor);
-
-                    if (model.GetSelected())
+                    if (model.DefaultColor == pickedColor)
                     {
                         found = true;
                         selectedModel = model;
@@ -210,9 +206,8 @@ namespace Simple_Engine.Engine.Space.Camera
                     }
                 }
 
-                model?.Set_Selected(false);
             }
-            Base_Geo.SelectedModel = selectedModel as Base_Geo;
+           
             return selectedModel;
         }
 

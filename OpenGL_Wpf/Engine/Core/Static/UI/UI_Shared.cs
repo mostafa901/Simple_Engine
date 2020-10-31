@@ -1,13 +1,22 @@
 ﻿using ImGuiNET;
-using OpenTK;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
+using System.Numerics;
 
 namespace Simple_Engine.Engine.Core.Static
 {
     public static class UI_Shared
     {
+        static bool disableKey = false;
+        public static bool OpenContext=false;
+        public static bool IsAnyCaptured()
+        {
+            return ImGui.IsAnyItemHovered() || ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow) || !Game.Instance.Focused || disableKey;
+        }
+
         public static void Render_YesNOModalMessage(string Name, string Message, Action<bool> ResponseAction)
         {
             bool isOpen = true;
@@ -15,9 +24,10 @@ namespace Simple_Engine.Engine.Core.Static
             // Always center this window when appearing
             System.Numerics.Vector2 center = new System.Numerics.Vector2(ImGui.GetIO().DisplaySize.X * 0.5f, ImGui.GetIO().DisplaySize.Y * 0.5f);
             ImGui.SetNextWindowPos(center, ImGuiCond.Appearing, new System.Numerics.Vector2(0.5f, 0.5f));
-
-            if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal))
+            
+            if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal| ImGuiWindowFlags.AlwaysAutoResize| ImGuiWindowFlags.NoResize))
             {
+                disableKey = true;
                 ImGui.Text(Message);
                 ImGui.Separator();
 
@@ -25,7 +35,7 @@ namespace Simple_Engine.Engine.Core.Static
                 {
                     ResponseAction(true);
                     ImGui.CloseCurrentPopup();
-                    isOpen = false;
+                    disableKey = isOpen = false;
                 }
                 ImGui.SetItemDefaultFocus();
                 ImGui.SameLine();
@@ -33,7 +43,7 @@ namespace Simple_Engine.Engine.Core.Static
                 {
                     ResponseAction(false);
                     ImGui.CloseCurrentPopup();
-                    isOpen = false;
+                    disableKey = isOpen = false;
                 }
 
                 ImGui.EndPopup();
@@ -68,6 +78,28 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
+        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p)
+        {
+            if (ImGui.DragFloat(name, ref val))
+            {
+                p(val - prev);
+            }
+
+            if (ImGui.IsItemHovered())
+            {
+                var wh = ImGui.GetIO().MouseWheel;
+                if (ImGui.GetIO().KeyCtrl)
+                {
+                    wh *= 2;
+                }
+                if (ImGui.GetIO().KeyAlt)
+                {
+                    wh /= 2;
+                }
+                p(wh * .01f);
+            }
+        }
+
         public static void Render_Name(IRenderable model)
         {
             string val = model.Name ?? "";
@@ -77,31 +109,70 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-        public static void Render_Progress(float progress, float max,string message)
+        public static void Render_Progress(float progress, float max, string message)
         {
             bool open = true;
-           if( ImGui.Begin("Progress", ref open, ImGuiWindowFlags.None))
-        {
-                // Animate a simple progress bar
-                if (false)
-                {
-                    progress += max * 0.4f * ImGui.GetIO().DeltaTime;
-                    if (progress >= +1.1f) { progress = +1.1f; max *= -1.0f; }
-                    if (progress <= -0.1f) { progress = -0.1f; max *= -1.0f; }
-                }
+            ImGui.SetNextWindowPos(new System.Numerics.Vector2(Game.Instance.Width / 2, Game.Instance.Height / 2), ImGuiCond.Always, new System.Numerics.Vector2(.5f, .5f));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 20);
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new System.Numerics.Vector2());
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(400, 0));
+            ImGui.SetNextWindowContentSize(new System.Numerics.Vector2(350, 0));
+
+            if (ImGui.Begin("Progress", ref open, ImGuiWindowFlags.Modal | ImGuiWindowFlags.NoTitleBar))
+            {
                 progress = progress / max;
-                // Typically we would use ImVec2(-1.0f,0.0f) or ImVec2(-FLT_MIN,0.0f) to use all available width,
-                // or ImVec2(width,0.0f) for a specified width. ImVec2(0.0f,0.0f) uses ItemWidth.
                 ImGui.ProgressBar(progress, new System.Numerics.Vector2(0.0f, 0.0f));
 
                 ImGui.Text(message);
 
-              //  float progress_saturated = MathHelper.Clamp(progress, 0.0f, 1.0f);
-                //char buf[32];
-                //sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
-               // ImGui.ProgressBar(progress, new System.Numerics.Vector2(0, 0), $"{(int)(progress_saturated * 1753),1753} %");
                 ImGui.End();
             }
+        }
+
+        public static void Render_CastShadow(IRenderable model)
+        {
+            var val = model.CastShadow;
+            if (ImGui.Checkbox("CastShadow", ref val))
+            {
+                model.CastShadow = val;
+            }
+        }
+
+        public static void Render_Isolate(IDrawable model)
+        {
+            Action isolate = () =>
+            {
+                SceneModel.ActiveScene.IsolateDisplay = !SceneModel.ActiveScene.IsolateDisplay;
+                if (SceneModel.ActiveScene.IsolateDisplay)
+                {
+                    SceneModel.ActiveScene.IsolateModel(model);
+                }
+                else
+                {
+                    SceneModel.ActiveScene.ActivateModels();
+                }
+            };
+
+            if (SceneModel.ActiveScene.IsolateDisplay)
+            {
+                ImGui.PushID("Red");
+                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1, 0, 0, 1));
+                if (ImGui.Button("Isolate is Active"))
+                {
+                    isolate();
+                }
+                ImGui.PopStyleColor();
+                ImGui.PopID();
+            }
+            else
+            {
+                if (ImGui.Button("Isolate"))
+                { isolate(); }
+            }
+        }
+
+        private static void ColorButton(string styleName, string buttonNAme)
+        {
         }
     }
 }

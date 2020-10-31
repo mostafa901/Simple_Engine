@@ -17,6 +17,8 @@ namespace Simple_Engine.Engine.GameSystem
 
         private void Game_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (UI_Shared.IsAnyCaptured()) return;
+
             if (Base_Geo.SelectedModel != null && e.Button == MouseButton.Right)
             {
                 RunOnUIThread(() => ImGui.OpenPopup("Model context"));
@@ -25,6 +27,8 @@ namespace Simple_Engine.Engine.GameSystem
 
         private void Game_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
+            if (UI_Shared.IsAnyCaptured()) return;
+
             if (e.Key == Key.Escape)
             {
                 ShowExitMessage();
@@ -40,6 +44,7 @@ namespace Simple_Engine.Engine.GameSystem
 
         private void ShowExitMessage()
         {
+            UI_Shared.OpenContext = false;
             UI_Game.Render_Exit();
         }
     }

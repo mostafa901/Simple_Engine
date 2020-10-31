@@ -5,6 +5,7 @@ using Shared_Lib.Extention.Serialize_Ex;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
+using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.ImGui_Set;
@@ -15,7 +16,6 @@ using Simple_Engine.Engine.Space.Environment;
 using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace Simple_Engine.Engine.Space.Scene
@@ -36,6 +36,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public IRenderable.BoundingBox BBX { get; set; }
         public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void BuildModel()
         {
@@ -61,8 +62,6 @@ namespace Simple_Engine.Engine.Space.Scene
             SceneFog.Live_Update(ShaderModel);
             Lights.First().Live_Update(ShaderModel);
         }
-
-       
 
         public void PostRender(Shader ShaderModel)
         {
@@ -102,7 +101,6 @@ namespace Simple_Engine.Engine.Space.Scene
                 model.UpdateBoundingBox();
                 UpdateBoundingBox();
             }
-
         }
 
         public void RenderModel()
@@ -176,7 +174,7 @@ namespace Simple_Engine.Engine.Space.Scene
             }
         }
 
-        internal void IsolateModel(Base_Geo xmodel)
+        internal void IsolateModel(IDrawable xmodel)
         {
             foreach (var model in geoModels)
             {
@@ -213,7 +211,6 @@ namespace Simple_Engine.Engine.Space.Scene
                         }
                     }
                 }
-               
             }
 
             Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel);
@@ -231,11 +228,19 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Game_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (Imgui_Helper.IsAnyCaptured()) return;
+            if (UI_Shared.IsAnyCaptured()) return;
 
             if (e.IsPressed && e.Button == MouseButton.Left)
             {
                 var model = CameraModel.ActiveCamera.PickObject(e.Position);
+                if (model == null)
+                {
+                    Base_Geo.SelectedModel?.Set_Selected(false);
+                }
+                else
+                {
+                    model?.Set_Selected(true);
+                }
 
                 return;
             }

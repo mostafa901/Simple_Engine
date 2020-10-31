@@ -11,10 +11,6 @@ namespace Simple_Engine.Engine.ImGui_Set
     public static class Imgui_Helper
     {
 
-        public static bool IsAnyCaptured()
-        {
-           return ImGui.IsAnyItemHovered() || ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow) && Game.Instance.f;
-            
-        }
+        
     }
 }

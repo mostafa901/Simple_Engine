@@ -29,7 +29,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
                 }
               
             }
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(400, 0), ImGuiCond.None);
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(400, 0), ImGuiCond.Always);
 
         }
 
