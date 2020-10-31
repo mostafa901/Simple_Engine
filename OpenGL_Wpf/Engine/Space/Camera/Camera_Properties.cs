@@ -30,7 +30,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public int Id { get; set; }
 
-        public bool IsPrespective { get; set; } = false;
+        public bool IsPerspective { get; set; } = false;
 
         public string Name { get; set; }
 

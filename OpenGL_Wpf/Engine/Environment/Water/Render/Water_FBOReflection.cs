@@ -32,7 +32,7 @@ namespace Simple_Engine.Engine.Water.Render
         {
             Name = FboName.WorldReflection;
             Setup_Defaults(true);
-            camera = new CameraModel(SceneModel.ActiveScene,false);
+            camera = new CameraModel(SceneModel.ActiveScene);
             stensilShader = new Shader(ShaderMapType.LightnColor, ShaderPath.Color);
             WrapeTo(TextureDepthId, TextureWrapMode.ClampToBorder);
             WrapeTo(TextureId, TextureWrapMode.ClampToBorder);

@@ -12,7 +12,7 @@ namespace Simple_Engine
     {
         public App()
         {
-            using (var game = new Game(1200, 800, "Game"))
+            using (var game = new Game((int)(800*1.3f), 800, "Game"))
             {
                 game.Run(30);
             }

@@ -1,33 +1,27 @@
-﻿using Simple_Engine.Engine.Core.Events;
+﻿using Newtonsoft.Json;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Shared_Lib;
+using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.Geometry.Axis;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Cube;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Illumination;
-using Simple_Engine.Engine.ImGui_Set;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.Texture;
+using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Engine.Static.InputControl;
 using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Shared_Lib;
-using Shared_Lib.Extention;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Simple_Engine.Engine.Core.Interfaces.IDrawable;
 using static Simple_Engine.Engine.Core.Interfaces.IRenderable;
-using Newtonsoft.Json;
-using Simple_Engine.Engine.Space.Scene;
-using Simple_Engine.Engine.Core.Static;
-using Shared_Lib.MVVM;
-using Simple_Engine.Engine.Static.InputControl;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {
@@ -52,22 +46,17 @@ namespace Simple_Engine.Engine.Core.Abstracts
             DefaultColor = new Vector4(Randoms.Next(.1f, 1f, 2), Randoms.Next(.1f, 1f, 2), Randoms.Next(.1f, 1f, 2), 1);
             Meshes = new List<Mesh3D>();
             PivotPoint = new Vector3();
-            ClipPlans = new List<ClipPlan>();
             IsActive = true;
             Animate = new AnimationComponent(this);
 
-
             onSelectedEvent += delegate
             {
-
             };
             onDeSelectedEvent += delegate
             {
                 UI_Shared.OpenContext = false;
                 SelectedModel = null;
             };
-
-
         }
 
         public event EventHandler<MoveingEvent> MoveEvent;
@@ -82,15 +71,11 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public bool CanBeSaved { get; set; }
         public bool CastShadow { get; set; } = false;
 
-        [JsonIgnore]
-        public List<ClipPlan> ClipPlans { get; set; }
+
 
         public CullFaceMode CullMode { get; set; } = CullFaceMode.Back;
         public Vector4 DefaultColor { get; set; }
         public PrimitiveType DrawType { get; set; } = PrimitiveType.Triangles;
-
-        [JsonIgnore]
-        public bool EnableClipPlans { get; private set; } = false;
 
         public FloorModel Floor { get; set; }
         public int Id { get; set; }
@@ -101,7 +86,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public Matrix4 LocalTransform { get; set; }
         public Base_Material Material { get; set; }
         public List<Mesh3D> Meshes { get; set; }
-
 
         public string Name { get; set; }
         public List<Vector3> Normals { get; set; }
@@ -190,13 +174,14 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public void DrawAxis()
         {
             List<AxisPlan> axises = new List<AxisPlan>();
-            if (BBX.Width + BBX.Height + BBX.Depth == 0)
+            var dim = BBX.GetDimensions();
+            if (dim.Length == 0)
             {
                 Debugger.Break();
             }
-            axises.Add(new AxisPlan(this, Vector3.UnitX, new Vector2(BBX.Width, BBX.Height)));
-            axises.Add(new AxisPlan(this, Vector3.UnitY, new Vector2(BBX.Width, BBX.Depth)));
-            axises.Add(new AxisPlan(this, Vector3.UnitZ, new Vector2(BBX.Width, BBX.Height)));
+            axises.Add(new AxisPlan(this, Vector3.UnitX, new Vector2(dim.X, dim.Y)));
+            axises.Add(new AxisPlan(this, Vector3.UnitY, new Vector2(dim.X, dim.Z)));
+            axises.Add(new AxisPlan(this, Vector3.UnitZ, new Vector2(dim.X, dim.Y)));
 
             foreach (var axis in axises)
             {
@@ -238,23 +223,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             {
                 ShaderModel.SetFloat(ShaderModel.Location_IsSelected, (float)Convert.ToInt32(Selected));
             }
-
-            if ((EnableClipPlans || Shader.ClipGlobal) && !(this is ClipPlan))
-            {
-                if (Shader.ClipGlobal)
-                {
-                    Shader.ClipPlanX.Live_Update(ShaderModel);
-                    Shader.ClipPlanY.Live_Update(ShaderModel);
-                    Shader.ClipPlanZ.Live_Update(ShaderModel);
-                }
-                else
-                {
-                    foreach (var clip in ClipPlans)
-                    {
-                        clip.Live_Update(ShaderModel);
-                    }
-                }
-            }
         }
 
         public IRenderable Load(string path)
@@ -295,13 +263,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void PostRender(Shader ShaderModel)
         {
-            if (EnableClipPlans || Shader.ClipGlobal)
-            {
-                foreach (var clip in ClipPlans)
-                {
-                    GL.Disable(clip.ClipDistance);
-                }
-            }
         }
 
         public virtual void PrepareForRender(Shader shaderModel)
@@ -313,22 +274,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             shaderModel.Use();
 
             Live_Update(shaderModel);
-        }
-
-        public void Render_UIControls()
-        {
-            if (Selected)
-            {
-                Ui_Controls.BuildModel();
-            }
-            else
-            {
-                if (EnableClipPlans)
-                {
-                    SetEnableClipPlans(false);
-                }
-                Ui_Controls?.SubControls.Clear();
-            }
         }
 
         public abstract void RenderModel();
@@ -361,21 +306,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             Scale(scalarVector.X, scalarVector.Y, scalarVector.Z);
         }
 
-        public void SetEnableClipPlans(bool enableValue)
-        {
-            if (enableValue)
-            {
-                ClipPlans.Clear();
-                Add_Clips();
-            }
-            else
-            {
-                RemoveClips();
-            }
-            EnableClipPlans = enableValue;
-            CullMode = EnableClipPlans ? CullFaceMode.FrontAndBack : CullFaceMode.Back;
-        }
-
         public virtual void SetHeight(float height)
         {
             Height = height;
@@ -387,7 +317,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             {
                 SelectedModel.Set_Selected(false);
             }
-            
+
             if (Selected != value)
             {
                 Selected = value;
@@ -415,9 +345,10 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
             SelectionBox = new CubeModel();
             SelectionBox.LocalTransform = LocalTransform;
-            SelectionBox.SetHeight(BBX.Height);
-            SelectionBox.SetWidth(BBX.Width);
-            SelectionBox.SetDepth(BBX.Depth);
+            var dim = BBX.GetDimensions();
+            SelectionBox.SetHeight(dim.Y);
+            SelectionBox.SetWidth(dim.X);
+            SelectionBox.SetDepth(dim.Z);
             SelectionBox.BuildModel();
             SelectionBox.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
             SceneModel.ActiveScene.UpLoadModels(SelectionBox);
@@ -425,11 +356,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void UpdateBoundingBox()
         {
-            BBX = new BoundingBox
-            {
-                Width = 2 * (LocalTransform * new Vector4(GetWidth() / 2, 0, 0, 0)).X,
-                Height = 2 * (LocalTransform * new Vector4(0, GetHeight() / 2, 0, 0)).Y,
-            };
+            
         }
 
         public virtual void UploadDefaults(Shader ShaderModel)
@@ -459,43 +386,14 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
         }
 
-        private void Add_Clips()
-        {
-            ClipPlans.Add(Generate_ClipPlan(Vector3.UnitX, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance0));
-            ClipPlans.Add(Generate_ClipPlan(Vector3.UnitY, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance1));
-            ClipPlans.Add(Generate_ClipPlan(Vector3.UnitZ, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance2));
-        }
-
-        private ClipPlan Generate_ClipPlan(Vector3 direction, EnableCap ClipDistance)
-        {
-            var clip = new ClipPlan(direction, ClipDistance, 10f);
-            clip.Name = "Clip " + (direction.X > 0 ? "X" : direction.Y > 0 ? "Y" : "Z");
-            if (direction == Vector3.UnitY)
-            {
-                clip.Rotate(90, new Vector3(1, 0, 0));
-            }
-
-            if (direction == Vector3.UnitX)
-            {
-                clip.Rotate(90, new Vector3(0, 1, 0));
-            }
-            clip.MoveTo(BBX.CG);
-            clip.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
-            SceneModel.ActiveScene.UpLoadModels(clip);
-            return clip;
-        }
-
-        private void RemoveClips()
-        {
-            foreach (var clip in ClipPlans)
-            {
-                SceneModel.ActiveScene.RemoveModels(clip);
-            }
-        }
-
         internal void Delete()
         {
             UI_Geo.DeleteModel(this);
+        }
+
+        public void Render_UIControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

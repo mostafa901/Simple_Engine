@@ -24,7 +24,6 @@ namespace Simple_Engine.Engine.Space.Scene
         {
             UI_Camera.RenderUI(CameraModel.ActiveCamera);
             UI_Light.RenderUI(LightModel.SelectedLight);
-
         }
     }
 }

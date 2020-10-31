@@ -2,6 +2,7 @@
 using OpenTK;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 
 namespace Simple_Engine.Engine.Core.Static
@@ -22,11 +23,11 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            //ImGui.SetNextWindowDockID(0, ImGuiCond.Always);
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2(0, 20));
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - 20));
+            ImGui.SetNextWindowPos(new System.Numerics.Vector2(0, 25));
+
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
-            if (ImGui.Begin("Camera", ref isWindowOpen,   ImGuiWindowFlags.None))
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - UI_Game.TotalHeight));
+            if (ImGui.Begin("Camera", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse))
             {
                 ImGui.Text("Camera Settings");
                 UI_Shared.Render_Name(camera);
@@ -34,15 +35,76 @@ namespace Simple_Engine.Engine.Core.Static
                 RenderDisplayMode();
                 Render_FOV();
                 Render_Width();
-                Render_Height();
-                Render_Position();
+                if (!camera.IsPerspective)
+                {
+                    Render_Height();
+                    Render_Position();
+                }
                 Render_Target();
                 RenderCameraLine();
+                Render_Test();
+
+                Render_Clipping();
+
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
             ImGui.PopStyleVar();
+        }
 
+        private static void Render_Test()
+        {
+            if (ImGui.Button("Test"))
+            {
+                CameraModel.ActiveCamera.ChangeViewTo(CameraModel.CameraType.Plan, SceneModel.ActiveScene.BBX);
+
+                var pos = SceneModel.ActiveScene.BBX.GetCG() * new OpenTK.Vector3(1, 0, 1) + new OpenTK.Vector3(0, (float)20, 0);
+                CameraModel.ClipPlanY.MoveTo(pos - (CameraModel.ClipPlanY.ClipDirection * 5));
+                CameraModel.ClipPlanY.SetAsGlobal(true);
+                CameraModel.ClipPlanY.IsActive = true;
+            }
+        }
+
+        private static void Render_Clipping()
+        {
+            if (ImGui.Checkbox("Clip Model", ref CameraModel.EnableClipPlans))
+            {
+                if (!CameraModel.EnableClipPlans)
+                {
+                    foreach (var clip in CameraModel.ClipPlans)
+                    {
+                        clip.IsActive = false;
+                    }
+                }
+            }
+
+            if (CameraModel.EnableClipPlans)
+            {
+                ImGui.BeginGroup();
+                foreach (var clip in CameraModel.ClipPlans)
+                {
+                    UI_Shared.Render_IsActive(clip);
+
+                    ImGui.SameLine();
+
+                    var prev = (clip.LocalTransform.ExtractTranslation() * clip.ClipDirection).Length;
+                    var val = prev;
+
+                    if (clip.IsActive)
+                    {
+                        UI_Shared.DragFloat(clip.Name, ref val, ref prev, (x) =>
+                        {
+                            clip.MoveLocal(clip.ClipDirection * x);
+                        });
+                    }
+                    else
+                    {
+                        ImGui.TextDisabled("Disabled");
+                    }
+                }
+
+                ImGui.EndGroup();
+            }
         }
 
         private static void Render_FOV()
@@ -82,10 +144,11 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderDisplayMode()
         {
-            bool val = camera.IsPrespective;
-            if (ImGui.Checkbox("Display Mode", ref val))
+            string mode = CameraModel.ActiveCamera.IsPerspective ? "Ortho" : "Perspective";
+            if (ImGui.Button($"Activate {mode}"))
             {
-                if (val)
+                camera.IsPerspective = !camera.IsPerspective;
+                if (camera.IsPerspective)
                 {
                     camera.ActivatePrespective();
                 }
@@ -102,6 +165,8 @@ namespace Simple_Engine.Engine.Core.Static
             if (ImGui.DragFloat("Height", ref val))
             {
                 camera.Height = MathHelper.Clamp(val, 50, 2000);
+                camera.Width = camera.Height * 1.3f;
+
                 camera.UpdateViewMode();
             }
         }
@@ -112,6 +177,7 @@ namespace Simple_Engine.Engine.Core.Static
             if (ImGui.DragFloat("Width", ref val))
             {
                 camera.Width = MathHelper.Clamp(val, 50, 2000);
+                camera.Height = camera.Width / 1.3f;
                 camera.UpdateViewMode();
             }
         }

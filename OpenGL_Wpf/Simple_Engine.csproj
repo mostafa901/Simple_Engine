@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Engine\Core\Serialize\Importer\Import_Revit.cs" />
     <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Clip.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Light.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Camera.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Game.cs" />

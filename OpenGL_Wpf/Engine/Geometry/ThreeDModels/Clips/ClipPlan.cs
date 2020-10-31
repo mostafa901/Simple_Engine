@@ -1,6 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Space.Scene;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
 {
@@ -25,26 +27,28 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
         {
             if (globalValue)
             {
+                var pos = LocalTransform.ExtractTranslation();
                 if (ClipDirection.X > 0)
                 {
-                    Shader.ClipPlanX = this;
+                    CameraModel.ClipPlanX.MoveTo(pos);
                 }
                 else if (ClipDirection.Y > 0)
                 {
-                    Shader.ClipPlanY = this;
+                    CameraModel.ClipPlanY.MoveTo(pos);
                 }
                 else if (ClipDirection.Z > 0)
                 {
-                    Shader.ClipPlanZ = this;
+                    CameraModel.ClipPlanZ.MoveTo(pos);
                 }
+                
             }
             else
             {
-                Shader.ClipPlanX = null;
-                Shader.ClipPlanY = null;
-                Shader.ClipPlanZ = null;
+                CameraModel.ClipPlanX = null;
+                CameraModel.ClipPlanY = null;
+                CameraModel.ClipPlanZ = null;
             }
-            Shader.ClipGlobal = globalValue;
+            CameraModel.EnableClipPlans = globalValue;
         }
 
         public override void Live_Update(Shader ShaderModel)
@@ -89,5 +93,24 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
 
         public Vector3 ClipDirection { get; set; }
         public EnableCap ClipDistance { get; }
+
+        public static ClipPlan Generate_ClipPlan(Vector3 direction, EnableCap ClipDistance)
+        {
+            var clip = new ClipPlan(direction, ClipDistance, 10f);
+            clip.Name = "Clip " + (direction.X > 0 ? "X" : direction.Y > 0 ? "Y" : "Z");
+            if (direction == Vector3.UnitY)
+            {
+                clip.Rotate(90, new Vector3(1, 0, 0));
+            }
+
+            if (direction == Vector3.UnitX)
+            {
+                clip.Rotate(90, new Vector3(0, 1, 0));
+            }
+
+            clip.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+            SceneModel.ActiveScene.UpLoadModels(clip);
+            return clip;
+        }
     }
 }

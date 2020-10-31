@@ -3,7 +3,6 @@ using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System;
@@ -13,9 +12,9 @@ namespace Simple_Engine.Engine.Core.Static
 {
     public static class UI_Geo
     {
-        private static Base_Geo Model;
+        private static Base_Geo3D Model;
 
-        public static void RenderUI(Base_Geo model)
+        public static void RenderUI(Base_Geo3D model)
         {
             if (model == null) return;
             Model = model;
@@ -27,10 +26,12 @@ namespace Simple_Engine.Engine.Core.Static
         private static void RenderWindow()
         {
             RightClick();
-
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - 20));
             ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
-            if (ImGui.Begin("Geometry", ref isWindowOpen, ImGuiWindowFlags.None))
+            if (ImGui.Begin("Geometry", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoResize))
             {
+                UI_Shared.Render_IsActive(Model);
                 ImGui.SetNextWindowCollapsed(false, ImGuiCond.Appearing);
                 if (UI_Shared.IsExpanded("Properties"))
                 {
@@ -42,12 +43,24 @@ namespace Simple_Engine.Engine.Core.Static
                 {
                     UI_Shared.Render_Isolate(Model);
                     UI_Shared.Render_CastShadow(Model);
+                    ImGui.Separator();
+                    if (ImGui.Button("Plan"))
+                    {
+                        CameraModel.ActiveCamera.ChangeViewTo(CameraModel.CameraType.Plan, Model.BBX);
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button("Perspective"))
+                    {
+                        CameraModel.ActiveCamera.ChangeViewTo(CameraModel.CameraType.PerSpective, Model.BBX);
+                    }
                     Render_Clipping();
                 }
 
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
+
+            ImGui.PopStyleVar();
         }
 
         private static void Render_Clipping()
@@ -87,12 +100,12 @@ namespace Simple_Engine.Engine.Core.Static
                         ImGui.TextDisabled("Disabled");
                     }
                 }
-                ImGui.SetNextItemOpen(clipenab);
-                if (ImGui.Checkbox("Global Clipping", ref Shader.ClipGlobal))
+
+                if (ImGui.Checkbox("Global Clipping", ref CameraModel.EnableClipPlans))
                 {
                     foreach (var clip in Model.ClipPlans)
                     {
-                        clip.SetAsGlobal(Shader.ClipGlobal);
+                        clip.SetAsGlobal(CameraModel.EnableClipPlans);
                     }
                 }
                 ImGui.EndGroup();
@@ -108,27 +121,31 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-
-
         private static void RightClick()
         {
             if (ImGui.GetIO().MouseClicked[(int)ImGuiMouseButton.Left])
             {
-                if (UI_Shared.IsAnyCaptured()) return;
+                UI_Shared.OpenContext = false;
+            }
+            if (ImGui.GetIO().MouseClicked[(int)ImGuiMouseButton.Right])
+            {
+                if (UI_Shared.IsAnyCaptured())
+                {
+                    return;
+                }
 
-                var vec2 = ImGui.GetIO().MouseClickedPos[(int)ImGuiMouseButton.Left];
+                var vec2 = ImGui.GetIO().MouseClickedPos[(int)ImGuiMouseButton.Right];
                 var pos = new Point((int)vec2.X, (int)vec2.Y);
                 var testModel = CameraModel.ActiveCamera.PickObject(pos);
                 if (testModel == null || testModel != Base_Geo.SelectedModel)
                 {
-                   UI_Shared. OpenContext = false;
+                    UI_Shared.OpenContext = false;
                 }
                 else
                 {
                     UI_Shared.OpenContext = true;
-                    ImGui.SetNextWindowPos(ImGui.GetIO().MouseClickedPos[(int)ImGuiMouseButton.Left]);
+                    ImGui.SetNextWindowPos(ImGui.GetIO().MouseClickedPos[(int)ImGuiMouseButton.Right]);
                 }
-
             }
 
             if (UI_Shared.OpenContext)

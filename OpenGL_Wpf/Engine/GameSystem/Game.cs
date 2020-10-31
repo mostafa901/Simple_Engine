@@ -69,6 +69,7 @@ namespace Simple_Engine.Engine.GameSystem
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             UpdateUI((float)e.Time);
+
             SceneModel.ActiveScene.PrepareForRender(null);
             foreach (var fbo in SceneModel.ActiveScene.FBOs)
             {
@@ -104,7 +105,6 @@ namespace Simple_Engine.Engine.GameSystem
             // sepiaEffect.ProcessEffect(texture_FBO.TextureAttachId);
             // ActiveScene.GuiTextModel?.Render();
 
-            ImGui.ShowDemoWindow();
             DisplayManager.FixTime();
 
             while (OnUIThreadActions.Count!=0)

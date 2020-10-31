@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.ToolBox;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace Simple_Engine.Engine.Render
         {
             GL.Enable(EnableCap.CullFace); //avoid rendering Faces that are..
 
-            if (Shader.ClipGlobal)
+            if (CameraModel.EnableClipPlans)
             {
                 GL.Disable(EnableCap.CullFace);
             }

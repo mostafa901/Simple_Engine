@@ -52,14 +52,7 @@ namespace Simple_Engine.Engine.Render
     {
         #region Properties
 
-        public static bool ClipGlobal;
-
-        //Global
-        public static ClipPlan ClipPlanX;
-
-        public static ClipPlan ClipPlanY;
-        public static ClipPlan ClipPlanZ;
-
+        
         //Lights
         public static int MaximumLight = 4;
 

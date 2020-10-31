@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
@@ -78,9 +79,18 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p)
+        public static void Render_IsActive(IDrawable clip)
         {
-            if (ImGui.DragFloat(name, ref val))
+            var act = clip.IsActive;
+
+            if (ImGui.Checkbox($"##{clip.Name}", ref act))
+            {
+                clip.IsActive = act;
+            }
+        }
+        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p,float min=float.NegativeInfinity,float max= float.PositiveInfinity,float step=.1f)
+        {
+            if (ImGui.DragFloat(name, ref val,step,min,max))
             {
                 p(val - prev);
             }
@@ -127,6 +137,8 @@ namespace Simple_Engine.Engine.Core.Static
 
                 ImGui.End();
             }
+            ImGui.PopStyleVar();
+            ImGui.PopStyleVar();
         }
 
         public static void Render_CastShadow(IRenderable model)

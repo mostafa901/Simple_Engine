@@ -6,6 +6,7 @@ using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.ImGui_Set;
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Space.Camera
 {
@@ -92,6 +93,12 @@ namespace Simple_Engine.Engine.Space.Camera
         private void MoveTarget(Point position)
         {
             if (UI_Shared.IsAnyCaptured()) return;
+            if (ViewType != CameraType.PerSpective)
+            {
+                var msg = "3d Person View not enabled while in Plan View";
+                UI_Game.DisplayStatusmMessage(msg, 3000);
+                return;
+            }
             float speed = GetSpeed();
 
             var dx = position.X - StartPoint.X;
@@ -118,14 +125,14 @@ namespace Simple_Engine.Engine.Space.Camera
             if (UI_Shared.IsAnyCaptured()) return;
             if (Keyboard.GetState().IsKeyDown(Key.AltLeft))
             {
-                if (IsPrespective)
+                if (IsPerspective)
                 {
                     UpdateFOV(FOV + e.Delta);
                 }
             }
             else
             {
-                if (IsPrespective)
+                if (IsPerspective)
                 {
                     var speed = GetSpeed()*100;
 
@@ -141,7 +148,7 @@ namespace Simple_Engine.Engine.Space.Camera
                 else
                 {
                     Height += 10 * Math.Sign(-e.Delta);
-                    Width += 10 * Math.Sign(-e.Delta);
+                    Width = Height * 1.3f;
 
                     Activate_Ortho();
                 }
@@ -166,7 +173,7 @@ namespace Simple_Engine.Engine.Space.Camera
                 //rotate around object, no need to translate target
                 if(Base_Geo.SelectedModel!=null)
                 {
-                    AnimateCamreaTarget(Base_Geo.SelectedModel.BBX.CG,100);
+                    AnimateCameraTarget(Base_Geo.SelectedModel.BBX.GetCG(),100);
                 }
             }
             else

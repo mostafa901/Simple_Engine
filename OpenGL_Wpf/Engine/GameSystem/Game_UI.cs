@@ -12,7 +12,7 @@ namespace Simple_Engine.Engine.GameSystem
         {
             _controller = new ImGuiController(Width, Height);
             Imgui_Settings();
-             KeyPress += Game_KeyPress;
+            KeyPress += Game_KeyPress;
         }
 
         public void Imgui_Settings()
@@ -20,7 +20,7 @@ namespace Simple_Engine.Engine.GameSystem
             ImGui.CaptureMouseFromApp(true);
             ImGui.GetIO().ConfigFlags = ImGuiConfigFlags.DockingEnable;
             ImGui.GetIO().ConfigDockingAlwaysTabBar = true;
-
+            ImGui.DockSpaceOverViewport();
         }
 
         private void Game_KeyPress(object sender, KeyPressEventArgs e)

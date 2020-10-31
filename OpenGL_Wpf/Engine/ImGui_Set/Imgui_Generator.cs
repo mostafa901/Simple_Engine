@@ -3,10 +3,12 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
 using System.Linq;
+using System.Windows.Media.Media3D;
 
 namespace Simple_Engine.Engine.ImGui_Set
 {
@@ -43,7 +45,6 @@ namespace Simple_Engine.Engine.ImGui_Set
             Add_Imgui_DefaultColor(model, imgui_properties);
             Add_Imgui_Isolate(model, imgui_Display);
             Add_Imgui_Hide(model, imgui_Display);
-            Add_Imgui_ClipCheckBox(model, imgui_Modify);
             Add_Imgui_CastShadowCheckBox(model, imgui_Modify);
         }
 
@@ -98,51 +99,7 @@ namespace Simple_Engine.Engine.ImGui_Set
                 });
         }
 
-        private static void Add_Imgui_ClipCheckBox(Base_Geo model, Imgui_Expander imgui_Modify)
-        {
-            new Imgui_CheckBox(imgui_Modify, "Clip Plan", () => model.EnableClipPlans, (x) =>
-               {
-                   model.SetEnableClipPlans(x);
-
-                   var imgGroup = new Imgui_Group(imgui_Modify, "Clipping");
-                   if (x)
-                   {
-                       Imgui_InputFloat imgui_xclip = null;
-                       Imgui_InputFloat imgui_yclip = null;
-                       Imgui_InputFloat imgui_zclip = null;
-                       var modelClipX = model.ClipPlans.First(o => o.ClipDirection.X > 0);
-                       var modelClipY = model.ClipPlans.First(o => o.ClipDirection.Y > 0);
-                       var modelClipZ = model.ClipPlans.First(o => o.ClipDirection.Z > 0);
-
-                       imgui_xclip = new Imgui_InputFloat(imgGroup, "Clip X", model.ClipPlans.First(o => o.ClipDirection.X > 0).LocalTransform.ExtractTranslation().X, (x) =>
-                       {
-                           modelClipX.MoveLocal(modelClipX.ClipDirection * x);
-                       });
-
-                       imgui_yclip = new Imgui_InputFloat(imgGroup, "Clip Y", model.ClipPlans.First(o => o.ClipDirection.Y > 0).LocalTransform.ExtractTranslation().Y, (x) =>
-                          {
-                              modelClipY.MoveLocal(modelClipY.ClipDirection * x);
-                          });
-                       imgui_zclip = new Imgui_InputFloat(imgGroup, "Clip Z", model.ClipPlans.First(o => o.ClipDirection.Z > 0).LocalTransform.ExtractTranslation().Z, (x) =>
-                       {
-                           modelClipZ.MoveLocal(modelClipZ.ClipDirection * x);
-                       });
-
-                       new Imgui_CheckBox(imgGroup, "Is Global", () => Shader.ClipGlobal, (x) =>
-                         {
-                             modelClipX.SetAsGlobal(x);
-                             modelClipY.SetAsGlobal(x);
-                             modelClipZ.SetAsGlobal(x);
-                         });
-                   }
-                   else
-                   {
-                       imgui_Modify.SubControls.RemoveAll(o => o.Name.StartsWith("Clipping"));
-                       Shader.ClipGlobal = false;
-                   }
-               });
-        }
-
+     
         private static void Add_String(Base_Geo model, Imgui_Expander imgui_expander, System.Reflection.PropertyInfo prop)
         {
             new Imgui_InputString(imgui_expander, prop.Name, () => (string)prop.GetValue(model),

@@ -49,13 +49,21 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         public struct BoundingBox
         {
-            public float Depth;
-            public float Height;
-            public float Width;
 
-            public Vector3 CG { get; set; }
             public Vector3 Max { get; set; }
             public Vector3 Min { get; set; }
+
+            public Vector3 GetCG()
+            {
+                var cg = (Max + Min)/2;
+                return cg;
+            }
+
+            public Vector3 GetDimensions()
+            {
+                return (Max - Min);
+            }
+
         }
     }
 }

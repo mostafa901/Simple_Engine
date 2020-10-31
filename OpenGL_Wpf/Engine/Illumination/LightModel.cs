@@ -131,7 +131,7 @@ namespace Simple_Engine.Engine.Illumination
              
             if (lightCamera == null)
             {
-                lightCamera = new CameraModel(SceneModel.ActiveScene,false);
+                lightCamera = new CameraModel(SceneModel.ActiveScene);
                 lightCamera.Target = new Vector3(50, 0, 50);
 
                 lightCamera.Activate_Ortho();

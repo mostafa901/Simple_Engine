@@ -26,10 +26,10 @@ namespace Simple_Engine.Engine.Geometry.Core
         public Mesh3D(IDrawable parent)
         {
             Parent = parent;
-            var bbx = parent.BBX;
-            SetWidth(bbx.Width);
-            SetHeight(bbx.Height);
-            SetDepth(bbx.Depth);
+            var bbx = parent.BBX.GetDimensions();
+            SetWidth(bbx.X);
+            SetHeight(bbx.Y);
+            SetDepth(bbx.Z);
             MoveEvent += Mesh_Moving;
             UpdateBoundingBox();
         }

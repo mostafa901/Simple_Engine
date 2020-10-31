@@ -8,7 +8,6 @@ using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
-using Simple_Engine.Engine.ImGui_Set;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
@@ -120,11 +119,12 @@ namespace Simple_Engine.Engine.Space.Scene
             var model = geoModels.LastOrDefault();
             if (model != null)
             {
-                var trans = model.LocalTransform.ExtractTranslation();
+                var vecMax = new Vector3(model.BBX.Max.Max_X(BBX.Max), model.BBX.Max.Max_Y(BBX.Max), model.BBX.Max.Max_Z(BBX.Max));
+                var vecMin = new Vector3(model.BBX.Min.Min_X(BBX.Min), model.BBX.Min.Min_Y(BBX.Min), model.BBX.Min.Min_Z(BBX.Min));
                 BBX = new IRenderable.BoundingBox
                 {
-                    Max = new Vector3(model.BBX.Max.Max_X(BBX.Max), model.BBX.Max.Max_Y(BBX.Max), model.BBX.Max.Max_Z(BBX.Max)),
-                    Min = new Vector3(model.BBX.Min.Min_X(BBX.Min), model.BBX.Min.Min_Y(BBX.Min), model.BBX.Min.Min_Z(BBX.Min)),
+                    Max = vecMax,
+                    Min = vecMin,
                 };
             }
         }
@@ -185,6 +185,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         internal void RemoveModels(IDrawable model)
         {
+            if (model == null) return;
             ModelstoRemove.Push(model);
         }
 
@@ -213,7 +214,7 @@ namespace Simple_Engine.Engine.Space.Scene
                 }
             }
 
-            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel);
+            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo3D);
         }
 
         internal void UpLoadModels(IDrawable model)
@@ -248,13 +249,10 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Camera()
         {
-            var ActiveCamera = new CameraModel(this, true);
-            ActiveCamera.Position = new Vector3(-2, 0, -2);
-            ActiveCamera.Target = new Vector3(0, 0, 0);
-            ActiveCamera.Setup_Events();
-            ActiveCamera.UpdateCamera();
+            CameraModels.Add(CameraModel.Create(this, CameraModel.CameraType.PerSpective));
+            CameraModels.Add(CameraModel.Create(this, CameraModel.CameraType.Plan));
 
-            CameraModel.ActiveCamera = ActiveCamera;
+            CameraModel.ActiveCamera = CameraModels[0];
         }
 
         private void Setup_Events()

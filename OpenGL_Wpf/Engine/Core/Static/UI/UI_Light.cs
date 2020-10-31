@@ -5,7 +5,6 @@ using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
-using System.Collections.Generic;
 
 namespace Simple_Engine.Engine.Core.Static
 {
@@ -25,9 +24,10 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            
+            ImGui.SetNextWindowDockID(1);
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - UI_Game.TotalHeight));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
-            if (ImGui.Begin("Light", ref isWindowOpen,   ImGuiWindowFlags.None))
+            if (ImGui.Begin("Light", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse ))
             {
                 UI_Shared.Render_Name(light);
 
@@ -82,19 +82,16 @@ namespace Simple_Engine.Engine.Core.Static
         {
             float val = light.Intensity;
             float prev = val;
-            if (ImGui.DragFloat("Intensity", ref val, .1f,0,10))
-            {
-                var diff = val - prev;
-                light.DefaultColor += new Vector4(diff, diff, diff, 1);
-                light.Intensity += diff;
-            }
+            UI_Shared.DragFloat("Intensity", ref val, ref prev, (x) =>
+               {
+                   light.DefaultColor += new Vector4(x, x, x, 0);
+                   light.Intensity += x;
+               }, 0, 10);
         }
 
         private static void Render_Color()
         {
             UI_Shared.Render_Color(light);
         }
-
-        
     }
 }
