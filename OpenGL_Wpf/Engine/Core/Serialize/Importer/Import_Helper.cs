@@ -6,7 +6,8 @@
         {
             All,
             Simple_EngineModel,
-            Json
+            Json,
+            OBJ
         }
 
         public static string GetFilter(filter filterType)
@@ -18,6 +19,8 @@
 
                 case filter.Json:
                     return "Json files|*.json";
+                case filter.OBJ:
+                    return "Obj files|*.obj";
 
                 case filter.All:
                     return string.Join("|", GetFilter(filter.Json), GetFilter(filter.Simple_EngineModel));

@@ -19,7 +19,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public int Id { get ; set ; }
         public IRenderable.BoundingBox BBX { get ; set ; }
         public ImgUI_Controls Ui_Controls { get ; set ; }
-        public AnimationComponent Animate { get; set; }
         public Vector4 DefaultColor { get  ; set  ; }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

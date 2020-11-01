@@ -48,7 +48,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             Meshes = new List<Mesh3D>();
             PivotPoint = new Vector3();
             IsActive = true;
-            Animate = new AnimationComponent(this);
 
             onSelectedEvent += delegate
             {
@@ -67,7 +66,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public event EventHandler<SelectedEvent> onSelectedEvent;
 
         public bool AllowReflect { get; set; } = false;
-        public AnimationComponent Animate { get; set; }
         public BoundingBox BBX { get; set; }
         public bool CanBeSaved { get; set; }
         public bool CastShadow { get; set; } = false;
@@ -217,7 +215,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             ShaderModel.Live_Update();
             TextureModel?.Live_Update(ShaderModel);
             Material?.Live_Update();
-            Animate?.Update();
             SceneModel.ActiveScene.Live_Update(ShaderModel); //upload sun shadow settings
 
             if (!ShaderModel.EnableInstancing)

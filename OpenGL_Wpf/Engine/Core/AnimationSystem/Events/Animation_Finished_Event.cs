@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Engine.Core.AnimationSystem
+namespace Simple_Engine.Engine.Core.AnimationSystem.Events
 {
-   public class Animation_FinishedEvent :EventArgs
+   public class AnimationFinished_Event :EventArgs
     {
 
-        public Animation_FinishedEvent()
+        public AnimationFinished_Event()
         {
         }
     }

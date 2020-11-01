@@ -33,7 +33,18 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public float FOV { get; private set; } = 45;
 
-        public float Height { get; set; } = 10;
+        private float height;
+
+        public float GetHeight()
+        {
+            return height;
+        }
+
+        public void SetHeight(float value)
+        {
+            height = value;
+            Width = value * 1.3f;
+        }
 
         public int Id { get; set; }
 
@@ -63,5 +74,6 @@ namespace Simple_Engine.Engine.Space.Camera
 
         //how much we are looking up - down wards
         public float Yaw { get; set; }
+        
     }
 }

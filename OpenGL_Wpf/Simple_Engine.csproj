@@ -93,9 +93,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Engine\Core\AnimationSystem\AnimationMaster.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\Events\AnimationUpdate_Event.cs" />
     <Compile Include="Engine\Core\AnimationSystem\AnimFloat.cs" />
-    <Compile Include="Engine\Core\AnimationSystem\Animation_Base.cs" />
-    <Compile Include="Engine\Core\AnimationSystem\Animation_Finished.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\Events\Animation_Finished_Event.cs" />
     <Compile Include="Engine\Core\AnimationSystem\KeyFrame.cs" />
     <Compile Include="Engine\Core\AnimationSystem\Float_KeyFrame.cs" />
     <Compile Include="Engine\Core\AnimationSystem\Vector3_KeyFrame.cs" />
@@ -127,7 +128,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Engine\Core\AnimationSystem\AnimationComponent.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Geo.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Geo2D.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Geo3D.cs" />

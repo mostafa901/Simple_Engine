@@ -105,7 +105,7 @@ namespace Simple_Engine.Engine.Space.Scene
         public void RenderModel()
         {
             Render_UIControls();
-            CameraModel.ActiveCamera.Animate.Update();
+
             CameraModel.ActiveCamera.RenderModel();
         }
 
@@ -249,10 +249,14 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Camera()
         {
-            CameraModels.Add(CameraModel.Create(this, CameraModel.CameraType.PerSpective));
-            CameraModels.Add(CameraModel.Create(this, CameraModel.CameraType.Plan));
+            CameraModel.PerspectiveCamera = new CameraModel(this, CameraModel.CameraType.Perspective);
+            CameraModel.PerspectiveCamera.UpdateCamera();
 
-            CameraModel.ActiveCamera = CameraModels[0];
+            CameraModel.PlanCamera = new CameraModel(this, CameraModel.CameraType.Plan);
+            CameraModel.PlanCamera.Position = new Vector3(0, 10, 0);
+            CameraModel.PlanCamera.UpdateCamera();
+
+            CameraModel.ActiveCamera = CameraModel.Create(this, CameraModel.CameraType.Perspective);
         }
 
         private void Setup_Events()

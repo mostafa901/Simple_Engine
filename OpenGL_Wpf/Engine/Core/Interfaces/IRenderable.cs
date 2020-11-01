@@ -13,7 +13,6 @@ namespace Simple_Engine.Engine.Core.Interfaces
 {
     public interface IRenderable
     {
-        public AnimationComponent Animate { get; set; }
 
         public BoundingBox BBX { get; set; }
 

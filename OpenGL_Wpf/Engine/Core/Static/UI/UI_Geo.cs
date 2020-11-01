@@ -47,12 +47,14 @@ namespace Simple_Engine.Engine.Core.Static
                     ImGui.Separator();
                     if (ImGui.Button("Plan"))
                     {
-                        CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.First(o=>o.ViewType == CameraModel.CameraType.Plan));
+                        CameraModel.PlanCamera.AlignCamera(Model.BBX);
+                        CameraModel.ActiveCamera.UpdateViewTo(CameraModel.PlanCamera);
                     }
                     ImGui.SameLine();
                     if (ImGui.Button("Perspective"))
                     {
-                        CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.First(o => o.ViewType == CameraModel.CameraType.PerSpective));
+                        CameraModel.PerspectiveCamera.AlignCamera(Model.BBX);
+                        CameraModel.ActiveCamera.UpdateViewTo(CameraModel.PerspectiveCamera);
                     }
                     Render_Clipping();
                 }
@@ -128,7 +130,7 @@ namespace Simple_Engine.Engine.Core.Static
             {
                 UI_Shared.OpenContext = false;
             }
-            if (ImGui.GetIO().MouseClicked[(int)ImGuiMouseButton.Right])
+            if (ImGui.GetIO().MouseReleased[(int)ImGuiMouseButton.Right])
             {
                 if (UI_Shared.IsAnyCaptured())
                 {

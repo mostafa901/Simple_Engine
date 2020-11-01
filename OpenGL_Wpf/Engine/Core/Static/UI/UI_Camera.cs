@@ -162,11 +162,10 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void Render_Height()
         {
-            var val = camera.Height;
+            var val = camera.GetHeight();
             if (ImGui.DragFloat("Height", ref val))
             {
-                camera.Height = MathHelper.Clamp(val, 50, 2000);
-                camera.Width = camera.Height * 1.3f;
+                camera.SetHeight(MathHelper.Clamp(val, 50, 2000));
 
                 camera.UpdateViewMode();
             }
@@ -177,8 +176,8 @@ namespace Simple_Engine.Engine.Core.Static
             var val = camera.Width;
             if (ImGui.DragFloat("Width", ref val))
             {
-                camera.Width = MathHelper.Clamp(val, 50, 2000);
-                camera.Height = camera.Width / 1.3f;
+                val = MathHelper.Clamp(val, 50, 2000);
+                camera.SetHeight(val / 1.3f);
                 camera.UpdateViewMode();
             }
         }

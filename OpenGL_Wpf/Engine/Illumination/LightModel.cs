@@ -49,7 +49,6 @@ namespace Simple_Engine.Engine.Illumination
         
         public ImgUI_Controls Ui_Controls { get; set; }
         public int ShadowMapId { get; internal set; }
-        public AnimationComponent Animate { get; set; }
         public float Intensity { get; set; } = 1;
        public bool CastShadow { get ; set; }
 
@@ -132,7 +131,7 @@ namespace Simple_Engine.Engine.Illumination
              
             if (lightCamera == null)
             {
-                lightCamera = new CameraModel(SceneModel.ActiveScene);
+                lightCamera = new CameraModel(SceneModel.ActiveScene, CameraModel.CameraType.Perspective);
                 lightCamera.Target = new Vector3(50, 0, 50);
 
                 lightCamera.Activate_Ortho();

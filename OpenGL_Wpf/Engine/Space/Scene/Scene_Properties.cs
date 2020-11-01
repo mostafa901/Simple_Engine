@@ -1,23 +1,17 @@
 ﻿using Newtonsoft.Json;
-using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Fonts;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
-using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Environment;
 using Simple_Engine.Engine.Water.Render;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Space.Scene
 {
-  public partial  class SceneModel
+    public partial class SceneModel
     {
         public List<FBO> FBOs = new List<FBO>();
         public GuiFont GuiTextModel;
@@ -37,6 +31,5 @@ namespace Simple_Engine.Engine.Space.Scene
         public string Name { get; set; }
         public Fog SceneFog { get; set; }
         public List<IDrawable> systemModels { get; private set; } = new List<IDrawable>();
-        public AnimationComponent Animate { get; set; }
     }
 }

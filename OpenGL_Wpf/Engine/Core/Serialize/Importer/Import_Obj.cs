@@ -63,9 +63,7 @@ namespace Simple_Engine.Engine.Importer
                 }
             }
             geo.TextureCoordinates = textureArray.ToList();
-            geo.Normals = normalsArray.ToList();
-
-          
+            geo.Normals = normalsArray.ToList(); 
 
             return geo;
         }

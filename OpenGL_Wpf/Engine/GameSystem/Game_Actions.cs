@@ -18,11 +18,25 @@ namespace Simple_Engine.Engine.GameSystem
     {
         public void ImportModels()
         {
-            string path = UT_System.LoadFiles(GetFilter(filter.Json)).FirstOrDefault();
+            string path = UT_System.LoadFiles(string.Join("|", GetFilter(filter.Json), GetFilter(filter.OBJ))).FirstOrDefault();
 
             if (path != null)
             {
-                Task.Run(() => { Importer.Import.Revit_ExportFile(path); });
+                Task.Run(() =>
+                {
+                    if (path.EndsWith("json"))
+                    {
+                        Importer.Import.Revit_ExportFile(path);
+                    }
+
+                    if (path.EndsWith("obj"))
+                    {
+                        var geo = Importer.Import.OBJFile(path);
+                        geo.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+                        
+                        SceneModel.ActiveScene.UpLoadModels(geo);
+                    }
+                });
             }
 
         }
