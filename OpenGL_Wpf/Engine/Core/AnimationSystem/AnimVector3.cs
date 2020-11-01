@@ -10,14 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Engine.Core
+namespace Simple_Engine.Engine.Core.AnimationSystem
 {
     public class AnimVector3
     {
         public bool Completed = false;
         private Vector3 diffVector = new Vector3();
         private double keyFramDuration = 0;
-        private List<KeyFrame> KeyFrames = new List<KeyFrame>();
+        private List<Vector3_KeyFrame> KeyFrames = new List<Vector3_KeyFrame>();
 
         private double Timeelapsed = 0;
 
@@ -44,7 +44,7 @@ namespace Simple_Engine.Engine.Core
             Timeelapsed = Math.Min(Timeelapsed, keys[1].timeStamp);
 
             var perc = Timeelapsed / keyFramDuration;
-            var moveValue = keys[0].Position + diffVector * (float)perc;
+            var moveValue = ((Vector3_KeyFrame) keys[0]).Position + diffVector * (float)perc;
 
             AnimationAction(moveValue);
         }
@@ -58,11 +58,11 @@ namespace Simple_Engine.Engine.Core
 
                 if (key.timeStamp > Timeelapsed)
                 {
-                    keysets[0] = KeyFrames.ElementAt(i - 1);
+                    var key0 = KeyFrames.ElementAt(i - 1) as Vector3_KeyFrame;
+                    var key1 = key;
 
-                    keysets[1] = key;
-                    diffVector = keysets[1].Position - keysets[0].Position;
-                    keyFramDuration = keysets[1].timeStamp - keysets[0].timeStamp;
+                    diffVector = key1.Position - key0.Position;
+                    keyFramDuration = key1.timeStamp - key0.timeStamp;
                     return keysets;
                 }
                 else
@@ -77,13 +77,13 @@ namespace Simple_Engine.Engine.Core
 
         private void GenrateKeyFrames(double duration, Vector3 end)
         {
-            var keyinitial = new KeyFrame()
+            var keyinitial = new Vector3_KeyFrame()
             {
                 Position = Start,
                 timeStamp = 0
             };
 
-            var keyEnd = new KeyFrame()
+            var keyEnd = new Vector3_KeyFrame()
             {
                 Position = end,
                 timeStamp = duration
@@ -93,10 +93,5 @@ namespace Simple_Engine.Engine.Core
         }
     }
 
-    public class KeyFrame
-    {
-        public int Id;
-        public Vector3 Position;
-        public double timeStamp;
-    }
+     
 }

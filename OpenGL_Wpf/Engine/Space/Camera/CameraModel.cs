@@ -56,70 +56,7 @@ namespace Simple_Engine.Engine.Space.Camera
             Animate = new AnimationComponent(this);
         }
 
-        public AnimationComponent Animate { get; set; }
-        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public void UpdateViewTo(CameraModel cameraDistination)
-        {
-            Animate.OnFinished += (s, e) =>
-            {
-                if (cameraDistination.IsPerspective)
-                {
-                    CameraModel.ActiveCamera.ActivatePrespective();
-                }
-                else
-                {
-                    CameraModel.ActiveCamera.Activate_Ortho();
-                }
-                CameraModel.ActiveCamera.ViewType = cameraDistination.ViewType;
-            };
-            CameraModel.ActiveCamera.ViewType = CameraType.None;
-            CameraModel.ActiveCamera.Width = cameraDistination.Width;
-            CameraModel.ActiveCamera.Height= cameraDistination.Height;
-            //todo: animate Float Width and height
-            CameraModel.ActiveCamera.AnimateCameraPosition(cameraDistination.Position);
-            CameraModel.ActiveCamera.AnimateCameraTarget(cameraDistination.Target);
-            CameraModel.ActiveCamera.AnimateCameraUP(cameraDistination.UP);
-            
-        }
-
-        private void ChangeViewToPerspective(IRenderable.BoundingBox bBX)
-        {
-            var cam = scene.CameraModels.First(o => o.ViewType == CameraType.PerSpective);
-            cam.Position = ActiveCamera.Position;
-            cam.Target = ActiveCamera.Target;
-            cam.UpdateCamera();
-            ActiveCamera = cam;
-            cam.ActivatePrespective();
-            cam.ScopeTo(bBX);
-        }
-
-        private static void ChangeViewToPlan(IRenderable.BoundingBox bBX)
-        {
-            var target = bBX.GetCG();
-            var pos = target * new OpenTK.Vector3(1, 0, 1) + new OpenTK.Vector3(0, bBX.Max.Y + 20, 0);
-            var cam = SceneModel.ActiveScene.CameraModels.First(o => o.ViewType == CameraModel.CameraType.Plan);
-            cam.Position = CameraModel.ActiveCamera.Position;
-            cam.Target = CameraModel.ActiveCamera.Target;
-            cam.ViewType = CameraModel.CameraType.PerSpective;
-            cam.IsPerspective = true;
-            cam.UpdateCamera();
-            cam.ViewType = CameraModel.CameraType.None;
-            CameraModel.ActiveCamera = cam;
-
-            CameraModel.ActiveCamera.AnimateCameraPosition(pos);
-            CameraModel.ActiveCamera.AnimateCameraTarget(target);
-            CameraModel.ActiveCamera.AnimateCameraUP(new Vector3(0, 0, 1));
-            var dim = bBX.GetDimensions();
-
-            CameraModel.ActiveCamera.Height = dim.Z * 2f;
-            CameraModel.ActiveCamera.Width = CameraModel.ActiveCamera.Height * 1.3f;
-            CameraModel.ActiveCamera.Activate_Ortho();
-            CameraModel.ActiveCamera.ViewType = CameraModel.CameraType.Plan;
-        }
-
-        public static List<ClipPlan> ClipPlans { get; set; }
+      
 
         public void Add_Clips()
         {
@@ -179,34 +116,7 @@ namespace Simple_Engine.Engine.Space.Camera
             IsPerspective = true;
         }
 
-        public void AnimateCameraPosition(Vector3 ToPosition, float duration = 1000)
-        {
-            Animate.AnimPositions.Add(new AnimVector3(this, duration, Position, ToPosition, (x) =>
-            {
-                Position = x;
-                UpdateCamera();
-            }));
-        }
-
-        public void AnimateCameraTarget(Vector3 ToTargetPosition, float duration = 1000)
-        {
-            Animate.AnimPositions.Add(new AnimVector3(this, duration, Target, ToTargetPosition, (x) =>
-              {
-                  Target = x;
-                  UpdateCamera();
-              }));
-        }
-
-        private void AnimateCameraUP(Vector3 target, float duration = 1000)
-        {
-            Animate.AnimPositions.Add(new AnimVector3(this, duration, UP, target, (x) =>
-            {
-                UP = x;
-                ViewType = CameraType.None;
-                UpdateCamera();
-            }));
-        }
-
+       
         public void AttachTargetTo(Base_Geo model)
         {
             if (hoockedModel != null)

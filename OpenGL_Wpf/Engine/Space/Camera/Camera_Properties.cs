@@ -2,8 +2,10 @@
 using OpenTK;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Space.Scene;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Simple_Engine.Engine.Space.Camera
@@ -11,6 +13,11 @@ namespace Simple_Engine.Engine.Space.Camera
     public partial class CameraModel
     {
         public static CameraModel ActiveCamera;
+
+        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public static List<ClipPlan> ClipPlans { get; set; }
+
         private Base_Geo hoockedModel;
         private SceneModel scene;
 
@@ -19,7 +26,7 @@ namespace Simple_Engine.Engine.Space.Camera
         [JsonIgnore]
         public IRenderable.BoundingBox BBX { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-     public bool IsDirectionVisible;
+        public bool IsDirectionVisible;
         public Vector3 Direction { get; set; } = new Vector3(0, 0, 1);
 
         public float FarDistance { get; set; } = 2000f;

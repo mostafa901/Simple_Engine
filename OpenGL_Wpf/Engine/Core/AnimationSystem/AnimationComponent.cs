@@ -10,6 +10,7 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
         public event EventHandler<Animation_FinishedEvent> OnFinished;
 
         public List<AnimVector3> AnimPositions = new List<AnimVector3>();
+        public List<AnimFloat> AnimFloat = new List<AnimFloat>();
         private IRenderable Model;
 
         private void onFinishedEvent(Animation_FinishedEvent e)

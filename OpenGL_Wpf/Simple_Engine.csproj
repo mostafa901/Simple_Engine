@@ -93,7 +93,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Engine\Core\AnimationSystem\AnimFloat.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\Animation_Base.cs" />
     <Compile Include="Engine\Core\AnimationSystem\Animation_Finished.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\KeyFrame.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\Float_KeyFrame.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\Vector3_KeyFrame.cs" />
     <Compile Include="Engine\Core\Serialize\Importer\Import_Revit.cs" />
     <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Clip.cs" />
@@ -104,6 +109,7 @@
     <Compile Include="Engine\Core\Static\UI\UI_Shared.cs" />
     <Compile Include="Engine\GameSystem\Game_Actions.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_Separator.cs" />
+    <Compile Include="Engine\Space\Camera\Camera_Animation.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Properties.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Events.cs" />
     <Compile Include="Engine\Space\Scene\Scene_Actions.cs" />
@@ -128,7 +134,7 @@
     <Compile Include="Engine\Core\Abstracts\Base_Material.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Texture.cs" />
     <Compile Include="Engine\Core\Abstracts\FloorModel.cs" />
-    <Compile Include="Engine\Core\Animation.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\AnimVector3.cs" />
     <Compile Include="Engine\Core\Events\MoveEvent.cs" />
     <Compile Include="Engine\Core\Events\SelectedEvent.cs" />
     <Compile Include="Engine\Core\Interfaces\IAnimatable.cs" />
