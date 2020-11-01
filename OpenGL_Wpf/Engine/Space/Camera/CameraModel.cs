@@ -5,6 +5,7 @@ using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Scene;

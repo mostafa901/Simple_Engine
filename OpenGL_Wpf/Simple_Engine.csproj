@@ -109,6 +109,7 @@
     <Compile Include="Engine\Core\Static\UI\UI_Geo.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Shared.cs" />
     <Compile Include="Engine\GameSystem\Game_Actions.cs" />
+    <Compile Include="Engine\Geometry\ThreeDModels\Grid.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_Separator.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Animation.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Properties.cs" />
@@ -195,7 +196,7 @@
     <Compile Include="Engine\Geometry\ThreeDModels\Plan3D.cs" />
     <Compile Include="Engine\Geometry\ThreeDModels\StreetLamp.cs" />
     <Compile Include="Engine\Geometry\TwoD\Hilbert.cs" />
-    <Compile Include="Engine\Geometry\TwoD\Line.cs" />
+    <Compile Include="Engine\Geometry\ThreeDModels\Line.cs" />
     <Compile Include="Engine\Geometry\TwoD\Plan.cs" />
     <Compile Include="Engine\GUI\GuiModel.cs" />
     <Compile Include="Engine\GUI\Render\GUIRenderer.cs" />

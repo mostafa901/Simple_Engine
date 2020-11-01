@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Engine.Geometry
+namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
     public class Line : Base_Geo3D
     {

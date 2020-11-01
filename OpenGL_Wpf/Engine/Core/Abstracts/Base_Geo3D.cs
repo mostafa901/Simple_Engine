@@ -1,33 +1,18 @@
-﻿
-using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Events;
+﻿using Newtonsoft.Json;
+using OpenTK;
+ 
+using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Axis;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Render;
-using Simple_Engine.Engine.Illumination;
-using Simple_Engine.Engine.Particles;
-using Simple_Engine.Engine.Render;
-using Simple_Engine.Extentions;
-using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using Shared_Lib;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using static Simple_Engine.Engine.Core.Interfaces.IDrawable;
-using static Simple_Engine.Engine.Core.Interfaces.IRenderable;
-using Newtonsoft.Json;
-using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.ToolBox;
+using System.Collections.Generic;
+using System.Linq;
+using static Simple_Engine.Engine.Core.Interfaces.IRenderable;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {
@@ -40,13 +25,14 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         [JsonIgnore]
         public bool EnableClipPlans { get; private set; } = false;
+
         [JsonIgnore]
         public List<ClipPlan> ClipPlans { get; set; }
+
         protected Base_Geo3D()
         {
             Positions = new List<Vector3>();
             ClipPlans = new List<ClipPlan>();
-
         }
 
         public List<Vector3> Positions { get; set; }
@@ -155,7 +141,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             {
                 Max = Positions.Any() ? locpos + new Vector3(Positions.Max(o => o.X), Positions.Max(o => o.Y), Positions.Max(o => o.Z)) : new Vector3(),
                 Min = Positions.Any() ? locpos + new Vector3(Positions.Min(o => o.X), Positions.Min(o => o.Y), Positions.Min(o => o.Z)) : new Vector3()
-                
             };
         }
 
@@ -179,6 +164,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
                 }
             }
         }
+
         public override void PostRender(Shader ShaderModel)
         {
             base.PostRender(ShaderModel);
@@ -189,6 +175,17 @@ namespace Simple_Engine.Engine.Core.Abstracts
                     GL.Disable(clip.ClipDistance);
                 }
             }
+        }
+
+        public override void RenderModel()
+        {
+            if (Renderer == null)
+            {
+                Renderer = new GeometryRenderer(this);
+            }
+
+            Renderer.RenderModel();
+            ShaderModel.UploadDefaults(this);
         }
 
         public void SetEnableClipPlans(bool enableValue)
@@ -227,7 +224,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
                 SceneModel.ActiveScene.RemoveModels(clip);
             }
         }
-
 
         private List<face> generatefaces()
         {

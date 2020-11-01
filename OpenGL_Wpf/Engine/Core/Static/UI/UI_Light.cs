@@ -2,6 +2,7 @@
 using OpenTK;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;

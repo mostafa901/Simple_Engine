@@ -7,6 +7,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
@@ -43,10 +44,18 @@ namespace Simple_Engine.Engine.Space.Scene
             SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
             SceneFog.Active = false;
 
+            Setup_Grid();
             Setup_Camera();
             Setup_SceneLight();
 
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+        }
+
+        private void Setup_Grid()
+        {
+            var grid = new Grid(100, 100);
+            grid.BuildModel();
+            UpLoadModels(grid);
         }
 
         void IRenderable.Dispose()
@@ -103,10 +112,11 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public void RenderModel()
-        {
+        { 
             Render_UIControls();
 
             CameraModel.ActiveCamera.RenderModel();
+
         }
 
         public string Save()

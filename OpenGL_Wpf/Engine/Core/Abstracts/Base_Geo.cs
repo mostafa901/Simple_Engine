@@ -294,6 +294,13 @@ namespace Simple_Engine.Engine.Core.Abstracts
             UpdateBoundingBox();
         }
 
+        public void ScaleTo(float x, float y, float z)
+        {
+            Vector3 scaledAxis = new Vector3(x, y, z);
+            LocalTransform = eMath.ScaleTo(LocalTransform, scaledAxis);
+            UpdateBoundingBox();
+        }
+
         public void Scale(float x)
         {
             Scale(x, x, x);
