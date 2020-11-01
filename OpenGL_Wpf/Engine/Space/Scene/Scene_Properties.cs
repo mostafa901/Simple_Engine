@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Fonts;
 using Simple_Engine.Engine.GameSystem;

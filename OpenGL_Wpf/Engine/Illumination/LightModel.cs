@@ -8,6 +8,7 @@ using System.Linq;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Core.AnimationSystem;
 
 namespace Simple_Engine.Engine.Illumination
 {

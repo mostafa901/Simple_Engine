@@ -1,18 +1,21 @@
-﻿using Simple_Engine.Engine.Core;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Space;
+﻿using Simple_Engine.Engine.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Simple_Engine.Engine
+namespace Simple_Engine.Engine.Core.AnimationSystem
 {
     public class AnimationComponent
     {
+        public event EventHandler<Animation_FinishedEvent> OnFinished;
+
         public List<AnimVector3> AnimPositions = new List<AnimVector3>();
         private IRenderable Model;
+
+        private void onFinishedEvent(Animation_FinishedEvent e)
+        {
+            OnFinished?.Invoke(this, e);
+        }
 
         public AnimationComponent(IRenderable cameraModel)
         {
@@ -26,12 +29,12 @@ namespace Simple_Engine.Engine
             {
                 if (anim.Completed)
                 {
+                    onFinishedEvent(new Animation_FinishedEvent());
                     AnimPositions.Remove(anim);
                     continue;
                 }
                 anim.Update();
             }
-            
         }
 
         //todo: change this to an event triggered from the animation itself

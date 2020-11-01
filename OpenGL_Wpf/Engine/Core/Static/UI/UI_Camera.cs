@@ -4,6 +4,7 @@ using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
+using System.Linq;
 
 namespace Simple_Engine.Engine.Core.Static
 {
@@ -56,7 +57,7 @@ namespace Simple_Engine.Engine.Core.Static
         {
             if (ImGui.Button("Test"))
             {
-                CameraModel.ActiveCamera.ChangeViewTo(CameraModel.CameraType.Plan, SceneModel.ActiveScene.BBX);
+                CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.First(o => o.ViewType == CameraModel.CameraType.Plan));
 
                 var pos = SceneModel.ActiveScene.BBX.GetCG() * new OpenTK.Vector3(1, 0, 1) + new OpenTK.Vector3(0, (float)20, 0);
                 CameraModel.ClipPlanY.MoveTo(pos - (CameraModel.ClipPlanY.ClipDirection * 5));

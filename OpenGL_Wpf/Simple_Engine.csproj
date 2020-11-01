@@ -93,6 +93,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Engine\Core\AnimationSystem\Animation_Finished.cs" />
     <Compile Include="Engine\Core\Serialize\Importer\Import_Revit.cs" />
     <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Clip.cs" />
@@ -120,7 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Engine\AnimationComponent.cs" />
+    <Compile Include="Engine\Core\AnimationSystem\AnimationComponent.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Geo.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Geo2D.cs" />
     <Compile Include="Engine\Core\Abstracts\Base_Geo3D.cs" />

@@ -7,6 +7,7 @@ using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace Simple_Engine.Engine.Core.Static
 {
@@ -46,12 +47,12 @@ namespace Simple_Engine.Engine.Core.Static
                     ImGui.Separator();
                     if (ImGui.Button("Plan"))
                     {
-                        CameraModel.ActiveCamera.ChangeViewTo(CameraModel.CameraType.Plan, Model.BBX);
+                        CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.First(o=>o.ViewType == CameraModel.CameraType.Plan));
                     }
                     ImGui.SameLine();
                     if (ImGui.Button("Perspective"))
                     {
-                        CameraModel.ActiveCamera.ChangeViewTo(CameraModel.CameraType.PerSpective, Model.BBX);
+                        CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.First(o => o.ViewType == CameraModel.CameraType.PerSpective));
                     }
                     Render_Clipping();
                 }

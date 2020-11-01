@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core;
 using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
@@ -51,8 +52,7 @@ namespace Simple_Engine.Engine.Space.Camera
             this.scene = activeScene;
 
             ActivatePrespective();
-            scene.game.MouseDown += Game_MouseDown;
-            scene.game.Load += Game_Load;
+
             Animate = new AnimationComponent(this);
         }
 
@@ -60,22 +60,28 @@ namespace Simple_Engine.Engine.Space.Camera
         public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public void ChangeViewTo(CameraType plan, IRenderable.BoundingBox bBX)
+        public void UpdateViewTo(CameraModel cameraDistination)
         {
-            switch (plan)
+            Animate.OnFinished += (s, e) =>
             {
-                case CameraType.PerSpective:
-
-                    ChangeViewToPerspective(bBX);
-                    break;
-                case CameraType.Plan:
-                    ChangeViewToPlan(bBX);
-                    break;
-                case CameraType.Section:
-                    break;
-                default:
-                    break;
-            }
+                if (cameraDistination.IsPerspective)
+                {
+                    CameraModel.ActiveCamera.ActivatePrespective();
+                }
+                else
+                {
+                    CameraModel.ActiveCamera.Activate_Ortho();
+                }
+                CameraModel.ActiveCamera.ViewType = cameraDistination.ViewType;
+            };
+            CameraModel.ActiveCamera.ViewType = CameraType.None;
+            CameraModel.ActiveCamera.Width = cameraDistination.Width;
+            CameraModel.ActiveCamera.Height= cameraDistination.Height;
+            //todo: animate Float Width and height
+            CameraModel.ActiveCamera.AnimateCameraPosition(cameraDistination.Position);
+            CameraModel.ActiveCamera.AnimateCameraTarget(cameraDistination.Target);
+            CameraModel.ActiveCamera.AnimateCameraUP(cameraDistination.UP);
+            
         }
 
         private void ChangeViewToPerspective(IRenderable.BoundingBox bBX)
@@ -104,17 +110,14 @@ namespace Simple_Engine.Engine.Space.Camera
 
             CameraModel.ActiveCamera.AnimateCameraPosition(pos);
             CameraModel.ActiveCamera.AnimateCameraTarget(target);
-            CameraModel.ActiveCamera.AnimateCameraUP(new Vector3(0,0,1));
+            CameraModel.ActiveCamera.AnimateCameraUP(new Vector3(0, 0, 1));
             var dim = bBX.GetDimensions();
 
-            CameraModel.ActiveCamera.Height = dim.Z* 2f;
+            CameraModel.ActiveCamera.Height = dim.Z * 2f;
             CameraModel.ActiveCamera.Width = CameraModel.ActiveCamera.Height * 1.3f;
             CameraModel.ActiveCamera.Activate_Ortho();
             CameraModel.ActiveCamera.ViewType = CameraModel.CameraType.Plan;
-
         }
-
-     
 
         public static List<ClipPlan> ClipPlans { get; set; }
 
@@ -172,7 +175,7 @@ namespace Simple_Engine.Engine.Space.Camera
         public void ActivatePrespective()
         {
             ProjectionTransform = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(FOV), (float)Width / Height, NearDistance, FarDistance);
-            
+
             IsPerspective = true;
         }
 
@@ -193,6 +196,7 @@ namespace Simple_Engine.Engine.Space.Camera
                   UpdateCamera();
               }));
         }
+
         private void AnimateCameraUP(Vector3 target, float duration = 1000)
         {
             Animate.AnimPositions.Add(new AnimVector3(this, duration, UP, target, (x) =>
@@ -202,6 +206,7 @@ namespace Simple_Engine.Engine.Space.Camera
                 UpdateCamera();
             }));
         }
+
         public void AttachTargetTo(Base_Geo model)
         {
             if (hoockedModel != null)
@@ -321,19 +326,43 @@ namespace Simple_Engine.Engine.Space.Camera
             return selectedModel;
         }
 
-        internal static CameraModel Create(SceneModel scene, CameraType perSpective)
+        internal static CameraModel Create(SceneModel scene, CameraType viewType)
         {
             var cam = new CameraModel(scene);
 
-            cam.Position = new Vector3(-2, 0, -2);
             cam.Target = new Vector3(0, 0, 0);
-            cam.Setup_Events();
-            cam.UpdateCamera();
-            cam.ViewType = perSpective;
-            if (perSpective == CameraType.PerSpective)
+
+            cam.ViewType = viewType;
+            switch (viewType)
             {
-                cam.Add_Clips();
+                case CameraType.PerSpective:
+                    {
+                        cam.ActivatePrespective();
+                        cam.Position = new Vector3(-2, 0, -2);
+
+                        cam.Add_Clips();
+                    }
+                    break;
+                case CameraType.Plan:
+                {
+                        cam.Height = 100;
+                        cam.Width = cam.Height*1.3f;
+                        cam.Position = new Vector3(0, 10, 0);
+                        cam.UP = new Vector3(0, 0, 1);
+                        cam.Activate_Ortho();
+
+                    }
+                    break;
+                case CameraType.Section:
+                    break;
+                case CameraType.None:
+                    break;
+                default:
+                    break;
             }
+            
+            cam.UpdateCamera();
+
             return cam;
         }
 
@@ -370,20 +399,22 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 default:
                 case CameraType.PerSpective:
-                Evaluate_UPVector();
+                    Evaluate_UPVector();
                     break;
+
                 case CameraType.Plan:
-                UP = new Vector3(0, 0, 1);
+                    UP = new Vector3(0, 0, 1);
                     break;
+
                 case CameraType.Section:
-                UP = new Vector3(1, 0, 0);
+                    UP = new Vector3(1, 0, 0);
                     break;
+
                 case CameraType.None:
                     //Up vector is calculated externally
                     break;
-               
             }
-            
+
             ViewTransform = Matrix4.LookAt(Position, Target, UP);
         }
 

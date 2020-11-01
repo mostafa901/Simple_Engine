@@ -1,9 +1,8 @@
 ﻿using ImGuiNET;
 using OpenTK.Input;
-using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Static;
-using System;
+using Simple_Engine.Engine.Space.Camera;
 
 namespace Simple_Engine.Engine.GameSystem
 {
@@ -13,6 +12,18 @@ namespace Simple_Engine.Engine.GameSystem
         {
             KeyDown += Game_KeyDown;
             MouseDown += Game_MouseDown;
+            MouseWheel += Game_MouseWheel;
+            MouseMove += Game_MouseMove;
+        }
+
+        private void Game_MouseMove(object sender, MouseMoveEventArgs e)
+        {
+            CameraModel.ActiveCamera.Game_MouseMove(e);
+        }
+
+        private void Game_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            CameraModel.ActiveCamera.Game_MouseWheel(e);
         }
 
         private void Game_MouseDown(object sender, MouseButtonEventArgs e)
@@ -23,6 +34,7 @@ namespace Simple_Engine.Engine.GameSystem
             {
                 RunOnUIThread(() => ImGui.OpenPopup("Model context"));
             }
+            CameraModel.ActiveCamera.Game_MouseDown(e);
         }
 
         private void Game_KeyDown(object sender, KeyboardKeyEventArgs e)
@@ -40,6 +52,8 @@ namespace Simple_Engine.Engine.GameSystem
                     Base_Geo.SelectedModel.Delete();
                 }
             }
+
+            CameraModel.ActiveCamera.Game_KeyDown(e);
         }
 
         private void ShowExitMessage()

@@ -3,10 +3,8 @@ using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.ImGui_Set;
 using System;
 using System.Drawing;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Space.Camera
 {
@@ -14,40 +12,23 @@ namespace Simple_Engine.Engine.Space.Camera
     {
         private float GetSpeed()
         {
-
             var speed = (float)DisplayManager.UpdatePeriod * .0005f;
             if (Keyboard.GetState().IsKeyDown(Key.ControlLeft))
             {
-                return speed*4 ;
+                return speed * 4;
             }
             else
             {
-                
-
             }
             return speed;
         }
 
-        public void Setup_Events()
+        public void Game_MoveTarget(MouseMoveEventArgs e)
         {
-            Activate_PanCameraModel();
-            Activate_MoveTarget();
-            scene.game.MouseWheel += Game_MouseWheel;
-            scene.game.KeyDown += Game_KeyDown;
+            
         }
 
-        private void Activate_MoveTarget()
-        {
-            scene.game.MouseMove += (s, e) =>
-            {
-                if (e.Mouse.RightButton == ButtonState.Pressed)
-                {
-                    MoveTarget(e.Position);
-                }
-            };
-        }
-
-        private void Game_KeyDown(object sender, KeyboardKeyEventArgs e)
+        public void Game_KeyDown(KeyboardKeyEventArgs e)
         {
             if (UI_Shared.IsAnyCaptured()) return;
             float speed = 1f;
@@ -110,17 +91,12 @@ namespace Simple_Engine.Engine.Space.Camera
             StartPoint = position;
         }
 
-        private void Game_Load(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void Game_MouseDown(object sender, MouseButtonEventArgs e)
+        public void Game_MouseDown(MouseButtonEventArgs e)
         {
             StartPoint = e.Position;
         }
 
-        private void Game_MouseWheel(object sender, MouseWheelEventArgs e)
+        public void Game_MouseWheel(MouseWheelEventArgs e)
         {
             if (UI_Shared.IsAnyCaptured()) return;
             if (Keyboard.GetState().IsKeyDown(Key.AltLeft))
@@ -134,7 +110,7 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 if (IsPerspective)
                 {
-                    var speed = GetSpeed()*100;
+                    var speed = GetSpeed() * 100;
 
                     //Evaluate_UPVector();
                     var displacement = Direction.Normalized() * -e.Delta * speed;
@@ -171,9 +147,9 @@ namespace Simple_Engine.Engine.Space.Camera
             if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
             {
                 //rotate around object, no need to translate target
-                if(Base_Geo.SelectedModel!=null)
+                if (Base_Geo.SelectedModel != null)
                 {
-                    AnimateCameraTarget(Base_Geo.SelectedModel.BBX.GetCG(),100);
+                    AnimateCameraTarget(Base_Geo.SelectedModel.BBX.GetCG(), 100);
                 }
             }
             else
@@ -186,15 +162,17 @@ namespace Simple_Engine.Engine.Space.Camera
         }
 
         //how much we are looking left or right
-        public void Activate_PanCameraModel()
+        public void Game_MouseMove(MouseMoveEventArgs e)
         {
-            scene.game.MouseMove += (s, e) =>
+            if (e.Mouse.MiddleButton == ButtonState.Pressed)
             {
-                if (e.Mouse.MiddleButton == ButtonState.Pressed)
-                {
-                    PanCamera(e.Position);
-                }
-            };
+                PanCamera(e.Position);
+            }
+
+            if (e.Mouse.RightButton == ButtonState.Pressed)
+            {
+                MoveTarget(e.Position);
+            }
         }
     }
 }
