@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -19,7 +20,7 @@ namespace Simple_Engine.Engine.Water.Render
             Name = FboName.MultipleTargets;
  
         }
-
+ 
         public override void UpdateSize(int width, int height)
         {
             base.UpdateSize(width, height);
@@ -28,6 +29,12 @@ namespace Simple_Engine.Engine.Water.Render
             BindFrameBuffer();
             Color00BufferId = createTextureAttachment(FramebufferAttachment.ColorAttachment1);
             UnbindCurrentBuffer();
+        }
+
+        public override void BindFrameBuffer()
+        {
+            base.BindFrameBuffer();
+            DisplayManager.CurrentBuffer = DisplayManager.RenderBufferType.Selection;
         }
 
         public override void Live_Update(Shader ShaderModel)

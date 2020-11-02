@@ -35,12 +35,12 @@ namespace Simple_Engine.Engine.Core.Static
 
                 RenderDisplayMode();
                 Render_FOV();
-                Render_Width();
                 if (!camera.IsPerspective)
                 {
                     Render_Height();
-                    Render_Position();
+                    Render_Width();
                 }
+                Render_Position();
                 Render_Target();
                 RenderCameraLine();
                 Render_Test();

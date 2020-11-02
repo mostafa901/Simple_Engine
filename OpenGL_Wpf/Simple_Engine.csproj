@@ -604,9 +604,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Engine\Geometry\InputControls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="cimgui.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

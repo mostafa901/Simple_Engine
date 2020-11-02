@@ -4,7 +4,6 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Render;
@@ -358,28 +357,27 @@ namespace Simple_Engine.Engine.Space.Camera
             ShaderModel.SetFloat(ShaderModel.Location_FarDistance, FarDistance);
         }
 
-        internal void ScopeTo(IRenderable.BoundingBox modelBBX, bool animate)
+        internal void ScopeTo(IRenderable.BoundingBox modelBBX)
         {
             var target = modelBBX.GetCG();
             var direction = Position - target;
-            var range = (modelBBX.Max - modelBBX.GetCG()).Length * 2;
-            var pos = target + direction.Normalized() * range;
-            var targetheight = (modelBBX.Max - modelBBX.Min).Length;
-
-            if (animate)
+            float range = 0;
+            Vector3 pos = new Vector3();
+            if (CameraModel.ActiveCamera.IsPerspective)
             {
-                CameraModel.ActiveCamera.AnimateCameraPosition(pos);
-                CameraModel.ActiveCamera.AnimateCameraTarget(target);
-                CameraModel.ActiveCamera.AnimateCameraHeight(targetheight);
+                range = (modelBBX.Max - modelBBX.GetCG()).Length * 2;
+                pos = target + direction.Normalized() * range;
             }
             else
             {
-                SetHeight((modelBBX.Max - modelBBX.Min).Length);
-                Position = pos;
-                Target = target;
-                SetHeight(targetheight);
-                UpdateCamera();
+                range = modelBBX.Max.Y - modelBBX.Min.Y;
+                pos = target + new Vector3(0, range + 5, 0); //5: is just a safe distance to avoid setting camera inside the bbx
             }
+            var targetheight = (modelBBX.Max - modelBBX.Min).Length;
+
+            CameraModel.ActiveCamera.AnimateCameraPosition(pos);
+            CameraModel.ActiveCamera.AnimateCameraTarget(target);
+            CameraModel.ActiveCamera.AnimateCameraHeight(targetheight);
         }
 
         public void AlignCamera(IRenderable.BoundingBox modelBBX)
@@ -393,7 +391,7 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 pos = modelBBX.GetCG() * new Vector3(1, 2, 1) + new Vector3(0, 10, 0);
                 var dim = modelBBX.GetDimensions();
-                SetHeight(Math.Max(dim.X,dim.Z));
+                SetHeight(Math.Max(dim.X, dim.Z));
             }
             else
             {

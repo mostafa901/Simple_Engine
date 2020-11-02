@@ -7,6 +7,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
@@ -267,6 +268,7 @@ namespace Simple_Engine.Engine.Space.Scene
             CameraModel.PlanCamera.UpdateCamera();
 
             CameraModel.ActiveCamera = CameraModel.Create(this, CameraModel.CameraType.Perspective);
+            //CameraModel.ActiveCamera.AnimateCameraPosition
         }
 
         private void Setup_Events()

@@ -1,6 +1,8 @@
 ﻿using ImGuiNET;
 using Shared_Lib.MVVM;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
+using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Threading.Tasks;
 
@@ -27,7 +29,6 @@ namespace Simple_Engine.Engine.Core.Static
 
         public static float TotalHeight = 50;
 
-      
         internal static void Render_Exit()
         {
             cus_CMD cmd = new cus_CMD();
@@ -78,12 +79,28 @@ namespace Simple_Engine.Engine.Core.Static
             if (ImGui.BeginMenuBar())
             {
                 Render_FileMenu();
-                if (ImGui.BeginMenu("Tools"))
+                if (ImGui.BeginMenu("Demo"))
                 {
-                    ImGui.MenuItem("Show Demo", "", ref showDemo, true);
+                    ImGui.MenuItem("Show IMGUI Demo", "", ref showDemo, true);
+                    if (ImGui.BeginMenu("Examples"))
+                    {
+                        if (ImGui.MenuItem("Add Dragon"))
+                        {
+                            GameFactory.DrawDragon(SceneModel.ActiveScene, null);
 
+                        }
+                        if (ImGui.MenuItem("Add Terrain"))
+                        {
+                            var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
+                            terrain.IsSystemModel = true;
+
+                        }
+                        ImGui.EndMenu();
+
+                    }
                     ImGui.EndMenu();
                 }
+
                 ImGui.EndMenuBar();
             }
 
@@ -112,11 +129,12 @@ namespace Simple_Engine.Engine.Core.Static
             float height = 25;
 
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(game.Width, height));
+            ImGui.SetNextWindowPos(new System.Numerics.Vector2());
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
             if (ImGui.Begin("Game", ref isWindowOpen,
             ImGuiWindowFlags.MenuBar |
             ImGuiWindowFlags.NoTitleBar |
-               ImGuiWindowFlags.NoResize|
+               ImGuiWindowFlags.NoResize |
              ImGuiWindowFlags.NoBackground |
             ImGuiWindowFlags.NoMove))
             {
@@ -126,6 +144,7 @@ namespace Simple_Engine.Engine.Core.Static
             }
             ImGui.PopStyleVar();
         }
+
         private static void Render_Status()
         {
             float height = 25;
@@ -144,6 +163,5 @@ namespace Simple_Engine.Engine.Core.Static
             }
             ImGui.PopStyleVar();
         }
-
     }
 }

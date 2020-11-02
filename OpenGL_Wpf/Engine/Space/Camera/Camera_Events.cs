@@ -12,6 +12,7 @@ namespace Simple_Engine.Engine.Space.Camera
     public partial class CameraModel
     {
         public static event EventHandler<MoveingEvent> OnMoving;
+
         private float GetSpeed()
         {
             var speed = (float)DisplayManager.UpdatePeriod * .0005f;
@@ -39,11 +40,11 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 if (Base_Geo.SelectedModel == null)
                 {
-                    ScopeTo(scene.BBX, true);
+                    ScopeTo(scene.BBX);
                 }
                 else
                 {
-                    ScopeTo(Base_Geo.SelectedModel.BBX, true);
+                    ScopeTo(Base_Geo.SelectedModel.BBX);
                 }
             }
             // Evaluate_UPVector();
@@ -53,7 +54,7 @@ namespace Simple_Engine.Engine.Space.Camera
                 {
                     if (ViewType == CameraType.Plan)
                     {
-                        transvector =  speed * UP;
+                        transvector = speed * UP;
                     }
                     else
                     {
@@ -99,11 +100,21 @@ namespace Simple_Engine.Engine.Space.Camera
 
             var dx = position.X - StartPoint.X;
             var dy = position.Y - StartPoint.Y;
-            Target += UP * -dy * speed;
-            Target += Right * dx * speed;
+
+            //this is correct the error when the target is extremely far away
+            //which will make the mouse move difference is very small and annoying
+            int coff = GetSpeedCorrection();
+
+            Target += UP * -dy * speed * coff;
+            Target += Right * dx * speed * coff;
 
             UpdateCamera();
             StartPoint = position;
+        }
+
+        private int GetSpeedCorrection()
+        {
+            return Math.Max(1, (int)(Position - Target).Length / 3);
         }
 
         public void Game_MouseDown(MouseButtonEventArgs e)
@@ -152,11 +163,11 @@ namespace Simple_Engine.Engine.Space.Camera
 
             var dx = mousePosition.X - StartPoint.X;
             var dy = mousePosition.Y - StartPoint.Y;
-
-            var HorztransVector = Right * (-dx * speed);
-            var VertransVector = UP * (dy * speed);
+            int coff = GetSpeedCorrection(); ;
+            var HorztransVector = Right * (-dx * speed) * coff;
+            var VertransVector = UP * (dy * speed) * coff;
             var transVector = HorztransVector + VertransVector;
-            Position += transVector;
+            Position += transVector;    
 
             if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
             {
@@ -168,7 +179,8 @@ namespace Simple_Engine.Engine.Space.Camera
             }
             else
             {
-                Target += transVector;
+                //Target += transVector;
+                Target = Position - Direction * 3;
             }
 
             UpdateCamera();

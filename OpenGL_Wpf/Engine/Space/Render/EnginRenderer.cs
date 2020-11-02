@@ -4,6 +4,7 @@ using Shared_Lib.Extention;
 using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.ToolBox;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using static Simple_Engine.Engine.GameSystem.DisplayManager;
 
 namespace Simple_Engine.Engine.Render
 {
@@ -73,6 +75,7 @@ namespace Simple_Engine.Engine.Render
 
         public void EnableBlending()
         {
+            if (DisplayManager.CurrentBuffer == RenderBufferType.Selection) return;
             //more info about Blending function
             //https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/blendFunc
             GL.Enable(EnableCap.Blend);

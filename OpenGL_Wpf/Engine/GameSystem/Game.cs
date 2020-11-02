@@ -45,9 +45,6 @@ namespace Simple_Engine.Engine.GameSystem
         {
             Setup_GameUI();
 
-            var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
-            terrain.IsSystemModel = true;
-            GameFactory.DrawDragon(SceneModel.ActiveScene, terrain);
             SceneModel.ActiveScene.FBOs.Add(new Shadow_FBO(SceneModel.ActiveScene.Lights.First(), 1024, 1024));
 
             base.OnLoad(e);
@@ -90,10 +87,11 @@ namespace Simple_Engine.Engine.GameSystem
             //GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
             ClearFrame();
-
+            
             SceneModel.ActiveScene.Render();
 
             mTargets_FBO.UnbindCurrentBuffer();
+            //change Color Atatachment to 01 to render the selection buffer
             mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
 
             //texture_FBO.UnbindCurrentBuffer();

@@ -43,7 +43,14 @@ namespace Simple_Engine.Engine.GameSystem
 
             if (e.Key == Key.Escape)
             {
-                ShowExitMessage();
+                if (Base_Geo.SelectedModel != null)
+                {
+                    Base_Geo.SelectedModel.Set_Selected(false);
+                }
+                else
+                {
+                    ShowExitMessage();
+                }
             }
             if (e.Key == Key.Delete)
             {

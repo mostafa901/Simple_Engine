@@ -36,6 +36,10 @@ namespace Simple_Engine.Engine.Space.Camera
             new AnimFloat(this, 1000, CameraModel.ActiveCamera.height, toHeight, (X) =>
             {
                 CameraModel.ActiveCamera.SetHeight(X);
+                if (!CameraModel.ActiveCamera.IsPerspective)
+                {
+                    CameraModel.ActiveCamera.Activate_Ortho();
+                }
             });
         }
 
