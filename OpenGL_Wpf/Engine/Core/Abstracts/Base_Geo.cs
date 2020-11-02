@@ -31,6 +31,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public static Base_Geo SelectedModel;
         private CubeModel SelectionBox;
 
+        
         public Base_Geo()
         {
             Name = this.GetType().Name;
@@ -49,6 +50,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             PivotPoint = new Vector3();
             IsActive = true;
 
+            Dynamic = IDrawable.DynamicFlag.Static;
             onSelectedEvent += delegate
             {
             };
@@ -120,6 +122,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         private float Width { get; set; } = 1;
         public string Uid { get; set; }
+        public IDrawable.DynamicFlag Dynamic { get ; set ; }
 
         public void ActivateShadowMap(LightModel lightSource)
         {
@@ -361,7 +364,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void UpdateBoundingBox()
         {
-            
+
         }
 
         public virtual void UploadDefaults(Shader ShaderModel)

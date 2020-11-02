@@ -44,9 +44,9 @@ namespace Simple_Engine.Engine.Space.Scene
             SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
             SceneFog.Active = false;
 
-            Setup_Grid();
             Setup_Camera();
             Setup_SceneLight();
+            Setup_Grid();
 
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
         }

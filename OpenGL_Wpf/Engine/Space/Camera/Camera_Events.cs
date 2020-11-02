@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using System;
@@ -10,6 +11,7 @@ namespace Simple_Engine.Engine.Space.Camera
 {
     public partial class CameraModel
     {
+        public static event EventHandler<MoveingEvent> OnMoving;
         private float GetSpeed()
         {
             var speed = (float)DisplayManager.UpdatePeriod * .0005f;
@@ -170,6 +172,7 @@ namespace Simple_Engine.Engine.Space.Camera
             }
 
             UpdateCamera();
+            OnMoving?.Invoke(this, new MoveingEvent(ViewTransform));
             StartPoint = mousePosition;
         }
 

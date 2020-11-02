@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib.Extention;
+using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Core;
@@ -75,7 +76,6 @@ namespace Simple_Engine.Engine.Render
             //more info about Blending function
             //https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/blendFunc
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.One, BlendingFactor.SrcColor);
         }
 
         public void DisableBlending()
@@ -174,7 +174,13 @@ namespace Simple_Engine.Engine.Render
 
         public virtual void PreDraw()
         {
-            if (geometryModel.IsBlended || geometryModel == Base_Geo.SelectedModel)
+            if (geometryModel == Base_Geo.SelectedModel)
+            {
+                GL.BlendFunc(BlendingFactor.One, BlendingFactor.SrcColor);
+                EnableBlending();
+
+            }
+            else if (geometryModel.IsBlended )
             {
                 EnableBlending();
             }
