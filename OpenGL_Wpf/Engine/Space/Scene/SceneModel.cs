@@ -7,6 +7,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
@@ -40,9 +41,8 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public void BuildModel()
         {
-            SceneFog = new Fog();
-            SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
-            SceneFog.Active = false;
+            SceneModel.ActiveScene.SceneFog = new Fog();
+            SceneModel.ActiveScene.SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
 
             Setup_Camera();
             Setup_SceneLight();
@@ -116,7 +116,7 @@ namespace Simple_Engine.Engine.Space.Scene
             Render_UIControls();
 
             CameraModel.ActiveCamera.RenderModel();
-
+            
         }
 
         public string Save()
@@ -223,7 +223,7 @@ namespace Simple_Engine.Engine.Space.Scene
                     }
                 }
             }
-
+            
             Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo3D);
         }
 
@@ -267,6 +267,7 @@ namespace Simple_Engine.Engine.Space.Scene
             CameraModel.PlanCamera.UpdateCamera();
 
             CameraModel.ActiveCamera = CameraModel.Create(this, CameraModel.CameraType.Perspective);
+            //CameraModel.ActiveCamera.AnimateCameraPosition
         }
 
         private void Setup_Events()

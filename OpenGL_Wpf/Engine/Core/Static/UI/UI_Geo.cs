@@ -32,6 +32,7 @@ namespace Simple_Engine.Engine.Core.Static
             ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
             if (ImGui.Begin("Geometry", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoResize))
             {
+                
                 UI_Shared.Render_IsActive(Model);
                 ImGui.SetNextWindowCollapsed(false, ImGuiCond.Appearing);
                 if (UI_Shared.IsExpanded("Properties"))
@@ -59,11 +60,18 @@ namespace Simple_Engine.Engine.Core.Static
                     Render_Clipping();
                 }
 
+           
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
+            else
+            {
+                Base_Geo.SelectedModel.Set_Selected(false);
+            }
 
             ImGui.PopStyleVar();
+           
+
         }
 
         private static void Render_Clipping()

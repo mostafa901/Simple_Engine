@@ -79,10 +79,7 @@ namespace Simple_Engine.Engine.Water.Render
             Height = height;
         }
 
-        public void BindFrameBuffer()
-        {
-            BindFrameBuffer(FBOId);
-        }
+       
 
         private void ActivateDepthBuffer(bool withStencil)
         {
@@ -120,9 +117,9 @@ namespace Simple_Engine.Engine.Water.Render
             return fboId;
         }
 
-        private void BindFrameBuffer(int fboId)
+        public virtual void BindFrameBuffer()
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, fboId);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, FBOId);
             GL.Viewport(0, 0, Width, Height);
         }
 
@@ -135,6 +132,7 @@ namespace Simple_Engine.Engine.Water.Render
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             //required if we need to render a different window size from the original window
             GL.Viewport(0, 0, Game.Instance.Width, Game.Instance.Height);
+            DisplayManager.CurrentBuffer = DisplayManager.RenderBufferType.Normal;
         }
 
         public virtual void CleanUp()

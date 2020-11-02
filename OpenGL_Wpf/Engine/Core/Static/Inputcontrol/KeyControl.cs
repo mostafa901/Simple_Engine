@@ -4,9 +4,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.ImGui_Set;
 using Simple_Engine.ToolBox;
-using System;
 
 namespace Simple_Engine.Engine.Static.InputControl
 {
@@ -24,8 +22,11 @@ namespace Simple_Engine.Engine.Static.InputControl
             if (UI_Shared.IsAnyCaptured()) return;
             if (!model.GetSelected()) return;
 
-            float moveStep = (float)DisplayManager.UpdatePeriod * .01f ;
-            float turnStep = (float)DisplayManager.UpdatePeriod * .1f;
+            //float moveStep = (float)DisplayManager.UpdatePeriod * .0001f ;
+            //float turnStep = (float)DisplayManager.UpdatePeriod * .001f;
+            float moveStep = .1f *1/ (float)DisplayManager.UpdatePeriod;
+            float turnStep = 1f*1/ (float)DisplayManager.UpdatePeriod;
+
             var keyState = Keyboard.GetState();
 
             if (keyState.IsAnyKeyDown)
@@ -139,6 +140,5 @@ namespace Simple_Engine.Engine.Static.InputControl
             }
 #endif
         }
-
     }
 }

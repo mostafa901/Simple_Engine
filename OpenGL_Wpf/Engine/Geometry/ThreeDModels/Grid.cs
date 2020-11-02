@@ -1,12 +1,11 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Render;
-using System;
-using OpenTK.Graphics.OpenGL;
-using OpenTK;
-using Simple_Engine.Engine.Space.Camera;
+﻿using OpenTK;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Space.Camera;
+using System;
 
-namespace Simple_Engine.Engine.Geometry.TwoD
+namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
     public class Grid : Base_Geo3D
     {
@@ -32,21 +31,21 @@ namespace Simple_Engine.Engine.Geometry.TwoD
         public override void BuildModel()
         {
             Positions = new System.Collections.Generic.List<Vector3>();
-            var pos = CameraModel.ActiveCamera.Position + new Vector3(100, 0, 100);
+
+            var length = (int)(CameraModel.ActiveCamera.Position.Length)*2;
+
             /* Horizontal lines. */
-            for (int i = -(int)pos.X/2; i <= pos.X/2; i++)
+            for (int i = -length; i <= length; i++)
             {
-                Positions.Add(new OpenTK.Vector3(0, 0, i));
-                Positions.Add(new OpenTK.Vector3(pos.Z, 0, i));
+                Positions.Add(new OpenTK.Vector3(-length, 0, i));
+                Positions.Add(new OpenTK.Vector3(length, 0, i));
             }
             /* Vertical lines. */
-            for (int i = -(int)pos.Z/2; i <=pos.Z/2; i++)
+            for (int i = -length; i <= length; i++)
             {
-                Positions.Add(new OpenTK.Vector3(i, 0, 0));
-                Positions.Add(new OpenTK.Vector3(i, 0, pos.X));
+                Positions.Add(new OpenTK.Vector3(i, 0, -length));
+                Positions.Add(new OpenTK.Vector3(i, 0, length));
             }
-
-            
         }
 
         public override void Live_Update(Shader ShaderModel)
