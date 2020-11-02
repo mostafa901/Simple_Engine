@@ -215,10 +215,10 @@ namespace Simple_Engine.Engine
 
             earth.Material = new Base_Material();
             earth.Material.Glossiness = new Gloss(.5f, 10f);
-
-            var diff = new TextureSample2D(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\SampleModels\Texture\earth_diff.jpg", TextureUnit.Texture0);
-            var specular = new TextureSample2D(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\SampleModels\Texture\earth_SpecularMap.jpg", TextureUnit.Texture1);
-            var normalMap = new TextureSample2D(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\SampleModels\Texture\earth_NormalMap.jpg", TextureUnit.Texture2);
+        
+        var diff = new TextureSample2D(@"./SampleModels/Texture/earth_diff.jpg", TextureUnit.Texture0);
+            var specular = new TextureSample2D(@"./SampleModels/Texture/earth_SpecularMap.jpg", TextureUnit.Texture1);
+            var normalMap = new TextureSample2D(@"./SampleModels/Texture/earth_NormalMap.jpg", TextureUnit.Texture2);
 
             var earthTexture = new TextureSample2D(TextureUnit.Texture0);
             earthTexture.TextureIds.Add(diff);
@@ -274,7 +274,8 @@ namespace Simple_Engine.Engine
 
         public static void DrawWater(SceneModel scene)
         {
-            var water = new WaterModel();
+            var water = new WaterModel(50);
+            
             water.BuildModel();
             scene.UpLoadModels(water);
         }

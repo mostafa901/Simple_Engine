@@ -403,5 +403,74 @@ namespace Simple_Engine.Engine.Core.Abstracts
         {
             throw new NotImplementedException();
         }
+
+        public abstract List<face> generatefaces();
+        
+
+        public struct face
+        {
+            public Vector3 v0;
+            public Vector3 v1;
+            public Vector3 v2;
+        }
+
+        public struct IntersectionResult
+        {
+            public float Distance;
+            public face ModelFace;
+            public Vector3 NormalPlan;
+        }
+        public IntersectionResult Intersect(Vector3 worldRay, Vector3 cameraPosition)
+        {
+            var objectPos = LocalTransform.ExtractTranslation();
+            var rayStart = cameraPosition;
+
+            var faces = generatefaces();
+
+            IntersectionResult res = new IntersectionResult() { Distance = 600 };
+
+            //https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#:~:text=In%20analytic%20geometry%2C%20the%20intersection,the%20plane%20but%20outside%20it.
+
+            foreach (var face in faces)
+            {
+                var normalVector = ToolBox.eMath.GetNormal(face.v0, face.v1, face.v2);
+
+                //Get how far this Plan from Origin
+                float d = Vector3.Dot(face.v1 - face.v0, normalVector);
+
+                if (Vector3.Dot(worldRay, normalVector) == 0)
+                {
+                    //avoid Dividing by Zero
+                    return new IntersectionResult();
+                }
+
+                // Compute the t value for the directed line ray intersecting the plane
+                float t = (Vector3.Dot(face.v0 - rayStart, normalVector)) / Vector3.Dot(worldRay, normalVector);
+
+                //If worldRay Dot Normal = 0 then the line and plane are parallel. (either the line lies in the plan (intersects in each point, or far parallel)
+
+                if (t == 0)
+                {
+                    //Point is parallel to plan || perpendicular to Normal Vector
+                    continue;
+                }
+                var contact = rayStart + t * worldRay;
+                if (eMath.PointinTriangle(face.v0, face.v1, face.v2, contact))
+                {
+                    if (t < res.Distance)
+                    {
+                        res = new IntersectionResult
+                        {
+                            Distance = t,
+                            ModelFace = face,
+                            NormalPlan = normalVector
+                        };
+                    }
+                }
+            }
+
+            return res;
+        }
+
     }
 }

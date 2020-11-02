@@ -89,6 +89,11 @@ namespace Simple_Engine.Engine.Fonts
         {
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
         }
+
+        public override List<face> generatefaces()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public struct CharBox

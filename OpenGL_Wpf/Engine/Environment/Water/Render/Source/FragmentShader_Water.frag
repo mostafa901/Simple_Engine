@@ -79,5 +79,5 @@ void main()
 	FragColor = mix(FragColor, vec4(0,.2,.5,1), 0.3f) + specularHighlight;
 	FragColor.a = clamp(waterdepth/3,0,1);
 
-	 
+	 FragColor = Finalize(FragColor);
 }

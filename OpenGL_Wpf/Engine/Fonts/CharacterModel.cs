@@ -99,5 +99,10 @@ namespace Simple_Engine.Engine.Fonts
         public override void Setup_Position()
         {
         }
+
+        public override List<face> generatefaces()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

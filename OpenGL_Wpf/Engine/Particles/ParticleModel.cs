@@ -92,5 +92,10 @@ namespace Simple_Engine.Engine.Particles
         public override void Setup_Indeces()
         {
         }
+
+        public override List<face> generatefaces()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

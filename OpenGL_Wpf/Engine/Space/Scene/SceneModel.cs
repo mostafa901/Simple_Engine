@@ -8,7 +8,6 @@ using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
@@ -36,8 +35,8 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public IRenderable.BoundingBox BBX { get; set; }
-        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void BuildModel()
         {
@@ -46,16 +45,9 @@ namespace Simple_Engine.Engine.Space.Scene
 
             Setup_Camera();
             Setup_SceneLight();
-            Setup_Grid();
+          //  Setup_Grid();
 
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
-        }
-
-        private void Setup_Grid()
-        {
-            var grid = new Grid(100, 100);
-            grid.BuildModel();
-            UpLoadModels(grid);
         }
 
         void IRenderable.Dispose()
@@ -112,11 +104,10 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public void RenderModel()
-        { 
+        {
             Render_UIControls();
 
             CameraModel.ActiveCamera.RenderModel();
-            
         }
 
         public string Save()
@@ -199,6 +190,9 @@ namespace Simple_Engine.Engine.Space.Scene
             ModelstoRemove.Push(model);
         }
 
+        //this will update all the shader models per Render
+        public Stack<Action<Shader>> RunOnAllShaders = new Stack<Action<Shader>>();
+
         internal void Render()
         {
             RenderModel();
@@ -209,7 +203,10 @@ namespace Simple_Engine.Engine.Space.Scene
                 if (model.IsActive)
                 {
                     model.PrepareForRender(model.ShaderModel);
-
+                    foreach (var action in RunOnAllShaders)
+                    {
+                        action(model.ShaderModel);
+                    }
                     model.Renderer.Draw();
 
                     model.ShaderModel.Stop();
@@ -223,8 +220,9 @@ namespace Simple_Engine.Engine.Space.Scene
                     }
                 }
             }
-            
-            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo3D);
+            RunOnAllShaders.Clear();
+
+            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo);
         }
 
         internal void UpLoadModels(IDrawable model)
@@ -274,6 +272,13 @@ namespace Simple_Engine.Engine.Space.Scene
         {
             game.Load += Game_Load;
             game.MouseDown += Game_MouseDown;
+        }
+
+        private void Setup_Grid()
+        {
+            var grid = new Grid(100, 100);
+            grid.BuildModel();
+            UpLoadModels(grid);
         }
 
         private void Setup_RenderSetings()

@@ -1,16 +1,12 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.Texture;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Simple_Engine.Engine.Water.Render.FBO;
 using Simple_Engine.Engine.Space.Scene;
-using Simple_Engine.Engine.GameSystem;
+using System.Linq;
+using static Simple_Engine.Engine.Water.Render.FBO;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -23,10 +19,20 @@ namespace Simple_Engine.Engine.Water.Render
         {
             AddReflection(TextureUnit.Texture0, new Vector4(0, 1, 0, 0));
             AddRefraction(TextureUnit.Texture1, new Vector4(0, -1, 0, 0));
-            TextureIds.Add(new TextureSample2D(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Water\Render\Source\WaterNoise.png", TextureUnit.Texture2));
-            TextureIds.Add(new TextureSample2D(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Water\Render\Source\WaterNormalMap.png", TextureUnit.Texture3));
+            TextureIds.Add(new TextureSample2D(@"./Engine/Environment/Water/Render/Source/WaterNoise.png", TextureUnit.Texture2));
+            TextureIds.Add(new TextureSample2D(@"./Engine/Environment/Water/Render/Source/WaterNormalMap.png", TextureUnit.Texture3));
             AddDepthTexture(TextureUnit.Texture4);
-           // Set_LoadNormalMap(true);
+            // Set_LoadNormalMap(true);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            var fbo = SceneModel.ActiveScene.FBOs.First(o => o.Name == FboName.WorldReflection);
+            fbo.CleanUp();
+
+            fbo = SceneModel.ActiveScene.FBOs.First(o => o.Name == FboName.WorldRefraction);
+            fbo.CleanUp();
         }
 
         public void AddReflection(TextureUnit textureUnit, Vector4 clipPlan)
@@ -70,10 +76,8 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void UploadDefaults(Shader ShaderModel)
         {
-        
             if (ShaderModel is WaterShader shader)
             {
-            
                 ShaderModel.SetInt(shader.ReflectionLocation, 0);
                 ShaderModel.SetInt(shader.RefractionLocation, 1);
                 ShaderModel.SetInt(shader.DudvLocation, 2);

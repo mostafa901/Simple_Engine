@@ -1,22 +1,12 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
 using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Shared_Lib.Extention;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Configuration;
-using System.Text;
-using System.Threading.Tasks;
-using Simple_Engine.Engine.Space.Camera;
-using Simple_Engine.Engine.Space.Scene;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -24,15 +14,12 @@ namespace Simple_Engine.Engine.Water.Render
     {
         public Vector4 ClipPlan { get; set; }
 
-        private CameraModel camera;
-
         private Shader stensilShader;
 
         public Water_FBOReflection(int _width, int _height) : base(_width, _height)
         {
             Name = FboName.WorldReflection;
             Setup_Defaults(true);
-            camera = new CameraModel(SceneModel.ActiveScene, CameraModel.CameraType.Perspective);
             stensilShader = new Shader(ShaderMapType.LightnColor, ShaderPath.Color);
             WrapeTo(TextureDepthId, TextureWrapMode.ClampToBorder);
             WrapeTo(TextureId, TextureWrapMode.ClampToBorder);
@@ -43,15 +30,19 @@ namespace Simple_Engine.Engine.Water.Render
             base.PreRender(ShaderModel);
             //should be same distance below water Height, but since Water height is 0 then we just inverted Y
 
+           
             ShaderModel.SetVector4(ShaderModel.Location_ClipPlanY, ClipPlan);
+
         }
 
         public override void RenderFrame(List<IDrawable> models)
         {
-            GL.Enable(EnableCap.ClipDistance1);
+            
             RenderStencil();
             GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
             GL.StencilFunc(StencilFunction.Equal, 1, 1);
+
+            GL.Enable(EnableCap.ClipDistance1);
 
             foreach (var model in models)
             {
@@ -84,7 +75,7 @@ namespace Simple_Engine.Engine.Water.Render
         private static void negate(IDrawable model, int sign = -1)
         {
             Vector3 scalarVector = new Vector3(1, -1, 1);
-           
+
             var geo = model as Base_Geo;
 
             if (model.ShaderModel.EnableInstancing && model is Base_Geo)
@@ -114,6 +105,8 @@ namespace Simple_Engine.Engine.Water.Render
             if (Name == FboName.WorldReflection)
             {
                 Vector4 offclip = new Vector4(0, -1, 0, 0);
+                
+
                 model.ShaderModel.SetVector4(model.ShaderModel.Location_ClipPlanY, offclip);
             }
 
@@ -123,6 +116,8 @@ namespace Simple_Engine.Engine.Water.Render
 
             PostRender(model.ShaderModel);
             model.ShaderModel.Stop();
+
+
         }
 
         private bool RenderStencil()
@@ -148,6 +143,9 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void PostRender(Shader ShaderModel)
         {
+
+         
+
         }
 
         public override void Live_Update(Shader ShaderModel)

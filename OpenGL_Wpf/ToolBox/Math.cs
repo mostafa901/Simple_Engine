@@ -17,7 +17,13 @@ namespace Simple_Engine.ToolBox
             var matTrans = Matrix4.CreateTranslation(axis);
 
             transform = matTrans * transform;
-            transform = Matrix4.CreateFromQuaternion(rot) * transform;
+
+            var rotvalue = Matrix4.CreateFromQuaternion(rot);
+            float.IsNaN(rotvalue.Determinant);
+            {
+                rotvalue = Matrix4.Identity;
+            }
+            transform =  rotvalue * transform;
 
             return transform;
         }

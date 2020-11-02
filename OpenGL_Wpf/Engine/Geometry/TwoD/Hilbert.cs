@@ -136,5 +136,10 @@ namespace Simple_Engine.Engine.Geometry.TwoD
         {
             throw new NotImplementedException();
         }
+
+        public override List<face> generatefaces()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

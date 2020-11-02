@@ -103,6 +103,8 @@
     <Compile Include="Engine\Core\Serialize\Importer\Import_Revit.cs" />
     <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Clip.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Fog.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Geo3D.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Light.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Camera.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Game.cs" />
@@ -462,8 +464,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Engine\Environment\Water\Render\Source\WaterNoise.png" />
-    <Resource Include="Engine\Environment\Water\Render\Source\WaterNormalMap.png" />
+    <None Include="Engine\Environment\Water\Render\Source\WaterNoise.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Environment\Water\Render\Source\WaterNormalMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Resource Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.png" />
     <None Include="SampleModels\Crate\crateNormalMap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -606,9 +612,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="cimgui.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Shared_Library.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
