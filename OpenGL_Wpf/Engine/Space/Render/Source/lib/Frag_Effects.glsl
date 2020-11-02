@@ -10,7 +10,7 @@ vec4 AddSepia(vec4 currentPixel)
 
 vec4 AddSelection(vec4 currentPixel)
 {         
-    currentPixel *= vec4(5,3,0,.5);  
+    currentPixel *= vec4(3,1,0,.5);  
 	
 	return currentPixel;
 }

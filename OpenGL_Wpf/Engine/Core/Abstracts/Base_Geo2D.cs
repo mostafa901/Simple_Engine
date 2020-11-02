@@ -119,5 +119,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             TextureCoordinates.Add(v2);
             TextureCoordinates.Add(v3);
         }
+
+        
     }
 }

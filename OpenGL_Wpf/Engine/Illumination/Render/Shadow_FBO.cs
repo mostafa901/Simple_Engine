@@ -54,7 +54,7 @@ namespace Simple_Engine.Engine.Illumination.Render
             //the below is increase the width/heigh of the texture map depending how perpendicular the live camera to the light camera. clamping the result between 50/200 since this is tested to get an acceptable result for a bitmap of size 1024*1024
             var ratio = Vector3.Dot(SunLight.lightCamera.Direction, cam.Direction);
             var width = MathHelper.Clamp((1 - ratio) * 50 * 4, 50, 200);
-            SunLight.lightCamera.Width = SunLight.lightCamera.Height = width;
+            SunLight.lightCamera.SetHeight(width);
 
             SunLight.lightCamera.Activate_Ortho();
 

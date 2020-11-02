@@ -7,6 +7,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
@@ -45,8 +46,16 @@ namespace Simple_Engine.Engine.Space.Scene
 
             Setup_Camera();
             Setup_SceneLight();
+            Setup_Grid();
 
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+        }
+
+        private void Setup_Grid()
+        {
+            var grid = new Grid(100, 100);
+            grid.BuildModel();
+            UpLoadModels(grid);
         }
 
         void IRenderable.Dispose()
@@ -103,10 +112,11 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public void RenderModel()
-        {
+        { 
             Render_UIControls();
-            CameraModel.ActiveCamera.Animate.Update();
+
             CameraModel.ActiveCamera.RenderModel();
+
         }
 
         public string Save()
@@ -249,10 +259,14 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Camera()
         {
-            CameraModels.Add(CameraModel.Create(this, CameraModel.CameraType.PerSpective));
-            CameraModels.Add(CameraModel.Create(this, CameraModel.CameraType.Plan));
+            CameraModel.PerspectiveCamera = new CameraModel(this, CameraModel.CameraType.Perspective);
+            CameraModel.PerspectiveCamera.UpdateCamera();
 
-            CameraModel.ActiveCamera = CameraModels[0];
+            CameraModel.PlanCamera = new CameraModel(this, CameraModel.CameraType.Plan);
+            CameraModel.PlanCamera.Position = new Vector3(0, 10, 0);
+            CameraModel.PlanCamera.UpdateCamera();
+
+            CameraModel.ActiveCamera = CameraModel.Create(this, CameraModel.CameraType.Perspective);
         }
 
         private void Setup_Events()

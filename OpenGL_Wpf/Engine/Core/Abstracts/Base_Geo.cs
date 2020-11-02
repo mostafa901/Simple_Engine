@@ -31,6 +31,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public static Base_Geo SelectedModel;
         private CubeModel SelectionBox;
 
+        
         public Base_Geo()
         {
             Name = this.GetType().Name;
@@ -48,8 +49,8 @@ namespace Simple_Engine.Engine.Core.Abstracts
             Meshes = new List<Mesh3D>();
             PivotPoint = new Vector3();
             IsActive = true;
-            Animate = new AnimationComponent(this);
 
+            Dynamic = IDrawable.DynamicFlag.Static;
             onSelectedEvent += delegate
             {
             };
@@ -67,7 +68,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public event EventHandler<SelectedEvent> onSelectedEvent;
 
         public bool AllowReflect { get; set; } = false;
-        public AnimationComponent Animate { get; set; }
         public BoundingBox BBX { get; set; }
         public bool CanBeSaved { get; set; }
         public bool CastShadow { get; set; } = false;
@@ -122,6 +122,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         private float Width { get; set; } = 1;
         public string Uid { get; set; }
+        public IDrawable.DynamicFlag Dynamic { get ; set ; }
 
         public void ActivateShadowMap(LightModel lightSource)
         {
@@ -217,7 +218,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             ShaderModel.Live_Update();
             TextureModel?.Live_Update(ShaderModel);
             Material?.Live_Update();
-            Animate?.Update();
             SceneModel.ActiveScene.Live_Update(ShaderModel); //upload sun shadow settings
 
             if (!ShaderModel.EnableInstancing)
@@ -297,6 +297,13 @@ namespace Simple_Engine.Engine.Core.Abstracts
             UpdateBoundingBox();
         }
 
+        public void ScaleTo(float x, float y, float z)
+        {
+            Vector3 scaledAxis = new Vector3(x, y, z);
+            LocalTransform = eMath.ScaleTo(LocalTransform, scaledAxis);
+            UpdateBoundingBox();
+        }
+
         public void Scale(float x)
         {
             Scale(x, x, x);
@@ -357,7 +364,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void UpdateBoundingBox()
         {
-            
+
         }
 
         public virtual void UploadDefaults(Shader ShaderModel)

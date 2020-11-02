@@ -19,6 +19,17 @@ namespace Simple_Engine.Engine.Core.Interfaces
     {
         event EventHandler<MoveingEvent> MoveEvent;
 
+        [Flags]
+        public enum DynamicFlag
+        {
+            Static,
+            Positions,
+            Normals,
+            TextureCoordinates
+        }
+
+        public DynamicFlag Dynamic { get; set; }
+
         public bool AllowReflect { get; set; }
         public bool CanBeSaved { get; set; }
         CullFaceMode CullMode { get; set; }

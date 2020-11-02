@@ -1,14 +1,10 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using Simple_Engine.Engine.Core.AnimationSystem.Events;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.ToolBox;
-using Microsoft.Win32;
-using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Core.AnimationSystem
 {
@@ -29,26 +25,39 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
             End = end;
             AnimationAction = animationAction;
             GenrateKeyFrames(duration, end);
+            AnimationMaster.OnUpdate += AnimFloat_OnUpdate;
+            OnFinish += AnimFloat_OnFinish;
         }
 
+        public event EventHandler<AnimationFinished_Event> OnFinish;
         public Action<Vector3> AnimationAction { get; }
         public Vector3 End { get; }
         public IRenderable Model { get; }
         public Vector3 Start { get; }
-        public void Update()
+
+        private void AnimFloat_OnFinish(object sender, AnimationFinished_Event e)
+        {
+            AnimationMaster.OnUpdate -= AnimFloat_OnUpdate;
+            OnFinish -= AnimFloat_OnFinish;
+        }
+
+        private void AnimFloat_OnUpdate(object sender, AnimationUpdate_Event e)
         {
             Timeelapsed += DisplayManager.UpdatePeriod;
             var keys = CurrentandPreviousFrame();
-            if (Completed) return;
+            if (Completed)
+            {
+                OnFinish?.Invoke(null,null);
+                return;
+            }
 
             Timeelapsed = Math.Min(Timeelapsed, keys[1].timeStamp);
 
             var perc = Timeelapsed / keyFramDuration;
-            var moveValue = ((Vector3_KeyFrame) keys[0]).Position + diffVector * (float)perc;
+            var moveValue = ((Vector3_KeyFrame)keys[0]).Position + diffVector * (float)perc;
 
             AnimationAction(moveValue);
         }
-
         private KeyFrame[] CurrentandPreviousFrame()
         {
             KeyFrame[] keysets = new KeyFrame[2];
@@ -63,6 +72,8 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
 
                     diffVector = key1.Position - key0.Position;
                     keyFramDuration = key1.timeStamp - key0.timeStamp;
+                    keysets[0] = key0;
+                    keysets[1] = key1;
                     return keysets;
                 }
                 else
@@ -92,6 +103,4 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
             KeyFrames.Add(keyEnd);
         }
     }
-
-     
 }

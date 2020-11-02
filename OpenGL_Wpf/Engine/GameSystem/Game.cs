@@ -3,6 +3,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib.MVVM;
+using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination.Render;
@@ -28,7 +29,7 @@ namespace Simple_Engine.Engine.GameSystem
             WCF_System.Wcf_Engine.Start_Wcf_Engine();
 
             GameDebuger.DebugMode();
-            DisplayManager.Initialize();
+            DisplayManager.Initialize(width,height);
 
             Instance = this;
 
@@ -106,7 +107,7 @@ namespace Simple_Engine.Engine.GameSystem
             // ActiveScene.GuiTextModel?.Render();
 
             DisplayManager.FixTime();
-
+            AnimationMaster.Render(DisplayManager.UpdatePeriod);
             while (OnUIThreadActions.Count!=0)
             {
                 OnUIThreadActions.Pop().Invoke();
@@ -115,6 +116,7 @@ namespace Simple_Engine.Engine.GameSystem
             {
                 RenderOnUIThreadActions[i].Execute(null);
             }
+
             RenderUI();
 
             base.Context.SwapBuffers();
@@ -125,8 +127,7 @@ namespace Simple_Engine.Engine.GameSystem
         {
             GL.Viewport(0, 0, Width, Height);
 
-            CameraModel.ActiveCamera.Height = Height;
-            CameraModel.ActiveCamera.Width = Width;
+            CameraModel.ActiveCamera.SetHeight(Height);
             CameraModel.ActiveCamera.ActivatePrespective();
 
             //Update OtherFrames

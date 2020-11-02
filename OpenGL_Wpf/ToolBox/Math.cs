@@ -48,6 +48,12 @@ namespace Simple_Engine.ToolBox
             return new Matrix4(Matrix3.CreateScale(value)) * transform;
         }
 
+        public static Matrix4 ScaleTo(Matrix4 transform, Vector3 value)
+        {
+            transform = transform.ClearScale();
+            return new Matrix4(Matrix3.CreateScale(value)) * transform;
+        }
+
         internal static Matrix4 MoveTo(Matrix4 transform, Vector3 position)
         {
             var clearedtran = transform.ClearTranslation();

@@ -23,7 +23,7 @@ namespace Simple_Engine.Engine.WCF_System
             }
             else
             {
-                CameraModel.ActiveCamera.ScopeTo(geo.BBX);
+                CameraModel.ActiveCamera.ScopeTo(geo.BBX,true);
                 return "";
             }
         }

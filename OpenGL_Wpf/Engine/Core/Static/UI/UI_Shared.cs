@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
@@ -11,8 +10,9 @@ namespace Simple_Engine.Engine.Core.Static
 {
     public static class UI_Shared
     {
-        static bool disableKey = false;
-        public static bool OpenContext=false;
+        private static bool disableKey = false;
+        public static bool OpenContext = false;
+
         public static bool IsAnyCaptured()
         {
             return ImGui.IsAnyItemHovered() || ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow) || !Game.Instance.Focused || disableKey;
@@ -25,8 +25,8 @@ namespace Simple_Engine.Engine.Core.Static
             // Always center this window when appearing
             System.Numerics.Vector2 center = new System.Numerics.Vector2(ImGui.GetIO().DisplaySize.X * 0.5f, ImGui.GetIO().DisplaySize.Y * 0.5f);
             ImGui.SetNextWindowPos(center, ImGuiCond.Appearing, new System.Numerics.Vector2(0.5f, 0.5f));
-            
-            if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal| ImGuiWindowFlags.AlwaysAutoResize| ImGuiWindowFlags.NoResize))
+
+            if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize))
             {
                 disableKey = true;
                 ImGui.Text(Message);
@@ -79,18 +79,20 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-        public static void Render_IsActive(IDrawable clip)
+        public static void Render_IsActive(IDrawable model)
         {
-            var act = clip.IsActive;
+            
+            string active = model.IsActive? "Deactivate" : "Activate";
 
-            if (ImGui.Checkbox($"##{clip.Name}", ref act))
+            if (ImGui.Button(active))
             {
-                clip.IsActive = act;
+                model.IsActive = !model.IsActive;
             }
         }
-        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p,float min=float.NegativeInfinity,float max= float.PositiveInfinity,float step=.1f)
+
+        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p, float min = float.NegativeInfinity, float max = float.PositiveInfinity, float step = .1f)
         {
-            if (ImGui.DragFloat(name, ref val,step,min,max))
+            if (ImGui.DragFloat(name, ref val, step, min, max))
             {
                 p(val - prev);
             }

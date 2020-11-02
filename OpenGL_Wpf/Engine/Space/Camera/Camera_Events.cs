@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using System;
@@ -10,6 +11,7 @@ namespace Simple_Engine.Engine.Space.Camera
 {
     public partial class CameraModel
     {
+        public static event EventHandler<MoveingEvent> OnMoving;
         private float GetSpeed()
         {
             var speed = (float)DisplayManager.UpdatePeriod * .0005f;
@@ -25,7 +27,6 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public void Game_MoveTarget(MouseMoveEventArgs e)
         {
-            
         }
 
         public void Game_KeyDown(KeyboardKeyEventArgs e)
@@ -38,11 +39,11 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 if (Base_Geo.SelectedModel == null)
                 {
-                    ScopeTo(scene.BBX);
+                    ScopeTo(scene.BBX, true);
                 }
                 else
                 {
-                    ScopeTo(Base_Geo.SelectedModel.BBX);
+                    ScopeTo(Base_Geo.SelectedModel.BBX, true);
                 }
             }
             // Evaluate_UPVector();
@@ -50,11 +51,25 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 if (e.Key == Key.W)
                 {
-                    transvector = -speed * Direction;
+                    if (ViewType == CameraType.Plan)
+                    {
+                        transvector =  speed * UP;
+                    }
+                    else
+                    {
+                        transvector = -speed * Direction;
+                    }
                 }
                 if (e.Key == Key.S)
                 {
-                    transvector = speed * Direction;
+                    if (ViewType == CameraType.Plan)
+                    {
+                        transvector = -speed * UP;
+                    }
+                    else
+                    {
+                        transvector = speed * Direction;
+                    }
                 }
                 if (e.Key == Key.A)
                 {
@@ -74,7 +89,7 @@ namespace Simple_Engine.Engine.Space.Camera
         private void MoveTarget(Point position)
         {
             if (UI_Shared.IsAnyCaptured()) return;
-            if (ViewType != CameraType.PerSpective)
+            if (ViewType != CameraType.Perspective)
             {
                 var msg = "3d Person View not enabled while in Plan View";
                 UI_Game.DisplayStatusmMessage(msg, 3000);
@@ -123,8 +138,7 @@ namespace Simple_Engine.Engine.Space.Camera
                 }
                 else
                 {
-                    Height += 10 * Math.Sign(-e.Delta);
-                    Width = Height * 1.3f;
+                    SetHeight(height += 10 * Math.Sign(-e.Delta));
 
                     Activate_Ortho();
                 }
@@ -134,7 +148,7 @@ namespace Simple_Engine.Engine.Space.Camera
         public void PanCamera(Point mousePosition)
         {
             if (UI_Shared.IsAnyCaptured()) return;
-            float speed = GetSpeed();
+            float speed = GetSpeed() * 4.5f;
 
             var dx = mousePosition.X - StartPoint.X;
             var dy = mousePosition.Y - StartPoint.Y;
@@ -158,6 +172,7 @@ namespace Simple_Engine.Engine.Space.Camera
             }
 
             UpdateCamera();
+            OnMoving?.Invoke(this, new MoveingEvent(ViewTransform));
             StartPoint = mousePosition;
         }
 

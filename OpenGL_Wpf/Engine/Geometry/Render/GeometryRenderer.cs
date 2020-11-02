@@ -18,6 +18,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using static Simple_Engine.Engine.Core.Abstracts.Base_Geo;
 
 namespace Simple_Engine.Engine.Geometry.Render
 {
@@ -69,6 +71,11 @@ namespace Simple_Engine.Engine.Geometry.Render
             base.PreDraw();
             GL.BindVertexArray(VAO);//access to memory location
             GL.EnableVertexAttribArray(PositionLocation);//position
+            if(geometryModel.Dynamic.HasFlag(IDrawable.DynamicFlag.Positions))
+            {
+                StoreDataInAttributeList(PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
+
+            }
             GL.EnableVertexAttribArray(TextureLocation);//texture
             GL.EnableVertexAttribArray(NormalLocation);//normal
 
