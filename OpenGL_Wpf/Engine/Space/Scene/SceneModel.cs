@@ -41,9 +41,8 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public void BuildModel()
         {
-            SceneFog = new Fog();
-            SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
-            SceneFog.Active = false;
+            SceneModel.ActiveScene.SceneFog = new Fog();
+            SceneModel.ActiveScene.SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
 
             Setup_Camera();
             Setup_SceneLight();
@@ -117,7 +116,7 @@ namespace Simple_Engine.Engine.Space.Scene
             Render_UIControls();
 
             CameraModel.ActiveCamera.RenderModel();
-
+            
         }
 
         public string Save()
@@ -224,7 +223,7 @@ namespace Simple_Engine.Engine.Space.Scene
                     }
                 }
             }
-
+            
             Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo3D);
         }
 

@@ -1,14 +1,8 @@
-﻿using Simple_Engine.Engine.Core;
+﻿using OpenTK;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
-using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Simple_Engine.Engine.Core.AnimationSystem;
 
 namespace Simple_Engine.Engine.Space.Environment
 {
@@ -16,13 +10,13 @@ namespace Simple_Engine.Engine.Space.Environment
     {
         public float Density { get; set; } //how strong the fog is, the more the more visibility decrease
         public float FogSpeed { get; set; } //how fast the color fades with fog
-        public bool Active { get; set; } = false;
+        public bool Active = false;
 
         public Vector4 FogColor { get; set; }
-        public string Name { get ; set ; }
-        public int Id { get ; set ; }
-        public IRenderable.BoundingBox BBX { get ; set ; }
-        public ImgUI_Controls Ui_Controls { get ; set ; }
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public IRenderable.BoundingBox BBX { get; set; }
+        public ImgUI_Controls Ui_Controls { get; set; }
         public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -80,13 +74,10 @@ namespace Simple_Engine.Engine.Space.Environment
         {
             ShaderModel.SetBool(ShaderModel.HasFogLocation, Active);
 
-            if (Active)
-            {
-                AnimateDensity(2);
-                ShaderModel.SetVector4(ShaderModel.FogColorLocation, FogColor);
-                ShaderModel.SetFloat(ShaderModel.FogDensityLocation, Density);
-                ShaderModel.SetFloat(ShaderModel.FogSpeedLocation, FogSpeed);
-            }
+            AnimateDensity(2);
+            ShaderModel.SetVector4(ShaderModel.FogColorLocation, FogColor);
+            ShaderModel.SetFloat(ShaderModel.FogDensityLocation, Density);
+            ShaderModel.SetFloat(ShaderModel.FogSpeedLocation, FogSpeed);
         }
 
         public void PrepareForRender(Shader shaderModel)
@@ -96,6 +87,7 @@ namespace Simple_Engine.Engine.Space.Environment
 
         public void Live_Update(Shader ShaderModel)
         {
+            ShaderModel.SetBool(ShaderModel.HasFogLocation, Active);
         }
 
         public void RenderModel()

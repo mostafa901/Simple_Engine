@@ -87,16 +87,19 @@ namespace Simple_Engine.Engine.Core.Static
                         if (ImGui.MenuItem("Add Dragon"))
                         {
                             GameFactory.DrawDragon(SceneModel.ActiveScene, null);
+                        }
+
+                        if (ImGui.MenuItem("Add Fog", "", ref SceneModel.ActiveScene.SceneFog.Active))
+                        {
 
                         }
+
                         if (ImGui.MenuItem("Add Terrain"))
                         {
                             var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
                             terrain.IsSystemModel = true;
-
                         }
                         ImGui.EndMenu();
-
                     }
                     ImGui.EndMenu();
                 }
