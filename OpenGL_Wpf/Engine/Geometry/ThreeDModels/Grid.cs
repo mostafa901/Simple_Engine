@@ -32,7 +32,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
         {
             Positions = new System.Collections.Generic.List<Vector3>();
 
-            var length = (int)(CameraModel.ActiveCamera.Position.Length)*2;
+            var length = (int)(CameraModel.ActiveCamera.Position.Length) * 2;
 
             /* Horizontal lines. */
             for (int i = -length; i <= length; i++)
