@@ -27,12 +27,17 @@ namespace Simple_Engine.Engine.Core.Static.UI
             if (ImGui.Begin("Fog", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse))
             {
                 ImGui.Text("Fog Settings");
+                if(ImGui.Button("Deactivate Fog"))
+                {
+                    fogModel.Active = false;
+                }
                 Render_FogDensity();
                 Render_FogSpeed();
 
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
+            
             ImGui.PopStyleVar();
         }
 

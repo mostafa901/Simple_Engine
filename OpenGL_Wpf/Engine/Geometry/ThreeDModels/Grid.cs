@@ -18,6 +18,8 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             ShaderModel = new Engine.Render.Shader(Engine.Render.ShaderMapType.Blend, Engine.Render.ShaderPath.Color);
             Dynamic = Engine.Core.Interfaces.IDrawable.DynamicFlag.Positions;
             CameraModel.OnMoving += Refresh;
+            AllowReflect = false;
+            IsBlended = true;
         }
 
         private void Refresh(object sender, MoveingEvent e)
@@ -27,24 +29,25 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
         public int Rows { get; }
         public int Columns { get; }
+        public static Grid ActiveGrid { get; set; }
 
         public override void BuildModel()
         {
             Positions = new System.Collections.Generic.List<Vector3>();
+            var campos = CameraModel.ActiveCamera.Position;
+            var length = 100;
 
-            var length = (int)(CameraModel.ActiveCamera.Position.Length) * 2;
-
-            /* Horizontal lines. */
             for (int i = -length; i <= length; i++)
             {
-                Positions.Add(new OpenTK.Vector3(-length, 0, i));
-                Positions.Add(new OpenTK.Vector3(length, 0, i));
-            }
+
+                /* Horizontal lines. */
+                Positions.Add(new OpenTK.Vector3((int)campos.X - length, 0, (int)campos.Z + i)*2);
+                Positions.Add(new OpenTK.Vector3((int)campos.X + length, 0, (int)campos.Z + i)*2);
+            //}
             /* Vertical lines. */
-            for (int i = -length; i <= length; i++)
-            {
-                Positions.Add(new OpenTK.Vector3(i, 0, -length));
-                Positions.Add(new OpenTK.Vector3(i, 0, length));
+            
+                Positions.Add(new OpenTK.Vector3((int)campos.X + i, 0, (int)campos.Z - length)*2);
+                Positions.Add(new OpenTK.Vector3((int)campos.X + i, 0, (int)campos.Z + length)*2);
             }
         }
 

@@ -214,7 +214,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void Live_Update(Shader ShaderModel)
         {
-            KeyControl.Update_ActionKey();
             ShaderModel.Live_Update();
             TextureModel?.Live_Update(ShaderModel);
             Material?.Live_Update();

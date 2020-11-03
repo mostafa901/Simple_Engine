@@ -22,6 +22,7 @@ namespace Simple_Engine.Engine.Illumination
     public class SkyBox : Base_Geo3D
     {
         public float BlendFactor { get; set; } = .2f;
+        public static SkyBox ActiveSky { get; internal set; }
 
         public SkyBox(CubeModel cube) : base(cube)
         {

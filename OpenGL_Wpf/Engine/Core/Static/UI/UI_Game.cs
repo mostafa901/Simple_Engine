@@ -2,6 +2,7 @@
 using Shared_Lib.MVVM;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
+using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Threading.Tasks;
@@ -96,13 +97,39 @@ namespace Simple_Engine.Engine.Core.Static
                         if (ImGui.MenuItem("Add Terrain"))
                         {
                             var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
-                            terrain.IsSystemModel = true;
                         }
 
                         if (ImGui.MenuItem("Add Water"))
                         {
-                             GameFactory.DrawWater(SceneModel.ActiveScene);
+                            GameFactory.DrawWater(SceneModel.ActiveScene);
                             //GameFactory.DrawEarth(SceneModel.ActiveScene);
+                        }
+                        if (ImGui.MenuItem("Add Sky", "", SkyBox.ActiveSky != null))
+                        {
+                            if (SkyBox.ActiveSky == null)
+                            {
+                                SkyBox.ActiveSky = GameFactory.DrawSkyBox(SceneModel.ActiveScene);
+                            }
+                            else
+                            {
+                                SceneModel.ActiveScene.RemoveModels(SkyBox.ActiveSky);
+                                SkyBox.ActiveSky = null;
+                            }
+
+                        }
+
+                        if (ImGui.MenuItem("Add Grid", "", Grid.ActiveGrid != null))
+                        {
+                            if (Grid.ActiveGrid == null)
+                            {
+                                GameFactory.DrawGrid(SceneModel.ActiveScene);
+                            }
+                            else
+                            {
+                                SceneModel.ActiveScene.RemoveModels(Grid.ActiveGrid);
+                                Grid.ActiveGrid = null;
+                            }
+
                         }
 
                         ImGui.EndMenu();

@@ -19,7 +19,6 @@ namespace Simple_Engine.Engine.Space.Scene
         public Stack<IDrawable> ModelsforUpload = new Stack<IDrawable>();
         public Stack<IDrawable> ModelstoRemove = new Stack<IDrawable>();
         public Shader SelectedShader;
-        public SkyBox SkyBoxModel;
         public List<CameraModel> CameraModels { get; set; } = new List<CameraModel>();
 
         [JsonIgnore]

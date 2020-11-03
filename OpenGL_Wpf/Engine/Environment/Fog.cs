@@ -43,17 +43,7 @@ namespace Simple_Engine.Engine.Space.Environment
             FogColor = new Vector4(fogColor, 1);
         }
 
-        private float Direction = 1;
-
-        public void AnimateDensity(float speed)
-        {
-            if (FogSpeed >= 5f) Direction = -1;
-            if (FogSpeed <= 0f) Direction = 1;
-
-            speed *= Direction;
-
-            FogSpeed += (.001f * speed);
-        }
+        
 
         public void PostRender(Shader ShaderModel)
         {
@@ -74,7 +64,7 @@ namespace Simple_Engine.Engine.Space.Environment
         {
             ShaderModel.SetBool(ShaderModel.HasFogLocation, Active);
 
-            AnimateDensity(2);
+            
             ShaderModel.SetVector4(ShaderModel.FogColorLocation, FogColor);
             ShaderModel.SetFloat(ShaderModel.FogDensityLocation, Density);
             ShaderModel.SetFloat(ShaderModel.FogSpeedLocation, FogSpeed);
