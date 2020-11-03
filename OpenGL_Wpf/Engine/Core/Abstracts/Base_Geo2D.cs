@@ -69,12 +69,12 @@ namespace Simple_Engine.Engine.Core.Abstracts
         {
             DrawType = PrimitiveType.TriangleStrip;
             LocalTransform = Matrix4.Identity;
-            DefaultColor = new Vector4(Randoms.Next(.1f, 1.0f), Randoms.Next(.1f, 1.0f), Randoms.Next(.1f, 1.0f), 0.5f);
             Default_Setup_Position();
             Default_Setup_Indeces();
             Default_Setup_Normals();
             Default_Setup_TextureCoordinates();
         }
+
         private void Default_Setup_Indeces()
         {
             Indeces = new List<int>();
@@ -120,6 +120,8 @@ namespace Simple_Engine.Engine.Core.Abstracts
             TextureCoordinates.Add(v3);
         }
 
-        
+       
+
     }
+
 }

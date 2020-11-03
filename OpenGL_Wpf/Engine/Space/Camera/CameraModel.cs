@@ -237,9 +237,12 @@ namespace Simple_Engine.Engine.Space.Camera
                         selectedModel = model;
 
                         var worldRay = Extract_RayFromScreen(mousePosition);
-                        var p = ((Base_Geo3D)selectedModel).Intersect(worldRay.Normalized(), Position);
-                        if (p.Distance != 0 && p.NormalPlan.Length != 0)
+                        if (selectedModel is Base_Geo3D)
                         {
+                            var p = ((Base_Geo3D)selectedModel).Intersect(worldRay.Normalized(), Position);
+                            if (p.Distance != 0 && p.NormalPlan.Length != 0)
+                            {
+                            }
                         }
                         continue;
                     }

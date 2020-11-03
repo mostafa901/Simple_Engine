@@ -227,7 +227,7 @@ namespace Simple_Engine.Engine.Render
                     }
                 case ShaderPath.Water:
                     {
-                        path = @"./Engine/water/Render/Source/";
+                        path = @"./Engine/Environment/water/Render/Source/";
                         Setup_Shader($"{path}VertexShader_Water.vert", $"{path}FragmentShader_Water.frag");
                         break;
                     }

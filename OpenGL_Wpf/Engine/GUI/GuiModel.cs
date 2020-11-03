@@ -65,6 +65,11 @@ namespace Simple_Engine.Engine.GUI
             Default_RenderModel();
         }
 
+        public override List<face> generatefaces()
+        {
+            throw new NotImplementedException();
+        }
+
         public float PosX { get; }
         public float PosY { get; }
     }

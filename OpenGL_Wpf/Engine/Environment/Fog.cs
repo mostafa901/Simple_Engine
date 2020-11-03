@@ -34,7 +34,7 @@ namespace Simple_Engine.Engine.Space.Environment
         {
             Density = density;
             FogSpeed = speed;
-            Active = true;
+            Active = false;
             SetFogColor(new Vector3(.7f));
         }
 

@@ -91,7 +91,7 @@ namespace Simple_Engine.Engine.GameSystem
             SceneModel.ActiveScene.Render();
 
             mTargets_FBO.UnbindCurrentBuffer();
-            //change Color Atatachment to 01 to render the selection buffer
+            //change Color Attachment to 01 to render the selection buffer
             mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
 
             //texture_FBO.UnbindCurrentBuffer();
@@ -116,7 +116,6 @@ namespace Simple_Engine.Engine.GameSystem
             }
 
             RenderUI();
-
             base.Context.SwapBuffers();
             base.OnRenderFrame(e);
         }

@@ -1,14 +1,8 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Extentions;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -23,8 +17,7 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void DrawModel()
         {
-         
-            GL.DrawElements(Model.DrawType, Model.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+                GL.DrawElements(Model.DrawType, Model.Indeces.Count, DrawElementsType.UnsignedInt, 0);
         }
 
         public override void EndDraw()
@@ -54,7 +47,5 @@ namespace Simple_Engine.Engine.Water.Render
 
             GL.BindVertexArray(0);
         }
-
-     
     }
 }

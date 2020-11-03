@@ -91,7 +91,6 @@ namespace Simple_Engine.Engine.Core.Static
 
                         if (ImGui.MenuItem("Add Fog", "", ref SceneModel.ActiveScene.SceneFog.Active))
                         {
-
                         }
 
                         if (ImGui.MenuItem("Add Terrain"))
@@ -99,6 +98,13 @@ namespace Simple_Engine.Engine.Core.Static
                             var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
                             terrain.IsSystemModel = true;
                         }
+
+                        if (ImGui.MenuItem("Add Water"))
+                        {
+                             GameFactory.DrawWater(SceneModel.ActiveScene);
+                            //GameFactory.DrawEarth(SceneModel.ActiveScene);
+                        }
+
                         ImGui.EndMenu();
                     }
                     ImGui.EndMenu();

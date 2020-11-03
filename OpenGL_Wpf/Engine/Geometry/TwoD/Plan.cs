@@ -27,6 +27,11 @@ namespace Simple_Engine.Engine.Geometry.TwoD
             Build_DefaultModel();
         }
 
+        public override List<face> generatefaces()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void RenderModel()
         {
             Renderer = new GUIRenderer(this);

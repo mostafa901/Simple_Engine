@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Space.Scene;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -143,6 +144,7 @@ namespace Simple_Engine.Engine.Water.Render
             GL.DeleteTexture(TextureId);
             GL.DeleteTexture(depthBufferId);
             GL.DeleteTexture(Color00BufferId);
+            SceneModel.ActiveScene.FBOs.Remove(this);
         }
 
         public virtual int createTextureAttachment(FramebufferAttachment attachment)

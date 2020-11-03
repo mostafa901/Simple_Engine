@@ -17,8 +17,7 @@ const int tiling = 3;
 void main()
 {
     mat4 modelTransform = GetLocalMatrix();
-	
-    //vec4 worldPosition =  modelTransform  * vec4(aPosition.x,0,aPosition.y, 1.0);
+	 
 	vec4 worldPosition =  modelTransform  * vec4(aPosition, 1.0);
      gl_ClipDistance[1] = dot(ClipPlanY,worldPosition);
     
