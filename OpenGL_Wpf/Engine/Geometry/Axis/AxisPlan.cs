@@ -59,7 +59,7 @@ namespace Simple_Engine.Engine.Geometry.Axis
             GL.BlendFunc(BlendingFactor.One, BlendingFactor.SrcColor);
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             Renderer = new AxisPlanRenderer(this);
             Renderer.RenderModel();

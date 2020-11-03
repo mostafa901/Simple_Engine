@@ -126,6 +126,7 @@ namespace Simple_Engine.Engine.Core.Static
                 camera.Position = pos.ToVector();
                 camera.UpdateCamera();
             }
+
         }
 
         private static void Render_Target()

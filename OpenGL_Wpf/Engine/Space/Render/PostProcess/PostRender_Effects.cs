@@ -21,7 +21,7 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
             vision.BuildModel();
             vision.ShaderModel = new PostProcess_Shader(effectName);
             vision.TextureModel = new PostProcess_Texture(Core.Abstracts.TextureMode.Texture2D);
-            vision.RenderPerFBO();
+            vision.UploadVAO();
         }
 
         public void ProcessEffect(int textureId)

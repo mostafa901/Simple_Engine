@@ -54,7 +54,7 @@ namespace Simple_Engine.Engine.GUI
             TextureModel?.Live_Update(ShaderModel);
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             if (ShaderModel == null)
             {

@@ -57,7 +57,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             throw new NotImplementedException();
         }
 
-        public void RenderPerFBO()
+        public void UploadVAO()
         {
             throw new NotImplementedException();
         }

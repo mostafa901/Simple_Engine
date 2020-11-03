@@ -90,7 +90,8 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p, float min = float.NegativeInfinity, float max = float.PositiveInfinity, float step = .1f)
+       
+          internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p, float min = float.NegativeInfinity, float max = float.PositiveInfinity, float step = .1f)
         {
             if (ImGui.DragFloat(name, ref val, step, min, max))
             {

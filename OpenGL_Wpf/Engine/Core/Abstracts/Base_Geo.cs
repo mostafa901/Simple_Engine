@@ -276,7 +276,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             Live_Update(shaderModel);
         }
 
-        public abstract void RenderPerFBO();
+        public abstract void UploadVAO();
 
         public void Rotate(float angle, Vector3 axis)
         {

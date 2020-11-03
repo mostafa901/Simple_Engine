@@ -34,12 +34,12 @@ namespace Simple_Engine.Engine.Core.Static
             {
                 
                 UI_Shared.Render_IsActive(Model);
-                ImGui.SetNextWindowCollapsed(false, ImGuiCond.Appearing);
                 if (UI_Shared.IsExpanded("Properties"))
                 {
                     UI_Shared.Render_Name(Model);
                     Render_UID();
                     UI_Shared.Render_Color(Model);
+                    Render_AllowReflection();
                 }
                 if (UI_Shared.IsExpanded("Display"))
                 {
@@ -76,7 +76,15 @@ namespace Simple_Engine.Engine.Core.Static
 
         }
 
-      
+        private static void Render_AllowReflection()
+        {
+            var val = Model.AllowReflect;
+            if(ImGui.Checkbox("Allow Reflection",ref val))
+            {
+                Model.AllowReflect = val;
+            }
+        }
+
         private static void Render_UID()
         {
             string val = Model.Uid ?? "";

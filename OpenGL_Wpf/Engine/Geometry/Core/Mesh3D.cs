@@ -66,7 +66,7 @@ namespace Simple_Engine.Engine.Geometry.Core
             throw new NotImplementedException();
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             throw new NotImplementedException();
         }

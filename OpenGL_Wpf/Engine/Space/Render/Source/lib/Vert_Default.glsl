@@ -10,7 +10,7 @@ in float InstanceSelected;
 out float ModelSelected;
 out vec3 surfaceNormal;
 
-uniform bool isReflection;
+uniform bool InvertNormal;
 uniform float IsSelected;
 //RenderMode
 uniform int ShaderType;
@@ -34,7 +34,7 @@ uniform bool Enable_ClipPlanZ;
 void LoadSurfaceNormal(mat4 modelTransform)
 {
 	vec3 normalVector=aNormals;
-    if(isReflection)
+    if(InvertNormal)
     {
         normalVector = aNormals * vec3(1,-1,1);
     }

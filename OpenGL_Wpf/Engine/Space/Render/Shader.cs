@@ -134,7 +134,7 @@ namespace Simple_Engine.Engine.Render
 
         public int Location_FarDistance { get; set; } = -1;
 
-        public int Location_isReflection { get; private set; } = -1;
+        public int Location_InvertNormal { get; private set; } = -1;
 
         public int Location_IsSelected { get; set; } = -1;
 
@@ -380,7 +380,7 @@ namespace Simple_Engine.Engine.Render
             IsTransparentLocation = GetLocation(nameof(Base_Texture.IsTransparent));
             Location_useSpecularMap = GetLocation("useSpecularMap");
             Location_useCubeSpecularMap = GetLocation("useCubeSpecularMap");
-            Location_isReflection = GetLocation("isReflection");
+            Location_InvertNormal = GetLocation("InvertNormal");
 
             //Light
             Location_EnableNormalMap = GetLocation("EnableNormalMap");

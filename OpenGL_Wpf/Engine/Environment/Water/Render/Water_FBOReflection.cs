@@ -30,16 +30,14 @@ namespace Simple_Engine.Engine.Water.Render
             base.PreRender(ShaderModel);
             //should be same distance below water Height, but since Water height is 0 then we just inverted Y
 
-           
             ShaderModel.SetVector4(ShaderModel.Location_ClipPlanY, ClipPlan);
-
         }
-
+        //todo: Issue no #4 Water reflection not reflecting correctly
         public override void RenderFrame(List<IDrawable> models)
         {
-            
             RenderStencil();
             GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
+            var val = Name == FboName.WorldReflection ? 0 : 1;
             GL.StencilFunc(StencilFunction.Equal, 1, 1);
 
             GL.Enable(EnableCap.ClipDistance1);
@@ -48,30 +46,33 @@ namespace Simple_Engine.Engine.Water.Render
             {
                 if (!model.AllowReflect) continue;
                 if (model == StenciledModel) continue;
-
                 if (Name == FboName.WorldReflection)
                 {
-                    negate(model, 1);
-                    model.CullMode = CullFaceMode.Front;
+                    negate(model);
+                    model.CullMode = CullFaceMode.Front; 
                 }
-
                 RenderFrame(model);
-
                 if (Name == FboName.WorldReflection)
                 {
-                    negate(model, -1);
-                    if (!(model is SkyBox))
+                    if (model is SkyBox)
+                    {
+
+                    }
+                    else
                     {
                         model.CullMode = CullFaceMode.Back;
                     }
+
+                    negate(model, -1);
                 }
+
             }
 
             GL.Disable(EnableCap.StencilTest);
             GL.Disable(EnableCap.ClipDistance1);
         }
 
-        //todo: there is bug here: when a dragon is moving the the reflection is based to 0 level, and correctly realigned when the dragon stops.
+        //todo: there is bug here: when a dragon is moving the reflection is based to 0 level, and correctly realigned when the dragon stops.
         private static void negate(IDrawable model, int sign = -1)
         {
             Vector3 scalarVector = new Vector3(1, -1, 1);
@@ -92,6 +93,7 @@ namespace Simple_Engine.Engine.Water.Render
                 var pos = model.LocalTransform.ExtractTranslation();
                 model.Scale(scalarVector);
                 model.LocalTransform = eMath.MoveWorld(model.LocalTransform, new Vector3(0, sign * 2 * pos.Y, 0));
+                
             }
         }
 
@@ -102,22 +104,14 @@ namespace Simple_Engine.Engine.Water.Render
 
             model.ShaderModel.SetMatrix4(model.ShaderModel.Location_LocalTransform, model.LocalTransform);
 
-            if (Name == FboName.WorldReflection)
-            {
-                Vector4 offclip = new Vector4(0, -1, 0, 0);
-                
 
-                model.ShaderModel.SetVector4(model.ShaderModel.Location_ClipPlanY, offclip);
-            }
-
-            model.ShaderModel.SetBool(model.ShaderModel.Location_isReflection, Name == FboName.WorldReflection);
+            //invertnormals since the model is scaled y= -1
+            model.ShaderModel.SetBool(model.ShaderModel.Location_InvertNormal, Name == FboName.WorldReflection);
 
             model.Renderer.Draw();
 
             PostRender(model.ShaderModel);
             model.ShaderModel.Stop();
-
-
         }
 
         private bool RenderStencil()
@@ -143,9 +137,6 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void PostRender(Shader ShaderModel)
         {
-
-         
-
         }
 
         public override void Live_Update(Shader ShaderModel)

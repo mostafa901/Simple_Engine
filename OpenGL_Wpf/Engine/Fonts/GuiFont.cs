@@ -59,7 +59,7 @@ namespace Simple_Engine.Engine.Fonts
                 tmodel.TextureModel = TextureModel;
 
                 tmodel.BuildModel();
-                tmodel.RenderPerFBO();
+                tmodel.UploadVAO();
                 if (offsetx > LineWidth)
                 {
                     offsetx = 0;
@@ -85,7 +85,7 @@ namespace Simple_Engine.Engine.Fonts
 
         
 
-        public void RenderPerFBO()
+        public void UploadVAO()
         {
             PrepareForRender(ShaderModel);
 

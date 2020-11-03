@@ -46,6 +46,8 @@ namespace Simple_Engine.Engine.GameSystem
             Setup_GameUI();
 
             SceneModel.ActiveScene.FBOs.Add(new Shadow_FBO(SceneModel.ActiveScene.Lights.First(), 1024, 1024));
+            GameFactory.Draw_Water(SceneModel.ActiveScene);
+            GameFactory.Draw_Terran(SceneModel.ActiveScene);
 
             base.OnLoad(e);
         }
@@ -66,9 +68,10 @@ namespace Simple_Engine.Engine.GameSystem
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            SceneModel.ActiveScene.PrepareForRender(null);
+            
             UpdateUI((float)e.Time);
 
-            SceneModel.ActiveScene.PrepareForRender(null);
             foreach (var fbo in SceneModel.ActiveScene.FBOs)
             {
                 if (fbo.Name == FBO.FboName.undefined) continue;

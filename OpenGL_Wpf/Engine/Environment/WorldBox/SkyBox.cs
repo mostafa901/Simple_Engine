@@ -93,7 +93,7 @@ namespace Simple_Engine.Engine.Illumination
             
             base.UploadDefaults(ShaderModel);
         }
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             Renderer = new SkyBoxRenderer(this);
             Default_RenderModel();

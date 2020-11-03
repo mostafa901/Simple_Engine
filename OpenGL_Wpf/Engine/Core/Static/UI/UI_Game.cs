@@ -101,7 +101,7 @@ namespace Simple_Engine.Engine.Core.Static
 
                         if (ImGui.MenuItem("Add Water"))
                         {
-                            GameFactory.DrawWater(SceneModel.ActiveScene);
+                            GameFactory.Draw_Water(SceneModel.ActiveScene);
                             //GameFactory.DrawEarth(SceneModel.ActiveScene);
                         }
                         if (ImGui.MenuItem("Add Sky", "", SkyBox.ActiveSky != null))

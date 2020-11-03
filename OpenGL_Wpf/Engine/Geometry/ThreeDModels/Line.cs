@@ -80,7 +80,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             if (Renderer == null)
             {

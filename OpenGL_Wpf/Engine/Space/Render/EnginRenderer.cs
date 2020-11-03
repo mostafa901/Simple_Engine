@@ -61,7 +61,8 @@ namespace Simple_Engine.Engine.Render
 
             if (CameraModel.EnableClipPlans)
             {
-                GL.Disable(EnableCap.CullFace);
+                DisableCulling();
+
             }
             else if (geometryModel.CullMode != CullFaceMode.FrontAndBack)
             {

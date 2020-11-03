@@ -72,7 +72,7 @@ namespace Simple_Engine.Engine.Illumination
             LightRay.EndPoint = new Vector3();
             LightRay.BuildModel();
 
-            LightRay.RenderPerFBO();
+            LightRay.UploadVAO();
         }
 
         public void Dispose()
@@ -117,7 +117,7 @@ namespace Simple_Engine.Engine.Illumination
             Ui_Controls.BuildModel();
         }
 
-        public void RenderPerFBO()
+        public void UploadVAO()
         {
             throw new NotImplementedException();
         }

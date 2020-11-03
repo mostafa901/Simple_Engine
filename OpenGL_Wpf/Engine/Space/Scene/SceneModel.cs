@@ -71,11 +71,7 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public void PrepareForRender(Shader shaderModel)
-        {
-            CameraModel.ActiveCamera.RenderPerFBO();
-            KeyControl.Update_ActionKey();
-            Render_UIControls();
-
+        { 
             if (ModelstoRemove.Any())
             {
                 while (ModelstoRemove.Any())
@@ -86,34 +82,40 @@ namespace Simple_Engine.Engine.Space.Scene
                 }
             }
 
-            if (!ModelsforUpload.Any()) return;
-
-            var id = 0;
-            if (geoModels.Any()) id = geoModels.Max(o => o.Id);
-            int max = 10;
-            if (ModelsforUpload.Count < 10)
+            if (ModelsforUpload.Any())
             {
-                max = ModelsforUpload.Count;
-            }
 
-            for (int i = 0; i < max; i++)
-            {
-                var model = ModelsforUpload.Pop();
-
-                model.Id = ++id;
-
-                model.RenderPerFBO();
-
-                geoModels.Add(model);
-                if (!model.IsSystemModel)
+                var id = 0;
+                if (geoModels.Any()) id = geoModels.Max(o => o.Id);
+                int max = 10;
+                if (ModelsforUpload.Count < 10)
                 {
-                    model.UpdateBoundingBox();
-                    UpdateBoundingBox();
+                    max = ModelsforUpload.Count;
+                }
+
+                for (int i = 0; i < max; i++)
+                {
+                    var model = ModelsforUpload.Pop();
+
+                    model.Id = ++id;
+
+                    model.UploadVAO();
+
+                    geoModels.Add(model);
+                    if (!model.IsSystemModel)
+                    {
+                        model.UpdateBoundingBox();
+                        UpdateBoundingBox();
+                    }
                 }
             }
+
+            CameraModel.ActiveCamera.UploadVAO();
+            KeyControl.Update_ActionKey();
+            Render_UIControls();
         }
 
-        public void RenderPerFBO()
+        public void UploadVAO()
         {
         }
 
@@ -200,7 +202,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         internal void Render()
         {
-            RenderPerFBO();
+            UploadVAO();
             for (int i = 0; i < geoModels.Count; i++)
             {
                 var model = geoModels.ElementAt(i);
@@ -231,7 +233,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         internal void UpLoadModels(IDrawable model)
         {
-            model.Id = geoModels.Count;
+            model.Id = geoModels.Count;            
             ModelsforUpload.Push(model);
         }
 
@@ -280,7 +282,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Grid()
         {
-            GameFactory.DrawGrid(this);
+         //   GameFactory.DrawGrid(this);
         }
 
         private void Setup_RenderSetings()

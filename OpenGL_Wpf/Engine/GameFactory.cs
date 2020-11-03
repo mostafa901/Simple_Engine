@@ -278,7 +278,7 @@ namespace Simple_Engine.Engine
             return stlamp;
         }
 
-        public static void DrawWater(SceneModel scene)
+        public static void Draw_Water(SceneModel scene)
         {
             var water = new WaterModel(50);
 

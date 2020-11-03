@@ -80,7 +80,7 @@ namespace Simple_Engine.Engine.Fonts
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             Renderer = new FontRender(this);
             Renderer.RenderModel();

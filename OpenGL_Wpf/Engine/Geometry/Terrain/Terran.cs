@@ -216,7 +216,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Normals.Add(Vector3.UnitY);
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             Renderer = new TerrainRenderer(this);
             Default_RenderModel();

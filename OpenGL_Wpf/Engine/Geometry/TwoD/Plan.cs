@@ -32,7 +32,7 @@ namespace Simple_Engine.Engine.Geometry.TwoD
             throw new NotImplementedException();
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             Renderer = new GUIRenderer(this);
             Default_RenderModel();

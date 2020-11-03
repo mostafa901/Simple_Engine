@@ -126,7 +126,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
         }
 
-        public override void RenderPerFBO()
+        public override void UploadVAO()
         {
             if (Renderer == null)
             {

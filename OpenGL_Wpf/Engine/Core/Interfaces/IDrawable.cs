@@ -79,5 +79,6 @@ namespace Simple_Engine.Engine.Core.Interfaces
         void Setup_TextureCoordinates(float xScale = 1, float yScale = 1);
 
         void SetWidth(float width);
+        void ScaleTo(float x, float y, float z);
     }
 }

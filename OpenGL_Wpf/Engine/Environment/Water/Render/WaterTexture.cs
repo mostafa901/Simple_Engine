@@ -17,8 +17,8 @@ namespace Simple_Engine.Engine.Water.Render
 
         public WaterTexture(TextureMode textureTargetType) : base(textureTargetType)
         {
-            AddReflection(TextureUnit.Texture0, new Vector4(0, 1, 0, 0));
-            AddRefraction(TextureUnit.Texture1, new Vector4(0, -1, 0, 0));
+            AddReflection(TextureUnit.Texture0, new Vector4(0, 1, 0, 0f));
+            AddRefraction(TextureUnit.Texture1, new Vector4(0, -1, 0, 0f));
             TextureIds.Add(new TextureSample2D(@"./Engine/Environment/Water/Render/Source/WaterNoise.png", TextureUnit.Texture2));
             TextureIds.Add(new TextureSample2D(@"./Engine/Environment/Water/Render/Source/WaterNormalMap.png", TextureUnit.Texture3));
             AddDepthTexture(TextureUnit.Texture4);
@@ -27,12 +27,14 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void Dispose()
         {
-            base.Dispose();
+            
             var fbo = SceneModel.ActiveScene.FBOs.First(o => o.Name == FboName.WorldReflection);
             fbo.CleanUp();
 
             fbo = SceneModel.ActiveScene.FBOs.First(o => o.Name == FboName.WorldRefraction);
             fbo.CleanUp();
+
+            base.Dispose();
         }
 
         public void AddReflection(TextureUnit textureUnit, Vector4 clipPlan)

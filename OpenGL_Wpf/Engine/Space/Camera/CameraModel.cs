@@ -301,7 +301,7 @@ namespace Simple_Engine.Engine.Space.Camera
             throw new NotImplementedException();
         }
 
-        public void RenderPerFBO()
+        public void UploadVAO()
         {
         }
 
