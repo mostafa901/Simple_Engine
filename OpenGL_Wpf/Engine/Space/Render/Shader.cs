@@ -194,7 +194,7 @@ namespace Simple_Engine.Engine.Render
                     }
                 case ShaderPath.SkyBox:
                     {
-                        path = @"./Engine/Space/Environment/WorldBox/Render/Source/";
+                        path = @"./Engine/Environment/WorldBox/Render/Source/";
 
                         Setup_Shader($"{path}SkyBox_Vert.vert", $"{path}SkyBox_Frag.frag");
                         break;

@@ -3,7 +3,6 @@ using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Static;
-using Simple_Engine.Engine.GameSystem;
 using System;
 using System.Drawing;
 
@@ -15,15 +14,7 @@ namespace Simple_Engine.Engine.Space.Camera
 
         private float GetSpeed()
         {
-            var speed = (float)DisplayManager.UpdatePeriod * .0005f;
-            if (Keyboard.GetState().IsKeyDown(Key.ControlLeft))
-            {
-                return speed * 4;
-            }
-            else
-            {
-            }
-            return speed;
+            return .05f; ;
         }
 
         public void Game_MoveTarget(MouseMoveEventArgs e)
@@ -54,31 +45,31 @@ namespace Simple_Engine.Engine.Space.Camera
                 {
                     if (ViewType == CameraType.Plan)
                     {
-                        transvector = speed * UP;
+                        transvector += speed * UP;
                     }
                     else
                     {
-                        transvector = -speed * Direction;
+                        transvector += -speed * Direction;
                     }
                 }
                 if (e.Key == Key.S)
                 {
                     if (ViewType == CameraType.Plan)
                     {
-                        transvector = -speed * UP;
+                        transvector += -speed * UP;
                     }
                     else
                     {
-                        transvector = speed * Direction;
+                        transvector += speed * Direction;
                     }
                 }
                 if (e.Key == Key.A)
                 {
-                    transvector = Right.Normalized() * -speed;
+                    transvector += Right.Normalized() * -speed;
                 }
                 if (e.Key == Key.D)
                 {
-                    transvector = Right.Normalized() * speed;
+                    transvector += Right.Normalized() * speed;
                 }
                 Position += transvector;
                 Target += transvector;
@@ -114,7 +105,8 @@ namespace Simple_Engine.Engine.Space.Camera
 
         private int GetSpeedCorrection()
         {
-            return Math.Max(1, (int)(Position - Target).Length / 3);
+            // return Math.Max(1, (int)(Position - Target).Length / 3);
+            return 1;
         }
 
         public void Game_MouseDown(MouseButtonEventArgs e)
@@ -167,7 +159,7 @@ namespace Simple_Engine.Engine.Space.Camera
             var HorztransVector = Right * (-dx * speed) * coff;
             var VertransVector = UP * (dy * speed) * coff;
             var transVector = HorztransVector + VertransVector;
-            Position += transVector;    
+            Position += transVector;
 
             if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
             {

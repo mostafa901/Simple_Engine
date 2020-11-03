@@ -13,6 +13,7 @@ using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Environment;
+using Simple_Engine.Engine.Static.InputControl;
 using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
             Setup_Camera();
             Setup_SceneLight();
-          //  Setup_Grid();
+            Setup_Grid();
 
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
         }
@@ -98,8 +99,11 @@ namespace Simple_Engine.Engine.Space.Scene
                 model.RenderModel();
 
                 geoModels.Add(model);
-                model.UpdateBoundingBox();
-                UpdateBoundingBox();
+                if (!model.IsSystemModel)
+                {
+                    model.UpdateBoundingBox();
+                    UpdateBoundingBox();
+                }
             }
         }
 
@@ -108,6 +112,8 @@ namespace Simple_Engine.Engine.Space.Scene
             Render_UIControls();
 
             CameraModel.ActiveCamera.RenderModel();
+            KeyControl.Update_ActionKey();
+
         }
 
         public string Save()
@@ -159,8 +165,9 @@ namespace Simple_Engine.Engine.Space.Scene
             {
                 RemoveModels(geo);
             }
-            foreach (var fbo in FBOs)
+            for (int i = FBOs.Count - 1; i >= 0; i--)
             {
+                var fbo = FBOs[i];
                 fbo.CleanUp();
             }
         }
@@ -276,10 +283,9 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Grid()
         {
-            var grid = new Grid(100, 100);
-            grid.BuildModel();
-            UpLoadModels(grid);
+           GameFactory.DrawGrid(this);
         }
+
 
         private void Setup_RenderSetings()
         {

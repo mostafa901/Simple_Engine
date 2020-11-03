@@ -1,14 +1,15 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Shared_Lib;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Fonts;
 using Simple_Engine.Engine.Fonts.Core;
-using Simple_Engine.Engine.Geometry;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Cube;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render;
-
-
 using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.GUI.Render;
 using Simple_Engine.Engine.Illumination;
@@ -16,17 +17,12 @@ using Simple_Engine.Engine.Opticals;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.Texture;
-using Simple_Engine.Engine.Space;
+using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water;
 using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Shared_Lib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Simple_Engine.Engine.Space.Scene;
-using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine
 {
@@ -44,7 +40,6 @@ namespace Simple_Engine.Engine
             return PivotModel;
         }
 
-        
         public static void Draw_Hilbert(SceneModel scene)
         {
             var hilbret = new Hilbert(5);
@@ -123,7 +118,6 @@ namespace Simple_Engine.Engine
             terran.AllowReflect = true;
             terran.BuildModel();
             scene.UpLoadModels(terran);
-            //terran.DrawAxis();
             return terran;
         }
 
@@ -215,8 +209,8 @@ namespace Simple_Engine.Engine
 
             earth.Material = new Base_Material();
             earth.Material.Glossiness = new Gloss(.5f, 10f);
-        
-        var diff = new TextureSample2D(@"./SampleModels/Texture/earth_diff.jpg", TextureUnit.Texture0);
+
+            var diff = new TextureSample2D(@"./SampleModels/Texture/earth_diff.jpg", TextureUnit.Texture0);
             var specular = new TextureSample2D(@"./SampleModels/Texture/earth_SpecularMap.jpg", TextureUnit.Texture1);
             var normalMap = new TextureSample2D(@"./SampleModels/Texture/earth_NormalMap.jpg", TextureUnit.Texture2);
 
@@ -234,7 +228,17 @@ namespace Simple_Engine.Engine
             return earth;
         }
 
-        
+        internal static void DrawGrid(SceneModel sceneModel)
+        {
+            if (Grid.ActiveGrid != null)
+            {
+                sceneModel.RemoveModels(Grid.ActiveGrid);
+            }
+            var grid = new Grid(100, 100);
+            Grid.ActiveGrid = grid;
+            grid.BuildModel();
+            sceneModel.UpLoadModels(grid);
+        }
 
         public static void DrawLine(SceneModel scene)
         {
@@ -243,14 +247,16 @@ namespace Simple_Engine.Engine
             scene.UpLoadModels(l);
         }
 
-        public static void DrawSkyBox(SceneModel scene)
+        public static SkyBox DrawSkyBox(SceneModel scene)
         {
             var cube = new CubeModel(Game.Instance.Width);
             cube.BuildModel();
-            scene.SkyBoxModel = new SkyBox(cube);
-            scene.SkyBoxModel.AllowReflect = true;
-            scene.SkyBoxModel.BuildModel();
-            scene.UpLoadModels(scene.SkyBoxModel);
+            var SkyBoxModel =  new SkyBox(cube);
+            SkyBoxModel.AllowReflect = true;
+            SkyBoxModel.BuildModel();
+            scene.UpLoadModels(SkyBoxModel);
+
+            return SkyBoxModel;
         }
 
         public static StreetLamp DrawStreetLamp(SceneModel scene, Terran terrain)
@@ -275,7 +281,7 @@ namespace Simple_Engine.Engine
         public static void DrawWater(SceneModel scene)
         {
             var water = new WaterModel(50);
-            
+
             water.BuildModel();
             scene.UpLoadModels(water);
         }
@@ -290,7 +296,5 @@ namespace Simple_Engine.Engine
 
             scene.GuiTextModel = GuiTextModel;
         }
-
-       
     }
 }

@@ -170,9 +170,6 @@ namespace Simple_Engine.Engine.GameSystem
             //All lights must be placed first
             //gameFactory.DrawSkyBox();
 
-            Terran terrain = null;
-            terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
-            //var dragon = gameFactory.DrawDragon(terrain);
 
             //   gameFactory.DrawStreetLamp(terrain);
 

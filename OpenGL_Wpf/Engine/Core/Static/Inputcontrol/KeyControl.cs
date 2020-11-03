@@ -14,6 +14,8 @@ namespace Simple_Engine.Engine.Static.InputControl
         private static float Gravity = -10;
         private static float upwardSpeed = 0;
         private static float TerranLevel = 0;
+        private static float Speed = .01f;
+        private static float TurnSpeed = .1f;
 
         public static void Update_ActionKey()
         {
@@ -22,15 +24,13 @@ namespace Simple_Engine.Engine.Static.InputControl
             if (UI_Shared.IsAnyCaptured()) return;
             if (!model.GetSelected()) return;
 
-            //float moveStep = (float)DisplayManager.UpdatePeriod * .0001f ;
-            //float turnStep = (float)DisplayManager.UpdatePeriod * .001f;
-            float moveStep = .1f *1/ (float)DisplayManager.UpdatePeriod;
-            float turnStep = 1f*1/ (float)DisplayManager.UpdatePeriod;
-
+            
             var keyState = Keyboard.GetState();
-
             if (keyState.IsAnyKeyDown)
             {
+                float moveStep = Speed * 1000 / DisplayManager.UpdatePeriod;
+                float turnStep = TurnSpeed * 1000 / DisplayManager.UpdatePeriod;
+
                 if (keyState.IsKeyDown(OpenTK.Input.Key.Right))
                 {
                     model.LocalTransform = eMath.Rotate(model.LocalTransform, moveStep, new Vector3(0, 0, 1));
@@ -60,7 +60,8 @@ namespace Simple_Engine.Engine.Static.InputControl
                 }
                 if (keyState.IsKeyDown(Key.A))
                 {
-                    model.LocalTransform = eMath.Rotate(model.LocalTransform, turnStep, new Vector3(0, 1, 0));
+                    //model.LocalTransform = eMath.Rotate(model.LocalTransform, turnStep, new Vector3(0, 1, 0));
+                    model.Rotate(turnStep, new Vector3(0, 1, 0));
                 }
                 if (keyState.IsKeyDown(Key.D))
                 {

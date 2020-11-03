@@ -3,6 +3,7 @@ using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.Engine.Static.InputControl;
 
 namespace Simple_Engine.Engine.GameSystem
 {
@@ -61,6 +62,7 @@ namespace Simple_Engine.Engine.GameSystem
             }
 
             CameraModel.ActiveCamera.Game_KeyDown(e);
+
         }
 
         private void ShowExitMessage()
