@@ -14,3 +14,5 @@
 /OpenGL_CSharp/.vs/OpenGL_CSharp/v15
 /OpenGL_CSharp/.vs/OpenGL_CSharp/v16/Server/sqlite3
 /OpenGL_CSharp/.vs/OpenGL_CSharp/v16
+
+*.suo
