@@ -33,7 +33,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Setup_TextureCoordinates();
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             Renderer = new GeometryRenderer(this);
             Default_RenderModel();

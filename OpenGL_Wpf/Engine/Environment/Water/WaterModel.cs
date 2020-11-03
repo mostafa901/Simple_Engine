@@ -35,7 +35,7 @@ namespace Simple_Engine.Engine.Water
             IsBlended = true;
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             Renderer = new WaterRenderer(this);
             Renderer.RenderModel();

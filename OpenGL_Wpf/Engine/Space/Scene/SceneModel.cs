@@ -7,7 +7,6 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
@@ -24,6 +23,9 @@ namespace Simple_Engine.Engine.Space.Scene
     public partial class SceneModel : IRenderable
     {
         public static SceneModel ActiveScene;
+
+        //this will update all the shader models per Render
+        public Stack<Action<Shader>> RunOnAllShaders = new Stack<Action<Shader>>();
 
         public SceneModel(Game mainGame)
         {
@@ -70,6 +72,10 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public void PrepareForRender(Shader shaderModel)
         {
+            CameraModel.ActiveCamera.RenderPerFBO();
+            KeyControl.Update_ActionKey();
+            Render_UIControls();
+
             if (ModelstoRemove.Any())
             {
                 while (ModelstoRemove.Any())
@@ -96,7 +102,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
                 model.Id = ++id;
 
-                model.RenderModel();
+                model.RenderPerFBO();
 
                 geoModels.Add(model);
                 if (!model.IsSystemModel)
@@ -107,13 +113,8 @@ namespace Simple_Engine.Engine.Space.Scene
             }
         }
 
-        public void RenderModel()
+        public void RenderPerFBO()
         {
-            Render_UIControls();
-
-            CameraModel.ActiveCamera.RenderModel();
-            KeyControl.Update_ActionKey();
-
         }
 
         public string Save()
@@ -197,12 +198,9 @@ namespace Simple_Engine.Engine.Space.Scene
             ModelstoRemove.Push(model);
         }
 
-        //this will update all the shader models per Render
-        public Stack<Action<Shader>> RunOnAllShaders = new Stack<Action<Shader>>();
-
         internal void Render()
         {
-            RenderModel();
+            RenderPerFBO();
             for (int i = 0; i < geoModels.Count; i++)
             {
                 var model = geoModels.ElementAt(i);
@@ -229,7 +227,6 @@ namespace Simple_Engine.Engine.Space.Scene
             }
             RunOnAllShaders.Clear();
 
-            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo);
         }
 
         internal void UpLoadModels(IDrawable model)
@@ -283,9 +280,8 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Grid()
         {
-           GameFactory.DrawGrid(this);
+            GameFactory.DrawGrid(this);
         }
-
 
         private void Setup_RenderSetings()
         {

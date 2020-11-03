@@ -21,13 +21,13 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
             vision.BuildModel();
             vision.ShaderModel = new PostProcess_Shader(effectName);
             vision.TextureModel = new PostProcess_Texture(Core.Abstracts.TextureMode.Texture2D);
-            vision.RenderModel();
+            vision.RenderPerFBO();
         }
 
         public void ProcessEffect(int textureId)
         {
             vision.TextureModel.TextureId = textureId;
-            vision.PrepareForRender(vision.ShaderModel);
+            //vision.PrepareForRender(vision.ShaderModel);
             vision.Renderer.Draw();
             vision.ShaderModel.Stop();
         }

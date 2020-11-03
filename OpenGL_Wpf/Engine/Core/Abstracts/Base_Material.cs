@@ -57,7 +57,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             throw new NotImplementedException();
         }
 
-        public void RenderModel()
+        public void RenderPerFBO()
         {
             throw new NotImplementedException();
         }

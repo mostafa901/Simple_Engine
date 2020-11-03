@@ -126,7 +126,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             if (Renderer == null)
             {

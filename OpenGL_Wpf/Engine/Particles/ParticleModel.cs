@@ -34,7 +34,7 @@ namespace Simple_Engine.Engine.Particles
 
             Meshes = new List<Mesh3D>();
 
-            RenderModel();
+            RenderPerFBO();
         }
 
         public override void BuildModel()
@@ -48,7 +48,7 @@ namespace Simple_Engine.Engine.Particles
             TextureModel?.Live_Update(ShaderModel);
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             Renderer = new ParticleRenderer(this);
             Renderer.RenderModel();

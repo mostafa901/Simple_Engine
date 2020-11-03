@@ -80,7 +80,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             if (Renderer == null)
             {

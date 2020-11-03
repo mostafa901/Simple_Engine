@@ -30,10 +30,10 @@ namespace Simple_Engine.Engine.Fonts
         {
             Build_DefaultModel();
             Setup_TextureCoordinates(1 / 372f, 1 / 363f);
-            RenderModel();
+            RenderPerFBO();
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             if (Renderer == null)
             {

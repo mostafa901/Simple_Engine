@@ -66,7 +66,7 @@ namespace Simple_Engine.Engine.Geometry.Core
             throw new NotImplementedException();
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             throw new NotImplementedException();
         }

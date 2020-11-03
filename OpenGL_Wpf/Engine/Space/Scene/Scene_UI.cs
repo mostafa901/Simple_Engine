@@ -18,6 +18,8 @@ namespace Simple_Engine.Engine.Space.Scene
             UI_Camera.RenderUI(CameraModel.ActiveCamera);
             UI_Light.RenderUI(LightModel.SelectedLight);
             UI_Fog.RenderUI(SceneFog);
+            Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo);
+
         }
     }
 }

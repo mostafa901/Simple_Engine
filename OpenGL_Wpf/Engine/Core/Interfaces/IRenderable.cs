@@ -39,7 +39,7 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         public void Render_UIControls();
 
-        void RenderModel();
+        void RenderPerFBO();
 
         string Save();
 

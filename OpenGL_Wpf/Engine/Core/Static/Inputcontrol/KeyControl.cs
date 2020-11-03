@@ -24,12 +24,11 @@ namespace Simple_Engine.Engine.Static.InputControl
             if (UI_Shared.IsAnyCaptured()) return;
             if (!model.GetSelected()) return;
 
-            
             var keyState = Keyboard.GetState();
             if (keyState.IsAnyKeyDown)
             {
-                float moveStep = Speed * 1000 / DisplayManager.UpdatePeriod;
-                float turnStep = TurnSpeed * 1000 / DisplayManager.UpdatePeriod;
+                float moveStep = Speed * DisplayManager.UpdatePeriod;
+                float turnStep = TurnSpeed * DisplayManager.UpdatePeriod;
 
                 if (keyState.IsKeyDown(OpenTK.Input.Key.Right))
                 {

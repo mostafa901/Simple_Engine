@@ -84,14 +84,14 @@ namespace Simple_Engine.Engine.Water.Render
                 {
                     var pos = mesh.LocalTransform.ExtractTranslation();
                     mesh.Scale(scalarVector);
-                    mesh.LocalTransform = eMath.MoveLocal(mesh.LocalTransform, new Vector3(0, sign * 2 * pos.Y, 0));
+                    mesh.LocalTransform = eMath.MoveWorld(mesh.LocalTransform, new Vector3(0, sign * 2 * pos.Y, 0));
                 }
             }
             else
             {
                 var pos = model.LocalTransform.ExtractTranslation();
                 model.Scale(scalarVector);
-                model.LocalTransform = eMath.MoveLocal(model.LocalTransform, new Vector3(0, sign * 2 * pos.Y, 0));
+                model.LocalTransform = eMath.MoveWorld(model.LocalTransform, new Vector3(0, sign * 2 * pos.Y, 0));
             }
         }
 

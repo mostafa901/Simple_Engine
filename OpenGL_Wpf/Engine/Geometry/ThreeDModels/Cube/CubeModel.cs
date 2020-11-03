@@ -157,7 +157,7 @@ namespace Simple_Engine.Engine.Geometry.Cube
             Positions = vertices;
         }
 
-        public override void RenderModel()
+        public override void RenderPerFBO()
         {
             if (Renderer == null)
             {

@@ -80,7 +80,7 @@ namespace Simple_Engine.Engine.Space.Environment
             ShaderModel.SetBool(ShaderModel.HasFogLocation, Active);
         }
 
-        public void RenderModel()
+        public void RenderPerFBO()
         {
             throw new NotImplementedException();
         }
