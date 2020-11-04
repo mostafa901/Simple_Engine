@@ -1,21 +1,11 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry;
-using Simple_Engine.Engine.Geometry.Core;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Geometry.Cube;
 using Simple_Engine.Engine.Illumination.Render;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
-using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Simple_Engine.Engine.Space.Camera;
+using Simple_Engine.ToolBox;
 
 namespace Simple_Engine.Engine.Illumination
 {
@@ -78,27 +68,25 @@ namespace Simple_Engine.Engine.Illumination
 
         public override void Live_Update(Shader ShaderModel)
         {
-            base.Live_Update(ShaderModel);    
+            base.Live_Update(ShaderModel);
             AnimateBlend();
             AnimateRotation();
 
             ShaderModel.SetFloat(ShaderModel.BlendFactorLocation, BlendFactor);
-            ShaderModel.SetMatrix4(ShaderModel. Location_LocalTransform, LocalTransform);
-             
+            ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
         }
 
         public override void UploadDefaults(Shader ShaderModel)
         {
-           ShaderModel. Location_LocalTransform = ShaderModel.GetLocation(nameof(LocalTransform));
-            
+            ShaderModel.Location_LocalTransform = ShaderModel.GetLocation(nameof(LocalTransform));
+
             base.UploadDefaults(ShaderModel);
         }
+
         public override void UploadVAO()
         {
             Renderer = new SkyBoxRenderer(this);
             Default_RenderModel();
-
         }
-
     }
 }

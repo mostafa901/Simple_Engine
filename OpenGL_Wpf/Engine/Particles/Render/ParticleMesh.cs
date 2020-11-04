@@ -1,16 +1,12 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
+﻿using OpenTK;
+using Shared_Lib;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Space;
-using Simple_Engine.ToolBox;
-using OpenTK;
-using Shared_Lib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Simple_Engine.Engine.Space.Camera;
-using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.ToolBox;
+using System;
 
 namespace Simple_Engine.Engine.Particles.Render
 {
@@ -27,7 +23,7 @@ namespace Simple_Engine.Engine.Particles.Render
 
         private ParticleModel parentParticle;
         public int TextureLocation = 0;
-        public Vector4 TextureOffset ;
+        public Vector4 TextureOffset;
         public float BlendValue = 0;
 
         public ParticleMesh(IDrawable2D parent) : base(parent)
@@ -76,17 +72,16 @@ namespace Simple_Engine.Engine.Particles.Render
             BlendValue = floatPosition % 1;
             var slotId1 = (int)Math.Floor(floatPosition);
             var slotId2 = slotId1 < slotId1 - 1 ? slotId1 + 1 : slotId1;
-            
+
             var x = Parent.TextureModel.GetTextureXOffset(slotId1);
             var y = Parent.TextureModel.GetTextureYOffset(slotId1);
             var TextureOffset1 = new Vector2(x, y);
 
-             x = Parent.TextureModel.GetTextureXOffset(slotId1);
-             y = Parent.TextureModel.GetTextureYOffset(slotId1);
+            x = Parent.TextureModel.GetTextureXOffset(slotId1);
+            y = Parent.TextureModel.GetTextureYOffset(slotId1);
             var TextureOffset2 = new Vector2(x, y);
 
             TextureOffset = new Vector4(TextureOffset1.X, TextureOffset1.Y, TextureOffset2.X, TextureOffset1.Y);
-
 
             return false;
         }

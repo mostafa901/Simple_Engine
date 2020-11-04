@@ -1,14 +1,8 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Extentions;
-using Simple_Engine.ToolBox;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Axis.Render
 {

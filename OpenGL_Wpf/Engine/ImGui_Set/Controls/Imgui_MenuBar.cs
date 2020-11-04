@@ -1,10 +1,4 @@
 ﻿using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
@@ -14,7 +8,6 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
         {
             SetWindowFlag(ImGuiWindowFlags.MenuBar);
         }
-
 
         private bool show_app_main_menu_bar = true;
 
@@ -57,7 +50,6 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
         public override void EndModel()
         {
             ImGui.EndMenuBar();
-
         }
     }
 }

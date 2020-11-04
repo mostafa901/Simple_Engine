@@ -37,12 +37,11 @@ namespace Simple_Engine.Engine.GameSystem
         protected override void OnLoad(EventArgs e)
         {
             SceneModel.ActiveScene.FBOs.Add(new Shadow_FBO(SceneModel.ActiveScene.Lights.First(), 1024, 1024));
-            GameFactory.Draw_Water(SceneModel.ActiveScene);
+
             GameFactory.Draw_Terran(SceneModel.ActiveScene);
 
             //render this the last to prevent interfering with other frame buffers. Fixes issue #6
             Setup_GameUI();
-
             base.OnLoad(e);
         }
 

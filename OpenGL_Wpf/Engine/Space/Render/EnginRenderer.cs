@@ -1,7 +1,5 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using Shared_Lib.Extention;
-using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
@@ -62,13 +60,12 @@ namespace Simple_Engine.Engine.Render
             if (CameraModel.EnableClipPlans)
             {
                 DisableCulling();
-
             }
             else if (geometryModel.CullMode != CullFaceMode.FrontAndBack)
             {
                 GL.CullFace(geometryModel.CullMode); //back from Camera
             }
-            else  
+            else
             {
                 DisableCulling();
             }
@@ -182,9 +179,8 @@ namespace Simple_Engine.Engine.Render
             {
                 GL.BlendFunc(BlendingFactor.One, BlendingFactor.SrcColor);
                 EnableBlending();
-
             }
-            else if (geometryModel.IsBlended )
+            else if (geometryModel.IsBlended)
             {
                 EnableBlending();
             }

@@ -8,7 +8,5 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render
         public CubeRenderer(Base_Geo3D _model) : base(_model)
         {
         }
-
-      
     }
 }

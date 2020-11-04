@@ -34,9 +34,9 @@ namespace Simple_Engine.Engine.Core.Serialize
                         UI_Shared.Render_Progress(linecount, count, $"Loading...");
                     };
                     GeometryModel geo = line.JDeserialize<GeometryModel>(JsonTools.GetSettings());
-                    
+
                     geo.ShaderModel = new Render.Shader(Render.ShaderMapType.Blend, Render.ShaderPath.SingleColor);
-                    
+
                     SceneModel.ActiveScene.UpLoadModels(geo);
                 }
 

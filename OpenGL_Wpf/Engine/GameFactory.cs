@@ -252,7 +252,7 @@ namespace Simple_Engine.Engine
         {
             var cube = new CubeModel(Game.Instance.Width);
             cube.BuildModel();
-            var SkyBoxModel =  new SkyBox(cube);
+            var SkyBoxModel = new SkyBox(cube);
             SkyBoxModel.AllowReflect = true;
             SkyBoxModel.BuildModel();
             scene.UpLoadModels(SkyBoxModel);

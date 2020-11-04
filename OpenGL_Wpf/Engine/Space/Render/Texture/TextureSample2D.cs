@@ -1,12 +1,7 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
+using Simple_Engine.Engine.Core.Abstracts;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Render.Texture
 {
@@ -17,7 +12,7 @@ namespace Simple_Engine.Engine.Render.Texture
             Setup_2DTexture(imgPath, textureUnit);
         }
 
-        public TextureSample2D(TextureUnit textureUnit, Vector4 color=new Vector4()) : base(TextureMode.Texture2D)
+        public TextureSample2D(TextureUnit textureUnit, Vector4 color = new Vector4()) : base(TextureMode.Texture2D)
         {
             //Bitmap img = Shared_Lib.Extention.Graphics_Ex.Image_Ex.ImageFromColor(10, 10, (int)(color.X * 225), (int)(color.Y * 225), (int)(color.Z * 225), (int)(color.W * 225));
 

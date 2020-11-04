@@ -2,25 +2,8 @@
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Extentions;
-using Simple_Engine.ToolBox;
-
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-
-using OpenTK.Input;
-using Shared_Lib.Extention;
-using Shared_Lib.Extention.Serialize_Ex;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Core
 {
@@ -32,8 +15,6 @@ namespace Simple_Engine.Engine.Geometry.Core
         {
             CastShadow = true;
         }
-
-        
 
         public override float GetWidth()
         {

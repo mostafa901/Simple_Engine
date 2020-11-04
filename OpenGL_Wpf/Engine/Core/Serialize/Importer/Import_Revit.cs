@@ -7,7 +7,6 @@ using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Importer.Model;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Simple_Engine.Engine.Importer
@@ -18,8 +17,6 @@ namespace Simple_Engine.Engine.Importer
 
         public static void Revit_ExportFile(string filename)
         {
-            
-
             var cmd = new cus_CMD();
             Game.Instance.RenderOnUIThread(cmd);
 
@@ -33,9 +30,8 @@ namespace Simple_Engine.Engine.Importer
 
                     if (string.IsNullOrEmpty(line)) continue;
                     GeometryModel geo = ImportRevitJsonString(line, cmd);
-                    
-                    SceneModel.ActiveScene.UpLoadModels(geo);
 
+                    SceneModel.ActiveScene.UpLoadModels(geo);
                 }
 
                 cmd.Action = (x) =>
@@ -43,8 +39,6 @@ namespace Simple_Engine.Engine.Importer
                     Game.Instance.Dispose_RenderOnUIThread(cmd);
                 };
             }
-
-           
         }
 
         private static GeometryModel ImportRevitJsonString(string line, cus_CMD cmd)

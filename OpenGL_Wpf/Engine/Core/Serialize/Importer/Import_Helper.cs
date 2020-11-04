@@ -19,6 +19,7 @@
 
                 case filter.Json:
                     return "Json files|*.json";
+
                 case filter.OBJ:
                     return "Obj files|*.obj";
 

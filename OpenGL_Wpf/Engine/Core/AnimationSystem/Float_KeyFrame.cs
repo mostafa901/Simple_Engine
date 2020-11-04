@@ -1,6 +1,4 @@
-﻿using OpenTK;
-
-namespace Simple_Engine.Engine.Core
+﻿namespace Simple_Engine.Engine.Core
 {
     public class Float_KeyFrame : KeyFrame
     {

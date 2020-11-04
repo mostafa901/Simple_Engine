@@ -74,6 +74,5 @@ namespace Simple_Engine.Engine.Space.Camera
 
         //how much we are looking up - down wards
         public float Yaw { get; set; }
-        
     }
 }

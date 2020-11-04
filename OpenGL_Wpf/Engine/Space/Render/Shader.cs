@@ -51,7 +51,6 @@ namespace Simple_Engine.Engine.Render
     {
         #region Properties
 
-        
         //Lights
         public static int MaximumLight = 4;
 
@@ -356,7 +355,7 @@ namespace Simple_Engine.Engine.Render
             Location_ClipPlanX = GetLocation("ClipPlanX");
             Location_ClipPlanY = GetLocation("ClipPlanY");
             Location_ClipPlanZ = GetLocation("ClipPlanZ");
-            
+
             Location_EnableClipPlanX = GetLocation("Enable_ClipPlanX");
             Location_EnableClipPlanY = GetLocation("Enable_ClipPlanY");
             Location_EnableClipPlanZ = GetLocation("Enable_ClipPlanZ");

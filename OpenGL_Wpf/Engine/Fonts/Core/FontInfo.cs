@@ -1,12 +1,4 @@
 ﻿using OpenTK;
-using Shared_Lib.Extention.Serialize_Ex;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace Simple_Engine.Engine.Fonts.Core
 {

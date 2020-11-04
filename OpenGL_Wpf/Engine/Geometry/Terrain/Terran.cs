@@ -1,20 +1,13 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Terrain.Render;
-using Simple_Engine.Engine.Illumination.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Shared_Lib.Extention;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
@@ -36,11 +29,11 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             generateTerrain();
         }
 
- 
         public override float GetHeight()
         {
-            return Positions.Max(o=>o.Y)- Positions.Min(o => o.Y);
+            return Positions.Max(o => o.Y) - Positions.Min(o => o.Y);
         }
+
         public override void Setup_Indeces()
         {
             Indeces.AddRange(new int[] { 0, 1, 2, 0, 2, 3 });
@@ -128,7 +121,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
         private List<List<float>> heightCoor = new List<List<float>>();
 
-       
         private void generateTerrain()
         {
             var himg = new Bitmap(Bitmap.FromFile(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\SampleModels\LandScape\Texture\HeightMap.png"));

@@ -2,7 +2,6 @@
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Environment;
 using Simple_Engine.Engine.Space.Scene;
-using System;
 
 namespace Simple_Engine.Engine.Core.Static.UI
 {
@@ -27,7 +26,7 @@ namespace Simple_Engine.Engine.Core.Static.UI
             if (ImGui.Begin("Fog", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse))
             {
                 ImGui.Text("Fog Settings");
-                if(ImGui.Button("Deactivate Fog"))
+                if (ImGui.Button("Deactivate Fog"))
                 {
                     fogModel.Active = false;
                 }
@@ -37,7 +36,7 @@ namespace Simple_Engine.Engine.Core.Static.UI
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
-            
+
             ImGui.PopStyleVar();
         }
 
@@ -49,7 +48,7 @@ namespace Simple_Engine.Engine.Core.Static.UI
                {
                    fogModel.Density += x;
                    SceneModel.ActiveScene.RunOnAllShaders.Push((shader) => shader.SetFloat(shader.FogDensityLocation, fogModel.Density));
-               },step:.001f);
+               }, step: .001f);
         }
 
         private static void Render_FogSpeed()

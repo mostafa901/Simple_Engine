@@ -1,6 +1,4 @@
-﻿using OpenTK;
-using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space.Camera;
+﻿using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System.Linq;
 
@@ -36,8 +34,6 @@ namespace Simple_Engine.Engine.WCF_System
             CameraModel.ClipPlanY.MoveTo(pos);
             CameraModel.ClipPlanY.SetAsGlobal(true);
             CameraModel.ClipPlanY.IsActive = true;
-            
-
         }
     }
 }

@@ -1,19 +1,10 @@
-﻿using Simple_Engine.Engine.ImGui_Set.Controls;
+﻿using OpenTK;
 using Simple_Engine.Engine.Render;
-using Newtonsoft.Json;
-using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Simple_Engine.Engine.Core.AnimationSystem;
 
 namespace Simple_Engine.Engine.Core.Interfaces
 {
     public interface IRenderable
     {
-
         public BoundingBox BBX { get; set; }
 
         public int Id { get; set; }
@@ -26,7 +17,6 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         void BuildModel();
 
-    
         void Dispose();
 
         void Live_Update(Shader ShaderModel);
@@ -49,13 +39,12 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         public struct BoundingBox
         {
-
             public Vector3 Max { get; set; }
             public Vector3 Min { get; set; }
 
             public Vector3 GetCG()
             {
-                var cg = (Max + Min)/2;
+                var cg = (Max + Min) / 2;
                 return cg;
             }
 
@@ -63,7 +52,6 @@ namespace Simple_Engine.Engine.Core.Interfaces
             {
                 return (Max - Min);
             }
-
         }
     }
 }

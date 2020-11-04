@@ -1,21 +1,13 @@
-﻿
-using Simple_Engine.Engine.Core;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Fonts.Core;
-using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.Texture;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Shared_Lib.Extention;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Simple_Engine.Engine.Core.AnimationSystem;
 
 namespace Simple_Engine.Engine.Fonts
 {
@@ -28,10 +20,10 @@ namespace Simple_Engine.Engine.Fonts
         public Shader ShaderModel { get; set; }
         public Base_Texture TextureModel { get; set; }
         public Vector2 TextPosition { get; set; }
-        public string Name { get ; set ; }
-        public int Id { get ; set ; }
-        public IRenderable.BoundingBox BBX { get ; set ; }
-        public ImgUI_Controls Ui_Controls { get ; set ; }
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public IRenderable.BoundingBox BBX { get; set; }
+        public ImgUI_Controls Ui_Controls { get; set; }
         public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -83,8 +75,6 @@ namespace Simple_Engine.Engine.Fonts
             }
         }
 
-        
-
         public void UploadVAO()
         {
             PrepareForRender(ShaderModel);
@@ -99,8 +89,6 @@ namespace Simple_Engine.Engine.Fonts
 
             PostRender(ShaderModel);
         }
-
-        
 
         public void CleanUp()
         {
@@ -132,7 +120,6 @@ namespace Simple_Engine.Engine.Fonts
 
         public void PrepareForRender(Shader shaderModel)
         {
-
             GL.Disable(EnableCap.DepthTest);
             ShaderModel.Use();
             TextureModel.Live_Update(ShaderModel);

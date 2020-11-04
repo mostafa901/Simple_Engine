@@ -32,6 +32,7 @@ namespace Simple_Engine.Engine.Water.Render
 
             ShaderModel.SetVector4(ShaderModel.Location_ClipPlanY, ClipPlan);
         }
+
         //todo: Issue no #4 Water reflection not reflecting correctly
         public override void RenderFrame(List<IDrawable> models)
         {
@@ -49,14 +50,13 @@ namespace Simple_Engine.Engine.Water.Render
                 if (Name == FboName.WorldReflection)
                 {
                     negate(model);
-                    model.CullMode = CullFaceMode.Front; 
+                    model.CullMode = CullFaceMode.Front;
                 }
                 RenderFrame(model);
                 if (Name == FboName.WorldReflection)
                 {
                     if (model is SkyBox)
                     {
-
                     }
                     else
                     {
@@ -65,7 +65,6 @@ namespace Simple_Engine.Engine.Water.Render
 
                     negate(model, -1);
                 }
-
             }
 
             GL.Disable(EnableCap.StencilTest);
@@ -93,7 +92,6 @@ namespace Simple_Engine.Engine.Water.Render
                 var pos = model.LocalTransform.ExtractTranslation();
                 model.Scale(scalarVector);
                 model.LocalTransform = eMath.MoveWorld(model.LocalTransform, new Vector3(0, sign * 2 * pos.Y, 0));
-                
             }
         }
 
@@ -103,7 +101,6 @@ namespace Simple_Engine.Engine.Water.Render
             PreRender(model.ShaderModel);
 
             model.ShaderModel.SetMatrix4(model.ShaderModel.Location_LocalTransform, model.LocalTransform);
-
 
             //invertnormals since the model is scaled y= -1
             model.ShaderModel.SetBool(model.ShaderModel.Location_InvertNormal, Name == FboName.WorldReflection);

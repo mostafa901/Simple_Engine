@@ -1,24 +1,22 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry;
+﻿using OpenTK;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
-using OpenTK;
-using System;
-using System.Linq;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
-using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Core.AnimationSystem;
-using Simple_Engine.Engine.Geometry.ThreeDModels;
+using System;
+using System.Linq;
 
 namespace Simple_Engine.Engine.Illumination
 {
     public class LightModel : IRenderable
     {
-        
         public CameraModel lightCamera;
         public bool Active = true;
         public static LightModel SelectedLight;
+
         public LightModel(LightModel light)
         {
             Attenuation = light.Attenuation;
@@ -35,23 +33,20 @@ namespace Simple_Engine.Engine.Illumination
 
         private void Game_Load(object sender, EventArgs e)
         {
-           
         }
 
         public Vector3 Attenuation { get; set; } = new Vector3(1, 0, 0);
         public IRenderable.BoundingBox BBX { get; set; }
 
-        
-
         public int Id { get; set; }
         public Vector4 DefaultColor { get; set; } = new Vector4(.5f, .5f, .5f, 1);
         public Vector3 LightPosition { get; set; }
         public string Name { get; set; }
-        
+
         public ImgUI_Controls Ui_Controls { get; set; }
         public int ShadowMapId { get; internal set; }
         public float Intensity { get; set; } = 1;
-       public bool CastShadow { get ; set; }
+        public bool CastShadow { get; set; }
 
         public Line LightRay;
 
@@ -61,7 +56,6 @@ namespace Simple_Engine.Engine.Illumination
 
         public void Create_UIControls()
         {
-            
         }
 
         public void UpdateLightRay()
@@ -129,7 +123,6 @@ namespace Simple_Engine.Engine.Illumination
 
         public void SetShadowTransform()
         {
-             
             if (lightCamera == null)
             {
                 lightCamera = new CameraModel(SceneModel.ActiveScene, CameraModel.CameraType.Perspective);

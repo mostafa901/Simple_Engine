@@ -1,6 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Extentions;
 
@@ -17,7 +16,7 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void DrawModel()
         {
-                GL.DrawElements(Model.DrawType, Model.Indeces.Count, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(Model.DrawType, Model.Indeces.Count, DrawElementsType.UnsignedInt, 0);
         }
 
         public override void EndDraw()

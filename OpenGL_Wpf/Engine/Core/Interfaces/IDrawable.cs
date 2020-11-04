@@ -1,17 +1,12 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Geometry.Core;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
+using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Simple_Engine.Engine.Illumination;
 
 namespace Simple_Engine.Engine.Core.Interfaces
 {
@@ -60,6 +55,7 @@ namespace Simple_Engine.Engine.Core.Interfaces
         void MoveTo(float x, float y, float z);
 
         void MoveWorld(Vector3 displacement);
+
         void Rotate(float angle, Vector3 axis);
 
         void Scale(float x);
@@ -79,6 +75,7 @@ namespace Simple_Engine.Engine.Core.Interfaces
         void Setup_TextureCoordinates(float xScale = 1, float yScale = 1);
 
         void SetWidth(float width);
+
         void ScaleTo(float x, float y, float z);
     }
 }

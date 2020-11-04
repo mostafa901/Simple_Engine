@@ -1,17 +1,8 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Fonts;
-using Simple_Engine.Engine.Geometry.Core;
-using Simple_Engine.Engine.Geometry.Render;
-using Simple_Engine.Engine.GUI.Render;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using Shared_Lib;
-using System;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Geometry.Render;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry
 {
@@ -26,7 +17,7 @@ namespace Simple_Engine.Engine.Geometry
         public override void BuildModel()
         {
             DrawType = PrimitiveType.TriangleStrip;
-             
+
             Setup_Position();
             Setup_Indeces();
             Setup_Normals();
@@ -39,13 +30,11 @@ namespace Simple_Engine.Engine.Geometry
             Default_RenderModel();
         }
 
-     
-
         public override void Setup_Position()
         {
-            var width = GetWidth()/2;
-            var height = GetHeight()/2;
-            if (height == 0) height = GetDepth()/2;
+            var width = GetWidth() / 2;
+            var height = GetHeight() / 2;
+            if (height == 0) height = GetDepth() / 2;
             Vector3 v0 = new Vector3(width, height, 0);
             Vector3 v1 = new Vector3(-width, height, 0);
             Vector3 v2 = new Vector3(-width, -height, 0);

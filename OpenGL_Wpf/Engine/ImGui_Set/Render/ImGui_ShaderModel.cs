@@ -1,20 +1,11 @@
-﻿
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
-using OpenTK.Graphics;
-using System.Threading;
 
 namespace Simple_Engine.Engine.ImGui_Set.Render
 {
-    struct UniformFieldInfo
+    internal struct UniformFieldInfo
     {
         public int Location;
         public string Name;
@@ -22,7 +13,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Render
         public ActiveUniformType Type;
     }
 
-    class ImGui_ShaderModel
+    internal class ImGui_ShaderModel
     {
         public readonly string Name;
         public int Program { get; private set; }
@@ -40,6 +31,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Render
             };
             Program = CreateProgram(name, Files);
         }
+
         public void UseShader()
         {
             GL.UseProgram(Program);

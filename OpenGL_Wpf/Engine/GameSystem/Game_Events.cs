@@ -4,7 +4,6 @@ using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.Space.Camera;
-using Simple_Engine.Engine.Static.InputControl;
 using System;
 
 namespace Simple_Engine.Engine.GameSystem
@@ -17,7 +16,6 @@ namespace Simple_Engine.Engine.GameSystem
             MouseDown += Game_MouseDown;
             MouseWheel += Game_MouseWheel;
             MouseMove += Game_MouseMove;
-            
         }
 
         protected override void OnResize(EventArgs e)
@@ -80,7 +78,6 @@ namespace Simple_Engine.Engine.GameSystem
             }
 
             CameraModel.ActiveCamera.Game_KeyDown(e);
-
         }
 
         private void ShowExitMessage()

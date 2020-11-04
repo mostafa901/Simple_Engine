@@ -7,7 +7,6 @@ using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Drawing;
-using System.Linq;
 
 namespace Simple_Engine.Engine.Core.Static
 {
@@ -32,7 +31,6 @@ namespace Simple_Engine.Engine.Core.Static
             ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
             if (ImGui.Begin("Geometry", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoResize))
             {
-                
                 UI_Shared.Render_IsActive(Model);
                 if (UI_Shared.IsExpanded("Properties"))
                 {
@@ -59,10 +57,8 @@ namespace Simple_Engine.Engine.Core.Static
                     }
                     UI_Geo3D.Render_Clipping(Model as Base_Geo3D);
                     UI_Geo3D.RightClick(Model as Base_Geo3D);
-
                 }
 
-           
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
@@ -72,14 +68,12 @@ namespace Simple_Engine.Engine.Core.Static
             }
 
             ImGui.PopStyleVar();
-           
-
         }
 
         private static void Render_AllowReflection()
         {
             var val = Model.AllowReflect;
-            if(ImGui.Checkbox("Allow Reflection",ref val))
+            if (ImGui.Checkbox("Allow Reflection", ref val))
             {
                 Model.AllowReflect = val;
             }
@@ -146,16 +140,9 @@ namespace Simple_Engine.Engine.Core.Static
                     Base_Geo.SelectedModel.Set_Selected(false);
                     SceneModel.ActiveScene.RemoveModels(model);
                 }
-                Game.Instance.Dispose_RenderOnUIThread(cmd);
             };
-            cmd.Action = (x) =>
-            {
-                string title = "Delete?";
-                ImGui.OpenPopup(title);
 
-                UI_Shared.Render_YesNOModalMessage(title, "do you Want to delete model?", response);
-            };
-            Game.Instance.RenderOnUIThread(cmd);
+            UI_Shared.Render_YesNOModalMessage2("Delete?", "do you Want to delete model?", response);
         }
     }
 }

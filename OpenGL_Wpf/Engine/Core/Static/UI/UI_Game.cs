@@ -39,15 +39,10 @@ namespace Simple_Engine.Engine.Core.Static
                 {
                     game.Exit();
                 }
-                game.Dispose_RenderOnUIThread(cmd);
             };
 
-            cmd.Action = (x) =>
-            {
-                string title = "Exit";
-                ImGui.OpenPopup(title);
-                UI_Shared.Render_YesNOModalMessage(title, "Exit Engine?\r\nAny changes will not be saved.", responseAction);
-            };
+            UI_Shared.Render_YesNOModalMessage("Exit", "Exit Engine?\r\nAny changes will not be saved.", responseAction);
+
             game.RenderOnUIThread(cmd);
         }
 
@@ -115,7 +110,6 @@ namespace Simple_Engine.Engine.Core.Static
                                 SceneModel.ActiveScene.RemoveModels(SkyBox.ActiveSky);
                                 SkyBox.ActiveSky = null;
                             }
-
                         }
 
                         if (ImGui.MenuItem("Add Grid", "", Grid.ActiveGrid != null))
@@ -129,7 +123,6 @@ namespace Simple_Engine.Engine.Core.Static
                                 SceneModel.ActiveScene.RemoveModels(Grid.ActiveGrid);
                                 Grid.ActiveGrid = null;
                             }
-
                         }
 
                         ImGui.EndMenu();

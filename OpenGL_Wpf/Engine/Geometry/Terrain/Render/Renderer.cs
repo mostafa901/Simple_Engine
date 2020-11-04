@@ -1,12 +1,7 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Extentions;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Terrain.Render
 {
@@ -32,8 +27,6 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
             EnableCulling();
         }
 
-        
-
         public override void EndDraw()
         {
             GL.DisableVertexAttribArray(PositionLocation);
@@ -42,8 +35,6 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
             GL.BindVertexArray(0);
             DisableCulling();
         }
-
-      
 
         public override void RenderModel()
         {

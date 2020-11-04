@@ -1,10 +1,7 @@
-﻿using Simple_Engine.Engine;
-using OpenTK;
+﻿using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.ToolBox
 {
@@ -19,11 +16,11 @@ namespace Simple_Engine.ToolBox
             transform = matTrans * transform;
 
             var rotvalue = Matrix4.CreateFromQuaternion(rot);
-            if(float.IsNaN(rotvalue.Determinant))
+            if (float.IsNaN(rotvalue.Determinant))
             {
                 rotvalue = Matrix4.Identity;
             }
-            transform =  rotvalue * transform;
+            transform = rotvalue * transform;
 
             return transform;
         }

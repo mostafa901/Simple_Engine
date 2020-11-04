@@ -1,13 +1,7 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.Texture;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Terrain.Render
 {
@@ -41,7 +35,6 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
             shaderModel.SetInt(RoadTextureLocation, 2);
             shaderModel.SetInt(DirtTexureLocation, 3);
             shaderModel.SetInt(GrassTextureLocation, 4);
-            
         }
     }
 }

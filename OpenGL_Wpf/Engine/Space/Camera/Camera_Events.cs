@@ -163,15 +163,16 @@ namespace Simple_Engine.Engine.Space.Camera
 
             if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
             {
-                //rotate around object, no need to translate target
+                //when touring around an object, it is always better to keep the target a reasonable distance from camera
+
                 if (Base_Geo.SelectedModel != null)
                 {
-                    AnimateCameraTarget(Base_Geo.SelectedModel.BBX.GetCG(), 100);
+                    AnimateCameraTarget(Base_Geo.SelectedModel.BBX.GetCG(), 1000);
                 }
             }
             else
             {
-                //Target += transVector;
+                //when 3D Person View touring around it is always better to keep the target a reasonable distance from camera
                 Target = Position - Direction * 3;
             }
 

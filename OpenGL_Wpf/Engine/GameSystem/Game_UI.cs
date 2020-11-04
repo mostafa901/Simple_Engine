@@ -19,7 +19,6 @@ namespace Simple_Engine.Engine.GameSystem
             _controller = new ImGuiController(Width, Height);
             Imgui_Settings();
             KeyPress += Game_KeyPress;
-
         }
 
         public void Imgui_Settings()

@@ -71,7 +71,7 @@ namespace Simple_Engine.Engine.Space.Scene
         }
 
         public void PrepareForRender(Shader shaderModel)
-        { 
+        {
             if (ModelstoRemove.Any())
             {
                 while (ModelstoRemove.Any())
@@ -84,7 +84,6 @@ namespace Simple_Engine.Engine.Space.Scene
 
             if (ModelsforUpload.Any())
             {
-
                 var id = 0;
                 if (geoModels.Any()) id = geoModels.Max(o => o.Id);
                 int max = 10;
@@ -228,12 +227,11 @@ namespace Simple_Engine.Engine.Space.Scene
                 }
             }
             RunOnAllShaders.Clear();
-
         }
 
         internal void UpLoadModels(IDrawable model)
         {
-            model.Id = geoModels.Count;            
+            model.Id = geoModels.Count;
             ModelsforUpload.Push(model);
         }
 
@@ -271,7 +269,8 @@ namespace Simple_Engine.Engine.Space.Scene
             CameraModel.PlanCamera.UpdateCamera();
 
             CameraModel.ActiveCamera = CameraModel.Create(this, CameraModel.CameraType.Perspective);
-            //CameraModel.ActiveCamera.AnimateCameraPosition
+            CameraModel.ActiveCamera.AnimateCameraPosition(new Vector3(-2, 1f, -2), 2000);
+            CameraModel.ActiveCamera.AnimateCameraTarget(new Vector3(0, 1f, 0), 2000);
         }
 
         private void Setup_Events()
@@ -282,7 +281,7 @@ namespace Simple_Engine.Engine.Space.Scene
 
         private void Setup_Grid()
         {
-         //   GameFactory.DrawGrid(this);
+            //   GameFactory.DrawGrid(this);
         }
 
         private void Setup_RenderSetings()

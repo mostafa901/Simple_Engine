@@ -2,13 +2,9 @@
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.ImGui_Set.Controls;
-using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
-using System.Linq;
-using System.Windows.Media.Media3D;
 
 namespace Simple_Engine.Engine.ImGui_Set
 {
@@ -72,7 +68,7 @@ namespace Simple_Engine.Engine.ImGui_Set
                      bt.color = Imgui_Button.defaultColor;
                  }
              };
-             bt.ButtonAction = action;
+            bt.ButtonAction = action;
         }
 
         private static void Add_Imgui_V3Position(Base_Geo model, Imgui_Expander imgui_properties)
@@ -99,7 +95,6 @@ namespace Simple_Engine.Engine.ImGui_Set
                 });
         }
 
-     
         private static void Add_String(Base_Geo model, Imgui_Expander imgui_expander, System.Reflection.PropertyInfo prop)
         {
             new Imgui_InputString(imgui_expander, prop.Name, () => (string)prop.GetValue(model),

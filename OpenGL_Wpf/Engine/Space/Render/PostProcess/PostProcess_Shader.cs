@@ -1,9 +1,4 @@
 ﻿using Simple_Engine.Engine.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Space.Render.PostProcess
 {
@@ -34,7 +29,7 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
 
                 case PostProcessName.hBlure:
                     fragPath = $"{path}Blur_Frag.frag";
-                    vertPath = $"{path}PostProcess_HBlurVert.vert"; 
+                    vertPath = $"{path}PostProcess_HBlurVert.vert";
                     break;
 
                 default:

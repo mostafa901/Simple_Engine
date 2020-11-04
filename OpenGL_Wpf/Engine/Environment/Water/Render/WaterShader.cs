@@ -1,11 +1,5 @@
 ﻿using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
 using Simple_Engine.Engine.Space.Camera;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -13,7 +7,6 @@ namespace Simple_Engine.Engine.Water.Render
     {
         public WaterShader(ShaderMapType mapType, ShaderPath shaderType) : base(mapType, shaderType)
         {
-            
         }
 
         public int DudvLocation;
@@ -24,7 +17,6 @@ namespace Simple_Engine.Engine.Water.Render
         public int DepthMapLocation { get; private set; }
         public int ReflectionLocation { get; private set; }
         public int RefractionLocation { get; private set; }
-    
 
         public override void LoadAllUniforms()
         {
@@ -37,8 +29,6 @@ namespace Simple_Engine.Engine.Water.Render
             NormalMapLocation = GetLocation("NormalMap");
             DepthMapLocation = GetLocation("DepthMap");
         }
-
-        
 
         public override void BindAttributes()
         {

@@ -1,18 +1,9 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Axis.Render;
-using Simple_Engine.Engine.Geometry.Core;
-using Simple_Engine.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Engine.Geometry.TwoD;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Axis
 {
@@ -27,7 +18,6 @@ namespace Simple_Engine.Engine.Geometry.Axis
             DefaultColor = new Vector4(direction, 1);
             LocalTransform = parentGeometry.LocalTransform;
             IsBlended = true;
-
         }
 
         public IDrawable ParentGeometry { get; }
@@ -39,7 +29,6 @@ namespace Simple_Engine.Engine.Geometry.Axis
 
             CullMode = CullFaceMode.FrontAndBack;
 
-            
             LocalTransform = eMath.MoveLocal(LocalTransform, ParentGeometry.PivotPoint);
 
             if (Direction == Vector3.UnitY)

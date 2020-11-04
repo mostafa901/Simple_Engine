@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Primitives
 {
-    public class Vertex3: baseVertex
+    public class Vertex3 : baseVertex
     {
         public Vertex3() : base()
         {
-            Z=0;
+            Z = 0;
         }
+
         public Vertex3(float x, float y, float z) : base(x, y)
         {
             Z = z;
@@ -31,9 +28,8 @@ namespace Simple_Engine.Engine.Primitives
 
         public Vertex3 Subtract(Vertex3 v)
         {
-            return new Vertex3(X-v.X, Y-v.Y , Z-v.Z );
+            return new Vertex3(X - v.X, Y - v.Y, Z - v.Z);
         }
-
 
         public Vertex3 Normalize()
         {
@@ -50,8 +46,6 @@ namespace Simple_Engine.Engine.Primitives
         public float Length()
         {
             return (float)Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2));
-            
         }
-
     }
 }

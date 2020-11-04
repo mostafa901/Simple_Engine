@@ -64,11 +64,11 @@ namespace Simple_Engine.Engine.Core
             Float_KeyFrame[] keysets = new Float_KeyFrame[2];
             for (int i = 1; i < KeyFrames.Count; i++)
             {
-                var key = KeyFrames.ElementAt(i) ;
+                var key = KeyFrames.ElementAt(i);
 
                 if (key.timeStamp > Timeelapsed)
                 {
-                    var key0 = KeyFrames.ElementAt(i - 1) ;
+                    var key0 = KeyFrames.ElementAt(i - 1);
                     var key1 = key;
 
                     diffVector = key1.Position - key0.Position;

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simple_Engine.Engine.Primitives
+﻿namespace Simple_Engine.Engine.Primitives
 {
-    public  class baseVertex
+    public class baseVertex
     {
         public baseVertex()
         {
             X = Y = 0;
         }
+
         public baseVertex(float x, float y)
         {
             X = x;
@@ -26,10 +21,9 @@ namespace Simple_Engine.Engine.Primitives
             return new float[2] { X, Y };
         }
 
-        public  baseVertex Add(baseVertex v)
+        public baseVertex Add(baseVertex v)
         {
             return new baseVertex(v.X + X, v.Y + Y);
         }
-
     }
 }

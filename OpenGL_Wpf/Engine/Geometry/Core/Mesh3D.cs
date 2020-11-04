@@ -1,18 +1,11 @@
 ﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Events;
-using Simple_Engine.Engine.Geometry.TwoD;
+using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
 using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Core
 {
@@ -20,7 +13,7 @@ namespace Simple_Engine.Engine.Geometry.Core
     {
         public IDrawable Parent { get; }
 
-        public List<ParticleModel> Particles { get ; set ; }
+        public List<ParticleModel> Particles { get; set; }
         public bool Selected { get; set; }
 
         public Mesh3D(IDrawable parent)

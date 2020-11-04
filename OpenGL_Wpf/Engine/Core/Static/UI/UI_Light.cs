@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Space.Scene;
@@ -28,7 +27,7 @@ namespace Simple_Engine.Engine.Core.Static
             ImGui.SetNextWindowDockID(1);
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - UI_Game.TotalHeight));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
-            if (ImGui.Begin("Light", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse ))
+            if (ImGui.Begin("Light", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse))
             {
                 UI_Shared.Render_Name(light);
 

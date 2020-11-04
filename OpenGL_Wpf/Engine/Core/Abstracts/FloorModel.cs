@@ -1,11 +1,6 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
+﻿using OpenTK;
+using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
-using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {

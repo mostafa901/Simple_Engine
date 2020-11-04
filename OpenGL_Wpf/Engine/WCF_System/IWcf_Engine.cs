@@ -2,7 +2,7 @@
 
 namespace Simple_Engine.Engine.WCF_System
 {
-    [ServiceContract(Namespace = "http://Simple_Engine",ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
+    [ServiceContract(Namespace = "http://Simple_Engine", ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
     internal interface IWcf_Engine
     {
         [OperationContract]

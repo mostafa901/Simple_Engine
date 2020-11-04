@@ -1,25 +1,10 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Core;
-
-using Simple_Engine.Engine.Primitives;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
 using Simple_Engine.Extentions;
-using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Platform.Windows;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using static Simple_Engine.Engine.Core.Abstracts.Base_Geo;
 
 namespace Simple_Engine.Engine.Geometry.Render
 {
@@ -38,7 +23,7 @@ namespace Simple_Engine.Engine.Geometry.Render
             BindIndicesBuffer(((IDrawable3D)Model).Indeces.ToArray());
 
             StoreDataInAttributeList(PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
-            
+
             StoreDataInAttributeList(TextureLocation, Model.TextureCoordinates.GetArray(), 2);
             StoreDataInAttributeList(NormalLocation, Model.Normals.GetArray(), 3);
             if (geometryModel.ShaderModel.EnableInstancing)
@@ -52,16 +37,15 @@ namespace Simple_Engine.Engine.Geometry.Render
             }
             else
             {
-                StoreDataInAttributeList(InstancesSelectedLocation,new float[] { (float) Convert.ToInt32(Model.GetSelected()) }, 1);
+                StoreDataInAttributeList(InstancesSelectedLocation, new float[] { (float)Convert.ToInt32(Model.GetSelected()) }, 1);
             }
             if (Model.NormalTangent.Any())
             {
                 StoreDataInAttributeList(TangentsLocation, Model.NormalTangent.GetArray(), 3);
             }
-            if(Model.VertixColor.Any())
+            if (Model.VertixColor.Any())
             {
                 StoreDataInAttributeList(VertexColorLocation, Model.VertixColor.GetArray(), 4);
-
             }
             GL.BindVertexArray(0);
         }
@@ -71,22 +55,21 @@ namespace Simple_Engine.Engine.Geometry.Render
             base.PreDraw();
             GL.BindVertexArray(VAO);//access to memory location
             GL.EnableVertexAttribArray(PositionLocation);//position
-            if(geometryModel.Dynamic.HasFlag(IDrawable.DynamicFlag.Positions))
+            if (geometryModel.Dynamic.HasFlag(IDrawable.DynamicFlag.Positions))
             {
                 StoreDataInAttributeList(PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
-
             }
             GL.EnableVertexAttribArray(TextureLocation);//texture
             GL.EnableVertexAttribArray(NormalLocation);//normal
 
             if (Model.NormalTangent.Any())
             {
-                GL.EnableVertexAttribArray(TangentsLocation); 
+                GL.EnableVertexAttribArray(TangentsLocation);
             }
 
             if (Model.VertixColor.Any())
             {
-                GL.EnableVertexAttribArray(VertexColorLocation); 
+                GL.EnableVertexAttribArray(VertexColorLocation);
             }
 
             if (geometryModel.ShaderModel.EnableInstancing)
@@ -101,9 +84,8 @@ namespace Simple_Engine.Engine.Geometry.Render
                 UploadMeshes(3, Model.Meshes);
                 UpdateSelectedMeshes(4, Model.Meshes);
             }
-             
+
             EnableCulling();
-            
         }
 
         public override void DrawModel()

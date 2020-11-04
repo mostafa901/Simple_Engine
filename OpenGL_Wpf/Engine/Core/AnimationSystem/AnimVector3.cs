@@ -30,6 +30,7 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
         }
 
         public event EventHandler<AnimationFinished_Event> OnFinish;
+
         public Action<Vector3> AnimationAction { get; }
         public Vector3 End { get; }
         public IRenderable Model { get; }
@@ -47,7 +48,7 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
             var keys = CurrentandPreviousFrame();
             if (Completed)
             {
-                OnFinish?.Invoke(null,null);
+                OnFinish?.Invoke(null, null);
                 return;
             }
 
@@ -58,6 +59,7 @@ namespace Simple_Engine.Engine.Core.AnimationSystem
 
             AnimationAction(moveValue);
         }
+
         private KeyFrame[] CurrentandPreviousFrame()
         {
             KeyFrame[] keysets = new KeyFrame[2];

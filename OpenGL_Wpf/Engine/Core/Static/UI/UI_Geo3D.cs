@@ -1,11 +1,6 @@
 ﻿using ImGuiNET;
-using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Camera;
-using Simple_Engine.Engine.Space.Scene;
-using System;
 using System.Drawing;
 
 namespace Simple_Engine.Engine.Core.Static
@@ -48,7 +43,6 @@ namespace Simple_Engine.Engine.Core.Static
 
                 ImGui.EndGroup();
             }
-             
         }
 
         public static void Render_Clipping2(Base_Geo3D Model)
@@ -143,28 +137,6 @@ namespace Simple_Engine.Engine.Core.Static
                     ImGui.End();
                 }
             }
-        }
-
-        internal static void DeleteModel(IDrawable model)
-        {
-            var cmd = new cus_CMD();
-            Action<bool> response = (x) =>
-            {
-                if (x)
-                {
-                    Base_Geo.SelectedModel.Set_Selected(false);
-                    SceneModel.ActiveScene.RemoveModels(model);
-                }
-                Game.Instance.Dispose_RenderOnUIThread(cmd);
-            };
-            cmd.Action = (x) =>
-            {
-                string title = "Delete?";
-                ImGui.OpenPopup(title);
-
-                UI_Shared.Render_YesNOModalMessage(title, "do you Want to delete model?", response);
-            };
-            Game.Instance.RenderOnUIThread(cmd);
         }
     }
 }

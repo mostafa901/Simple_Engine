@@ -2,7 +2,6 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib;
-using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Static;
@@ -15,7 +14,6 @@ using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.Texture;
 using Simple_Engine.Engine.Space.Scene;
-using Simple_Engine.Engine.Static.InputControl;
 using Simple_Engine.ToolBox;
 using System;
 using System.Collections.Generic;
@@ -30,7 +28,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public static Base_Geo SelectedModel;
         private CubeModel SelectionBox;
 
-        
         public Base_Geo()
         {
             Name = this.GetType().Name;
@@ -70,8 +67,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public BoundingBox BBX { get; set; }
         public bool CanBeSaved { get; set; }
         public bool CastShadow { get; set; } = false;
-
-
 
         public CullFaceMode CullMode { get; set; } = CullFaceMode.Back;
         public Vector4 DefaultColor { get; set; }
@@ -121,7 +116,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         private float Width { get; set; } = 1;
         public string Uid { get; set; }
-        public IDrawable.DynamicFlag Dynamic { get ; set ; }
+        public IDrawable.DynamicFlag Dynamic { get; set; }
 
         public void ActivateShadowMap(LightModel lightSource)
         {
@@ -160,7 +155,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             PivotPoint = sourceModel.PivotPoint;
         }
 
-    
         public void Dispose()
         {
             ShaderModel.Dispose();
@@ -358,7 +352,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void UpdateBoundingBox()
         {
-
         }
 
         public virtual void UploadDefaults(Shader ShaderModel)
@@ -399,7 +392,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
         }
 
         public abstract List<face> generatefaces();
-        
 
         public struct face
         {
@@ -414,6 +406,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             public face ModelFace;
             public Vector3 NormalPlan;
         }
+
         public IntersectionResult Intersect(Vector3 worldRay, Vector3 cameraPosition)
         {
             var objectPos = LocalTransform.ExtractTranslation();
@@ -465,6 +458,5 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
             return res;
         }
-
     }
 }

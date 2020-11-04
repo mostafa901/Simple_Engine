@@ -27,7 +27,6 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void Dispose()
         {
-            
             var fbo = SceneModel.ActiveScene.FBOs.First(o => o.Name == FboName.WorldReflection);
             fbo.CleanUp();
 

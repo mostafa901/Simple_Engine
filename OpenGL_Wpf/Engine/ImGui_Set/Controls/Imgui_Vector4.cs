@@ -1,11 +1,7 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Extentions;
 using OpenTK;
+using Simple_Engine.Extentions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
@@ -24,8 +20,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
 
         public override void BuildModel()
         {
-           
-            if (ImGui.InputFloat4(Name, ref InitialValue,"00.00"))
+            if (ImGui.InputFloat4(Name, ref InitialValue, "00.00"))
             {
                 var vec4 = InitialValue.ToVector();
                 ButtonAction(vec4);

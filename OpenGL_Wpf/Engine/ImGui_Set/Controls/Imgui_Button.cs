@@ -1,10 +1,6 @@
 ﻿using ImGuiNET;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
@@ -22,9 +18,10 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
 
         public static readonly Vector4 defaultColor = new Vector4(114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f);
         public Vector4 color;
+
         public override void BuildModel()
         {
-            ImGui.PushStyleColor( ImGuiCol.Button,color);
+            ImGui.PushStyleColor(ImGuiCol.Button, color);
             if (ImGui.Button(Name))
             {
                 ButtonAction(null);

@@ -1,13 +1,8 @@
-﻿using Simple_Engine.Engine.Core.Serialize;
-using Simple_Engine.Engine.Geometry;
+﻿using OpenTK;
 using Simple_Engine.Engine.Geometry.Core;
-using OpenTK;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Importer
 {
@@ -15,7 +10,6 @@ namespace Simple_Engine.Engine.Importer
     {
         public static GeometryModel OBJFile(string path)
         {
-           
             var data = File.ReadAllLines(path);
             List<Vector3> vertices = new List<Vector3>();
             List<Vector2> textures = new List<Vector2>();
@@ -63,7 +57,7 @@ namespace Simple_Engine.Engine.Importer
                 }
             }
             geo.TextureCoordinates = textureArray.ToList();
-            geo.Normals = normalsArray.ToList(); 
+            geo.Normals = normalsArray.ToList();
 
             return geo;
         }

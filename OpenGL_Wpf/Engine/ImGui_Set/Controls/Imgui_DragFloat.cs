@@ -1,11 +1,5 @@
 ﻿using ImGuiNET;
-using Simple_Engine.Extentions;
-using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
@@ -15,9 +9,10 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
         {
             Name = name;
             InitialValue = initialValue;
-           
+
             ButtonAction = buttonAction;
         }
+
         public float Min = 0;
         public float Max = float.PositiveInfinity;
         private Func<float> InitialValue;
@@ -26,13 +21,12 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
 
         public override void BuildModel()
         {
-
             if (PreviousValue == 1 * (float)Math.E)
             {
                 PreviousValue = InitialValue();
             }
             var val = InitialValue();
-            
+
             if (ImGui.DragFloat(Name, ref val, .01f, Min, Max))
             {
                 var vec3 = (val - PreviousValue);

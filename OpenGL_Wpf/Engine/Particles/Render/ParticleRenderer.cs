@@ -1,13 +1,9 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Extentions;
-using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Particles.Render
 {
@@ -18,14 +14,11 @@ namespace Simple_Engine.Engine.Particles.Render
         public ParticleRenderer(Base_Geo2D _model) : base(_model)
         {
             particleModel = _model;
-            
         }
 
-        
         public override void DrawModel()
         {
             GL.DrawElementsInstanced(geometryModel.DrawType, geometryModel.Indeces.Count, DrawElementsType.UnsignedInt, IntPtr.Zero, particleModel.Meshes.Count);
-
         }
 
         public override void EndDraw()
@@ -36,8 +29,8 @@ namespace Simple_Engine.Engine.Particles.Render
             {
                 GL.DisableVertexAttribArray(i);
             }
-     
-          //  GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusDstAlpha); //how Blending should work in this Scene
+
+            //  GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusDstAlpha); //how Blending should work in this Scene
 
             GL.DepthMask(true);
             GL.BindVertexArray(0);
@@ -53,12 +46,11 @@ namespace Simple_Engine.Engine.Particles.Render
             {
                 GL.EnableVertexAttribArray(i);
             }
-           
 
             GL.DepthMask(false);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.One); //how Blending should work in this Scene
             particleModel.Live_Update(particleModel.ShaderModel);
-            UploadMeshes(InstancesMatrix,particleModel.Meshes);
+            UploadMeshes(InstancesMatrix, particleModel.Meshes);
             UploadTextureOffset(3);
             UploadBlend(4);
         }
@@ -69,7 +61,7 @@ namespace Simple_Engine.Engine.Particles.Render
             var dataArray = particleModel.Meshes.Select(o => ((ParticleMesh)o).BlendValue).ToArray();
 
             //now stream these vertex (array type) to the located buffer in the GPU
-            GL.BufferData(BufferTarget.ArrayBuffer, particleModel.Meshes.Count * sizeof(float) , dataArray, BufferUsageHint.DynamicDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, particleModel.Meshes.Count * sizeof(float), dataArray, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
@@ -103,7 +95,5 @@ namespace Simple_Engine.Engine.Particles.Render
 
             GL.BindVertexArray(0);
         }
-
-       
     }
 }

@@ -4,11 +4,12 @@ namespace Simple_Engine.Engine.GameSystem
 {
     public static class DisplayManager
     {
-    public enum RenderBufferType
-    {
-    Normal,
-    Selection
-    }
+        public enum RenderBufferType
+        {
+            Normal,
+            Selection
+        }
+
         private static double LastFrameTime;
         public static float UpdatePeriod;
 
@@ -43,8 +44,6 @@ namespace Simple_Engine.Engine.GameSystem
             LastFrameTime = DateTime.Now.TimeOfDay.TotalSeconds;
             UpdateSize(width, height);
         }
-
-        
 
         public static void FixTime()
         {

@@ -1,11 +1,4 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Effects;
+﻿using Simple_Engine.Engine.Render;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render
 {

@@ -1,5 +1,4 @@
-﻿using Simple_Engine.Engine;
-using Simple_Engine.Engine.GameSystem;
+﻿using Simple_Engine.Engine.GameSystem;
 using System;
 using System.Windows;
 
@@ -12,7 +11,7 @@ namespace Simple_Engine
     {
         public App()
         {
-            using (var game = new Game((int)(800*1.3f), 800, "Game"))
+            using (var game = new Game((int)(800 * 1.3f), 800, "Game"))
             {
                 game.Run(30);
             }

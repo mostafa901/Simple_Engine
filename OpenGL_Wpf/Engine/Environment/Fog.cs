@@ -43,8 +43,6 @@ namespace Simple_Engine.Engine.Space.Environment
             FogColor = new Vector4(fogColor, 1);
         }
 
-        
-
         public void PostRender(Shader ShaderModel)
         {
             throw new NotImplementedException();
@@ -64,7 +62,6 @@ namespace Simple_Engine.Engine.Space.Environment
         {
             ShaderModel.SetBool(ShaderModel.HasFogLocation, Active);
 
-            
             ShaderModel.SetVector4(ShaderModel.FogColorLocation, FogColor);
             ShaderModel.SetFloat(ShaderModel.FogDensityLocation, Density);
             ShaderModel.SetFloat(ShaderModel.FogSpeedLocation, FogSpeed);

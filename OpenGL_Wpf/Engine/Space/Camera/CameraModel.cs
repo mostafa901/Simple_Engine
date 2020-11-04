@@ -45,7 +45,6 @@ namespace Simple_Engine.Engine.Space.Camera
 
         public CameraModel(SceneModel activeScene, CameraType plan)
         {
-            Name = "Active Camera";
             this.scene = activeScene;
             ViewType = plan;
             switch (plan)

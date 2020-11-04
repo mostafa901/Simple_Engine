@@ -6,8 +6,6 @@
 
         public void Render_UIControls()
         {
-           
-
         }
     }
 }

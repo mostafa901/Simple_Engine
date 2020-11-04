@@ -1,26 +1,21 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Geometry.Core;
-
-using Simple_Engine.Engine.Render;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Render;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.TwoD
 {
-    public class Hilbert: Base_Geo2D
+    public class Hilbert : Base_Geo2D
     {
-        int Count;
+        private int Count;
+
         public Hilbert(int count)
         {
             Count = count;
             BuildModel();
-            ShaderModel = new Shader( ShaderMapType.LoadColor, ShaderPath.Default);
+            ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Default);
         }
 
         public enum direction
@@ -98,14 +93,14 @@ namespace Simple_Engine.Engine.Geometry.TwoD
             Setup_Indeces();
         }
 
-        public override void Setup_TextureCoordinates(float xScale= 1, float yScale = 1)
+        public override void Setup_TextureCoordinates(float xScale = 1, float yScale = 1)
         {
             for (int i = 0; i < Positions.Count; i += 4)
             {
                 TextureCoordinates.Add(new Vector2(0, 0));
-                TextureCoordinates.Add(new Vector2(0, 1*yScale));
-                TextureCoordinates.Add(new Vector2(1*xScale, 1*yScale));
-                TextureCoordinates.Add(new Vector2(1*xScale, 0));
+                TextureCoordinates.Add(new Vector2(0, 1 * yScale));
+                TextureCoordinates.Add(new Vector2(1 * xScale, 1 * yScale));
+                TextureCoordinates.Add(new Vector2(1 * xScale, 0));
             }
         }
 

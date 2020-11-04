@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using ImGuiNET;
-using Simple_Engine.Engine.ImGui_Set.Render;
+﻿using ImGuiNET;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using Simple_Engine.Engine.ImGui_Set.Render;
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Simple_Engine.Engine.ImGui_Set
 {
@@ -23,6 +19,7 @@ namespace Simple_Engine.Engine.ImGui_Set
 
         // Veldrid objects
         private int _vertexArray;
+
         private int _vertexBuffer;
         private int _vertexBufferSize;
         private int _indexBuffer;
@@ -155,7 +152,7 @@ void main()
             ImGuiIOPtr io = ImGui.GetIO();
             io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
 
-            _fontTexture = new  Imgui_TextureModel("ImGui Text Atlas", width, height, pixels);
+            _fontTexture = new Imgui_TextureModel("ImGui Text Atlas", width, height, pixels);
             _fontTexture.SetMagFilter(TextureMagFilter.Linear);
             _fontTexture.SetMinFilter(TextureMinFilter.Linear);
 
@@ -213,9 +210,9 @@ void main()
             io.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
         }
 
-        MouseState PrevMouseState;
-        KeyboardState PrevKeyboardState;
-        readonly List<char> PressedChars = new List<char>();
+        private MouseState PrevMouseState;
+        private KeyboardState PrevKeyboardState;
+        private readonly List<char> PressedChars = new List<char>();
 
         private void UpdateImGuiInput(GameWindow wnd)
         {
@@ -254,7 +251,6 @@ void main()
             PrevMouseState = MouseState;
             PrevKeyboardState = KeyboardState;
         }
-
 
         internal void PressChar(char keyChar)
         {
@@ -322,7 +318,6 @@ void main()
 
                 Console.WriteLine($"Resized index buffer to new size {_indexBufferSize}");
             }
-
 
             for (int i = 0; i < draw_data.CmdListsCount; i++)
             {
@@ -392,7 +387,7 @@ void main()
                         // We do _windowHeight - (int)clip.W instead of (int)clip.Y because gl has flipped Y when it comes to these coordinates
                         var clip = pcmd.ClipRect;
                         GL.Scissor((int)clip.X, _windowHeight - (int)clip.W, (int)(clip.Z - clip.X), (int)(clip.W - clip.Y));
-                        
+
                         Util.CheckGLError("Scissor");
 
                         GL.DrawElementsBaseVertex(PrimitiveType.Triangles, (int)pcmd.ElemCount, DrawElementsType.UnsignedShort, (IntPtr)(idx_offset * sizeof(ushort)), vtx_offset);
@@ -407,8 +402,6 @@ void main()
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.ScissorTest);
             GL.Enable(EnableCap.DepthTest);
-
-
         }
 
         /// <summary>

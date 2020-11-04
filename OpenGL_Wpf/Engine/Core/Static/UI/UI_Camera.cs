@@ -44,13 +44,48 @@ namespace Simple_Engine.Engine.Core.Static
                 Render_Target();
                 RenderCameraLine();
                 Render_Test();
-
                 Render_Clipping();
+
+                Render_CameraList();
 
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
             ImGui.PopStyleVar();
+        }
+
+        private static void Render_CameraList()
+        {
+            if (ImGui.Button("Save Camera"))
+            {
+                string cameraName = CameraModel.ActiveCamera.Name;
+                if (string.IsNullOrEmpty(cameraName))
+                {
+                    UI_Shared.Render_Message("Name First", "Please add a name to the current camera");
+
+                    return;
+                }
+
+                var newCamera = CameraModel.Create(SceneModel.ActiveScene, CameraModel.ActiveCamera.ViewType);
+                newCamera.Name = cameraName;
+                newCamera.Position = camera.Position;
+                newCamera.Target = camera.Target;
+                newCamera.UpdateCamera();
+                SceneModel.ActiveScene.CameraModels.Add(newCamera);
+            }
+
+            if (SceneModel.ActiveScene.CameraModels.Any())
+            {
+                int selection = -1;
+                string[] camnames = SceneModel.ActiveScene.CameraModels.Select(o => o.Name).ToArray();
+                if (ImGui.ListBox("Saved Cameras", ref selection, camnames, camnames.Length))
+                {
+                    if (selection != -1)
+                    {
+                        CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.ElementAt(selection));
+                    }
+                }
+            }
         }
 
         private static void Render_Test()
@@ -126,7 +161,6 @@ namespace Simple_Engine.Engine.Core.Static
                 camera.Position = pos.ToVector();
                 camera.UpdateCamera();
             }
-
         }
 
         private static void Render_Target()

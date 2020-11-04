@@ -1,14 +1,8 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Core;
+﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Space;
 using Simple_Engine.Extentions;
-using OpenTK.Graphics.OpenGL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Fonts
 {
@@ -20,9 +14,10 @@ namespace Simple_Engine.Engine.Fonts
         public int EBO { get; set; }
         private int VAO { get; set; }
         private CharacterModel model { get; set; }
-        public FontRender(IDrawable2D model):base(model)
+
+        public FontRender(IDrawable2D model) : base(model)
         {
-           geometryModel. CullMode = CullFaceMode.Back;
+            geometryModel.CullMode = CullFaceMode.Back;
         }
 
         public override void RenderModel()
@@ -50,7 +45,7 @@ namespace Simple_Engine.Engine.Fonts
 
         public override void DrawModel()
         {
-            model.Live_Update(model.ShaderModel);           
+            model.Live_Update(model.ShaderModel);
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, model.Positions.Count);
         }
 
@@ -59,7 +54,6 @@ namespace Simple_Engine.Engine.Fonts
             GL.DisableVertexAttribArray(PositionLocation);
             GL.DisableVertexAttribArray(TextureLocation);
             GL.BindVertexArray(0);
-
         }
 
         public override void Dispose()
@@ -72,7 +66,5 @@ namespace Simple_Engine.Engine.Fonts
             }
             VBOs.Clear();
         }
-
-    
     }
 }

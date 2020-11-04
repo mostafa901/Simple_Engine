@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Scene;
@@ -20,35 +21,80 @@ namespace Simple_Engine.Engine.Core.Static
 
         public static void Render_YesNOModalMessage(string Name, string Message, Action<bool> ResponseAction)
         {
-            bool isOpen = true;
+            var cmd = new cus_CMD();
 
-            // Always center this window when appearing
-            System.Numerics.Vector2 center = new System.Numerics.Vector2(ImGui.GetIO().DisplaySize.X * 0.5f, ImGui.GetIO().DisplaySize.Y * 0.5f);
-            ImGui.SetNextWindowPos(center, ImGuiCond.Appearing, new System.Numerics.Vector2(0.5f, 0.5f));
-
-            if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize))
+            cmd.Action = (x) =>
             {
-                disableKey = true;
-                ImGui.Text(Message);
-                ImGui.Separator();
+                ImGui.OpenPopup(Name);
 
-                if (ImGui.Button("Yes", new System.Numerics.Vector2(120, 0)))
-                {
-                    ResponseAction(true);
-                    ImGui.CloseCurrentPopup();
-                    disableKey = isOpen = false;
-                }
-                ImGui.SetItemDefaultFocus();
-                ImGui.SameLine();
-                if (ImGui.Button("Cancel", new System.Numerics.Vector2(120, 0)))
-                {
-                    ResponseAction(false);
-                    ImGui.CloseCurrentPopup();
-                    disableKey = isOpen = false;
-                }
+                bool isOpen = true;
 
-                ImGui.EndPopup();
-            }
+                // Always center this window when appearing
+                System.Numerics.Vector2 center = new System.Numerics.Vector2(ImGui.GetIO().DisplaySize.X * 0.5f, ImGui.GetIO().DisplaySize.Y * 0.5f);
+                ImGui.SetNextWindowPos(center, ImGuiCond.Appearing, new System.Numerics.Vector2(0.5f, 0.5f));
+
+                if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize))
+                {
+                    disableKey = true;
+                    ImGui.Text(Message);
+                    ImGui.Separator();
+
+                    if (ImGui.Button("Yes", new System.Numerics.Vector2(120, 0)))
+                    {
+                        ResponseAction(true);
+                        Game.Instance.Dispose_RenderOnUIThread(cmd);
+
+                        ImGui.CloseCurrentPopup();
+                        disableKey = isOpen = false;
+                    }
+                    ImGui.SetItemDefaultFocus();
+                    ImGui.SameLine();
+                    if (ImGui.Button("Cancel", new System.Numerics.Vector2(120, 0)))
+                    {
+                        ResponseAction(false);
+                        Game.Instance.Dispose_RenderOnUIThread(cmd);
+
+                        ImGui.CloseCurrentPopup();
+                        disableKey = isOpen = false;
+                    }
+
+                    ImGui.EndPopup();
+                }
+            };
+            Game.Instance.RenderOnUIThread(cmd);
+        }
+
+        public static void Render_Message(string Name, string Message)
+        {
+            var cmd = new cus_CMD();
+            cmd.Action = (a) =>
+            {
+                bool isOpen = true;
+                ImGui.OpenPopup(Name);
+
+                // Always center this window when appearing
+                System.Numerics.Vector2 center = new System.Numerics.Vector2(ImGui.GetIO().DisplaySize.X * 0.5f, ImGui.GetIO().DisplaySize.Y * 0.5f);
+                ImGui.SetNextWindowPos(center, ImGuiCond.Appearing, new System.Numerics.Vector2(0.5f, 0.5f));
+
+                if (ImGui.BeginPopupModal(Name, ref isOpen, ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize))
+                {
+                    disableKey = true;
+                    ImGui.Text(Message);
+                    ImGui.Separator();
+
+                    if (ImGui.Button("OK", new System.Numerics.Vector2(120, 0)))
+                    {
+                        Game.Instance.Dispose_RenderOnUIThread(cmd);
+
+                        ImGui.CloseCurrentPopup();
+                        disableKey = isOpen = false;
+                    }
+                    ImGui.SetItemDefaultFocus();
+
+                    ImGui.EndPopup();
+                }
+            };
+            Game.Instance.RenderOnUIThread(cmd);
         }
 
         public static bool isInputChanged(string name, ref string val)
@@ -81,8 +127,7 @@ namespace Simple_Engine.Engine.Core.Static
 
         public static void Render_IsActive(IDrawable model)
         {
-            
-            string active = model.IsActive? $"Deactivate ##{model.Id}" : $"Activate ##{model.Id}";
+            string active = model.IsActive ? $"Deactivate ##{model.Id}" : $"Activate ##{model.Id}";
 
             if (ImGui.Button(active))
             {
@@ -90,8 +135,7 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-       
-          internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p, float min = float.NegativeInfinity, float max = float.PositiveInfinity, float step = .1f)
+        internal static void DragFloat(string name, ref float val, ref float prev, Action<float> p, float min = float.NegativeInfinity, float max = float.PositiveInfinity, float step = .1f)
         {
             if (ImGui.DragFloat(name, ref val, step, min, max))
             {

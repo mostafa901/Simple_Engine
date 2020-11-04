@@ -39,15 +39,14 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
             for (int i = -length; i <= length; i++)
             {
-
                 /* Horizontal lines. */
-                Positions.Add(new OpenTK.Vector3((int)campos.X - length, 0, (int)campos.Z + i)*2);
-                Positions.Add(new OpenTK.Vector3((int)campos.X + length, 0, (int)campos.Z + i)*2);
-            //}
-            /* Vertical lines. */
-            
-                Positions.Add(new OpenTK.Vector3((int)campos.X + i, 0, (int)campos.Z - length)*2);
-                Positions.Add(new OpenTK.Vector3((int)campos.X + i, 0, (int)campos.Z + length)*2);
+                Positions.Add(new OpenTK.Vector3((int)campos.X - length, 0, (int)campos.Z + i) * 2);
+                Positions.Add(new OpenTK.Vector3((int)campos.X + length, 0, (int)campos.Z + i) * 2);
+                //}
+                /* Vertical lines. */
+
+                Positions.Add(new OpenTK.Vector3((int)campos.X + i, 0, (int)campos.Z - length) * 2);
+                Positions.Add(new OpenTK.Vector3((int)campos.X + i, 0, (int)campos.Z + length) * 2);
             }
         }
 

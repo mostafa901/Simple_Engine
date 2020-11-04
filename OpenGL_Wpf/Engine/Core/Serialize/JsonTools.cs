@@ -1,27 +1,20 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.ImGui_Set.Controls;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Core.Serialize
 {
     internal class JsonTools
     {
-
         public static JsonSerializerSettings GetSettings()
         {
             var js = new JsonSerializerSettings();
             js.Converters.Add(new VectorConverter());
-           // js.Formatting = Formatting.Indented;
+            // js.Formatting = Formatting.Indented;
 #if false
             js.ContractResolver = new JsonTools.JsonResolver(
                new List<Type>
@@ -30,8 +23,7 @@ namespace Simple_Engine.Engine.Core.Serialize
                 typeof(KeyControl),
                 typeof(List<ImgUI_Controls>),
                 typeof(List<ClipPlan>),
-
-               }); 
+               });
 #endif
 
             return js;
@@ -40,6 +32,7 @@ namespace Simple_Engine.Engine.Core.Serialize
         public class JsonResolver : DefaultContractResolver
         {
             private readonly HashSet<Type> ignoreProps;
+
             public JsonResolver(IEnumerable<Type> propNamesToIgnore)
             {
                 this.ignoreProps = new HashSet<Type>(propNamesToIgnore);
@@ -57,7 +50,7 @@ namespace Simple_Engine.Engine.Core.Serialize
             }
         }
 
-        class VectorConverter : JsonConverter
+        private class VectorConverter : JsonConverter
         {
             public override bool CanConvert(Type objectType)
             {

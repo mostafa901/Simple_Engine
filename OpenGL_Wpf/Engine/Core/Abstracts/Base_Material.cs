@@ -1,25 +1,20 @@
 ﻿using OpenTK;
-using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Opticals;
 using Simple_Engine.Engine.Render;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {
     public class Base_Material : IMaterial
     {
-        public  Gloss Glossiness { get; set; }
-        public string Name { get ; set ; }
-        public int Id { get ; set ; }
-        public IRenderable.BoundingBox BBX { get ; set ; }
-        public ImgUI_Controls Ui_Controls { get ; set ; }
-        public Vector4 DefaultColor { get  ; set  ; }
+        public Gloss Glossiness { get; set; }
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public IRenderable.BoundingBox BBX { get; set; }
+        public ImgUI_Controls Ui_Controls { get; set; }
+        public Vector4 DefaultColor { get; set; }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void BuildModel()
@@ -34,7 +29,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public void Live_Update()
         {
-           
         }
 
         public void Live_Update(Shader ShaderModel)
@@ -84,9 +78,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public virtual void UploadDefaults(Shader ShaderModel)
         {
-            Glossiness?.UploadDefaults(ShaderModel);    
+            Glossiness?.UploadDefaults(ShaderModel);
         }
-
-         
     }
 }

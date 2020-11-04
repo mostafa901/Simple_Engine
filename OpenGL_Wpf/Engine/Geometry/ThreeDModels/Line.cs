@@ -1,16 +1,8 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Geometry.Core;
-using Simple_Engine.Engine.Geometry.Render;
-using Simple_Engine.Engine.GUI.Render;
-using Simple_Engine.Engine.Primitives;
-using Simple_Engine.Engine.Render;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Simple_Engine.Engine.Core.Abstracts;
+using Simple_Engine.Engine.Geometry.Render;
+using Simple_Engine.Engine.Render;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
@@ -18,7 +10,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
     {
         public Line()
         {
-        
         }
 
         public Line(Vector3 a, Vector3 b)
@@ -34,7 +25,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
         public Vector3 StartPoint { get; set; }
         public Vector3 EndPoint { get; set; }
 
-       
         public override void BuildModel()
         {
             Setup_Position();
@@ -44,7 +34,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
 
         public override void Setup_Indeces()
         {
-          
         }
 
         public override void Setup_Normals()
@@ -61,10 +50,8 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Positions.Clear();
             Positions.Add(StartPoint);
             Positions.Add(EndPoint);
-            
         }
 
-         
         public override void Setup_TextureCoordinates(float xScale = 1, float yScale = 1)
         {
             TextureCoordinates.Clear();
@@ -77,7 +64,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
         public override void Live_Update(Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
-
         }
 
         public override void UploadVAO()

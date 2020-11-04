@@ -3,7 +3,6 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
-using System;
 
 namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
 {
@@ -41,7 +40,6 @@ namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
                 {
                     CameraModel.ClipPlanZ.MoveTo(pos);
                 }
-                
             }
             else
             {
@@ -113,7 +111,5 @@ namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
             SceneModel.ActiveScene.UpLoadModels(clip);
             return clip;
         }
-
-        
     }
 }

@@ -1,13 +1,4 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.TwoD;
-using Simple_Engine.Engine.GUI;
-using Simple_Engine.Engine.Render;
-using Simple_Engine.Engine.Water.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Simple_Engine.Engine.GUI;
 
 namespace Simple_Engine.Engine.Space.Render.PostProcess
 {

@@ -1,20 +1,10 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render;
 using Simple_Engine.Engine.Render;
-using Simple_Engine.Extentions;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-
-using Shared_Lib;
-using Shared_Lib.Extention;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.Geometry.Cube
 {
@@ -28,8 +18,8 @@ namespace Simple_Engine.Engine.Geometry.Cube
 
         public CubeModel(float width)
         {
-            SetHeight(width );
-            SetWidth(width );
+            SetHeight(width);
+            SetWidth(width);
             SetDepth(width);
         }
 

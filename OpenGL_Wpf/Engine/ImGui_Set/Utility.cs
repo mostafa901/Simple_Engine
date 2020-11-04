@@ -1,18 +1,11 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Graphics.OpenGL;
 
 namespace Simple_Engine.Engine.ImGui_Set
 {
-
-    static class Util
+    internal static class Util
     {
         [Pure]
         public static float Clamp(float value, float min, float max)
@@ -85,4 +78,3 @@ namespace Simple_Engine.Engine.ImGui_Set
         }
     }
 }
-

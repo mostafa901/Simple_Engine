@@ -1,11 +1,5 @@
 ﻿using ImGuiNET;
-using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.ImGui_Set.Controls
 {
@@ -13,10 +7,10 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
     //https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
     public class Imgui_PopModalWindow : ImgUI_Controls
     {
-        public Imgui_PopModalWindow(ImgUI_Controls Parent,string name,string message, Func<bool> openCondition,Action<bool> acceptedAction) : base(Parent)
+        public Imgui_PopModalWindow(ImgUI_Controls Parent, string name, string message, Func<bool> openCondition, Action<bool> acceptedAction) : base(Parent)
         {
             Name = name;
-           
+
             Message = message;
             OpenCondition = openCondition;
             AcceptedAction = acceptedAction;
@@ -68,7 +62,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Controls
                     ImGui.CloseCurrentPopup();
                     isOpen = false;
                 }
-                 
+
                 ImGui.EndPopup();
             }
         }

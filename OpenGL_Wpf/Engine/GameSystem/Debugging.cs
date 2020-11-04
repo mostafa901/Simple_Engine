@@ -1,11 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple_Engine.Engine.GameSystem
 {
@@ -36,7 +32,6 @@ namespace Simple_Engine.Engine.GameSystem
             Debug.WriteLine($"OpenGL Message: {Marshal.PtrToStringAnsi(message)}");
             Debug.WriteLine($"OpenGL Parameter: {Marshal.PtrToStringAnsi(userParam)}");
             Debug.WriteLine($"\r\n\r\n\r\n***********End OpenGL Message**************\r\n\r\n\r\n");
-
         }
 
         #endregion Debugger

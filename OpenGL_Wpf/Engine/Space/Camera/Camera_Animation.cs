@@ -1,7 +1,6 @@
 ﻿using OpenTK;
 using Simple_Engine.Engine.Core;
 using Simple_Engine.Engine.Core.AnimationSystem;
-using Simple_Engine.Engine.GameSystem;
 
 namespace Simple_Engine.Engine.Space.Camera
 {
@@ -10,12 +9,14 @@ namespace Simple_Engine.Engine.Space.Camera
         public void UpdateViewTo(CameraModel cameraDistination)
         {
             CameraModel.ActiveCamera.ViewType = CameraType.None;
-            AnimateCameraHeight(cameraDistination.height);
+            if (!cameraDistination.IsPerspective)
+            {
+                AnimateCameraHeight(cameraDistination.height);
+            }
 
-
-            //todo: animate Float Width and height
             var posanimate = CameraModel.ActiveCamera.AnimateCameraPosition(cameraDistination.Position);
-            posanimate.OnFinish += (s, e) =>
+            CameraModel.ActiveCamera.AnimateCameraTarget(cameraDistination.Target);
+            CameraModel.ActiveCamera.AnimateCameraUP(cameraDistination.UP); posanimate.OnFinish += (s, e) =>
             {
                 CameraModel.ActiveCamera.ViewType = cameraDistination.ViewType;
                 if (cameraDistination.IsPerspective)
@@ -27,8 +28,6 @@ namespace Simple_Engine.Engine.Space.Camera
                     CameraModel.ActiveCamera.Activate_Ortho();
                 }
             };
-            CameraModel.ActiveCamera.AnimateCameraTarget(cameraDistination.Target);
-            CameraModel.ActiveCamera.AnimateCameraUP(cameraDistination.UP);
         }
 
         private void AnimateCameraHeight(float toHeight)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.ServiceModel;
 
 namespace Simple_Engine.Engine.WCF_System
@@ -27,13 +26,12 @@ namespace Simple_Engine.Engine.WCF_System
                 Console.WriteLine("Press <Enter> to terminate the service.");
                 Console.WriteLine();
                 Console.ReadLine();
-
             }
             catch (CommunicationException ce)
             {
                 Console.WriteLine("An exception occurred: {0}", ce.Message);
                 selfHost.Abort();
-             //   Debugger.Break();
+                //   Debugger.Break();
             }
         }
 

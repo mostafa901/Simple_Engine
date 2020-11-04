@@ -1,15 +1,7 @@
-﻿
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace Simple_Engine.Engine.ImGui_Set.Render
@@ -21,7 +13,7 @@ namespace Simple_Engine.Engine.ImGui_Set.Render
         R = TextureParameterName.TextureWrapR
     }
 
-    class Imgui_TextureModel : IDisposable
+    internal class Imgui_TextureModel : IDisposable
     {
         public const SizedInternalFormat Srgb8Alpha8 = (SizedInternalFormat)All.Srgb8Alpha8;
         public const SizedInternalFormat RGB32F = (SizedInternalFormat)All.Rgb32f;

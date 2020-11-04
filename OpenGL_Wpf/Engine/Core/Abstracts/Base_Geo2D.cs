@@ -1,41 +1,24 @@
-﻿using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.Axis;
-using Simple_Engine.Engine.Geometry.Core;
-using Simple_Engine.Engine.Core.Events;
-using Simple_Engine.Engine.Geometry.Render;
-using Simple_Engine.Engine.Illumination;
-using Simple_Engine.Engine.Particles;
-using Simple_Engine.Engine.Render;
-using Simple_Engine.Extentions;
-using Simple_Engine.ToolBox;
-using OpenTK;
-using OpenTK.Graphics;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
-using OpenTK.Input;
-using Shared_Lib;
-using System;
+using Simple_Engine.Engine.Core.Interfaces;
+using Simple_Engine.Engine.Geometry.Core;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Simple_Engine.Engine.Core.Abstracts
 {
     public abstract class Base_Geo2D : Base_Geo, IDrawable2D
     {
         public float GravityEffect = 0;
+
         public Base_Geo2D()
         {
             Positions = new List<Vector2>();
-
         }
 
         public Vector3 Position { get; set; }
         public List<Vector2> Positions { get; set; }
         public Vector3 Velocity { get; set; }
+
         public Mesh3D AddMesh(Matrix4 mat)
         {
             ShaderModel.EnableInstancing = true;
@@ -53,7 +36,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public void Default_RenderModel()
         {
-
             Renderer.RenderModel();
             ShaderModel.UploadDefaults(this);
         }
@@ -119,9 +101,5 @@ namespace Simple_Engine.Engine.Core.Abstracts
             TextureCoordinates.Add(v2);
             TextureCoordinates.Add(v3);
         }
-
-       
-
     }
-
 }
