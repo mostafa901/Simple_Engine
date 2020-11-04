@@ -4,7 +4,7 @@ using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 
-namespace Simple_Engine.Engine.Geometry.ThreeDModels.Clips
+namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
 {
     public class ClipPlan : Plan3D
     {

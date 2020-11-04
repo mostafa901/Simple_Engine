@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple_Engine.Engine.Geometry.ThreeDModels
+namespace Simple_Engine.Engine.Geometry
 {
     public class Plan3D : Base_Geo3D
     {
@@ -39,12 +39,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Default_RenderModel();
         }
 
-        public void Dispose()
-        {
-            ShaderModel.Dispose();
-            Renderer.Dispose();
-            TextureModel?.Dispose();
-        }
+     
 
         public override void Setup_Position()
         {

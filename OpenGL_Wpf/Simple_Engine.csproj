@@ -111,7 +111,7 @@
     <Compile Include="Engine\Core\Static\UI\UI_Geo.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Shared.cs" />
     <Compile Include="Engine\GameSystem\Game_Actions.cs" />
-    <Compile Include="Engine\Geometry\ThreeDModels\Grid.cs" />
+    <Compile Include="Engine\Geometry\SystemModel\Grid.cs" />
     <Compile Include="Engine\ImGui_Set\Controls\Imgui_Separator.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Animation.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Properties.cs" />
@@ -182,15 +182,15 @@
     <Compile Include="Engine\GameSystem\Game_Events.cs" />
     <Compile Include="Engine\GameSystem\Game_FBOs.cs" />
     <Compile Include="Engine\GameSystem\Game_UI.cs" />
-    <Compile Include="Engine\Geometry\Axis\AxisPlan.cs" />
-    <Compile Include="Engine\Geometry\Axis\Render\AxisPlanRenderer.cs" />
+    <Compile Include="Engine\Geometry\SystemModel\Axis\AxisPlan.cs" />
+    <Compile Include="Engine\Geometry\SystemModel\Axis\Render\AxisPlanRenderer.cs" />
     <Compile Include="Engine\Geometry\Core\GeometryModel.cs" />
     <Compile Include="Engine\Geometry\Core\Mesh3D.cs" />
     <Compile Include="Engine\Geometry\Render\GeometryRenderer.cs" />
     <Compile Include="Engine\Geometry\Terrain\Render\Renderer.cs" />
     <Compile Include="Engine\Geometry\Terrain\Render\TerrainTexture.cs" />
     <Compile Include="Engine\Geometry\Terrain\Terran.cs" />
-    <Compile Include="Engine\Geometry\ThreeDModels\Clips\ClipPlan.cs" />
+    <Compile Include="Engine\Geometry\SystemModel\Clips\ClipPlan.cs" />
     <Compile Include="Engine\Geometry\ThreeDModels\Cube\CubeModel.cs" />
     <Compile Include="Engine\Geometry\ThreeDModels\Cube\Render\CubeRenderer.cs" />
     <Compile Include="Engine\Geometry\ThreeDModels\Cube\Render\CubeShader.cs" />

@@ -161,11 +161,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             PivotPoint = sourceModel.PivotPoint;
         }
 
-        public virtual void Create_UIControls()
-        {
-            //Imgui_Generator.GenerateControls(this, Ui_Controls);
-        }
-
+    
         public void Dispose()
         {
             ShaderModel.Dispose();
