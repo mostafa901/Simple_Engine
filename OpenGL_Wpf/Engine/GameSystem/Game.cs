@@ -1,14 +1,9 @@
-﻿using ImGuiNET;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.AnimationSystem;
-using Simple_Engine.Engine.GameSystem;
-using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination.Render;
-using Simple_Engine.Engine.Space;
-using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
 using System;
@@ -20,7 +15,6 @@ namespace Simple_Engine.Engine.GameSystem
     public partial class Game : GameWindow
     {
         public static Game Instance;
-          
 
         public Game(int width, int height, string title) : base(width, height, new GraphicsMode(ColorFormat.Empty, 24, 8, 0), title
                                 , GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default
@@ -29,7 +23,7 @@ namespace Simple_Engine.Engine.GameSystem
             WCF_System.Wcf_Engine.Start_Wcf_Engine();
 
             GameDebuger.DebugMode();
-            DisplayManager.Initialize(width,height);
+            DisplayManager.Initialize(width, height);
 
             Instance = this;
 
@@ -38,39 +32,41 @@ namespace Simple_Engine.Engine.GameSystem
 
             Setup_Events();
             SetupFBOs();
-    }
+        }
 
-       
         protected override void OnLoad(EventArgs e)
         {
-            Setup_GameUI();
-
             SceneModel.ActiveScene.FBOs.Add(new Shadow_FBO(SceneModel.ActiveScene.Lights.First(), 1024, 1024));
             GameFactory.Draw_Water(SceneModel.ActiveScene);
             GameFactory.Draw_Terran(SceneModel.ActiveScene);
 
+            //render this the last to prevent interfering with other frame buffers. Fixes issue #6
+            Setup_GameUI();
+
             base.OnLoad(e);
         }
 
-        Stack<Action> OnUIThreadActions = new Stack<Action>();
-        List<cus_CMD> RenderOnUIThreadActions = new List<cus_CMD>();
+        private Stack<Action> OnUIThreadActions = new Stack<Action>();
+        private List<cus_CMD> RenderOnUIThreadActions = new List<cus_CMD>();
+
         public void RunOnUIThread(Action action)
         {
             OnUIThreadActions.Push(action);
         }
+
         public void RenderOnUIThread(cus_CMD action)
         {
             RenderOnUIThreadActions.Add(action);
         }
+
         public void Dispose_RenderOnUIThread(cus_CMD action)
         {
             RenderOnUIThreadActions.Remove(action);
         }
+
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             SceneModel.ActiveScene.PrepareForRender(null);
-            
-            UpdateUI((float)e.Time);
 
             foreach (var fbo in SceneModel.ActiveScene.FBOs)
             {
@@ -82,6 +78,8 @@ namespace Simple_Engine.Engine.GameSystem
                 fbo.UnbindCurrentBuffer();
             }
 
+            UpdateUI((float)e.Time);
+
             //texture_FBO.BindFrameBuffer();
             //texture_FBO.ClearFrame();
             mTargets_FBO.BindFrameBuffer();
@@ -89,8 +87,6 @@ namespace Simple_Engine.Engine.GameSystem
             //GL.Enable(EnableCap.StencilTest);
             //GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
-            ClearFrame();
-            
             SceneModel.ActiveScene.Render();
 
             mTargets_FBO.UnbindCurrentBuffer();
@@ -109,7 +105,7 @@ namespace Simple_Engine.Engine.GameSystem
 
             DisplayManager.FixTime();
             AnimationMaster.Render(DisplayManager.UpdatePeriod);
-            while (OnUIThreadActions.Count!=0)
+            while (OnUIThreadActions.Count != 0)
             {
                 OnUIThreadActions.Pop().Invoke();
             }
@@ -121,21 +117,6 @@ namespace Simple_Engine.Engine.GameSystem
             RenderUI();
             base.Context.SwapBuffers();
             base.OnRenderFrame(e);
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            GL.Viewport(0, 0, Width, Height);
-
-            CameraModel.ActiveCamera.SetHeight(Height);
-            CameraModel.ActiveCamera.ActivatePrespective();
-
-            //Update OtherFrames
-            mTargets_FBO.UpdateSize(Width, Height);
-
-            // Tell ImGui of the new size
-            UpdateSizeUI();
-            base.OnResize(e);
         }
 
         protected override void OnUnload(EventArgs e)
@@ -172,7 +153,6 @@ namespace Simple_Engine.Engine.GameSystem
 
             //All lights must be placed first
             //gameFactory.DrawSkyBox();
-
 
             //   gameFactory.DrawStreetLamp(terrain);
 

@@ -1,9 +1,11 @@
 ﻿using ImGuiNET;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Static.InputControl;
+using System;
 
 namespace Simple_Engine.Engine.GameSystem
 {
@@ -15,6 +17,22 @@ namespace Simple_Engine.Engine.GameSystem
             MouseDown += Game_MouseDown;
             MouseWheel += Game_MouseWheel;
             MouseMove += Game_MouseMove;
+            
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            GL.Viewport(0, 0, Width, Height);
+            DisplayManager.UpdateSize(Width, Height);
+            CameraModel.ActiveCamera.SetHeight(Height);
+            CameraModel.ActiveCamera.ActivatePrespective();
+
+            //Update OtherFrames
+            mTargets_FBO.UpdateSize(Width, Height);
+
+            // Tell ImGui of the new size
+            UpdateSizeUI();
+            base.OnResize(e);
         }
 
         private void Game_MouseMove(object sender, MouseMoveEventArgs e)

@@ -57,7 +57,7 @@ namespace Simple_Engine.Engine.Core.Static
         {
             if (ImGui.Button("Test"))
             {
-                CameraModel.ActiveCamera.UpdateViewTo(SceneModel.ActiveScene.CameraModels.First(o => o.ViewType == CameraModel.CameraType.Plan));
+                CameraModel.ActiveCamera.UpdateViewTo(CameraModel.PlanCamera);
 
                 var pos = SceneModel.ActiveScene.BBX.GetCG() * new OpenTK.Vector3(1, 0, 1) + new OpenTK.Vector3(0, (float)20, 0);
                 CameraModel.ClipPlanY.MoveTo(pos - (CameraModel.ClipPlanY.ClipDirection * 5));

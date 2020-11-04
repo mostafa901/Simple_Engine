@@ -14,6 +14,7 @@ namespace Simple_Engine.Engine.Core.Static
     {
         public static void Render_Clipping(Base_Geo3D Model)
         {
+            if (Model == null) return;
             var val = Model.EnableClipPlans;
             if (ImGui.Checkbox("Clip Model", ref val))
             {

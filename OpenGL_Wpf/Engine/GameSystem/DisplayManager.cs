@@ -23,6 +23,12 @@ namespace Simple_Engine.Engine.GameSystem
         public static GameState RequestRenderstate = GameState.Idel;
 
         public static float DisplayRatio { get; set; }
+
+        internal static void UpdateSize(int width, int height)
+        {
+            DisplayRatio = (float)width / height;
+        }
+
         //this is created to signal what Render settings to consider prior rendering an object on this frame
         //for example selection buffer we need to disable all blended objects
         public static RenderBufferType CurrentBuffer { get; internal set; }
@@ -35,7 +41,7 @@ namespace Simple_Engine.Engine.GameSystem
         public static void Initialize(int width, int height)
         {
             LastFrameTime = DateTime.Now.TimeOfDay.TotalSeconds;
-            DisplayRatio = (float)width / height;
+            UpdateSize(width, height);
         }
 
         

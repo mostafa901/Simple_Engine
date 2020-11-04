@@ -138,6 +138,7 @@ namespace Simple_Engine.Engine.Water.Render
 
         public virtual void CleanUp()
         {
+            BindFrameBuffer(); //ensure you are connected to this frame buffer prior disposing, to avoid disabling the current connected buffer;
             UnbindCurrentBuffer();
             GL.DeleteFramebuffer(FBOId);
             GL.DeleteRenderbuffer(TextureDepthId);

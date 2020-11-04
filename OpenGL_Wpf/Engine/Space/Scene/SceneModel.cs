@@ -43,8 +43,8 @@ namespace Simple_Engine.Engine.Space.Scene
 
         public void BuildModel()
         {
-            SceneModel.ActiveScene.SceneFog = new Fog();
-            SceneModel.ActiveScene.SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
+            SceneFog = new Fog();
+            SceneFog.SetFogColor(new Vector3(.5f, .5f, .5f));
 
             Setup_Camera();
             Setup_SceneLight();
