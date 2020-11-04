@@ -142,7 +142,7 @@ namespace Simple_Engine.Engine.Core.Static
                 }
             };
 
-            UI_Shared.Render_YesNOModalMessage2("Delete?", "do you Want to delete model?", response);
+            UI_Shared.Render_YesNOModalMessage("Delete?", "do you Want to delete model?", response);
         }
     }
 }
