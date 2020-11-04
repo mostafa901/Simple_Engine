@@ -6,6 +6,7 @@ using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Fonts;
 using Simple_Engine.Engine.Fonts.Core;
 using Simple_Engine.Engine.GameSystem;
+using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Cube;
 using Simple_Engine.Engine.Geometry.ThreeDModels;

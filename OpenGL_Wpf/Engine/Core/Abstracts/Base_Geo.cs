@@ -9,7 +9,6 @@ using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.Geometry.Axis;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Cube;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Particles;

@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
+using System;
 
 namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
 {
@@ -105,12 +106,14 @@ namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
 
             if (direction == Vector3.UnitX)
             {
-                clip.Rotate(90, new Vector3(0, 1, 0));
+                clip.Rotate(90, new Vector3(1, 0, 1));
             }
 
             clip.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
             SceneModel.ActiveScene.UpLoadModels(clip);
             return clip;
         }
+
+        
     }
 }

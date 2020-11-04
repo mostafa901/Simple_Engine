@@ -1,13 +1,4 @@
-﻿using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Core.Static;
-using Simple_Engine.Engine.Core.Static.UI;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
-using Simple_Engine.Engine.Illumination;
-using Simple_Engine.Engine.ImGui_Set.Controls;
-using Simple_Engine.Engine.Space.Camera;
-using System.Linq;
-
-namespace Simple_Engine.Engine.Space.Scene
+﻿namespace Simple_Engine.Engine.Space.Scene
 {
     public partial class SceneModel
     {

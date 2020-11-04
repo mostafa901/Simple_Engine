@@ -7,17 +7,50 @@ using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Drawing;
-using System.Linq;
 
 namespace Simple_Engine.Engine.Core.Static
 {
     public static class UI_Geo3D
     {
-      
-
-        
-    
         public static void Render_Clipping(Base_Geo3D Model)
+        {
+            var val = Model.EnableClipPlans;
+            if (ImGui.Checkbox("Clip Model", ref val))
+            {
+                Model.SetEnableClipPlans(val);
+            }
+
+            if (Model.EnableClipPlans)
+            {
+                ImGui.BeginGroup();
+                foreach (var clip in Model.ClipPlans)
+                {
+                    UI_Shared.Render_IsActive(clip);
+
+                    ImGui.SameLine();
+
+                    var prev = (clip.LocalTransform.ExtractTranslation() * clip.ClipDirection).Length;
+                    var valv = prev;
+
+                    if (clip.IsActive)
+                    {
+                        UI_Shared.DragFloat(clip.Name, ref valv, ref prev, (x) =>
+                        {
+                            clip.MoveLocal(clip.ClipDirection * x);
+                        });
+                    }
+                    else
+                    {
+                        ImGui.TextDisabled("Disabled");
+                    }
+                }
+
+                ImGui.EndGroup();
+            }
+             
+        }
+
+        public static void Render_Clipping2(Base_Geo3D Model)
         {
             if (Model == null) return;
             var clipenab = Model.EnableClipPlans;
@@ -67,7 +100,6 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-        
         public static void RightClick(Base_Geo3D Model)
         {
             if (Model == null) return;

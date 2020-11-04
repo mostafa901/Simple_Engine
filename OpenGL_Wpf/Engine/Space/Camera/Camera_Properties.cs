@@ -2,7 +2,7 @@
 using OpenTK;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Geometry.SystemModel.Clips;
 using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Opticals;
 using Simple_Engine.Engine.Space.Camera;

@@ -1,6 +1,5 @@
 ﻿using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

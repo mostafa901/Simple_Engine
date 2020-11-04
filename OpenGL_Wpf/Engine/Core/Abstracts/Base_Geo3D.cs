@@ -1,15 +1,14 @@
 ﻿using Newtonsoft.Json;
 using OpenTK;
- 
+
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Render;
-using Simple_Engine.Engine.Geometry.ThreeDModels.Clips;
+using Simple_Engine.Engine.Geometry.SystemModel.Clips;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
-using Simple_Engine.ToolBox;
 using System.Collections.Generic;
 using System.Linq;
 using static Simple_Engine.Engine.Core.Interfaces.IRenderable;
@@ -76,7 +75,6 @@ namespace Simple_Engine.Engine.Core.Abstracts
             return Depth;
         }
 
-       
         public virtual void SetDepth(float value)
         {
             Depth = value;
@@ -139,9 +137,9 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public void SetEnableClipPlans(bool enableValue)
         {
+            if (EnableClipPlans == enableValue) return;
             if (enableValue)
             {
-                ClipPlans.Clear();
                 Add_Clips();
             }
             else
@@ -154,14 +152,24 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         private void Add_Clips()
         {
-            ClipPlans.Add(Generate_ClipPlan(Vector3.UnitX, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance0));
-            ClipPlans.Add(Generate_ClipPlan(Vector3.UnitY, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance1));
-            ClipPlans.Add(Generate_ClipPlan(Vector3.UnitZ, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance2));
+            if (ClipPlans.Any())
+            {
+                foreach (var clip in ClipPlans)
+                {
+                    clip.IsActive = true;
+                }
+            }
+            else
+            {
+                ClipPlans.Add(Generate_ClipPlan(Vector3.UnitX, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance0));
+                ClipPlans.Add(Generate_ClipPlan(Vector3.UnitY, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance1));
+                ClipPlans.Add(Generate_ClipPlan(Vector3.UnitZ, OpenTK.Graphics.OpenGL.EnableCap.ClipDistance2));
+            }
         }
 
-        private ClipPlan Generate_ClipPlan(Vector3 unitX, EnableCap clipDistance0)
+        private ClipPlan Generate_ClipPlan(Vector3 unitX, EnableCap clipDistance)
         {
-            var clip = ClipPlan.Generate_ClipPlan(unitX, clipDistance0);
+            var clip = ClipPlan.Generate_ClipPlan(unitX, clipDistance);
             clip.MoveTo(BBX.GetCG());
             return clip;
         }
@@ -170,7 +178,12 @@ namespace Simple_Engine.Engine.Core.Abstracts
         {
             foreach (var clip in ClipPlans)
             {
-                SceneModel.ActiveScene.RemoveModels(clip);
+                //SceneModel.ActiveScene.RemoveModels(clip); //removing clips will kill the live update, hence clips will not be activated
+                clip.IsActive = false;
+                SceneModel.ActiveScene.RunOnAllShaders.Push((x) =>
+                {
+                    clip.Live_Update(x);
+                });
             }
         }
 

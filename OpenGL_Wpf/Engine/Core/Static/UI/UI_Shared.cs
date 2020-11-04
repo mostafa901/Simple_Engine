@@ -82,7 +82,7 @@ namespace Simple_Engine.Engine.Core.Static
         public static void Render_IsActive(IDrawable model)
         {
             
-            string active = model.IsActive? "Deactivate" : "Activate";
+            string active = model.IsActive? $"Deactivate ##{model.Id}" : $"Activate ##{model.Id}";
 
             if (ImGui.Button(active))
             {
