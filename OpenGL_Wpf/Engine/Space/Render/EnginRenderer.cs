@@ -94,7 +94,7 @@ namespace Simple_Engine.Engine.Render
             var size = data.Length * sizeof(float);
             var pdata = Marshal.AllocHGlobal(size);
             Marshal.Copy(data, 0, pdata, data.Length);
-
+            
             var v = StoreDataInAttributeList(attributeLocation, size, pdata, componentCount, divisor);
             Marshal.FreeHGlobal(pdata);
             return v;
