@@ -62,10 +62,7 @@ namespace Simple_Engine.Engine.Core.Static
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
-            else
-            {
-                Base_Geo.SelectedModel.Set_Selected(false);
-            }
+            
 
             ImGui.PopStyleVar();
         }

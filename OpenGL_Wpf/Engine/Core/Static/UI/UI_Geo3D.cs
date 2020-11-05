@@ -45,56 +45,7 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-        public static void Render_Clipping2(Base_Geo3D Model)
-        {
-            if (Model == null) return;
-            var clipenab = Model.EnableClipPlans;
-            if (ImGui.Checkbox("Clip Model", ref clipenab))
-            {
-                Model.SetEnableClipPlans(clipenab);
-            }
-
-            if (Model.EnableClipPlans)
-            {
-                ImGui.BeginGroup();
-                foreach (var clip in Model.ClipPlans)
-                {
-                    var act = clip.IsActive;
-
-                    if (ImGui.Checkbox($"##{clip.Name}", ref act))
-                    {
-                        clip.IsActive = act;
-                    }
-
-                    ImGui.SameLine();
-
-                    var prev = (clip.LocalTransform.ExtractTranslation() * clip.ClipDirection).Length;
-                    var val = prev;
-
-                    if (clip.IsActive)
-                    {
-                        UI_Shared.DragFloat(clip.Name, ref val, ref prev, (x) =>
-                           {
-                               clip.MoveLocal(clip.ClipDirection * x);
-                           });
-                    }
-                    else
-                    {
-                        ImGui.TextDisabled("Disabled");
-                    }
-                }
-
-                if (ImGui.Checkbox("Global Clipping", ref CameraModel.EnableClipPlans))
-                {
-                    foreach (var clip in Model.ClipPlans)
-                    {
-                        clip.SetAsGlobal(CameraModel.EnableClipPlans);
-                    }
-                }
-                ImGui.EndGroup();
-            }
-        }
-
+       
         public static void RightClick(Base_Geo3D Model)
         {
             if (Model == null) return;
