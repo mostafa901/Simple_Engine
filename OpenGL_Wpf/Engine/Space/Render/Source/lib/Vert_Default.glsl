@@ -12,8 +12,9 @@ out vec3 surfaceNormal;
 
 uniform bool InvertNormal;
 uniform float IsSelected;
+
 //RenderMode
-uniform int ShaderType;
+uniform int ShaderType1;
 
 //transforms
 uniform mat4 ProjectionTransform;

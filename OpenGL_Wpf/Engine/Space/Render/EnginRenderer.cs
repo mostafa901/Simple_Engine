@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Shared_Lib.IO;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
@@ -16,21 +17,20 @@ namespace Simple_Engine.Engine.Render
 {
     abstract public class EngineRenderer
     {
+        public int EBO = -1;
         public IDrawable geometryModel;
-        public int PositionLocation;
-        public int TextureLocation;
-        public int NormalLocation;
+        public int IndexBufferLength = 0;
         public int InstancesMatrix;
         public int InstancesSelectedLocation;
-        public int TangentsLocation;
-        public int VertexColorLocation;
-
         public List<int> MatrixLocations = new List<int>();
-        public List<int> VBOs { get; set; } = new List<int>();
-        public int EBO;
-        public int VAO;
-
-        public bool IsToonMode { get; set; } = false;
+        public int NormalLocation;
+        public int PositionBufferLength = 0;
+        public int PositionLocation;
+        public int TangentsLocation;
+        public int TextureLocation;
+        public int VAO = -1;
+        public int VertexColorLocation;
+        public bool EnableNormalTangent = false;
 
         public EngineRenderer(IDrawable _model)
         {
@@ -44,13 +44,81 @@ namespace Simple_Engine.Engine.Render
             VertexColorLocation = geometryModel.ShaderModel.VertexColorLayoutId;
         }
 
-        public abstract void RenderModel();
+        public bool IsToonMode { get; set; } = false;
+        public List<int> VBOs { get; set; } = new List<int>();
+
+        public void BindIndicesBuffer<T>(byte[] indices)
+        {
+            if (indices.Length == 0) return;
+            var ebo = GL.GenBuffer();
+            EBO = ebo;
+            IndexBufferLength = indices.Length / sizeof(int);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length, indices, BufferUsageHint.StaticDraw);
+        }
+
+        public void BindIndicesBuffer(int[] indices)
+        {
+            if (indices.Length == 0) return;
+            var size = indices.Length * sizeof(int);
+            var pdata = Marshal.AllocHGlobal(size);
+            Marshal.Copy(indices, 0, pdata, indices.Length);
+
+            BindIndicesBuffer<int>(indices.ToByteArray());
+            Marshal.FreeHGlobal(pdata);
+        }
 
         public int CreateVAO()
         {
             var VAO = GL.GenVertexArray(); //create a store for a quick recall
             GL.BindVertexArray(VAO); //Activate
             return VAO;
+        }
+
+        public void DisableBlending()
+        {
+            GL.Disable(EnableCap.Blend);
+        }
+
+        public void DisableCulling()
+        {
+            GL.Disable(EnableCap.CullFace); //avoid rendering Faces that are..
+        }
+
+        public virtual void Dispose()
+        {
+            GL.DeleteBuffer(EBO);
+            GL.DeleteVertexArray(VAO);
+
+            foreach (int vbo in VBOs)
+            {
+                GL.DeleteBuffer(vbo);
+            }
+            VBOs.Clear();
+        }
+
+        public virtual void Draw()
+        {
+            PreDraw();
+            //if (geometryModel is ISelectable && ((ISelectable)geometryModel).Selected)
+            //{
+            //    RenderStencil();
+            //}
+            //else
+            {
+                DrawModel();
+            }
+            EndDraw();
+        }
+
+        public abstract void DrawModel();
+
+        public void EnableBlending()
+        {
+            if (DisplayManager.CurrentBuffer == RenderBufferType.Selection) return;
+            //more info about Blending function
+            //https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/blendFunc
+            GL.Enable(EnableCap.Blend);
         }
 
         public void EnableCulling()
@@ -71,107 +139,7 @@ namespace Simple_Engine.Engine.Render
             }
         }
 
-        public void EnableBlending()
-        {
-            if (DisplayManager.CurrentBuffer == RenderBufferType.Selection) return;
-            //more info about Blending function
-            //https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/blendFunc
-            GL.Enable(EnableCap.Blend);
-        }
-
-        public void DisableBlending()
-        {
-            GL.Disable(EnableCap.Blend);
-        }
-
-        public void DisableCulling()
-        {
-            GL.Disable(EnableCap.CullFace); //avoid rendering Faces that are..
-        }
-
-        public int StoreDataInAttributeList(int attributeLocation, float[] data, int componentCount, int divisor = 0)
-        {
-            var size = data.Length * sizeof(float);
-            var pdata = Marshal.AllocHGlobal(size);
-            Marshal.Copy(data, 0, pdata, data.Length);
-
-            var v = StoreDataInAttributeList(attributeLocation, size, pdata, componentCount, divisor);
-            Marshal.FreeHGlobal(pdata);
-            return v;
-        }
-
-        public int StoreDataInAttributeList(int attributeLocation, int size, IntPtr data, int componentCount, int divisor = 0)
-        {
-            var VBO = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
-            VBOs.Add(VBO);
-            //define the type of buffer in the GPU and Activate
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            //Supply the data to the buffer
-            GL.BufferData(BufferTarget.ArrayBuffer, size, data, BufferUsageHint.StaticDraw);
-
-            //Define the Pattern how the data is being read
-            GL.VertexAttribPointer
-                                (
-                                    attributeLocation, //location layout --> see shader.vert
-                                    componentCount, //vertex component count
-                                    VertexAttribPointerType.Float, //type of vertex
-                                    false, //shall normalize
-                                    componentCount * sizeof(float), //the stride length
-                                    0 //Start reading from What position within the stride
-                                );
-            if (divisor > 0)
-            {
-                GL.VertexAttribDivisor(attributeLocation, divisor);
-            }
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            return VBO;
-        }
-
-        public void StoreDataInAttributeList(int matrixLocation, List<int> storeLocation, int divisor, int count, int componentCount)
-        {
-            //if (!geometryModel.Meshes.Any()) return;
-            var VBO = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
-            VBOs.Add(VBO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);  //define the type of buffer in the GPU
-
-            //now stream these vertex (array type) to the located buffer in the GPU
-
-            //int componentCount = 4;
-
-            //for (int i = 0; i < 4; i++)
-            for (int i = 0; i < count; i++)
-            {
-                var attributeLocation = matrixLocation + i;
-
-                GL.VertexAttribPointer
-                                    (
-                                    attributeLocation,
-                                    componentCount, //maximum is 4
-                                    VertexAttribPointerType.Float,
-                                    false,
-                                    sizeof(float) * componentCount * count, //total matrix float Size
-                                    sizeof(float) * i * componentCount //start reading from
-                                    );
-
-                storeLocation.Add(attributeLocation);
-                // MatrixLocations.Add(attributeLocation);
-                GL.EnableVertexAttribArray(attributeLocation);
-                GL.VertexAttribDivisor(attributeLocation, divisor);
-                //GL.VertexAttribDivisor(attributeLocation, 1);
-            }
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-        }
-
-        public void BindIndicesBuffer(int[] indices)
-        {
-            if (indices.Length == 0) return;
-            var ebo = GL.GenBuffer();
-            EBO = ebo;
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-        }
+        public abstract void EndDraw();
 
         public virtual void PreDraw()
         {
@@ -186,23 +154,7 @@ namespace Simple_Engine.Engine.Render
             }
         }
 
-        public virtual void Draw()
-        {
-            PreDraw();
-            //if (geometryModel is ISelectable && ((ISelectable)geometryModel).Selected)
-            //{
-            //    RenderStencil();
-            //}
-            //else
-            {
-                DrawModel();
-            }
-            EndDraw();
-        }
-
-        public abstract void DrawModel();
-
-        public abstract void EndDraw();
+        public abstract void RenderModel();
 
         public virtual void RenderStencil()
         {
@@ -236,26 +188,78 @@ namespace Simple_Engine.Engine.Render
             GL.Disable(EnableCap.StencilTest);
         }
 
-        public virtual void Dispose()
+        public int StoreDataInAttributeList(int attributeLocation, float[] data, int componentCount, int divisor = 0)
         {
-            GL.DeleteBuffer(EBO);
-            GL.DeleteVertexArray(VAO);
+            if (data.Length == 0) return 0;
+            var size = data.Length * sizeof(float);
+            var pdata = Marshal.AllocHGlobal(size);
+            Marshal.Copy(data, 0, pdata, data.Length);
 
-            foreach (int vbo in VBOs)
-            {
-                GL.DeleteBuffer(vbo);
-            }
-            VBOs.Clear();
+            var v = StoreDataInAttributeList(attributeLocation, size, pdata, componentCount, divisor);
+            Marshal.FreeHGlobal(pdata);
+            return v;
         }
 
-        public void UploadMeshes(int attributeLocation, List<Mesh3D> meshes)
+        public int StoreDataInAttributeList(int attributeLocation, byte[] data, int componentCount, int divisor = 0)
         {
-            if (!geometryModel.ShaderModel.EnableInstancing) return;
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBOs.ElementAt(attributeLocation));  //define the type of buffer in the GPU
-            var transforms = meshes.Select(o => o.LocalTransform).ToArray();
+            return StoreDataInAttributeList(attributeLocation, data.Length, data, componentCount, divisor);
+        }
+
+        public int StoreDataInAttributeList(int attributeLocation, int size, dynamic data, int componentCount, int divisor)
+        {
+            var VBO = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            VBOs.Add(VBO);
+            //define the type of buffer in the GPU and Activate
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            //Supply the data to the buffer
+            GL.BufferData(BufferTarget.ArrayBuffer, size, data, BufferUsageHint.StaticDraw);
+
+            //Define the Pattern how the data is being read
+            GL.VertexAttribPointer
+                                (
+                                    attributeLocation, //location layout --> see shader.vert
+                                    componentCount, //vertex component count
+                                    VertexAttribPointerType.Float, //type of vertex
+                                    false, //shall normalize
+                                    componentCount * sizeof(float), //the stride length
+                                    0 //Start reading from What position within the stride
+                                );
+            if (divisor > 0)
+            {
+                GL.VertexAttribDivisor(attributeLocation, divisor);
+            }
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            return VBO;
+        }
+
+        public void StoreDataInAttributeList(int matrixLocation, List<int> storeLocation, int divisor, int count, int componentCount)
+        {
+            var VBO = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            VBOs.Add(VBO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);  //define the type of buffer in the GPU
 
             //now stream these vertex (array type) to the located buffer in the GPU
-            GL.BufferData(BufferTarget.ArrayBuffer, meshes.Count * sizeof(float) * 16, transforms, BufferUsageHint.DynamicDraw);
+
+            for (int i = 0; i < count; i++)
+            {
+                var attributeLocation = matrixLocation + i;
+
+                GL.VertexAttribPointer
+                                    (
+                                    attributeLocation,
+                                    componentCount, //maximum is 4
+                                    VertexAttribPointerType.Float,
+                                    false,
+                                    sizeof(float) * componentCount * count, //total matrix float Size
+                                    sizeof(float) * i * componentCount //start reading from
+                                    );
+
+                storeLocation.Add(attributeLocation);
+                GL.EnableVertexAttribArray(attributeLocation);
+                GL.VertexAttribDivisor(attributeLocation, divisor);
+            }
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
@@ -268,6 +272,17 @@ namespace Simple_Engine.Engine.Render
 
             //now stream these vertex (array type) to the located buffer in the GPU
             GL.BufferData(BufferTarget.ArrayBuffer, meshes.Count * sizeof(float), isSelected, BufferUsageHint.DynamicDraw);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
+
+        public void UploadMeshes(int attributeLocation, List<Mesh3D> meshes)
+        {
+            if (!geometryModel.ShaderModel.EnableInstancing) return;
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBOs.ElementAt(attributeLocation));  //define the type of buffer in the GPU
+            var transforms = meshes.Select(o => o.LocalTransform).ToArray();
+
+            //now stream these vertex (array type) to the located buffer in the GPU
+            GL.BufferData(BufferTarget.ArrayBuffer, meshes.Count * sizeof(float) * 16, transforms, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
     }

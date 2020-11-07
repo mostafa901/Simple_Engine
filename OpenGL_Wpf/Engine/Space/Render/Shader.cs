@@ -168,9 +168,15 @@ namespace Simple_Engine.Engine.Render
 
         private static string INCLUDEdIRECTIVE = "#include";
 
+        [Obsolete("Use public Shader(ShaderPath shaderModelType)")]
         public Shader(ShaderMapType mapType, ShaderPath shaderModelType)
         {
             ShaderType = mapType;
+            ShaderModelType = shaderModelType;
+        }
+
+        public Shader(ShaderPath shaderModelType)
+        {
             ShaderModelType = shaderModelType;
         }
 
