@@ -1,5 +1,6 @@
 ﻿layout(location=0) out vec4 FragColor;
 layout(location=1) out vec4 FragDefaultColor;
+layout(location=2) out vec4 FragVertexColor;
 
 #include "Frag_Effects.glsl" //! #include "D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Space\Render\Source\lib\Frag_Effects.glsl"
 
@@ -10,12 +11,12 @@ in float ModelSelected;
 uniform bool EnableNormalMap;
 
 //RenderMode
-uniform int ShaderType1;
 uniform bool IsToonMode;
 uniform int BrightnessLevels;
 
 //Physics
 uniform vec4 DefaultColor;
+in vec3 VertexPosition;
 in vec3 surfaceNormal;
 
 //Environment
@@ -36,6 +37,7 @@ vec4 AddToon(vec4 currentPixel)
 vec4 Finalize(vec4 pixelColor)
 {
 	FragDefaultColor = DefaultColor;
+	FragVertexColor = normalize(vec4(VertexPosition,1));
 	
 	if(ModelSelected>0.0)
     {

@@ -3,6 +3,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Terrain.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Extentions;
 using Simple_Engine.ToolBox;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             SetDepth(height);
             RecieveShadow = true;
             CastShadow = true;
-            // DrawType = OpenTK.Graphics.OpenGL.PrimitiveType.Points;
+            DrawType = OpenTK.Graphics.OpenGL.PrimitiveType.Points;
         }
 
         public override void BuildModel()
@@ -146,7 +147,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
                     (float)j / ((float)himg.Width - 1) * GetWidth(),
                     height,
                     (float)i / ((float)himg.Height - 1) * GetDepth()
-                    );
+                    ).Round(4);
 
                     normals[vertexPointer] = CalculateNormal(i, j, himg);
 

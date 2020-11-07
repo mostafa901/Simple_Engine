@@ -167,6 +167,7 @@ namespace Simple_Engine.Engine.Render
         public Stack<Action> RunOnUIThread { get; set; } = new Stack<Action>();
 
         private static string INCLUDEdIRECTIVE = "#include";
+        private int geometryShaderId;
 
         [Obsolete("Use public Shader(ShaderPath shaderModelType)")]
         public Shader(ShaderMapType mapType, ShaderPath shaderModelType)
@@ -220,7 +221,7 @@ namespace Simple_Engine.Engine.Render
                     {
                         path = @"./Engine/Geometry/Terrain/Render/Source/";
 
-                        Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag");
+                        Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag", @"./Engine/Space/Render/Source/SingleColor_Geom.geom");
                         break;
                     }
                 case ShaderPath.Cube:
@@ -454,14 +455,17 @@ namespace Simple_Engine.Engine.Render
             GL.UniformMatrix4(attribLocation, false, ref value);
         }
 
-        public virtual void Setup_Shader(string vertexPath, string fragmentPath)
+        public virtual void Setup_Shader(string vertexPath, string fragmentPath, string geometryShaderPath = "")
         {
             //Link both Shaders to a program
             ProgramID = GL.CreateProgram();
 
             vertexShaderId = CreateShader(vertexPath, OpenTK.Graphics.OpenGL.ShaderType.VertexShader);
             fragmentShaderId = CreateShader(fragmentPath, OpenTK.Graphics.OpenGL.ShaderType.FragmentShader);
-
+            if (!string.IsNullOrEmpty(geometryShaderPath))
+            {
+                geometryShaderId = CreateShader(geometryShaderPath, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
+            }
             // LoadCommonFunctions();
 
             BindAttributes(); //must be before linking program
@@ -528,6 +532,8 @@ namespace Simple_Engine.Engine.Render
             Stop();
             GL.DetachShader(ProgramID, vertexShaderId);
             GL.DetachShader(ProgramID, fragmentShaderId);
+            GL.DetachShader(ProgramID, geometryShaderId);
+            GL.DeleteShader(geometryShaderId);
             GL.DeleteShader(fragmentShaderId);
             GL.DeleteShader(vertexShaderId);
             GL.DeleteProgram(ProgramID);

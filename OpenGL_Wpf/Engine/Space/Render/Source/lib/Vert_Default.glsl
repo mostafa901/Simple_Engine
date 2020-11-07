@@ -9,12 +9,10 @@ in float InstanceSelected;
 
 out float ModelSelected;
 out vec3 surfaceNormal;
+out vec3 VertexPosition;
 
 uniform bool InvertNormal;
 uniform float IsSelected;
-
-//RenderMode
-uniform int ShaderType1;
 
 //transforms
 uniform mat4 ProjectionTransform;

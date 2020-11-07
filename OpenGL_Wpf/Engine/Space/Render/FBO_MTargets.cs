@@ -14,13 +14,29 @@ namespace Simple_Engine.Engine.Water.Render
             Name = FboName.MultipleTargets;
         }
 
+        public override int CreateFrameBuffer()
+        {
+            var fboId = GL.GenFramebuffer();
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, fboId);
+
+            var buffs = new DrawBuffersEnum[] {
+                DrawBuffersEnum.ColorAttachment0,
+                DrawBuffersEnum.ColorAttachment1,
+                DrawBuffersEnum.ColorAttachment2,
+                };
+            GL.DrawBuffers(3, buffs);
+
+            return fboId;
+        }
+
         public override void UpdateSize(int width, int height)
         {
             base.UpdateSize(width, height);
 
             Setup_Defaults(false);
             BindFrameBuffer();
-            Color00BufferId = createTextureAttachment(FramebufferAttachment.ColorAttachment1);
+            SelectionTextureId = createTextureAttachment(FramebufferAttachment.ColorAttachment1);
+            VertexSelectionTextureId = createTextureAttachment(FramebufferAttachment.ColorAttachment2);
             UnbindCurrentBuffer();
         }
 

@@ -9,6 +9,7 @@ using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
+using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -221,14 +222,10 @@ namespace Simple_Engine.Engine.Space.Camera
 
                     //  var res = baseGeo.Intersect(mouseRayVector, activeScene.ActiveCamera.Position);
 
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, targetfbo.FBOId);
-                    GL.ReadBuffer(ReadBufferMode.ColorAttachment1);
-                    float[] pixelColor = new float[4];
-                    GL.ReadPixels(mousePosition.X, Game.Instance.Height - mousePosition.Y - 1, 1, 1, PixelFormat.Rgba, PixelType.Float, pixelColor);
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+                    Vector4 pickedColor = targetfbo.GetPixelColorFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment1, 2);
 
-                    //check if the mouse is indeed over the model, or just close by another object
-                    var pickedColor = new Vector4((float)Math.Round(pixelColor[0], 2), (float)Math.Round(pixelColor[1], 2), (float)Math.Round(pixelColor[2], 2), (float)Math.Round(pixelColor[3], 2));
+                    Vector4 pixelVertex = targetfbo.GetPixelColorFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment2, 4);
+                    var vert = ((IDrawable3D)model).Positions.FirstOrDefault(o => o.Normalized().Round(4) == new Vector3(pixelVertex));
 
                     if (model.DefaultColor == pickedColor)
                     {

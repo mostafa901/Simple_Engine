@@ -405,6 +405,9 @@
     <None Include="Engine\Space\Render\Source\SingleColor_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Engine\Space\Render\Source\SingleColor_Geom.geom">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Engine\Space\Render\Source\SingleColor_Vert.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

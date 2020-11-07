@@ -51,7 +51,7 @@ namespace Simple_Engine.Engine.Space.Scene
             Setup_SceneLight();
             Setup_Grid();
             Setup_Font();
-            SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+            SelectedShader = new Shader(ShaderPath.SingleColor);
         }
 
         private void Setup_Font()

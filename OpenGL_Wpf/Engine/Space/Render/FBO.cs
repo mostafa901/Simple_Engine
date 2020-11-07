@@ -8,6 +8,7 @@ using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -35,7 +36,8 @@ namespace Simple_Engine.Engine.Water.Render
         public int TextureDepthId;
 
         private int depthBufferId;
-        public int Color00BufferId;
+        public int SelectionTextureId;
+        public int VertexSelectionTextureId;
 
         public int StencilDepthId { get; }
         public Vector4 BorderColor { get; set; } = new Vector4();
@@ -53,13 +55,24 @@ namespace Simple_Engine.Engine.Water.Render
             {
                 CleanUp();
             }
-            FBOId = createFrameBuffer();
+            FBOId = CreateFrameBuffer();
 
             TextureId = createTextureAttachment(FramebufferAttachment.ColorAttachment0);
 
             ActivateDepthBuffer(withStencil);
 
             UnbindCurrentBuffer();
+        }
+
+        public Vector4 GetPixelColorFromFrameBufferObject(ref Point mousePosition, ReadBufferMode channel, int pixelRound)
+        {
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, FBOId);
+            GL.ReadBuffer(channel);
+            float[] pixelColor = new float[4];
+            GL.ReadPixels(mousePosition.X, Game.Instance.Height - mousePosition.Y - 1, 1, 1, PixelFormat.Rgba, PixelType.Float, pixelColor);
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+            //check if the mouse is indeed over the model, or just close by another object
+            return pixelColor.ToVector4().Round(pixelRound);
         }
 
         private void ValidateFBO()
@@ -91,23 +104,11 @@ namespace Simple_Engine.Engine.Water.Render
             }
         }
 
-        private int createFrameBuffer()
+        public virtual int CreateFrameBuffer()
         {
             var fboId = GL.GenFramebuffer();
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, fboId);
-
-            if (Name == FboName.MultipleTargets)
-            {
-                var buffs = new DrawBuffersEnum[] {
-                DrawBuffersEnum.ColorAttachment0,
-                DrawBuffersEnum.ColorAttachment1
-                };
-                GL.DrawBuffers(2, buffs);
-            }
-            else
-            {
-                GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
-            }
+            GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
 
             return fboId;
         }
@@ -138,7 +139,7 @@ namespace Simple_Engine.Engine.Water.Render
             GL.DeleteRenderbuffer(TextureDepthId);
             GL.DeleteTexture(TextureId);
             GL.DeleteTexture(depthBufferId);
-            GL.DeleteTexture(Color00BufferId);
+            GL.DeleteTexture(SelectionTextureId);
             SceneModel.ActiveScene.FBOs.Remove(this);
         }
 

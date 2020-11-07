@@ -197,6 +197,14 @@ namespace Simple_Engine.Extentions
             return Math.Min(v1.Z, v2.Z);
         }
 
+        public static Vector3 Round(this Vector3 vec, int round)
+        {
+            return new Vector3(
+
+            new Vector4(vec, 0).Round(round)
+            );
+        }
+
         public static Vector4 Round(this Vector4 vec, int round)
         {
             return new Vector4(

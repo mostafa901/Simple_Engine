@@ -5,6 +5,7 @@
 void main()
 {
      mat4 modelTransform = GetLocalMatrix();
+    VertexPosition = aPosition;
 
      vec4 worldPosition = modelTransform * vec4(aPosition,1.0);
      vec4 positionFromCamera = ViewTransform * worldPosition;
