@@ -164,6 +164,25 @@ namespace Simple_Engine.Engine.Core.Static
 
                         ImGui.EndMenu();
                     }
+                    if (ImGui.BeginMenu("Text"))
+                    {
+                        if (ImGui.MenuItem("Render Text"))
+                        {
+                            int linewidth = 300;
+                            var gui = new Fonts.GuiFont("this is from UI", linewidth, 20);
+                            gui.TextPosition = new OpenTK.Vector2(1 - (float)linewidth / 800);
+                            gui.BuildModel();
+                            var cmd = new cus_CMD();
+                            cmd.Action = (a) =>
+                            {
+                                gui.Text = DisplayManager.UpdatePeriod.ToString();
+                                gui.BuildModel();
+                            };
+                            game.RenderOnUIThread(cmd);
+                            SceneModel.ActiveScene.GuiTextModel = gui;
+                        }
+                        ImGui.EndMenu();
+                    }
                     ImGui.EndMenu();
                 }
 

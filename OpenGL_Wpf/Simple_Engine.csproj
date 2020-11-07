@@ -300,7 +300,9 @@
     <None Include="Engine\Fonts\Render\Source\FragmentShader_Font.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.fnt" />
+    <None Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Engine\Fonts\Render\Source\VertexShader_Font.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -466,7 +468,9 @@
     <None Include="Engine\Environment\Water\Render\Source\WaterNormalMap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Resource Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.png" />
+    <None Include="Engine\Fonts\Render\Source\TextMap\arial_regular_90.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SampleModels\Crate\crateNormalMap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

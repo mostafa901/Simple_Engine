@@ -13,8 +13,8 @@ namespace Simple_Engine.Engine.Fonts.Core
 
         public static void GenerateFont()
         {
-            string fntPath = @"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Fonts\Render\Source\TextMap\arial_regular_90.fnt";
-            imgFontPath = @"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Fonts\Render\Source\TextMap\arial_regular_90.png";
+            string fntPath = @"./Engine/Fonts/Render/Source/TextMap/arial_regular_90.fnt";
+            imgFontPath = @"./Engine/Fonts/Render/Source/TextMap/arial_regular_90.png";
 
             xmldoc = new XmlDocument();
             xmldoc.Load(fntPath);
@@ -36,12 +36,12 @@ namespace Simple_Engine.Engine.Fonts.Core
             finfo.Size = float.Parse(xeleinfo.GetAttribute("size"));
         }
 
-        public static CharacterModel GetCharacterModel(char c)
+        public static CharacterModel GetCharacterModel(char c, int fontsize)
         {
             var xchars = xmldoc.GetElementsByTagName("char");
             foreach (XmlElement xchar in xchars)
             {
-                var fchar = new CharacterModel(finfo);
+                var fchar = new CharacterModel(finfo, fontsize);
                 fchar.Id = int.Parse(xchar.GetAttribute("id"));
                 if (((char)fchar.Id).Equals(c))
                 {

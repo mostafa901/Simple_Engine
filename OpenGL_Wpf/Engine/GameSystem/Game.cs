@@ -39,7 +39,6 @@ namespace Simple_Engine.Engine.GameSystem
             SceneModel.ActiveScene.FBOs.Add(new Shadow_FBO(SceneModel.ActiveScene.Lights.First(), 1024, 1024));
 
             GameFactory.Draw_Terran(SceneModel.ActiveScene);
-
             //render this the last to prevent interfering with other frame buffers. Fixes issue #6
             Setup_GameUI();
             base.OnLoad(e);
@@ -88,7 +87,7 @@ namespace Simple_Engine.Engine.GameSystem
             mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
             Render_PostProcess();
 
-            // ActiveScene.GuiTextModel?.Render();
+            SceneModel.ActiveScene.GuiTextModel?.Render();
 
             UpdateUI((float)e.Time);
 

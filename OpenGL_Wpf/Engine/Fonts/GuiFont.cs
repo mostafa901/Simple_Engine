@@ -15,7 +15,7 @@ namespace Simple_Engine.Engine.Fonts
     {
         private List<CharacterModel> characterModels;
 
-        public string Text { get; }
+        public string Text { get; set; }
         public float LineWidth { get; }
         public Shader ShaderModel { get; set; }
         public Base_Texture TextureModel { get; set; }
@@ -26,11 +26,13 @@ namespace Simple_Engine.Engine.Fonts
         public ImgUI_Controls Ui_Controls { get; set; }
         public Vector4 DefaultColor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int FontSize = 20;
 
-        public GuiFont(string text, float lineWidth)
+        public GuiFont(string text, float lineWidth, int fontSize)
         {
             Text = text;
             LineWidth = lineWidth;
+            FontSize = fontSize;
         }
 
         public void BuildModel()
@@ -45,7 +47,7 @@ namespace Simple_Engine.Engine.Fonts
             for (int i = 0; i < Text.Length; i++)
             {
                 var c = Text[i];
-                var tmodel = FontFactory.GetCharacterModel(c);
+                var tmodel = FontFactory.GetCharacterModel(c, FontSize);
 
                 tmodel.ShaderModel = ShaderModel;
                 tmodel.TextureModel = TextureModel;
@@ -63,8 +65,8 @@ namespace Simple_Engine.Engine.Fonts
 
                 if (prev != null)
                 {
-                    offsetx += tmodel.GetWidth() + tmodel.XOffset + prev.Advance;
-                    tmodel.MoveWorld(new Vector3(offsetx, 0, 0) * tmodel.scaleValue);
+                    offsetx += (tmodel.GetWidth() + tmodel.XOffset + prev.Advance) * tmodel.scaleValue;
+                    tmodel.MoveWorld(new Vector3(offsetx, 0, 0));
                 }
                 tmodel.MoveWorld(new Vector3(0, -tmodel.YOffset, 0) * tmodel.scaleValue);
 
@@ -75,7 +77,7 @@ namespace Simple_Engine.Engine.Fonts
             }
         }
 
-        public void UploadVAO()
+        public void Render()
         {
             PrepareForRender(ShaderModel);
 
@@ -146,6 +148,11 @@ namespace Simple_Engine.Engine.Fonts
         }
 
         public void Create_UIControls()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UploadVAO()
         {
             throw new NotImplementedException();
         }

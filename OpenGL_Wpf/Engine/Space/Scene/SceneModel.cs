@@ -6,6 +6,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Core.Static;
+using Simple_Engine.Engine.Fonts.Core;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
@@ -49,8 +50,13 @@ namespace Simple_Engine.Engine.Space.Scene
             Setup_Camera();
             Setup_SceneLight();
             Setup_Grid();
-
+            Setup_Font();
             SelectedShader = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+        }
+
+        private void Setup_Font()
+        {
+            FontFactory.GenerateFont();
         }
 
         void IRenderable.Dispose()

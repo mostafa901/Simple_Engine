@@ -22,12 +22,12 @@ namespace Simple_Engine.Engine.Fonts
         public float scaleValue { get; private set; }
         public float scaledHeight;
 
-        public CharacterModel(FontInfo _finfo)
+        public CharacterModel(FontInfo _finfo, int fontSize)
         {
             Finfo = _finfo;
             //Ratio of the Character Height size 18 on a screen 244 pixels
             //https://websemantics.uk/tools/font-size-conversion-pixel-point-em-rem-percent/
-            scaledHeight = 48 / (float)Game.Instance.Height;
+            scaledHeight = fontSize / (float)Game.Instance.Height;
             scaleValue = scaledHeight / (float)Finfo.LineHeight;
         }
 

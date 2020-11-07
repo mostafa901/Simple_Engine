@@ -4,7 +4,6 @@ using Shared_Lib;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Fonts;
-using Simple_Engine.Engine.Fonts.Core;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry;
 using Simple_Engine.Engine.Geometry.Core;
@@ -289,9 +288,7 @@ namespace Simple_Engine.Engine
 
         internal static void DrawText(SceneModel scene)
         {
-            FontFactory.GenerateFont();
-
-            var GuiTextModel = new GuiFont("This is my first Line!", Game.Instance.Width);
+            var GuiTextModel = new GuiFont("This is my first Line!", Game.Instance.Width, 50);
             GuiTextModel.TextPosition = new Vector2(-.751f, .75f);
             GuiTextModel.BuildModel();
 
