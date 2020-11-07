@@ -69,6 +69,7 @@ namespace Simple_Engine.Engine.Core.Static
         }
 
         private static bool showDemo = false;
+        private static int postProcessSelection = 0;
 
         private static void Render_MenuBar()
         {
@@ -78,7 +79,7 @@ namespace Simple_Engine.Engine.Core.Static
                 if (ImGui.BeginMenu("Demo"))
                 {
                     ImGui.MenuItem("Show IMGUI Demo", "", ref showDemo, true);
-                    if (ImGui.BeginMenu("Examples"))
+                    if (ImGui.BeginMenu("Geometry"))
                     {
                         if (ImGui.MenuItem("Add Dragon"))
                         {
@@ -123,6 +124,42 @@ namespace Simple_Engine.Engine.Core.Static
                                 SceneModel.ActiveScene.RemoveModels(Grid.ActiveGrid);
                                 Grid.ActiveGrid = null;
                             }
+                        }
+
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.BeginMenu("PostProcess"))
+                    {
+                        ImGui.RadioButton("Normal", ref postProcessSelection, 0);
+                        ImGui.RadioButton("Contrast", ref postProcessSelection, 1);
+                        ImGui.RadioButton("Blur", ref postProcessSelection, 2);
+                        ImGui.RadioButton("Sepia", ref postProcessSelection, 3);
+
+                        if (postProcessSelection == 1)
+                        {
+                            game.contrastEffect.IsActive = true;
+                        }
+                        else
+                        {
+                            game.contrastEffect.IsActive = false;
+                        }
+
+                        if (postProcessSelection == 2)
+                        {
+                            game.hBlureEffect.IsActive = true;
+                        }
+                        else
+                        {
+                            game.hBlureEffect.IsActive = false;
+                        }
+
+                        if (postProcessSelection == 3)
+                        {
+                            game.sepiaEffect.IsActive = true;
+                        }
+                        else
+                        {
+                            game.sepiaEffect.IsActive = false;
                         }
 
                         ImGui.EndMenu();

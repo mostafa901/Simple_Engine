@@ -11,13 +11,20 @@ namespace Simple_Engine.Engine.GameSystem
         public PostRender_Effects contrastEffect;
         public PostRender_Effects hBlureEffect;
 
-        public void SetupFBOs()
+        private void SetupFBOs()
         {
             contrastEffect = new PostRender_Effects(PostProcess_Shader.PostProcessName.Contrast);
             sepiaEffect = new PostRender_Effects(PostProcess_Shader.PostProcessName.Sepia);
             hBlureEffect = new PostRender_Effects(PostProcess_Shader.PostProcessName.hBlure);
             texture_FBO = new FBO_Texture(Width, Height);
             mTargets_FBO = new FBO_MTargets(Width, Height);
+        }
+
+        private void Render_PostProcess()
+        {
+            contrastEffect.ProcessEffect(mTargets_FBO.TextureId);
+            hBlureEffect.ProcessEffect(mTargets_FBO.TextureId);
+            sepiaEffect.ProcessEffect(mTargets_FBO.TextureId);
         }
     }
 }

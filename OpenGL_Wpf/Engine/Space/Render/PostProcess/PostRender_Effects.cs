@@ -4,7 +4,8 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
 {
     public class PostRender_Effects
     {
-        private GuiModel vision;
+        public GuiModel vision;
+        public bool IsActive = false;
 
         public PostRender_Effects(PostProcess_Shader.PostProcessName effectName)
         {
@@ -18,7 +19,10 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
         public void ProcessEffect(int textureId)
         {
             vision.TextureModel.TextureId = textureId;
-            //vision.PrepareForRender(vision.ShaderModel);
+            if (!IsActive) return;
+
+            vision.PrepareForRender(vision.ShaderModel);
+
             vision.Renderer.Draw();
             vision.ShaderModel.Stop();
         }

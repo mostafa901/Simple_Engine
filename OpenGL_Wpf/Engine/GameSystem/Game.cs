@@ -77,30 +77,20 @@ namespace Simple_Engine.Engine.GameSystem
                 fbo.UnbindCurrentBuffer();
             }
 
-            UpdateUI((float)e.Time);
-
-            //texture_FBO.BindFrameBuffer();
-            //texture_FBO.ClearFrame();
             mTargets_FBO.BindFrameBuffer();
             mTargets_FBO.ClearFrame();
-            //GL.Enable(EnableCap.StencilTest);
-            //GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
             SceneModel.ActiveScene.Render();
 
             mTargets_FBO.UnbindCurrentBuffer();
+
             //change Color Attachment to 01 to render the selection buffer
             mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
+            Render_PostProcess();
 
-            //texture_FBO.UnbindCurrentBuffer();
-
-            // contrastEffect.ProcessEffect(mTargets_FBO.Color00BufferId);
-
-            //hBlureEffect.ProcessEffect(texture_FBO.TextureAttachId);
-            //contrastEffect.ProcessEffect(texture_FBO.TextureAttachId);
-
-            // sepiaEffect.ProcessEffect(texture_FBO.TextureAttachId);
             // ActiveScene.GuiTextModel?.Render();
+
+            UpdateUI((float)e.Time);
 
             DisplayManager.FixTime();
             AnimationMaster.Render(DisplayManager.UpdatePeriod);

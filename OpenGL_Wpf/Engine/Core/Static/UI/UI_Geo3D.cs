@@ -45,7 +45,6 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-       
         public static void RightClick(Base_Geo3D Model)
         {
             if (Model == null) return;
