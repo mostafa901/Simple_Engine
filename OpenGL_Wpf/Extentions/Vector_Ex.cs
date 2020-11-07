@@ -61,6 +61,17 @@ namespace Simple_Engine.Extentions
             return new Vector4(color.R, color.G, color.B, color.A);
         }
 
+        public static System.Numerics.Vector4 ToNumericVector4(this Color4 color)
+        {
+            return new System.Numerics.Vector4(color.R, color.G, color.B, color.A);
+        }
+
+        public static uint ToUint(this Color4 color)
+        {
+            return (uint)(((int)color.A << 24) | ((int)color.R << 16) |
+                          ((int)color.G << 8) | ((int)color.B << 0));
+        }
+
         public static float[] GetArray(this IEnumerable<Vector2> list)
         {
             List<float> points = new List<float>();

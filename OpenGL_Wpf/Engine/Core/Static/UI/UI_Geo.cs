@@ -1,11 +1,14 @@
 ﻿using ImGuiNET;
+using OpenTK.Graphics.OpenGL;
 using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
+using Simple_Engine.Extentions;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Simple_Engine.Engine.Core.Static
@@ -25,7 +28,6 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - 20));
             ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
@@ -55,6 +57,9 @@ namespace Simple_Engine.Engine.Core.Static
                         CameraModel.PerspectiveCamera.AlignCamera(Model.BBX);
                         CameraModel.ActiveCamera.UpdateViewTo(CameraModel.PerspectiveCamera);
                     }
+                    ImGui.Separator();
+
+                    Render_DrawTypes();
                     UI_Geo3D.Render_Clipping(Model as Base_Geo3D);
                 }
                 UI_Geo3D.RightClick(Model as Base_Geo3D);
@@ -62,9 +67,32 @@ namespace Simple_Engine.Engine.Core.Static
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
             }
-            
 
             ImGui.PopStyleVar();
+        }
+
+        private static void Render_DrawTypes()
+        {
+            var drawnames = new List<PrimitiveType> { PrimitiveType.Points, PrimitiveType.Lines, PrimitiveType.Triangles, PrimitiveType.TriangleStrip };
+            foreach (var prim in drawnames)
+            {
+                if (prim == Model.DrawType)
+                {
+                    ImGui.PushID("Red");
+                    ImGui.PushStyleColor(ImGuiCol.Button, ImGui.ColorConvertFloat4ToU32(OpenTK.Graphics.Color4.Red.ToNumericVector4()));
+                    ImGui.Button(prim.ToString());
+
+                    ImGui.PopStyleColor();
+                    ImGui.PopID();
+                }
+                else
+                {
+                    if (ImGui.Button(prim.ToString()))
+                    {
+                        Model.DrawType = prim;
+                    }
+                }
+            }
         }
 
         private static void Render_AllowReflection()

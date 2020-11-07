@@ -5,7 +5,6 @@ using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
-using System.Numerics;
 
 namespace Simple_Engine.Engine.Core.Static
 {
@@ -215,7 +214,7 @@ namespace Simple_Engine.Engine.Core.Static
             if (SceneModel.ActiveScene.IsolateDisplay)
             {
                 ImGui.PushID("Red");
-                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1, 0, 0, 1));
+                ImGui.PushStyleColor(ImGuiCol.Button, OpenTK.Graphics.Color4.Red.ToUint());
                 if (ImGui.Button("Isolate is Active"))
                 {
                     isolate();
