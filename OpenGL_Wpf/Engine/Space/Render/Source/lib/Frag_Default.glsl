@@ -10,7 +10,7 @@ in float ModelSelected;
 uniform bool EnableNormalMap;
 
 //RenderMode
-uniform int ShaderType;
+uniform int ShaderType1;
 uniform bool IsToonMode;
 uniform int BrightnessLevels;
 

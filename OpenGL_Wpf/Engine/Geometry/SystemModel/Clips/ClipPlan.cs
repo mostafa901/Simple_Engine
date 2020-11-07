@@ -21,6 +21,7 @@ namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
             DefaultColor = new Vector4(clipDirection, .5f);
             MoveWorld(clipDirection * offsetValue);
             IsBlended = true;
+            IsSystemModel = true;
         }
 
         public void SetAsGlobal(bool globalValue)

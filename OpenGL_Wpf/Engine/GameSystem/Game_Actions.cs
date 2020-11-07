@@ -36,21 +36,23 @@ namespace Simple_Engine.Engine.GameSystem
 
         public void LoadModels()
         {
-            string path = UT_System.LoadFiles(GetFilter(filter.Simple_EngineModel)).FirstOrDefault();
-
+            string path = UT_System.LoadFiles(GetFilter(filter.Bin)).FirstOrDefault();
+            SceneModel.ActiveScene.DisposeModels(true);
             if (path != null)
             {
-                Task.Run(() => { Loader.Load_GeoFile(path); });
+                //Task.Run(() => { Loader.Load_GeoFile(path); });
+                Task.Run(() => { IO.LoadBinary(path); });
             }
         }
 
         public void SaveModels()
         {
-            string path = UT_System.SaveFilePath(GetFilter(filter.Simple_EngineModel));
+            string path = UT_System.SaveFilePath(GetFilter(filter.Bin));
 
             if (path != null)
             {
-                Task.Run(() => { IO.Save(SceneModel.ActiveScene.geoModels, path); });
+                //Task.Run(() => { IO.Save(SceneModel.ActiveScene.geoModels, path); });
+                Task.Run(() => { IO.SaveBinary(SceneModel.ActiveScene.geoModels.Where(o => !o.IsSystemModel), path); });
             }
         }
     }

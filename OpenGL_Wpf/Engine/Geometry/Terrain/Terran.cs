@@ -19,6 +19,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             SetDepth(height);
             RecieveShadow = true;
             CastShadow = true;
+            // DrawType = OpenTK.Graphics.OpenGL.PrimitiveType.Points;
         }
 
         public override void BuildModel()
@@ -27,6 +28,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             DefaultColor = new Vector4(.15f, .16f, .18f, 1);
             TextureModel = new TerrainTexture();
             generateTerrain();
+            //      Indeces.Clear();
         }
 
         public override float GetHeight()

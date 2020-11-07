@@ -7,7 +7,8 @@
             All,
             Simple_EngineModel,
             Json,
-            OBJ
+            OBJ,
+            Bin
         }
 
         public static string GetFilter(filter filterType)
@@ -19,6 +20,9 @@
 
                 case filter.Json:
                     return "Json files|*.json";
+
+                case filter.Bin:
+                    return "binary files|*.bin";
 
                 case filter.OBJ:
                     return "Obj files|*.obj";

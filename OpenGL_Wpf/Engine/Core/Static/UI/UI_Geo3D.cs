@@ -45,7 +45,6 @@ namespace Simple_Engine.Engine.Core.Static
             }
         }
 
-       
         public static void RightClick(Base_Geo3D Model)
         {
             if (Model == null) return;
@@ -78,9 +77,9 @@ namespace Simple_Engine.Engine.Core.Static
             if (UI_Shared.OpenContext)
             {
                 ImGui.SetNextWindowSize(new System.Numerics.Vector2());
-                if (ImGui.Begin("Context", ref UI_Shared.OpenContext, ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar))
+                if (ImGui.Begin("Context2", ref UI_Shared.OpenContext, ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar))
                 {
-                    if (ImGui.MenuItem("Test"))
+                    if (ImGui.Button("Testx"))
                     {
                         UI_Shared.OpenContext = false;
                     }

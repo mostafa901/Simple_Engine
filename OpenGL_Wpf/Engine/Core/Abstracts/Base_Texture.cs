@@ -77,9 +77,8 @@ namespace Simple_Engine.Engine.Core.Abstracts
         {
             /*It's very unlikely that your card does not support Anisotropic filtering:
             "Anisotropic filtering is relatively intensive (primarily memory bandwidth and to some degree computationally, though the standard space–time tradeoff rules apply) and only became a standard feature of consumer-level graphics cards in the late 1990s."
-https://en.wikipedia.org/wiki/Anisotropic_filtering
+                https://en.wikipedia.org/wiki/Anisotropic_filtering
 
-            //todo: can't find the api access to this feature
             */
 
             //this is to get the max

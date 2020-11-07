@@ -23,6 +23,7 @@ namespace Simple_Engine.Engine.Geometry.Render
             BindIndicesBuffer(((IDrawable3D)Model).Indeces.ToArray());
 
             StoreDataInAttributeList(PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
+            PositionBufferLength = ((IDrawable3D)Model).Positions.Count;
 
             StoreDataInAttributeList(TextureLocation, Model.TextureCoordinates.GetArray(), 2);
             StoreDataInAttributeList(NormalLocation, Model.Normals.GetArray(), 3);
@@ -41,6 +42,7 @@ namespace Simple_Engine.Engine.Geometry.Render
             }
             if (Model.NormalTangent.Any())
             {
+                EnableNormalTangent = true;
                 StoreDataInAttributeList(TangentsLocation, Model.NormalTangent.GetArray(), 3);
             }
             if (Model.VertixColor.Any())
@@ -62,7 +64,7 @@ namespace Simple_Engine.Engine.Geometry.Render
             GL.EnableVertexAttribArray(TextureLocation);//texture
             GL.EnableVertexAttribArray(NormalLocation);//normal
 
-            if (Model.NormalTangent.Any())
+            if (EnableNormalTangent)
             {
                 GL.EnableVertexAttribArray(TangentsLocation);
             }
@@ -102,13 +104,13 @@ namespace Simple_Engine.Engine.Geometry.Render
                                         Model.Meshes.Count
                                         );
             }
-            else if (((IDrawable3D)Model).Indeces.Any())
+            else if (EBO != -1)
             {
-                GL.DrawElements(Model.DrawType, ((IDrawable3D)Model).Indeces.Count, DrawElementsType.UnsignedInt, 0);
+                GL.DrawElements(Model.DrawType, IndexBufferLength, DrawElementsType.UnsignedInt, 0);
             }
             else
             {
-                GL.DrawArrays(Model.DrawType, 0, ((IDrawable3D)Model).Positions.Count);
+                GL.DrawArrays(Model.DrawType, 0, PositionBufferLength);
             }
         }
 

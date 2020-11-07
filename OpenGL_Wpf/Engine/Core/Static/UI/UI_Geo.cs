@@ -25,7 +25,7 @@ namespace Simple_Engine.Engine.Core.Static
 
         private static void RenderWindow()
         {
-            RightClick();
+            
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0);
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(250, Game.Instance.Height - 20));
             ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
@@ -56,8 +56,8 @@ namespace Simple_Engine.Engine.Core.Static
                         CameraModel.ActiveCamera.UpdateViewTo(CameraModel.PerspectiveCamera);
                     }
                     UI_Geo3D.Render_Clipping(Model as Base_Geo3D);
-                    UI_Geo3D.RightClick(Model as Base_Geo3D);
                 }
+                UI_Geo3D.RightClick(Model as Base_Geo3D);
 
                 // Early out if the window is collapsed, as an optimization.
                 ImGui.End();
