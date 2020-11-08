@@ -1,5 +1,6 @@
 ﻿#version 400 core
 
+
 //Textures
 uniform sampler2D GrassFlowerTexture;
 uniform sampler2D GrassTexture;
@@ -23,26 +24,25 @@ void main()
 { 
     vec4 pixelColor;
     pixelColor = Blend2DTextures();
-    
+
     float shadow = AddShadow();
     pixelColor = AddLight(pixelColor, shadow, surfaceNormal); //no shadow
 
-    
     pixelColor = AddFog(pixelColor);
 
-   FragColor =  Finalize(pixelColor);
+    FragColor =  Finalize(pixelColor);
 }
 
 vec4 Blend2DTextures()
 {
     //get the blend value
     //10 here is the number of tiles this texture is repeated. the blend texture should be always 1 to 1 to get this case working
-   vec4 blendMapColor = texture(DiffuseMap,textureCoor2/10);
-   float blendAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
-   vec4 backGround = texture(GrassTexture,textureCoor2) * blendAmount;
-   vec4 roadTexture = texture(RoadTexture,textureCoor2)*(blendMapColor.b);
-   vec4 grassTexture = texture(GrassFlowerTexture ,textureCoor2)*(blendMapColor.g);
-   vec4 dirtTexture = texture(DirtTexure,textureCoor2)*(blendMapColor.r);
+    vec4 blendMapColor = texture(DiffuseMap,textureCoor2/10);
+    float blendAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+    vec4 backGround = texture(GrassTexture,textureCoor2) * blendAmount;
+    vec4 roadTexture = texture(RoadTexture,textureCoor2)*(blendMapColor.b);
+    vec4 grassTexture = texture(GrassFlowerTexture ,textureCoor2)*(blendMapColor.g);
+    vec4 dirtTexture = texture(DirtTexure,textureCoor2)*(blendMapColor.r);
     vec4  pixelColor = backGround + grassTexture + dirtTexture + roadTexture;
-   return pixelColor;
+    return pixelColor;
 }

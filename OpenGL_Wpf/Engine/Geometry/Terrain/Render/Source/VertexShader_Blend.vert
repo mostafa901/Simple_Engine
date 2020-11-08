@@ -16,28 +16,29 @@ uniform bool LoadNormalMaps;
 void main()
 {
     mat4 modelTransform = GetLocalMatrix();
-    SetIsSelected();
-      VertexPosition = aPosition;
-   vec4 worldPosition = modelTransform  * vec4(aPosition,1.0); 
-   CheckClipPlan(worldPosition);
+     
+    vec4 worldPosition = modelTransform  * vec4(aPosition,1.0); 
+    SetDefaults(worldPosition);
+    
+    CheckClipPlan(worldPosition);
 
-   vec4 positionFromCamera= ViewTransform * worldPosition;
+    vec4 positionFromCamera= ViewTransform * worldPosition;
     gl_Position = ProjectionTransform * positionFromCamera;
 
     LoadShadowPosition(worldPosition);
      
     LoadSurfaceNormal(modelTransform);
        
-       if(EnableNormalMap)
-        {
-           mat3 TangentSpace =  GetNormalSpace(worldPosition, modelTransform);
-           compileToLightSource(worldPosition,TangentSpace);
-        }
-        else
-        {
-            mat3 x;
-            compileToLightSource(worldPosition,x);
-        }
+    if(EnableNormalMap)
+    {
+        mat3 TangentSpace =  GetNormalSpace(worldPosition, modelTransform);
+        compileToLightSource(worldPosition,TangentSpace);
+    }
+    else
+    {
+        mat3 x;
+        compileToLightSource(worldPosition,x);
+    }
 
     textureCoor2 = GetTextureCoordinate();
 

@@ -37,6 +37,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public List<Vector3> Positions { get; set; }
 
         private float Depth { get; set; }
+        public static Vector3 SelectedVertex { get; internal set; }
 
         //you need to enable Instancing in Renderer to get this to work
         public virtual Mesh3D AddMesh(Matrix4 mat)

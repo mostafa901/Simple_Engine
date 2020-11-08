@@ -6,10 +6,10 @@ in mat4 InstanceMatrix;
 in vec3 Tangent;
 in float InstanceSelected;
 
-
+ 
 out float ModelSelected;
 out vec3 surfaceNormal;
-out vec3 VertexPosition;
+
 
 uniform bool InvertNormal;
 uniform float IsSelected;
@@ -27,8 +27,23 @@ uniform bool Enable_ClipPlanX;
 uniform bool Enable_ClipPlanY;
 uniform bool Enable_ClipPlanZ;
 
+void SetIsSelected()
+{
+	if(determinant(InstanceMatrix)==0)
+	{
+		ModelSelected =  IsSelected;
+	}
+	else
+	{
+		ModelSelected =  InstanceSelected;
+	}
+}
 
-
+void SetDefaults(vec4 pos)
+{
+    SetIsSelected();
+	 
+}
 
 void LoadSurfaceNormal(mat4 modelTransform)
 {
@@ -70,17 +85,7 @@ mat4 GetLocalMatrix()
 	}
 }
 
-void SetIsSelected()
-{
-	if(determinant(InstanceMatrix)==0)
-	{
-		ModelSelected =  IsSelected;
-	}
-	else
-	{
-		ModelSelected =  InstanceSelected;
-	}
-}
+
 
 //NormalMap
 mat3 GetNormalSpace(vec4 worldPosition, mat4 modelTransform)

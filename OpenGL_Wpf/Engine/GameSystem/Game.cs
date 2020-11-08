@@ -84,7 +84,7 @@ namespace Simple_Engine.Engine.GameSystem
             mTargets_FBO.UnbindCurrentBuffer();
 
             //change Color Attachment to 01 to render the selection buffer
-            mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment2);
+            mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
             //  Render_PostProcess();
 
             SceneModel.ActiveScene.GuiTextModel?.Render();

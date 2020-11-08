@@ -20,7 +20,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             SetDepth(height);
             RecieveShadow = true;
             CastShadow = true;
-            DrawType = OpenTK.Graphics.OpenGL.PrimitiveType.Points;
         }
 
         public override void BuildModel()

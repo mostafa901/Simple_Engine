@@ -9,9 +9,10 @@
 void main()
 {
     mat4 modelTransform = GetLocalMatrix();
-    SetIsSelected();
     vec4 worldPosition = modelTransform * vec4(aPosition,1.0);
    
+    SetDefaults(worldPosition);
+    
     CheckClipPlan(worldPosition);
     LoadShadowPosition(worldPosition);
    
@@ -21,8 +22,8 @@ void main()
     textureCoor2 =  GetTextureCoordinate();
 
     LoadSurfaceNormal(modelTransform);
-   
 
+    
 
     if(EnableNormalMap)
     {

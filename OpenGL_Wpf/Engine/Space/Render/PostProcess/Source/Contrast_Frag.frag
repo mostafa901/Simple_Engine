@@ -10,4 +10,5 @@ void main(void)
  	//FragColor = vec4(1,1,0,1);
  	FragColor = texture(DiffuseMap,textureCoor2);
     FragColor.rgb = (FragColor.rgb - 0.5) * (1.0 + 0.3) + 0.5;
+    Finalize(FragColor);
 }

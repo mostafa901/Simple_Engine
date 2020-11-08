@@ -221,7 +221,8 @@ namespace Simple_Engine.Engine.Render
                     {
                         path = @"./Engine/Geometry/Terrain/Render/Source/";
 
-                        Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag", @"./Engine/Space/Render/Source/SingleColor_Geom.geom");
+                        Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag",
+                         @"./Engine/Space/Render/Source/SingleColor_Geom.geom");
                         break;
                     }
                 case ShaderPath.Cube:
@@ -466,7 +467,6 @@ namespace Simple_Engine.Engine.Render
             {
                 geometryShaderId = CreateShader(geometryShaderPath, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
             }
-            // LoadCommonFunctions();
 
             BindAttributes(); //must be before linking program
             LinkProgram();

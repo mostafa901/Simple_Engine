@@ -35,8 +35,8 @@ namespace Simple_Engine.Engine.Water.Render
 
             Setup_Defaults(false);
             BindFrameBuffer();
-            SelectionTextureId = createTextureAttachment(FramebufferAttachment.ColorAttachment1);
-            VertexSelectionTextureId = createTextureAttachment(FramebufferAttachment.ColorAttachment2);
+            SelectionTextureId = CreateRGBTextureAttachment(FramebufferAttachment.ColorAttachment1);
+            VertexSelectionTextureId = CreateIntTextureAttachment(FramebufferAttachment.ColorAttachment2);
             UnbindCurrentBuffer();
         }
 

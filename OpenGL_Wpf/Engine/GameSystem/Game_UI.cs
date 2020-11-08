@@ -46,6 +46,7 @@ namespace Simple_Engine.Engine.GameSystem
             UI_Light.RenderUI(LightModel.SelectedLight);
             UI_Fog.RenderUI(SceneModel.ActiveScene.SceneFog);
             Core.Static.UI_Geo.RenderUI(Base_Geo.SelectedModel as Base_Geo);
+            UI_Vertex.RenderUI(Base_Geo3D.SelectedVertex);
 
             _controller?.Render();
         }

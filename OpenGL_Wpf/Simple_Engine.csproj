@@ -100,6 +100,7 @@
     <Compile Include="Engine\Core\Static\Inputcontrol\KeyControl.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Clip.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Fog.cs" />
+    <Compile Include="Engine\Core\Static\UI\UI_Vertex.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Geo3D.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Light.cs" />
     <Compile Include="Engine\Core\Static\UI\UI_Camera.cs" />
