@@ -26,10 +26,10 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
         {
             base.UploadDefaults(shaderModel);
 
-            int GrassTextureLocation = shaderModel.GetLocation("GrassTexture");
-            int RoadTextureLocation = shaderModel.GetLocation("RoadTexture");
-            int DirtTexureLocation = shaderModel.GetLocation("DirtTexure");
-            int GrassFlowerTextureLocation = shaderModel.GetLocation("GrassFlowerTexture");
+            int GrassTextureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "GrassTexture");
+            int RoadTextureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "RoadTexture");
+            int DirtTexureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "DirtTexure");
+            int GrassFlowerTextureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "GrassFlowerTexture");
 
             shaderModel.SetInt(GrassFlowerTextureLocation, 1);
             shaderModel.SetInt(RoadTextureLocation, 2);

@@ -8,7 +8,7 @@ namespace Simple_Engine.Engine.GUI.Render
         {
         }
 
-        public override void BindAttributes()
+        public override void BindVertexAttributes()
         {
             BindAttribute(PositionLayoutId, "aPosition2");
             BindAttribute(TextureLayoutId, "aTextureCoor");

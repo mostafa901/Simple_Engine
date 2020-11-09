@@ -9,7 +9,7 @@ namespace Simple_Engine.Engine.Illumination.Render
         {
         }
 
-        public override void BindAttributes()
+        public override void BindVertexAttributes()
         {
             BindAttribute(PositionLayoutId, "aPosition");
             BindAttribute(PositionLayoutId, "aTextureCoor");

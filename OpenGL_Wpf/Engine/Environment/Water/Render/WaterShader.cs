@@ -21,16 +21,15 @@ namespace Simple_Engine.Engine.Water.Render
         public override void LoadAllUniforms()
         {
             base.LoadAllUniforms();
-            ReflectionLocation = GetLocation("Reflection");
-            RefractionLocation = GetLocation("Refraction");
-            DudvLocation = GetLocation("Dudv");
-            moveFactorLocation = GetLocation("moveFactor");
-            CameraPositionLocation = GetLocation("CameraPosition");
-            NormalMapLocation = GetLocation("NormalMap");
-            DepthMapLocation = GetLocation("DepthMap");
+            ReflectionLocation = GetLocation(FragProgramID, "Reflection");
+            RefractionLocation = GetLocation(FragProgramID, "Refraction");
+            DudvLocation = GetLocation(FragProgramID, "Dudv");
+            moveFactorLocation = GetLocation(FragProgramID, "moveFactor");
+            NormalMapLocation = GetLocation(FragProgramID, "NormalMap");
+            DepthMapLocation = GetLocation(FragProgramID, "DepthMap");
         }
 
-        public override void BindAttributes()
+        public override void BindVertexAttributes()
         {
             BindAttribute(PositionLayoutId, "aPosition");
             BindAttribute(TextureLayoutId, "aTextureCoor");

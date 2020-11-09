@@ -10,7 +10,7 @@ namespace Simple_Engine.Engine.Fonts
             Setup_Shader($"{path}VertexShader_Font.vert", $"{path}FragmentShader_Font.frag");
         }
 
-        public override void BindAttributes()
+        public override void BindVertexAttributes()
         {
             BindAttribute(PositionLayoutId, "aPosition2");
             BindAttribute(TextureLayoutId, "aTextureCoor");

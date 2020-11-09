@@ -11,7 +11,7 @@ namespace Simple_Engine.Engine.Particles.Render
         public int TextureOffsetLayoutLocation = 6;
         public int BlendLayoutLocation = 7;
 
-        public override void BindAttributes()
+        public override void BindVertexAttributes()
         {
             BindAttribute(PositionLayoutId, "aPosition2");
             BindAttribute(TextureLayoutId, "aTextureCoor");

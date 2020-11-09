@@ -78,7 +78,7 @@ namespace Simple_Engine.Engine.Illumination
 
         public override void UploadDefaults(Shader ShaderModel)
         {
-            ShaderModel.Location_LocalTransform = ShaderModel.GetLocation(nameof(LocalTransform));
+            ShaderModel.Location_LocalTransform = ShaderModel.GetLocation(ShaderModel.VertexProgramID, nameof(LocalTransform));
 
             base.UploadDefaults(ShaderModel);
         }
