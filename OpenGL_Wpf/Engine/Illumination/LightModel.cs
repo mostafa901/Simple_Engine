@@ -48,7 +48,7 @@ namespace Simple_Engine.Engine.Illumination
         public float Intensity { get; set; } = 1;
         public bool CastShadow { get; set; }
 
-        public Line LightRay;
+        public Line3D LightRay;
 
         public void BuildModel()
         {

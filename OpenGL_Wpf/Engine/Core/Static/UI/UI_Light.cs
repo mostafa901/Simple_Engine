@@ -61,7 +61,7 @@ namespace Simple_Engine.Engine.Core.Static
             {
                 if (light.LightRay == null)
                 {
-                    light.LightRay = new Line(new Vector3(), new Vector3(1));
+                    light.LightRay = new Line3D(new Vector3(), new Vector3(1));
                     light.LightRay.IsSystemModel = true;
                     light.LightRay.IsActive = false;
                     light.LightRay.BuildModel();

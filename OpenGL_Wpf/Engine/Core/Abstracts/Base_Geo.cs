@@ -27,6 +27,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
     {
         public static Base_Geo SelectedModel;
         private CubeModel SelectionBox;
+        protected Type modelType;
 
         public Base_Geo()
         {

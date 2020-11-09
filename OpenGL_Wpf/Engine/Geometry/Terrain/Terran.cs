@@ -20,6 +20,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             SetDepth(height);
             RecieveShadow = true;
             CastShadow = true;
+            modelType = typeof(Terran);
         }
 
         public override void BuildModel()

@@ -242,7 +242,7 @@ namespace Simple_Engine.Engine
 
         public static void DrawLine(SceneModel scene)
         {
-            Line l = new Line(new Vector3(0, 0, 0), new Vector3(1, 0, 1));
+            Line3D l = new Line3D(new Vector3(0, 0, 0), new Vector3(1, 0, 1));
 
             scene.UpLoadModels(l);
         }

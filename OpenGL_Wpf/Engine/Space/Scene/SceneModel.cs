@@ -84,7 +84,6 @@ namespace Simple_Engine.Engine.Space.Scene
                 {
                     var model = ModelstoRemove.Pop();
                     geoModels.Remove(model);
-                    model.Dispose();
                 }
             }
 

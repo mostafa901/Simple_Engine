@@ -20,7 +20,7 @@ namespace Simple_Engine.Engine.Space.Camera
 {
     public partial class CameraModel : IRenderable
     {
-        private Line cameraLine;
+        private Line3D cameraLine;
 
         //use setGlobal from clip instance
         public static bool EnableClipPlans;
@@ -106,7 +106,7 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 if (cameraLine == null)
                 {
-                    cameraLine = new Line(Position, Target);
+                    cameraLine = new Line3D(Position, Target);
                     cameraLine.IsSystemModel = true;
                     cameraLine.DefaultColor = new Vector4(1, 0, 0, 1);
                 }

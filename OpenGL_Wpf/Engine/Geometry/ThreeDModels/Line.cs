@@ -6,16 +6,16 @@ using Simple_Engine.Engine.Render;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
-    public class Line : Base_Geo3D
+    public class Line3D : Base_Geo3D
     {
-        public Line()
+        public Line3D()
         {
         }
 
-        public Line(Vector3 a, Vector3 b)
+        public Line3D(Vector3 a, Vector3 b)
         {
             DrawType = PrimitiveType.Lines;
-            ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.Color);
+            ShaderModel = new Shader(ShaderPath.Color);
 
             StartPoint = a;
             EndPoint = b;
@@ -30,6 +30,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Setup_Position();
             Setup_Indeces();
             Setup_Normals();
+            modelType = typeof(Line3D);
         }
 
         public override void Setup_Indeces()
