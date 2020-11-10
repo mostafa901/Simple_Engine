@@ -110,6 +110,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public void SetShaderModel(Base_Shader value)
         {
+            if (value == null) return;
             shaderModel = value;
         }
 

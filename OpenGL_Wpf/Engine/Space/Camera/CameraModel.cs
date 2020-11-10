@@ -6,11 +6,9 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.SystemModel.Clips;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
-using Simple_Engine.Engine.Render;
 using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
-using Simple_Engine.Extentions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -220,8 +218,6 @@ namespace Simple_Engine.Engine.Space.Camera
                 if (!found)
                 {
                     var baseGeo = model as Base_Geo;
-
-                    //  var res = baseGeo.Intersect(mouseRayVector, activeScene.ActiveCamera.Position);
 
                     Vector4 pickedColor = targetfbo.GetPixelColorFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment1, 2);
 

@@ -14,6 +14,7 @@ void main()
         discard;
     }
 
+
     float shadow = AddShadow();
     vec3 normalMap = GetNormalMap();
 

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Simple_Engine.Engine.Geometry.Core
 {
-    public class GeometryModel : Base_Geo3D, ISelectable
+    public class GeometryModel : Base_Geo3D
     {
         public byte[] vertexBuffer;
 
