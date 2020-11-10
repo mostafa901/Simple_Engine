@@ -7,6 +7,7 @@ using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Geometry.SystemModel.Clips;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             mesh.Floor = Floor;
             Meshes.Add(mesh);
 
-            ShaderModel.EnableInstancing = true;
+            GetShaderModel().EnableInstancing = true;
 
             return mesh;
         }
@@ -68,7 +69,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
 
             Renderer.RenderModel();
-            ShaderModel.UploadDefaults(this);
+            GetShaderModel().UploadDefaults(this);
         }
 
         public virtual float GetDepth()
@@ -92,7 +93,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             };
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             if ((EnableClipPlans || CameraModel.EnableClipPlans) && !(this is ClipPlan))
@@ -113,7 +114,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
         }
 
-        public override void PostRender(Shader ShaderModel)
+        public override void PostRender(Base_Shader ShaderModel)
         {
             base.PostRender(ShaderModel);
             if (EnableClipPlans || CameraModel.EnableClipPlans)
@@ -133,7 +134,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             }
 
             Renderer.RenderModel();
-            ShaderModel.UploadDefaults(this);
+            GetShaderModel().UploadDefaults(this);
         }
 
         public void SetEnableClipPlans(bool enableValue)

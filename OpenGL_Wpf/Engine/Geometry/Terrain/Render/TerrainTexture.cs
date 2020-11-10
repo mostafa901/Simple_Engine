@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 
 namespace Simple_Engine.Engine.Geometry.Terrain.Render
@@ -22,14 +23,14 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
             TextureIds.Add(grassTexture);
         }
 
-        public override void UploadDefaults(Shader shaderModel)
+        public override void UploadDefaults(Base_Shader shaderModel)
         {
             base.UploadDefaults(shaderModel);
 
-            int GrassTextureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "GrassTexture");
-            int RoadTextureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "RoadTexture");
-            int DirtTexureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "DirtTexure");
-            int GrassFlowerTextureLocation = shaderModel.GetLocation(shaderModel.FragProgramID, "GrassFlowerTexture");
+            int GrassTextureLocation = shaderModel.GetLocation("GrassTexture");
+            int RoadTextureLocation = shaderModel.GetLocation("RoadTexture");
+            int DirtTexureLocation = shaderModel.GetLocation("DirtTexure");
+            int GrassFlowerTextureLocation = shaderModel.GetLocation("GrassFlowerTexture");
 
             shaderModel.SetInt(GrassFlowerTextureLocation, 1);
             shaderModel.SetInt(RoadTextureLocation, 2);

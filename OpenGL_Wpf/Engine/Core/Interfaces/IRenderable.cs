@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Core.Interfaces
 {
@@ -19,13 +20,13 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         void Dispose();
 
-        void Live_Update(Shader ShaderModel);
+        void Live_Update(Base_Shader ShaderModel);
 
         IRenderable Load(string path);
 
-        void PostRender(Shader ShaderModel);
+        void PostRender(Base_Shader ShaderModel);
 
-        public abstract void PrepareForRender(Shader shaderModel);
+        public abstract void PrepareForRender(Base_Shader shaderModel);
 
         public void Render_UIControls();
 
@@ -35,7 +36,7 @@ namespace Simple_Engine.Engine.Core.Interfaces
 
         void UpdateBoundingBox();
 
-        void UploadDefaults(Shader ShaderModel);
+        void UploadDefaults(Base_Shader ShaderModel);
 
         public struct BoundingBox
         {

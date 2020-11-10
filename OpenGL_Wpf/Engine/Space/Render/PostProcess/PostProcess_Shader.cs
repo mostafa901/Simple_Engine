@@ -1,8 +1,9 @@
 ﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Space.Render.PostProcess
 {
-    public class PostProcess_Shader : Shader
+    public class PostProcess_Shader : Vertex_Shader
     {
         public enum PostProcessName
         {
@@ -11,7 +12,7 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
             hBlure
         }
 
-        public PostProcess_Shader(PostProcessName postProcessType) : base(ShaderMapType.LightnColor, ShaderPath.PostProcess)
+        public PostProcess_Shader(PostProcessName postProcessType) : base(ShaderPath.PostProcess)
         {
             var path = @"./Engine/Space/Render/PostProcess/Source/";
 

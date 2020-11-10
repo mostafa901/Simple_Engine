@@ -4,6 +4,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Geometry.Cube;
 using Simple_Engine.Engine.Illumination.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.ToolBox;
 
@@ -24,8 +25,8 @@ namespace Simple_Engine.Engine.Illumination
 
         public override void BuildModel()
         {
-            ShaderModel = new Shader(ShaderMapType.LoadCubeTexture, ShaderPath.SkyBox);
-            ShaderModel.BrightnessLevels = 10;
+            SetShaderModel(new Vertex_Shader(ShaderPath.SkyBox));
+            GetShaderModel().BrightnessLevels = 10;
             TextureModel = new SkyBoxTexture();
         }
 
@@ -66,7 +67,7 @@ namespace Simple_Engine.Engine.Illumination
             Rotate(.01f, Vector3.UnitY);
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             AnimateBlend();
@@ -76,9 +77,9 @@ namespace Simple_Engine.Engine.Illumination
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
         }
 
-        public override void UploadDefaults(Shader ShaderModel)
+        public override void UploadDefaults(Base_Shader ShaderModel)
         {
-            ShaderModel.Location_LocalTransform = ShaderModel.GetLocation(ShaderModel.VertexProgramID, nameof(LocalTransform));
+            ShaderModel.Location_LocalTransform = ShaderModel.GetLocation(nameof(LocalTransform));
 
             base.UploadDefaults(ShaderModel);
         }

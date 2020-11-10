@@ -45,7 +45,7 @@ namespace Simple_Engine.Engine.Illumination.Render
 
         public override void RenderModel()
         {
-            PositionLocation = geometryModel.ShaderModel.PositionLayoutId;
+            PositionLocation = geometryModel.GetShaderModel().PositionLayoutId;
 
             VAO = CreateVAO();
             BindIndicesBuffer(((IDrawable3D)geometryModel).Indeces.ToArray());

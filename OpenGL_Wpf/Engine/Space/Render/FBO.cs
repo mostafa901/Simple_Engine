@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
@@ -23,7 +24,7 @@ namespace Simple_Engine.Engine.Water.Render
             MultipleTargets,
         }
 
-        public Shader FBO_Shader;
+        public Base_Shader FBO_Shader;
 
         public FboName Name { get; set; } //just to help while Debugging
         public int FBOId { get; private set; }
@@ -291,15 +292,15 @@ namespace Simple_Engine.Engine.Water.Render
             );
         }
 
-        public virtual void PreRender(Shader ShaderModel)
+        public virtual void PreRender(Base_Shader ShaderModel)
         {
         }
 
         public abstract void RenderFrame(IDrawable model);
 
-        public abstract void Live_Update(Shader ShaderModel);
+        public abstract void Live_Update(Base_Shader ShaderModel);
 
-        public abstract void PostRender(Shader ShaderModel);
+        public abstract void PostRender(Base_Shader ShaderModel);
 
         public abstract void RenderFrame(List<IDrawable> models);
     }

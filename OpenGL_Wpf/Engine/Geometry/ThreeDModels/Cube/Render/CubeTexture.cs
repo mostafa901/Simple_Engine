@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render
@@ -16,7 +17,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render
             Set_LoadNormalMap(true);
         }
 
-        public override void UploadDefaults(Shader ShaderModel)
+        public override void UploadDefaults(Base_Shader ShaderModel)
         {
             base.UploadDefaults(ShaderModel);
             ShaderModel.SetInt(ShaderModel.Location_CubeDiffuseMap, 0);

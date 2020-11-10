@@ -1,10 +1,11 @@
 ﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Particles.Render
 {
-    public class ParticleShader : Shader
+    public class ParticleShader : Vertex_Shader
     {
-        public ParticleShader(ShaderMapType mapType, ShaderPath shaderType) : base(mapType, shaderType)
+        public ParticleShader(ShaderPath shaderType) : base(shaderType)
         {
         }
 

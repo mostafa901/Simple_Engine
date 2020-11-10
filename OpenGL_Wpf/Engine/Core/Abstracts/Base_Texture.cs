@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System.Collections.Generic;
@@ -161,7 +162,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             return data;
         }
 
-        public virtual void Live_Update(Shader shaderModel)
+        public virtual void Live_Update(Base_Shader shaderModel)
         {
             foreach (var texture in TextureIds)
             {
@@ -208,7 +209,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             EnableNormalMap = LoadMaps;
         }
 
-        public virtual void UploadDefaults(Shader ShaderModel)
+        public virtual void UploadDefaults(Base_Shader ShaderModel)
         {
             ShaderModel.SetBool(ShaderModel.IsTransparentLocation, IsTransparent);
 

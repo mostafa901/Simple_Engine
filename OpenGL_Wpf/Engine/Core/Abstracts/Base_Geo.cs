@@ -12,6 +12,7 @@ using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.ToolBox;
@@ -64,6 +65,9 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public event EventHandler<SelectedEvent> onSelectedEvent;
 
+        public Vertex_Shader VertexShader { get; set; }
+        public Geo_Shader GeoPointShader { get; set; }
+
         public bool AllowReflect { get; set; } = false;
         public BoundingBox BBX { get; set; }
         public bool CanBeSaved { get; set; }
@@ -97,8 +101,17 @@ namespace Simple_Engine.Engine.Core.Abstracts
         [JsonIgnore]
         public EngineRenderer Renderer { get; set; }
 
-        [JsonIgnore]
-        public Shader ShaderModel { get; set; }
+        private Base_Shader shaderModel;
+
+        public Base_Shader GetShaderModel()
+        {
+            return shaderModel;
+        }
+
+        public void SetShaderModel(Base_Shader value)
+        {
+            shaderModel = value;
+        }
 
         public List<Vector2> TextureCoordinates { get; set; }
 
@@ -140,7 +153,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
                 }
 
                 shadowTexture.TextureId = lightSource.ShadowMapId;
-                ShaderModel.SetInt(ShaderModel.Location_ShadowMap, count);
+                GetShaderModel().SetInt(GetShaderModel().Location_ShadowMap, count);
             }
         }
 
@@ -158,7 +171,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public void Dispose()
         {
-            ShaderModel.Dispose();
+            GetShaderModel().Dispose();
             Renderer.Dispose();
             TextureModel?.Dispose();
         }
@@ -178,7 +191,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             foreach (var axis in axises)
             {
                 axis.BuildModel();
-                axis.ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Color);
+                axis.SetShaderModel(new Vertex_Shader(ShaderPath.Color));
                 SceneModel.ActiveScene.ModelsforUpload.Push(axis);
                 MoveEvent += (s, e) =>
                 {
@@ -202,7 +215,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             return Width;
         }
 
-        public virtual void Live_Update(Shader ShaderModel)
+        public virtual void Live_Update(Base_Shader ShaderModel)
         {
             ShaderModel.Live_Update();
             TextureModel?.Live_Update(ShaderModel);
@@ -251,16 +264,17 @@ namespace Simple_Engine.Engine.Core.Abstracts
             UpdateBoundingBox();
         }
 
-        public virtual void PostRender(Shader ShaderModel)
+        public virtual void PostRender(Base_Shader ShaderModel)
         {
         }
 
-        public virtual void PrepareForRender(Shader shaderModel)
+        public virtual void PrepareForRender(Base_Shader shaderModel)
         {
-            if (shaderModel != null && shaderModel != ShaderModel)
+            if (shaderModel != null && shaderModel != GetShaderModel())
             {
                 shaderModel.UploadDefaults(this);
             }
+
             shaderModel.Use();
 
             Live_Update(shaderModel);
@@ -347,7 +361,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             SelectionBox.SetWidth(dim.X);
             SelectionBox.SetDepth(dim.Z);
             SelectionBox.BuildModel();
-            SelectionBox.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+            SelectionBox.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
             SceneModel.ActiveScene.UpLoadModels(SelectionBox);
         }
 
@@ -355,7 +369,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
         {
         }
 
-        public virtual void UploadDefaults(Shader ShaderModel)
+        public virtual void UploadDefaults(Base_Shader ShaderModel)
         {
             UpdateBoundingBox();
 

@@ -1,10 +1,11 @@
 ﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Fonts
 {
-    public class FontShader : Shader
+    public class FontShader : Vertex_Shader
     {
-        public FontShader(ShaderMapType mapType, ShaderPath shaderType) : base(mapType, shaderType)
+        public FontShader(ShaderPath shaderType) : base(shaderType)
         {
             string path = @"./Engine/Fonts/Render/Source/";
             Setup_Shader($"{path}VertexShader_Font.vert", $"{path}FragmentShader_Font.frag");

@@ -1,5 +1,6 @@
 ﻿using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Opticals
 {
@@ -14,7 +15,7 @@ namespace Simple_Engine.Engine.Opticals
             ShiningDamp = _ShiningDamp; //decrease shiny by distance squared
         }
 
-        public override void UploadDefaults(Shader ShaderModel)
+        public override void UploadDefaults(Base_Shader ShaderModel)
         {
             ShaderModel.SetFloat(ShaderModel.ReflectionIndexLocation, ReflectionIndex);
             ShaderModel.SetFloat(ShaderModel.ShiningDampLocation, ShiningDamp);

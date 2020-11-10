@@ -2,6 +2,7 @@
 using OpenTK;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 
@@ -20,7 +21,7 @@ namespace Simple_Engine.Engine.Core.Static
                 geo = new GeometryModel();
                 geo.Positions.Add(new Vector3());
                 geo.DrawType = OpenTK.Graphics.OpenGL.PrimitiveType.Points;
-                geo.ShaderModel = new Render.Shader(Render.ShaderPath.Color);
+                geo.SetShaderModel(new Vertex_Shader(ShaderPath.Color));
                 geo.Dynamic = Interfaces.IDrawable.DynamicFlag.Positions;
                 SceneModel.ActiveScene.UpLoadModels(geo);
             }

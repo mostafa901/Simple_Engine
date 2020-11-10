@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Water.Render;
 using System.Collections.Generic;
@@ -54,7 +55,7 @@ namespace Simple_Engine.Engine.Illumination.Render
             SunLight.lightCamera.UpdateCamera();
         }
 
-        public override void PreRender(Shader ShaderModel)
+        public override void PreRender(Base_Shader ShaderModel)
         {
             updatePosition();
         }
@@ -63,11 +64,11 @@ namespace Simple_Engine.Engine.Illumination.Render
         {
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
         }
 
-        public override void PostRender(Shader ShaderModel)
+        public override void PostRender(Base_Shader ShaderModel)
         {
         }
 

@@ -3,6 +3,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Opticals;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 
 namespace Simple_Engine.Engine.Core.Abstracts
@@ -31,7 +32,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
         {
         }
 
-        public void Live_Update(Shader ShaderModel)
+        public void Live_Update(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
@@ -41,12 +42,12 @@ namespace Simple_Engine.Engine.Core.Abstracts
             throw new NotImplementedException();
         }
 
-        public void PostRender(Shader ShaderModel)
+        public void PostRender(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
 
-        public void PrepareForRender(Shader shaderModel)
+        public void PrepareForRender(Base_Shader shaderModel)
         {
             throw new NotImplementedException();
         }
@@ -76,7 +77,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
             throw new NotImplementedException();
         }
 
-        public virtual void UploadDefaults(Shader ShaderModel)
+        public virtual void UploadDefaults(Base_Shader ShaderModel)
         {
             Glossiness?.UploadDefaults(ShaderModel);
         }

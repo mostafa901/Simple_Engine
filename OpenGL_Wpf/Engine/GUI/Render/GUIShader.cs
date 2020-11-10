@@ -1,10 +1,11 @@
 ﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.GUI.Render
 {
-    public class GUIShader : Shader
+    public class GUIShader : Vertex_Shader
     {
-        public GUIShader(ShaderMapType mapType, ShaderPath shaderType) : base(mapType, shaderType)
+        public GUIShader(ShaderPath shaderType) : base(shaderType)
         {
         }
 

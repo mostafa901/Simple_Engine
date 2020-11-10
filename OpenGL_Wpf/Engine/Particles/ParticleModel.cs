@@ -4,6 +4,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Collections.Generic;
 
@@ -18,8 +19,8 @@ namespace Simple_Engine.Engine.Particles
         public ParticleModel()
         {
             BuildModel();
-            ShaderModel = new ParticleShader(ShaderMapType.Texture, ShaderPath.Particle);
-            ShaderModel.EnableInstancing = true;
+            SetShaderModel(new ParticleShader(ShaderPath.Particle));
+            GetShaderModel().EnableInstancing = true;
             TextureModel = new ParticleTexture(@"D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\SampleModels\Texture\FireAtlas.png", TextureMode.Texture2D);
 
             Meshes = new List<Mesh3D>();
@@ -32,7 +33,7 @@ namespace Simple_Engine.Engine.Particles
             Build_DefaultModel();
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             ShaderModel.SetVector4(ShaderModel.Location_DefaultColor, DefaultColor);
             TextureModel?.Live_Update(ShaderModel);
@@ -42,10 +43,10 @@ namespace Simple_Engine.Engine.Particles
         {
             Renderer = new ParticleRenderer(this);
             Renderer.RenderModel();
-            ShaderModel.UploadDefaults(this);
+            GetShaderModel().UploadDefaults(this);
         }
 
-        public override void UploadDefaults(Shader ShaderModel)
+        public override void UploadDefaults(Base_Shader ShaderModel)
         {
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
             ShaderModel.SetVector4(ShaderModel.Location_DefaultColor, DefaultColor);

@@ -2,6 +2,7 @@
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Linq;
 
@@ -62,7 +63,7 @@ namespace Simple_Engine.Engine.Geometry.Core
             Default_RenderModel();
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);

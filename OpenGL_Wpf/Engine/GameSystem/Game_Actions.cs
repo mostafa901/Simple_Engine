@@ -1,6 +1,7 @@
 ﻿using Shared_Lib.IO;
 using Simple_Engine.Engine.Core.Serialize;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Simple_Engine.Engine.GameSystem
                     if (path.EndsWith("obj"))
                     {
                         var geo = Importer.Import.OBJFile(path);
-                        geo.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+                        geo.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
 
                         SceneModel.ActiveScene.UpLoadModels(geo);
                     }

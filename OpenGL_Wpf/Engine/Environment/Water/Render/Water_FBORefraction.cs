@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Water.Render
 {
@@ -12,13 +13,13 @@ namespace Simple_Engine.Engine.Water.Render
             WrapeTo(TextureId, TextureWrapMode.ClampToBorder);
         }
 
-        public override void PreRender(Shader ShaderModel)
+        public override void PreRender(Base_Shader ShaderModel)
         {
             GL.Enable(EnableCap.ClipDistance1);
             ShaderModel.SetVector4(ShaderModel.Location_ClipPlanY, ClipPlan);
         }
 
-        public override void PostRender(Shader ShaderModel)
+        public override void PostRender(Base_Shader ShaderModel)
         {
             GL.Disable(EnableCap.ClipDistance1);
         }

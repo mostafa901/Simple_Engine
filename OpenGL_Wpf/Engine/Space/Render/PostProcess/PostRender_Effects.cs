@@ -11,7 +11,7 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
         {
             vision = new GUI.GuiModel(1, 1, 0, 0);
             vision.BuildModel();
-            vision.ShaderModel = new PostProcess_Shader(effectName);
+            vision.SetShaderModel(new PostProcess_Shader(effectName));
             vision.TextureModel = new PostProcess_Texture(Core.Abstracts.TextureMode.Texture2D);
             vision.UploadVAO();
         }
@@ -21,10 +21,10 @@ namespace Simple_Engine.Engine.Space.Render.PostProcess
             vision.TextureModel.TextureId = textureId;
             if (!IsActive) return;
 
-            vision.PrepareForRender(vision.ShaderModel);
+            vision.PrepareForRender(vision.GetShaderModel());
 
             vision.Renderer.Draw();
-            vision.ShaderModel.Stop();
+            vision.GetShaderModel().Stop();
         }
     }
 }

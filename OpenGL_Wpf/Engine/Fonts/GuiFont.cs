@@ -5,6 +5,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Fonts.Core;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Simple_Engine.Engine.Fonts
 
         public string Text { get; set; }
         public float LineWidth { get; }
-        public Shader ShaderModel { get; set; }
+        public Base_Shader ShaderModel { get; set; }
         public Base_Texture TextureModel { get; set; }
         public Vector2 TextPosition { get; set; }
         public string Name { get; set; }
@@ -38,7 +39,7 @@ namespace Simple_Engine.Engine.Fonts
         public void BuildModel()
         {
             characterModels = new List<CharacterModel>();
-            ShaderModel = new FontShader(ShaderMapType.LoadColor, ShaderPath.Font);
+            ShaderModel = new FontShader(ShaderPath.Font);
             TextureModel = new TextureSample2D(FontFactory.imgFontPath, TextureUnit.Texture0);
             ShaderModel.UploadDefaults(null);
 
@@ -49,7 +50,7 @@ namespace Simple_Engine.Engine.Fonts
                 var c = Text[i];
                 var tmodel = FontFactory.GetCharacterModel(c, FontSize);
 
-                tmodel.ShaderModel = ShaderModel;
+                tmodel.SetShaderModel(ShaderModel);
                 tmodel.TextureModel = TextureModel;
 
                 tmodel.BuildModel();
@@ -104,23 +105,23 @@ namespace Simple_Engine.Engine.Fonts
             }
         }
 
-        public void Live_Update(Shader ShaderModel)
+        public void Live_Update(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
 
-        public void PostRender(Shader ShaderModel)
+        public void PostRender(Base_Shader ShaderModel)
         {
             ShaderModel.Stop();
             GL.Enable(EnableCap.DepthTest);
         }
 
-        public void UploadDefaults(Shader ShaderModel)
+        public void UploadDefaults(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
 
-        public void PrepareForRender(Shader shaderModel)
+        public void PrepareForRender(Base_Shader shaderModel)
         {
             GL.Disable(EnableCap.DepthTest);
             ShaderModel.Use();

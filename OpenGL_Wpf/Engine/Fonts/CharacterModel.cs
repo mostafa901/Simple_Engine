@@ -3,6 +3,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Fonts.Core;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Collections.Generic;
 
@@ -66,7 +67,7 @@ namespace Simple_Engine.Engine.Fonts
             TextureCoordinates.Add(v3 * new Vector2(xScale, yScale));
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);

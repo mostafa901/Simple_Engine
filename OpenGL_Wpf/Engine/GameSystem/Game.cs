@@ -135,7 +135,7 @@ namespace Simple_Engine.Engine.GameSystem
         {
             //var gui = new GuiModel(.25f, .25f, 0.5f, 0);
             //gui.BuildModel();
-            //gui.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.GUI);
+            //gui.ShaderModel = new Shader(ShaderPath.GUI);
             //gui.ShaderModel.EnableInstancing = true;
             //ActiveScene.ModelsforUpload.Add(gui);
 

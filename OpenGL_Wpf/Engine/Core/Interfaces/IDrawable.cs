@@ -5,6 +5,7 @@ using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Collections.Generic;
 
@@ -41,7 +42,11 @@ namespace Simple_Engine.Engine.Core.Interfaces
         public Vector3 PivotPoint { get; set; }
         public bool RecieveShadow { get; set; }
         EngineRenderer Renderer { get; set; }
-        Shader ShaderModel { get; set; }
+
+        Base_Shader GetShaderModel();
+
+        void SetShaderModel(Base_Shader value);
+
         List<Vector2> TextureCoordinates { get; set; }
         Base_Texture TextureModel { get; set; }
         public string Uid { get; set; }

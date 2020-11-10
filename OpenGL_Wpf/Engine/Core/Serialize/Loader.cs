@@ -3,6 +3,7 @@ using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using System.IO;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace Simple_Engine.Engine.Core.Serialize
                     };
                     GeometryModel geo = line.JDeserialize<GeometryModel>(JsonTools.GetSettings());
 
-                    geo.ShaderModel = new Render.Shader(Render.ShaderMapType.Blend, Render.ShaderPath.SingleColor);
+                    geo.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
 
                     SceneModel.ActiveScene.UpLoadModels(geo);
                 }

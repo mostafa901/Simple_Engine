@@ -4,6 +4,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.ToolBox;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,18 @@ namespace Simple_Engine.Engine.Water.Render
     {
         public Vector4 ClipPlan { get; set; }
 
-        private Shader stensilShader;
+        private readonly Base_Shader stensilShader;
 
         public Water_FBOReflection(int _width, int _height) : base(_width, _height)
         {
             Name = FboName.WorldReflection;
             Setup_Defaults(true);
-            stensilShader = new Shader(ShaderMapType.LightnColor, ShaderPath.Color);
+            stensilShader = new Vertex_Shader(ShaderPath.Color);
             WrapeTo(TextureDepthId, TextureWrapMode.ClampToBorder);
             WrapeTo(TextureId, TextureWrapMode.ClampToBorder);
         }
 
-        public override void PreRender(Shader ShaderModel)
+        public override void PreRender(Base_Shader ShaderModel)
         {
             base.PreRender(ShaderModel);
             //should be same distance below water Height, but since Water height is 0 then we just inverted Y
@@ -78,7 +79,7 @@ namespace Simple_Engine.Engine.Water.Render
 
             var geo = model as Base_Geo;
 
-            if (model.ShaderModel.EnableInstancing && model is Base_Geo)
+            if (model.GetShaderModel().EnableInstancing && model is Base_Geo)
             {
                 foreach (var mesh in geo.Meshes)
                 {
@@ -97,18 +98,18 @@ namespace Simple_Engine.Engine.Water.Render
 
         public override void RenderFrame(IDrawable model)
         {
-            model.PrepareForRender(model.ShaderModel);
-            PreRender(model.ShaderModel);
+            model.PrepareForRender(model.GetShaderModel());
+            PreRender(model.GetShaderModel());
 
-            model.ShaderModel.SetMatrix4(model.ShaderModel.Location_LocalTransform, model.LocalTransform);
+            model.GetShaderModel().SetMatrix4(model.GetShaderModel().Location_LocalTransform, model.LocalTransform);
 
             //invertnormals since the model is scaled y= -1
-            model.ShaderModel.SetBool(model.ShaderModel.Location_InvertNormal, Name == FboName.WorldReflection);
+            model.GetShaderModel().SetBool(model.GetShaderModel().Location_InvertNormal, Name == FboName.WorldReflection);
 
             model.Renderer.Draw();
 
-            PostRender(model.ShaderModel);
-            model.ShaderModel.Stop();
+            PostRender(model.GetShaderModel());
+            model.GetShaderModel().Stop();
         }
 
         private bool RenderStencil()
@@ -124,7 +125,7 @@ namespace Simple_Engine.Engine.Water.Render
 
             StenciledModel.PrepareForRender(stensilShader);
             StenciledModel.Renderer.Draw();
-            StenciledModel.ShaderModel.Stop();
+            StenciledModel.GetShaderModel().Stop();
 
             GL.DepthMask(true);
             GL.ColorMask(true, true, true, true);
@@ -132,11 +133,11 @@ namespace Simple_Engine.Engine.Water.Render
             return true;
         }
 
-        public override void PostRender(Shader ShaderModel)
+        public override void PostRender(Base_Shader ShaderModel)
         {
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }

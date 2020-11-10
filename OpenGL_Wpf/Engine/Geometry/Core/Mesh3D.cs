@@ -3,6 +3,7 @@ using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.ToolBox;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace Simple_Engine.Engine.Geometry.Core
             throw new NotImplementedException();
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
         }

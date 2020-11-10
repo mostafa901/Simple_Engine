@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 
@@ -51,9 +52,9 @@ namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
             CameraModel.EnableClipPlans = globalValue;
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
-            if (ShaderModel == this.ShaderModel)
+            if (ShaderModel == this.GetShaderModel())
             {
                 base.Live_Update(ShaderModel);
 
@@ -108,7 +109,7 @@ namespace Simple_Engine.Engine.Geometry.SystemModel.Clips
                 clip.Rotate(90, new Vector3(1, 0, 1));
             }
 
-            clip.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.SingleColor);
+            clip.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
             SceneModel.ActiveScene.UpLoadModels(clip);
             return clip;
         }

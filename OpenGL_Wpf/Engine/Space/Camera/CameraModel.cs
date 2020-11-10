@@ -7,6 +7,7 @@ using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.SystemModel.Clips;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
 using Simple_Engine.Extentions;
@@ -193,7 +194,7 @@ namespace Simple_Engine.Engine.Space.Camera
             return ray_WCOEnd;
         }
 
-        public void Live_Update(Shader ShaderModel)
+        public void Live_Update(Base_Shader ShaderModel)
         {
             ShaderModel.SetMatrix4(ShaderModel.Location_ViewTransform, ViewTransform);
             ShaderModel.SetMatrix4(ShaderModel.Location_ProjectionTransform, ProjectionTransform);
@@ -214,7 +215,7 @@ namespace Simple_Engine.Engine.Space.Camera
             {
                 var model = SceneModel.ActiveScene.geoModels.ElementAt(i) as ISelectable;
                 if (model is null) continue;
-                if (model.ShaderModel.EnableInstancing) continue;
+                if (model.GetShaderModel().EnableInstancing) continue;
 
                 if (!found)
                 {
@@ -287,12 +288,12 @@ namespace Simple_Engine.Engine.Space.Camera
             return cam;
         }
 
-        public void PostRender(Shader ShaderModel)
+        public void PostRender(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
 
-        public void PrepareForRender(Shader shaderModel)
+        public void PrepareForRender(Base_Shader shaderModel)
         {
             throw new NotImplementedException();
         }
@@ -350,7 +351,7 @@ namespace Simple_Engine.Engine.Space.Camera
             ActivatePrespective();
         }
 
-        public void UploadDefaults(Shader ShaderModel)
+        public void UploadDefaults(Base_Shader ShaderModel)
         {
             ShaderModel.SetFloat(ShaderModel.Location_NearDistance, NearDistance);
             ShaderModel.SetFloat(ShaderModel.Location_FarDistance, FarDistance);

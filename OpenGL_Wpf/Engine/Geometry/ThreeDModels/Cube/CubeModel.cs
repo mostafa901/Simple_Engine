@@ -4,6 +4,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System.Collections.Generic;
 
 namespace Simple_Engine.Engine.Geometry.Cube
@@ -52,7 +53,7 @@ namespace Simple_Engine.Engine.Geometry.Cube
         {
             Vector3 scalarVector = new Vector3(1, -1, 1);
 
-            if (ShaderModel.EnableInstancing)
+            if (GetShaderModel().EnableInstancing)
             {
                 foreach (var mesh in Meshes)
                 {
@@ -156,7 +157,7 @@ namespace Simple_Engine.Engine.Geometry.Cube
             Default_RenderModel();
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             foreach (var mesh in Meshes)

@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.GUI.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Collections.Generic;
 
@@ -43,16 +44,17 @@ namespace Simple_Engine.Engine.GUI
         {
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             TextureModel?.Live_Update(ShaderModel);
         }
 
         public override void UploadVAO()
         {
-            if (ShaderModel == null)
+            if (GetShaderModel() == null)
             {
-                ShaderModel = new GUIShader(ShaderMapType.LoadColor, ShaderPath.GUI);
+                var shader = new GUIShader(ShaderPath.GUI);
+                SetShaderModel(shader);
             }
 
             Renderer = new GUIRenderer(this);

@@ -11,6 +11,7 @@ using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Particles.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Environment;
 using Simple_Engine.Engine.Static.InputControl;
@@ -26,7 +27,7 @@ namespace Simple_Engine.Engine.Space.Scene
         public static SceneModel ActiveScene;
 
         //this will update all the shader models per Render
-        public Stack<Action<Shader>> RunOnAllShaders = new Stack<Action<Shader>>();
+        public Stack<Action<Base_Shader>> RunOnAllShaders = new Stack<Action<Base_Shader>>();
 
         public SceneModel(Game mainGame)
         {
@@ -51,7 +52,7 @@ namespace Simple_Engine.Engine.Space.Scene
             Setup_SceneLight();
             Setup_Grid();
             Setup_Font();
-            SelectedShader = new Shader(ShaderPath.SingleColor);
+            SelectedShader = new Vertex_Shader(ShaderPath.SingleColor);
         }
 
         private void Setup_Font()
@@ -64,7 +65,7 @@ namespace Simple_Engine.Engine.Space.Scene
             throw new NotImplementedException();
         }
 
-        public void Live_Update(Shader ShaderModel)
+        public void Live_Update(Base_Shader ShaderModel)
         {
             ShaderModel.SetBool(ShaderModel.IsToonRenderLocation, IsToonMode);
             CameraModel.ActiveCamera.Live_Update(ShaderModel);
@@ -72,11 +73,11 @@ namespace Simple_Engine.Engine.Space.Scene
             Lights.First().Live_Update(ShaderModel);
         }
 
-        public void PostRender(Shader ShaderModel)
+        public void PostRender(Base_Shader ShaderModel)
         {
         }
 
-        public void PrepareForRender(Shader shaderModel)
+        public void PrepareForRender(Base_Shader shaderModel)
         {
             if (ModelstoRemove.Any())
             {
@@ -143,14 +144,14 @@ namespace Simple_Engine.Engine.Space.Scene
             }
         }
 
-        public void UploadDefaults(Shader ShaderModel)
+        public void UploadDefaults(Base_Shader ShaderModel)
         {
             CameraModel.ActiveCamera.UploadDefaults(ShaderModel);
             SceneFog.UploadDefaults(ShaderModel);
             UploadLightsDefaults(ShaderModel);
         }
 
-        public virtual void UploadLightsDefaults(Shader ShaderModel)
+        public virtual void UploadLightsDefaults(Base_Shader ShaderModel)
         {
             foreach (var light in Lights)
             {
@@ -201,6 +202,7 @@ namespace Simple_Engine.Engine.Space.Scene
         internal void RemoveModels(IDrawable model)
         {
             if (model == null) return;
+
             ModelstoRemove.Push(model);
         }
 
@@ -213,14 +215,14 @@ namespace Simple_Engine.Engine.Space.Scene
 
                 if (model.IsActive)
                 {
-                    model.PrepareForRender(model.ShaderModel);
+                    model.PrepareForRender(model.GetShaderModel());
                     foreach (var action in RunOnAllShaders)
                     {
-                        action(model.ShaderModel);
+                        action(model.GetShaderModel());
                     }
                     model.Renderer.Draw();
 
-                    model.ShaderModel.Stop();
+                    model.GetShaderModel().Stop();
 
                     if (model.Particles != null)
                     {

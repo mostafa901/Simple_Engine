@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Geometry.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels
 {
@@ -15,7 +16,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
         public Line3D(Vector3 a, Vector3 b)
         {
             DrawType = PrimitiveType.Lines;
-            ShaderModel = new Shader(ShaderPath.Color);
+            SetShaderModel(new Vertex_Shader(ShaderPath.Color));
 
             StartPoint = a;
             EndPoint = b;
@@ -62,7 +63,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             }
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
         }
@@ -75,7 +76,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             }
 
             Renderer.RenderModel();
-            ShaderModel.UploadDefaults(this);
+            GetShaderModel().UploadDefaults(this);
         }
     }
 }

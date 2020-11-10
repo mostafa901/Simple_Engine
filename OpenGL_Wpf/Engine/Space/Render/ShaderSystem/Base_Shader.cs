@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Simple_Engine.Engine.Render
+namespace Simple_Engine.Engine.Render.ShaderSystem
 {
     public enum ShaderMapType
     {
@@ -47,7 +47,7 @@ namespace Simple_Engine.Engine.Render
         Color
     }
 
-    public class Shader
+    public abstract class Base_Shader
     {
         #region Properties
 
@@ -67,7 +67,6 @@ namespace Simple_Engine.Engine.Render
         public int TangentLayoutId = 8;
         public int TextureLayoutId = 1;
         public int VertexColorLayoutId = 9;
-        public int vertexShaderId, fragmentShaderId;
 
         public List<int> AttenuationLightLocation { get; set; }
 
@@ -165,30 +164,19 @@ namespace Simple_Engine.Engine.Render
         public Stack<Action> RunOnUIThread { get; set; } = new Stack<Action>();
 
         private static string INCLUDEdIRECTIVE = "#include";
-        private int pipeLineId;
 
-        public int geometryShaderId { get; private set; }
-        public int VertexProgramID { get; private set; }
-        public int GeoProgramID { get; private set; }
-        public int FragProgramID { get; private set; }
+        protected int ProgramId { get; set; }
 
-        [Obsolete("Use public Shader(ShaderPath shaderModelType)")]
-        public Shader(ShaderMapType mapType, ShaderPath shaderModelType)
-        {
-            ShaderType = mapType;
-            ShaderModelType = shaderModelType;
-        }
-
-        public Shader(ShaderPath shaderModelType)
+        public Base_Shader(ShaderPath shaderModelType)
         {
             ShaderModelType = shaderModelType;
         }
 
-        private void InitalizeShader(ShaderPath shaderModelType)
+        protected void InitalizeShader()
         {
             string path = @"./Engine/Space/Render/Source/";
-            Debug.WriteLine($"Loading Shader: {shaderModelType}");
-            switch (shaderModelType)
+            Debug.WriteLine($"Loading Shader: {ShaderModelType}");
+            switch (ShaderModelType)
             {
                 case ShaderPath.Default:
                     {
@@ -262,46 +250,13 @@ namespace Simple_Engine.Engine.Render
 
         public void Dispose()
         {
-            CleanUp();
+            Stop();
             GC.SuppressFinalize(this);
         }
 
-        private const string TriangleShader = @"./Engine/Space/Render/Source/SingleColor_Geom.geom";
+        protected const string PointsShader = @"./Engine/Space/Render/Source/SingleColor_Geom.geom";
 
-        public virtual void Setup_Shader(string vertexPath, string fragmentPath, string geometryShaderPath = "")
-        {
-            //Link both Shaders to a program
-            VertexProgramID = GL.CreateProgram();
-            GeoProgramID = GL.CreateProgram();
-            FragProgramID = GL.CreateProgram();
-
-            GL.ProgramParameter(VertexProgramID, ProgramParameterName.ProgramSeparable, 1);
-            GL.ProgramParameter(GeoProgramID, ProgramParameterName.ProgramSeparable, 1);
-            GL.ProgramParameter(FragProgramID, ProgramParameterName.ProgramSeparable, 1);
-
-            vertexShaderId = CreateShader(vertexPath, OpenTK.Graphics.OpenGL.ShaderType.VertexShader);
-            fragmentShaderId = CreateShader(fragmentPath, OpenTK.Graphics.OpenGL.ShaderType.FragmentShader);
-            geometryShaderId = CreateShader(TriangleShader, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
-
-            AttachShader(VertexProgramID, vertexShaderId);
-            AttachShader(FragProgramID, fragmentShaderId);
-            AttachShader(GeoProgramID, geometryShaderId);
-
-            BindVertexAttributes(); //must be before linking program
-
-            LinkProgram(VertexProgramID);
-            LinkProgram(GeoProgramID);
-            LinkProgram(FragProgramID);
-
-            LoadAllUniforms();
-
-            pipeLineId = GL.GenProgramPipeline();
-
-            //GL.DetachShader(GeoProgramID, geometryShaderId);
-            //GL.DetachShader(fragmentShaderId, fragmentShaderId);
-            //GL.DeleteShader(geometryShaderId);
-            //GL.DeleteShader(fragmentShaderId);
-        }
+        public abstract void Setup_Shader(string vertexPath, string fragmentPath);
 
         public virtual int CreateShader(string path, ShaderType shaderFileType)
         {
@@ -338,7 +293,7 @@ namespace Simple_Engine.Engine.Render
 
         public void BindAttribute(int attribute, string variableName)
         {
-            int programID = VertexProgramID;
+            int programID = ProgramId;
             GL.BindAttribLocation(programID, attribute, variableName);
         }
 
@@ -357,66 +312,66 @@ namespace Simple_Engine.Engine.Render
         public virtual void LoadAllUniforms()
         {
             //Camera
-            Location_ProjectionTransform = GetLocation(vertexShaderId, nameof(CameraModel.ProjectionTransform));
-            Location_ViewTransform = GetLocation(vertexShaderId, nameof(CameraModel.ViewTransform));
-            Location_NearDistance = GetLocation(vertexShaderId, nameof(CameraModel.NearDistance));
-            Location_FarDistance = GetLocation(vertexShaderId, nameof(CameraModel.FarDistance));
+            Location_ProjectionTransform = GetLocation(nameof(CameraModel.ProjectionTransform));
+            Location_ViewTransform = GetLocation(nameof(CameraModel.ViewTransform));
+            Location_NearDistance = GetLocation(nameof(CameraModel.NearDistance));
+            Location_FarDistance = GetLocation(nameof(CameraModel.FarDistance));
 
             //Model
-            Location_DefaultColor = GetLocation(FragProgramID, nameof(Base_Geo.DefaultColor));
-            Location_LocalTransform = GetLocation(vertexShaderId, nameof(Base_Geo.LocalTransform));
+            Location_DefaultColor = GetLocation(nameof(Base_Geo.DefaultColor));
+            Location_LocalTransform = GetLocation(nameof(Base_Geo.LocalTransform));
 
-            Location_IsSelected = GetLocation(vertexShaderId, "IsSelected");
+            Location_IsSelected = GetLocation("IsSelected");
 
             //Fog
-            HasFogLocation = GetLocation(vertexShaderId, "HasFog");
-            FogDensityLocation = GetLocation(FragProgramID, nameof(Fog.Density));
-            FogSpeedLocation = GetLocation(FragProgramID, nameof(Fog.FogSpeed));
-            FogColorLocation = GetLocation(FragProgramID, nameof(Fog.FogColor));
+            HasFogLocation = GetLocation("HasFog");
+            FogDensityLocation = GetLocation(nameof(Fog.Density));
+            FogSpeedLocation = GetLocation(nameof(Fog.FogSpeed));
+            FogColorLocation = GetLocation(nameof(Fog.FogColor));
 
             //Environment
-            nightTexureLocation = GetLocation(FragProgramID, "nightTexture");
-            dayTexureLocation = GetLocation(FragProgramID, "dayTexture");
-            BlendFactorLocation = GetLocation(FragProgramID, nameof(SkyBox.BlendFactor));
+            nightTexureLocation = GetLocation("nightTexture");
+            dayTexureLocation = GetLocation("dayTexture");
+            BlendFactorLocation = GetLocation(nameof(SkyBox.BlendFactor));
 
             //Render Mode
-            IsToonRenderLocation = GetLocation(FragProgramID, nameof(EngineRenderer.IsToonMode));
-            ToonBrightnessLevelsLocation = GetLocation(FragProgramID, nameof(BrightnessLevels));
-            Location_ClipPlanX = GetLocation(vertexShaderId, "ClipPlanX");
-            Location_ClipPlanY = GetLocation(vertexShaderId, "ClipPlanY");
-            Location_ClipPlanZ = GetLocation(vertexShaderId, "ClipPlanZ");
+            IsToonRenderLocation = GetLocation(nameof(EngineRenderer.IsToonMode));
+            ToonBrightnessLevelsLocation = GetLocation(nameof(BrightnessLevels));
+            Location_ClipPlanX = GetLocation("ClipPlanX");
+            Location_ClipPlanY = GetLocation("ClipPlanY");
+            Location_ClipPlanZ = GetLocation("ClipPlanZ");
 
-            Location_EnableClipPlanX = GetLocation(vertexShaderId, "Enable_ClipPlanX");
-            Location_EnableClipPlanY = GetLocation(vertexShaderId, "Enable_ClipPlanY");
-            Location_EnableClipPlanZ = GetLocation(vertexShaderId, "Enable_ClipPlanZ");
+            Location_EnableClipPlanX = GetLocation("Enable_ClipPlanX");
+            Location_EnableClipPlanY = GetLocation("Enable_ClipPlanY");
+            Location_EnableClipPlanZ = GetLocation("Enable_ClipPlanZ");
 
             //Texture
-            Location_CubeDiffuseMap = GetLocation(FragProgramID, "CubeDiffuseMap");
-            Location_CubeNormalMap = GetLocation(FragProgramID, "CubeNormalMap");
-            Location_CubeSpecularMap = GetLocation(FragProgramID, "CubeSpecularMap");
+            Location_CubeDiffuseMap = GetLocation("CubeDiffuseMap");
+            Location_CubeNormalMap = GetLocation("CubeNormalMap");
+            Location_CubeSpecularMap = GetLocation("CubeSpecularMap");
 
-            Location_DiffuseMap = GetLocation(FragProgramID, "DiffuseMap");
-            Location_NormalMap = GetLocation(FragProgramID, "NormalMap");
-            Location_SpecularMap = GetLocation(FragProgramID, "SpecularMap");
+            Location_DiffuseMap = GetLocation("DiffuseMap");
+            Location_NormalMap = GetLocation("NormalMap");
+            Location_SpecularMap = GetLocation("SpecularMap");
 
-            OffsetTextureLocation = GetLocation(vertexShaderId, "Offset");
-            numberOfRowsTextureLocation = GetLocation(vertexShaderId, nameof(Base_Texture.numberOfRows));
+            OffsetTextureLocation = GetLocation("Offset");
+            numberOfRowsTextureLocation = GetLocation(nameof(Base_Texture.numberOfRows));
 
             //Material
-            ShiningDampLocation = GetLocation(FragProgramID, nameof(Gloss.ShiningDamp));
-            ReflectionIndexLocation = GetLocation(FragProgramID, nameof(Gloss.ReflectionIndex));
-            IsTransparentLocation = GetLocation(FragProgramID, nameof(Base_Texture.IsTransparent));
-            Location_useSpecularMap = GetLocation(FragProgramID, "useSpecularMap");
-            Location_useCubeSpecularMap = GetLocation(FragProgramID, "useCubeSpecularMap");
-            Location_InvertNormal = GetLocation(vertexShaderId, "InvertNormal");
+            ShiningDampLocation = GetLocation(nameof(Gloss.ShiningDamp));
+            ReflectionIndexLocation = GetLocation(nameof(Gloss.ReflectionIndex));
+            IsTransparentLocation = GetLocation(nameof(Base_Texture.IsTransparent));
+            Location_useSpecularMap = GetLocation("useSpecularMap");
+            Location_useCubeSpecularMap = GetLocation("useCubeSpecularMap");
+            Location_InvertNormal = GetLocation("InvertNormal");
 
             //Light
-            Location_EnableNormalMap = GetLocation(vertexShaderId, "EnableNormalMap");
-            MaxLightLocation = GetLocation(FragProgramID, nameof(MaximumLight));
-            BackLiteLocation = GetLocation(FragProgramID, nameof(BackLite));
-            Location_lightProjection = GetLocation(vertexShaderId, "LightProjectionTransform");
-            Location_lightViewTransform = GetLocation(vertexShaderId, "LightViewTransform");
-            Location_ShadowMap = GetLocation(FragProgramID, "ShadowMap");
+            Location_EnableNormalMap = GetLocation("EnableNormalMap");
+            MaxLightLocation = GetLocation(nameof(MaximumLight));
+            BackLiteLocation = GetLocation(nameof(BackLite));
+            Location_lightProjection = GetLocation("LightProjectionTransform");
+            Location_lightViewTransform = GetLocation("LightViewTransform");
+            Location_ShadowMap = GetLocation("ShadowMap");
 
             LightColorLocation = new List<int>();
             LightPositionsLocation = new List<int>();
@@ -433,13 +388,13 @@ namespace Simple_Engine.Engine.Render
         {
             for (int i = 0; i < size; i++)
             {
-                storage.Add(GL.GetUniformLocation(pipeLineId, $"{attribute}[{i}]"));
+                storage.Add(GL.GetUniformLocation(ProgramId, $"{attribute}[{i}]"));
             }
         }
 
-        public int GetLocation(int programId, string name)
+        public int GetLocation(string name)
         {
-            return GL.GetUniformLocation(programId, name);
+            return GL.GetUniformLocation(ProgramId, name);
         }
 
         public virtual void Live_Update()
@@ -533,43 +488,16 @@ namespace Simple_Engine.Engine.Render
             Stop();
         }
 
-        public enum ShaderStage
+        public void Use()
         {
-            VertexFrag,
-            VertexGeoPointFrag,
-            VertexGeoLineFrag,
-            VertexGeoTriangleFrag,
-        }
-
-        public void Use(ShaderStage shaderStage = ShaderStage.VertexFrag)
-        {
-            if (pipeLineId == 0)
+            if (ProgramId == 0)
             {
                 //this is incase the shadermodel is created from a different thread.
-                InitalizeShader(ShaderModelType);
+                InitalizeShader();
+                //Debugger.Break();
             }
-            switch (shaderStage)
-            {
-                case ShaderStage.VertexFrag:
-                    GL.UseProgramStages(pipeLineId, ProgramStageMask.VertexShaderBit | ProgramStageMask.FragmentShaderBit, VertexProgramID);
 
-                    break;
-
-                case ShaderStage.VertexGeoPointFrag:
-                    break;
-
-                case ShaderStage.VertexGeoLineFrag:
-
-                    break;
-
-                case ShaderStage.VertexGeoTriangleFrag:
-                    GL.UseProgramStages(pipeLineId, ProgramStageMask.VertexShaderBit | ProgramStageMask.GeometryShaderBit | ProgramStageMask.FragmentShaderBit, VertexProgramID);
-
-                    break;
-
-                default:
-                    break;
-            }
+            GL.UseProgram(ProgramId);
         }
 
         internal void SetInt(int attribLocation, int value)
@@ -580,22 +508,6 @@ namespace Simple_Engine.Engine.Render
         internal void SetVector3(int location, Vector3 position)
         {
             GL.Uniform3(location, position);
-        }
-
-        protected virtual void CleanUp()
-        {
-            Stop();
-            Detach(vertexShaderId);
-            Detach(fragmentShaderId);
-            Detach(geometryShaderId);
-            GL.DeleteShader(fragmentShaderId);
-            GL.DeleteShader(vertexShaderId);
-            GL.DeleteProgram(pipeLineId);
-        }
-
-        public void Detach(int shader)
-        {
-            GL.DetachShader(pipeLineId, shader);
         }
 
         private string LoadShader(string path)
