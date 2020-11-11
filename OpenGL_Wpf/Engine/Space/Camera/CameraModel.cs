@@ -230,13 +230,13 @@ namespace Simple_Engine.Engine.Space.Camera
 
                     if (model3d.GetShaderModel() is Geo_Shader)
                     {
+                        Base_Geo.SelectedModel = model3d;
                         model3d.GetShaderModel().RunOnUIThread.Push(() =>
                         {
                             model3d.GeoPointShader.SetInt(model3d.GeoPointShader.Location_SelectedVertex, VertexId);
                         });
                     }
-
-                    if (model.DefaultColor == pickedColor)
+                    else if (model.DefaultColor == pickedColor)
                     {
                         found = true;
                         selectedModel = model;

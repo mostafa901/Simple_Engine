@@ -18,10 +18,16 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
         public override void PreDraw()
         {
             base.PreDraw();
+
             GL.BindVertexArray(VAO);//access to memory location
             GL.EnableVertexAttribArray(PositionLocation);//position
             GL.EnableVertexAttribArray(TextureLocation);//texture
             GL.EnableVertexAttribArray(NormalLocation);//normal
+
+            if (geometryModel.Dynamic.HasFlag(IDrawable.DynamicFlag.Positions))
+            {
+                StoreDataInAttributeList(PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
+            }
 
             // DisableCulling();
             EnableCulling();

@@ -95,10 +95,12 @@ namespace Simple_Engine.Engine.Core.Static
                         if (Model.DrawType == PrimitiveType.Points)
                         {
                             Model.SetShaderModel(Model.GeoPointShader);
+                            Model.Dynamic = IDrawable.DynamicFlag.Positions;
                         }
                         else
                         {
                             Model.SetShaderModel(Model.VertexShader);
+                            Model.Dynamic = IDrawable.DynamicFlag.Static;
                         }
                     }
                 }
