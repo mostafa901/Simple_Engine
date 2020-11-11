@@ -1,10 +1,11 @@
 ﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Geometry.ThreeDModels.Cube.Render
 {
-    public class CubeShader : Shader
+    public class CubeShader : Vertex_Shader
     {
-        public CubeShader(ShaderMapType shaderType = ShaderMapType.LoadCubeTexture) : base(shaderType, ShaderPath.Cube)
+        public CubeShader() : base(ShaderPath.Cube)
         {
         }
 

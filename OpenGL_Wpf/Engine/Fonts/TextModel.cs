@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System.Collections.Generic;
 
 namespace Simple_Engine.Engine.Fonts
@@ -85,7 +86,7 @@ namespace Simple_Engine.Engine.Fonts
         {
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
         }

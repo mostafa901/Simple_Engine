@@ -27,7 +27,7 @@ namespace Simple_Engine.Engine.Geometry.Render
 
             StoreDataInAttributeList(TextureLocation, Model.TextureCoordinates.GetArray(), 2);
             StoreDataInAttributeList(NormalLocation, Model.Normals.GetArray(), 3);
-            if (geometryModel.ShaderModel.EnableInstancing)
+            if (geometryModel.GetShaderModel().EnableInstancing)
             {
                 if (Model.Meshes.Any())
                 {
@@ -74,7 +74,7 @@ namespace Simple_Engine.Engine.Geometry.Render
                 GL.EnableVertexAttribArray(VertexColorLocation);
             }
 
-            if (geometryModel.ShaderModel.EnableInstancing)
+            if (geometryModel.GetShaderModel().EnableInstancing)
             {
                 GL.EnableVertexAttribArray(InstancesSelectedLocation);//ISSelected
 
@@ -130,7 +130,7 @@ namespace Simple_Engine.Engine.Geometry.Render
             GL.BindVertexArray(0);
 
             DisableCulling();
-            Model.PostRender(Model.ShaderModel);
+            Model.PostRender(Model.GetShaderModel());
             DisableBlending();
         }
 

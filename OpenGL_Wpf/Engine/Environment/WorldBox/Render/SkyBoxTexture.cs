@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ namespace Simple_Engine.Engine.Illumination.Render
             TextureIds.Add(nightTextureModel);
         }
 
-        public override void UploadDefaults(Shader shaderModel)
+        public override void UploadDefaults(Base_Shader shaderModel)
         {
             base.UploadDefaults(shaderModel);
             shaderModel.SetInt(shaderModel.dayTexureLocation, 1);

@@ -8,6 +8,7 @@ using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System;
@@ -93,7 +94,7 @@ namespace Simple_Engine.Engine.Core.Serialize
             byte[] matbuffer = GetBuffer(model.LocalTransform.GetArray(), BufferName.Transform);
             byte[] defaultColorbuffer = GetBuffer(model.DefaultColor.ToFloat(), BufferName.DefaultColor);
             byte[] normalTangentbuffer = GetBuffer(model.NormalTangent.GetArray(), BufferName.TangentNormal);
-            byte[] shaderbuffer = GetBuffer(new int[] { (int)model.ShaderModel.ShaderModelType }, BufferName.Shader);
+            byte[] shaderbuffer = GetBuffer(new int[] { (int)model.GetShaderModel().ShaderModelType }, BufferName.Shader);
 
             return new List<byte[]> { posbuffer, indexbuffer, normalbuffer, matbuffer, defaultColorbuffer, normalTangentbuffer, shaderbuffer };
         }
@@ -144,18 +145,18 @@ namespace Simple_Engine.Engine.Core.Serialize
                              line.DefaultColor = defaultColorBuffer != null ? defaultColorBuffer.ToFloatArray().ToVector4() : new Vector4(.5f);
                              line.LocalTransform = matsBuffer != null ? matsBuffer.GetMatrix() : Matrix4.Identity;
 
-                             line.ShaderModel = new Render.Shader(Render.ShaderPath.SingleColor);
+                             line.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
                              line.UploadVAO();
                              GL.BindVertexArray(line.Renderer.VAO);
-                             line.Renderer.StoreDataInAttributeList(line.ShaderModel.PositionLayoutId, posBuffer, 3, 0);
+                             line.Renderer.StoreDataInAttributeList(line.GetShaderModel().PositionLayoutId, posBuffer, 3, 0);
                              if (normalsBuffer != null && normalsBuffer.Any())
                              {
-                                 line.Renderer.StoreDataInAttributeList(line.ShaderModel.NormalLayoutId, normalsBuffer, 3, 0);
+                                 line.Renderer.StoreDataInAttributeList(line.GetShaderModel().NormalLayoutId, normalsBuffer, 3, 0);
                              }
                              if (normalTangentBuffer != null && normalTangentBuffer.Any())
                              {
                                  line.Renderer.EnableNormalTangent = true;
-                                 line.Renderer.StoreDataInAttributeList(line.ShaderModel.TangentLayoutId, normalTangentBuffer, 3, 0);
+                                 line.Renderer.StoreDataInAttributeList(line.GetShaderModel().TangentLayoutId, normalTangentBuffer, 3, 0);
                              }
                              line.Renderer.BindIndicesBuffer<int>(indexBuffer);
 

@@ -128,9 +128,9 @@ namespace Simple_Engine.Engine.ImGui_Set
             {
                 model.DefaultColor = x.Round(2);
 
-                model.ShaderModel.RunOnUIThread.Push(() =>
+                model.GetShaderModel().RunOnUIThread.Push(() =>
                 {
-                    model.ShaderModel.SetVector4(model.ShaderModel.Location_DefaultColor, model.DefaultColor);
+                    model.GetShaderModel().SetVector4(model.GetShaderModel().Location_DefaultColor, model.DefaultColor);
                 });
             });
         }

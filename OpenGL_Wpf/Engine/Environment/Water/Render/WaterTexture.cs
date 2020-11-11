@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 using Simple_Engine.Engine.Space.Scene;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace Simple_Engine.Engine.Water.Render
             TextureIds.Add(textureModel);
         }
 
-        public override void Live_Update(Shader shaderModel)
+        public override void Live_Update(Base_Shader shaderModel)
         {
             base.Live_Update(shaderModel);
             moveFactor += WaveSpeed * (float)Game.Instance.RenderPeriod;
@@ -75,7 +76,7 @@ namespace Simple_Engine.Engine.Water.Render
             }
         }
 
-        public override void UploadDefaults(Shader ShaderModel)
+        public override void UploadDefaults(Base_Shader ShaderModel)
         {
             if (ShaderModel is WaterShader shader)
             {

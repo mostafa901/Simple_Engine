@@ -3,6 +3,7 @@ using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Terrain.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Extentions;
 using Simple_Engine.ToolBox;
 using System;
@@ -20,11 +21,16 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             SetDepth(height);
             RecieveShadow = true;
             CastShadow = true;
+            modelType = typeof(Terran);
         }
 
         public override void BuildModel()
         {
-            ShaderModel = new Shader(ShaderMapType.LightnBlend, ShaderPath.Terrain);
+            VertexShader = new Vertex_Shader(ShaderPath.Terrain);
+            GeoPointShader = new Geo_Shader(ShaderPath.SingleColor);
+
+            SetShaderModel(VertexShader);
+
             DefaultColor = new Vector4(.15f, .16f, .18f, 1);
             TextureModel = new TerrainTexture();
             generateTerrain();
@@ -216,7 +222,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Default_RenderModel();
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             ShaderModel.SetInt(ShaderModel.Location_ShaderType, (int)ShaderModel.ShaderType);

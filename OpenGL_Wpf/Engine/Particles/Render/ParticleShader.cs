@@ -1,17 +1,18 @@
 ﻿using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 
 namespace Simple_Engine.Engine.Particles.Render
 {
-    public class ParticleShader : Shader
+    public class ParticleShader : Vertex_Shader
     {
-        public ParticleShader(ShaderMapType mapType, ShaderPath shaderType) : base(mapType, shaderType)
+        public ParticleShader(ShaderPath shaderType) : base(shaderType)
         {
         }
 
         public int TextureOffsetLayoutLocation = 6;
         public int BlendLayoutLocation = 7;
 
-        public override void BindAttributes()
+        public override void BindVertexAttributes()
         {
             BindAttribute(PositionLayoutId, "aPosition2");
             BindAttribute(TextureLayoutId, "aTextureCoor");

@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace Simple_Engine.Engine.Geometry.TwoD
         {
             Count = count;
             BuildModel();
-            ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Default);
+            SetShaderModel(new Vertex_Shader(ShaderPath.Default));
         }
 
         public enum direction
@@ -88,7 +89,7 @@ namespace Simple_Engine.Engine.Geometry.TwoD
 
             startdraw(Count);
             Setup_TextureCoordinates();
-            ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Default);
+            SetShaderModel(new Vertex_Shader(ShaderPath.Default));
 
             Setup_Indeces();
         }
@@ -122,7 +123,7 @@ namespace Simple_Engine.Engine.Geometry.TwoD
             throw new NotImplementedException();
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }

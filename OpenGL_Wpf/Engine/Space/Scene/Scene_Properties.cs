@@ -4,6 +4,7 @@ using Simple_Engine.Engine.Fonts;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Environment;
 using Simple_Engine.Engine.Water.Render;
@@ -18,7 +19,7 @@ namespace Simple_Engine.Engine.Space.Scene
         public bool IsToonMode = false;
         public Stack<IDrawable> ModelsforUpload = new Stack<IDrawable>();
         public Stack<IDrawable> ModelstoRemove = new Stack<IDrawable>();
-        public Shader SelectedShader;
+        public Base_Shader SelectedShader;
         public List<CameraModel> CameraModels { get; set; } = new List<CameraModel>();
 
         [JsonIgnore]

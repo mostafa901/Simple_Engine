@@ -2,6 +2,7 @@
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using System;
 using System.Collections.Generic;
 
@@ -46,12 +47,12 @@ namespace Simple_Engine.Engine.Water.Render
             DisplayManager.CurrentBuffer = DisplayManager.RenderBufferType.Selection;
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
 
-        public override void PostRender(Shader ShaderModel)
+        public override void PostRender(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }

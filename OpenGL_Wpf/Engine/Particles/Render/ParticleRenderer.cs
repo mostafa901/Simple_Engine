@@ -49,7 +49,7 @@ namespace Simple_Engine.Engine.Particles.Render
 
             GL.DepthMask(false);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.One); //how Blending should work in this Scene
-            particleModel.Live_Update(particleModel.ShaderModel);
+            particleModel.Live_Update(particleModel.GetShaderModel());
             UploadMeshes(InstancesMatrix, particleModel.Meshes);
             UploadTextureOffset(3);
             UploadBlend(4);

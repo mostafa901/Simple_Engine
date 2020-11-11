@@ -5,6 +5,7 @@ using Simple_Engine.Engine.Core.Static;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
 using Simple_Engine.Engine.Importer.Model;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Extentions;
 using System.IO;
@@ -53,7 +54,7 @@ namespace Simple_Engine.Engine.Importer
             var rmat = Matrix3.CreateRotationX(MathHelper.DegreesToRadians(90));
 
             GeometryModel geo = new GeometryModel();
-            geo.ShaderModel = new Render.Shader(Render.ShaderMapType.Blend, Render.ShaderPath.SingleColor);
+            geo.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
             geo.Name = data.Name;
             geo.Uid = data.Uid;
             cmd.Action = (x) =>

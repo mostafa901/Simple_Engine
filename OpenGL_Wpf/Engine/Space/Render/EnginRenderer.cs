@@ -35,13 +35,13 @@ namespace Simple_Engine.Engine.Render
         public EngineRenderer(IDrawable _model)
         {
             geometryModel = _model;
-            PositionLocation = geometryModel.ShaderModel.PositionLayoutId;
-            TextureLocation = geometryModel.ShaderModel.TextureLayoutId;
-            NormalLocation = geometryModel.ShaderModel.NormalLayoutId;
-            InstancesMatrix = geometryModel.ShaderModel.MatrixLayoutId;
-            InstancesSelectedLocation = geometryModel.ShaderModel.SelectedLayoutId;
-            TangentsLocation = geometryModel.ShaderModel.TangentLayoutId;
-            VertexColorLocation = geometryModel.ShaderModel.VertexColorLayoutId;
+            PositionLocation = geometryModel.GetShaderModel().PositionLayoutId;
+            TextureLocation = geometryModel.GetShaderModel().TextureLayoutId;
+            NormalLocation = geometryModel.GetShaderModel().NormalLayoutId;
+            InstancesMatrix = geometryModel.GetShaderModel().MatrixLayoutId;
+            InstancesSelectedLocation = geometryModel.GetShaderModel().SelectedLayoutId;
+            TangentsLocation = geometryModel.GetShaderModel().TangentLayoutId;
+            VertexColorLocation = geometryModel.GetShaderModel().VertexColorLayoutId;
         }
 
         public bool IsToonMode { get; set; } = false;
@@ -176,9 +176,8 @@ namespace Simple_Engine.Engine.Render
             //GL.ColorMask(true, true, true, true);
             //GL.DepthMask(true);
 
-            geometryModel.ShaderModel.SetVector4(geometryModel.ShaderModel.Location_DefaultColor, new Vector4(1, 1, 0, 1));
-            geometryModel.ShaderModel.SetInt(geometryModel.ShaderModel.Location_ShaderType, (int)ShaderMapType.LoadColor);
-            geometryModel.ShaderModel.SetMatrix4(geometryModel.ShaderModel.Location_LocalTransform, eMath.Scale(geometryModel.LocalTransform, new Vector3(1.05f)));
+            geometryModel.GetShaderModel().SetVector4(geometryModel.GetShaderModel().Location_DefaultColor, new Vector4(1, 1, 0, 1));
+            geometryModel.GetShaderModel().SetMatrix4(geometryModel.GetShaderModel().Location_LocalTransform, eMath.Scale(geometryModel.LocalTransform, new Vector3(1.05f)));
 
             DrawModel();
 
@@ -265,7 +264,7 @@ namespace Simple_Engine.Engine.Render
 
         public void UpdateSelectedMeshes(int attributeLocation, List<Mesh3D> meshes)
         {
-            if (!geometryModel.ShaderModel.EnableInstancing) return;
+            if (!geometryModel.GetShaderModel().EnableInstancing) return;
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBOs.ElementAt(attributeLocation));  //define the type of buffer in the GPU
             var isSelected = meshes.Select(o => (float)Convert.ToInt32(o.Selected)).ToArray();
@@ -277,7 +276,7 @@ namespace Simple_Engine.Engine.Render
 
         public void UploadMeshes(int attributeLocation, List<Mesh3D> meshes)
         {
-            if (!geometryModel.ShaderModel.EnableInstancing) return;
+            if (!geometryModel.GetShaderModel().EnableInstancing) return;
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBOs.ElementAt(attributeLocation));  //define the type of buffer in the GPU
             var transforms = meshes.Select(o => o.LocalTransform).ToArray();
 

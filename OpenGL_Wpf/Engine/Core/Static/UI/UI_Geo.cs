@@ -89,7 +89,17 @@ namespace Simple_Engine.Engine.Core.Static
                 {
                     if (ImGui.Button(prim.ToString()))
                     {
+                        if (Model.DrawType == prim) return;
                         Model.DrawType = prim;
+
+                        if (Model.DrawType == PrimitiveType.Points)
+                        {
+                            Model.SetShaderModel(Model.GeoPointShader);
+                        }
+                        else
+                        {
+                            Model.SetShaderModel(Model.VertexShader);
+                        }
                     }
                 }
             }

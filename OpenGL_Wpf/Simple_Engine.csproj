@@ -113,6 +113,8 @@
     <Compile Include="Engine\Space\Camera\Camera_Animation.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Properties.cs" />
     <Compile Include="Engine\Space\Camera\Camera_Events.cs" />
+    <Compile Include="Engine\Space\Render\ShaderSystem\ShaderGeo.cs" />
+    <Compile Include="Engine\Space\Render\ShaderSystem\Base_Shader.cs" />
     <Compile Include="Engine\Space\Scene\Scene_Actions.cs" />
     <Compile Include="Engine\Space\Scene\Scene_Properties.cs" />
     <Compile Include="Engine\Space\Scene\Scene_UI.cs" />
@@ -249,7 +251,7 @@
     <Compile Include="Engine\Space\Render\PostProcess\PostProcess_Shader.cs" />
     <Compile Include="Engine\Space\Render\PostProcess\PostProcess_Texture.cs" />
     <Compile Include="Engine\Space\Render\PostProcess\PostRender_Effects.cs" />
-    <Compile Include="Engine\Space\Render\Shader.cs" />
+    <Compile Include="Engine\Space\Render\ShaderSystem\ShaderVertex.cs" />
     <Compile Include="Engine\Space\Render\Texture\TextureCube.cs" />
     <Compile Include="Engine\Space\Render\Texture\TextureSample2D.cs" />
     <Compile Include="Engine\Space\Scene\SceneModel.cs" />

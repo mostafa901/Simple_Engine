@@ -22,6 +22,7 @@ namespace Simple_Engine.Engine.Geometry
             Setup_Indeces();
             Setup_Normals();
             Setup_TextureCoordinates();
+            modelType = typeof(Plan3D);
         }
 
         public override void UploadVAO()

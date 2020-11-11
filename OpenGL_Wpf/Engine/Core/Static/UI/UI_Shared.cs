@@ -116,9 +116,9 @@ namespace Simple_Engine.Engine.Core.Static
                 if (Model is IDrawable)
                 {
                     var drawable = Model as IDrawable;
-                    drawable.ShaderModel.RunOnUIThread.Push(() =>
+                    drawable.GetShaderModel().RunOnUIThread.Push(() =>
                      {
-                         drawable.ShaderModel.SetVector4(drawable.ShaderModel.Location_DefaultColor, drawable.DefaultColor);
+                         drawable.GetShaderModel().SetVector4(drawable.GetShaderModel().Location_DefaultColor, drawable.DefaultColor);
                      });
                 }
             }

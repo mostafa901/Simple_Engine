@@ -16,6 +16,7 @@ using Simple_Engine.Engine.Illumination;
 using Simple_Engine.Engine.Opticals;
 using Simple_Engine.Engine.Particles;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water;
@@ -31,7 +32,7 @@ namespace Simple_Engine.Engine
         public static GeometryModel CreateSpheare(SceneModel scene, Vector3 position)
         {
             var PivotModel = Importer.Import.OBJFile(@"./SampleModels/Primatives/Sphere.obj");
-            PivotModel.ShaderModel = new Shader(ShaderMapType.LoadColor, ShaderPath.Default);
+            PivotModel.SetShaderModel(new Vertex_Shader(ShaderPath.Default));
             PivotModel.DefaultColor = new Vector4(1, 0, 0, 1);
 
             var pivotemesh = PivotModel.AddMesh(eMath.MoveTo(PivotModel.LocalTransform, position));
@@ -58,7 +59,7 @@ namespace Simple_Engine.Engine
                 greenPush.Floor = new FloorModel(terrain);
                 greenPush.SetHeight(3);
                 greenPush.BuildModel();
-                greenPush.ShaderModel = new Shader(ShaderMapType.LightnTexture, ShaderPath.Default);
+                greenPush.SetShaderModel(new Vertex_Shader(ShaderPath.Default));
                 greenPush.AllowReflect = false;
                 greenPush.CastShadow = false;
 
@@ -107,7 +108,7 @@ namespace Simple_Engine.Engine
             rec.Material.Glossiness = new Gloss(.3f, 3);
 
             rec.DefaultColor = new Vector4(1, 0, 0, 1);
-            rec.ShaderModel = new GUIShader(ShaderMapType.LoadColor, ShaderPath.GUI);
+            rec.SetShaderModel(new GUIShader(ShaderPath.GUI));
 
             scene.UpLoadModels(rec);
         }
@@ -137,7 +138,7 @@ namespace Simple_Engine.Engine
             cube.CastShadow = true;
             cube.AllowReflect = true;
 
-            cube.ShaderModel = new CubeShader(ShaderMapType.LoadCubeTexture);
+            cube.SetShaderModel(new CubeShader());
             //  cube.AddMesh(cube.LocalTransform);
             cube.Renderer = new CubeRenderer(cube);
 
@@ -159,7 +160,7 @@ namespace Simple_Engine.Engine
             dragon.UpdateBoundingBox();
             dragon.SetEnableClipPlans(false);
 
-            dragon.ShaderModel = new Shader(ShaderMapType.LightnColor, ShaderPath.SingleColor);
+            dragon.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
             dragon.AllowReflect = true;
 
             dragon.Material = new Core.Abstracts.Base_Material();
@@ -222,7 +223,7 @@ namespace Simple_Engine.Engine
             earth.TextureModel.Set_LoadNormalMap(true);
             earth.TextureModel.useSpecularMap = true;
 
-            earth.ShaderModel = new Shader(ShaderMapType.Blend, ShaderPath.Default);
+            earth.SetShaderModel(new Vertex_Shader(ShaderPath.Default));
 
             scene.UpLoadModels(earth);
             return earth;
@@ -242,7 +243,7 @@ namespace Simple_Engine.Engine
 
         public static void DrawLine(SceneModel scene)
         {
-            Line l = new Line(new Vector3(0, 0, 0), new Vector3(1, 0, 1));
+            Line3D l = new Line3D(new Vector3(0, 0, 0), new Vector3(1, 0, 1));
 
             scene.UpLoadModels(l);
         }
@@ -265,7 +266,7 @@ namespace Simple_Engine.Engine
             StreetLamp stlamp = new StreetLamp(lamp);
 
             stlamp.Floor = new FloorModel(terrain);
-            stlamp.ShaderModel = new Shader(ShaderMapType.LightnColor, ShaderPath.SingleColor);
+            stlamp.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
 
             stlamp.AddInstance(new Vector4(5, 0, 0, 1), eMath.MoveTo(stlamp.LocalTransform, new Vector3(10, terrain?.GetTerrainHeight(10, 50) ?? 0, 50)));
 

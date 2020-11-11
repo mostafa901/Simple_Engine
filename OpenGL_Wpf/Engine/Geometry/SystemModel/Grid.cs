@@ -2,6 +2,7 @@
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Core.Events;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using System;
 
@@ -15,7 +16,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             Rows = rows;
             Columns = columns;
             IsSystemModel = true;
-            ShaderModel = new Engine.Render.Shader(Engine.Render.ShaderMapType.Blend, Engine.Render.ShaderPath.Color);
+            SetShaderModel(new Vertex_Shader(ShaderPath.Color));
             Dynamic = Engine.Core.Interfaces.IDrawable.DynamicFlag.Positions;
             CameraModel.OnMoving += Refresh;
             AllowReflect = false;
@@ -50,7 +51,7 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             }
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);

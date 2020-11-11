@@ -23,8 +23,8 @@ namespace Simple_Engine.Engine.Fonts
         public override void RenderModel()
         {
             model = geometryModel as CharacterModel;
-            PositionLocation = model.ShaderModel.PositionLayoutId;
-            TextureLocation = model.ShaderModel.TextureLayoutId;
+            PositionLocation = model.GetShaderModel().PositionLayoutId;
+            TextureLocation = model.GetShaderModel().TextureLayoutId;
 
             VAO = CreateVAO();
 
@@ -45,7 +45,7 @@ namespace Simple_Engine.Engine.Fonts
 
         public override void DrawModel()
         {
-            model.Live_Update(model.ShaderModel);
+            model.Live_Update(model.GetShaderModel());
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, model.Positions.Count);
         }
 

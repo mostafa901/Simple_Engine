@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Render.Texture;
 
 namespace Simple_Engine.Engine.Geometry.Terrain.Render
@@ -22,7 +23,7 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
             TextureIds.Add(grassTexture);
         }
 
-        public override void UploadDefaults(Shader shaderModel)
+        public override void UploadDefaults(Base_Shader shaderModel)
         {
             base.UploadDefaults(shaderModel);
 

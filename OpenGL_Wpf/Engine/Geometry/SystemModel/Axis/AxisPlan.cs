@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Interfaces;
 using Simple_Engine.Engine.Geometry.Axis.Render;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.ToolBox;
 
 namespace Simple_Engine.Engine.Geometry.Axis
@@ -41,7 +42,7 @@ namespace Simple_Engine.Engine.Geometry.Axis
             }
         }
 
-        public override void Live_Update(Shader ShaderModel)
+        public override void Live_Update(Base_Shader ShaderModel)
         {
             base.Live_Update(ShaderModel);
             ShaderModel.SetMatrix4(ShaderModel.Location_LocalTransform, LocalTransform);
@@ -52,7 +53,7 @@ namespace Simple_Engine.Engine.Geometry.Axis
         {
             Renderer = new AxisPlanRenderer(this);
             Renderer.RenderModel();
-            ShaderModel.UploadDefaults(this);
+            GetShaderModel().UploadDefaults(this);
         }
     }
 }

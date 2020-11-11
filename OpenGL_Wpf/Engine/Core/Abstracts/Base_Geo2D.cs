@@ -21,7 +21,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public Mesh3D AddMesh(Matrix4 mat)
         {
-            ShaderModel.EnableInstancing = true;
+            GetShaderModel().EnableInstancing = true;
             var mesh = new Mesh3D(this);
             mesh.LocalTransform = mat;
             Meshes.Add(mesh);
@@ -37,12 +37,12 @@ namespace Simple_Engine.Engine.Core.Abstracts
         public void Default_RenderModel()
         {
             Renderer.RenderModel();
-            ShaderModel.UploadDefaults(this);
+            GetShaderModel().UploadDefaults(this);
         }
 
         public void Dispose()
         {
-            ShaderModel.Dispose();
+            GetShaderModel().Dispose();
             Renderer.Dispose();
             TextureModel?.Dispose();
         }

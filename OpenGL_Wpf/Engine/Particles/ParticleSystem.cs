@@ -12,11 +12,11 @@ namespace Simple_Engine.Engine.Particles.Render
             {
                 if (model.Meshes.Any())
                 {
-                    model.ShaderModel.Use();
-                    scene.Live_Update(model.ShaderModel);
+                    model.GetShaderModel().Use();
+                    scene.Live_Update(model.GetShaderModel());
                     model.Meshes.RemoveAll(o => ((ParticleMesh)o).Live_Update());
                     model.Renderer.Draw();
-                    model.ShaderModel.Stop();
+                    model.GetShaderModel().Stop();
                 }
             }
         }

@@ -4,6 +4,7 @@ using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.ImGui_Set.Controls;
 using Simple_Engine.Engine.Render;
+using Simple_Engine.Engine.Render.ShaderSystem;
 using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System;
@@ -48,7 +49,7 @@ namespace Simple_Engine.Engine.Illumination
         public float Intensity { get; set; } = 1;
         public bool CastShadow { get; set; }
 
-        public Line LightRay;
+        public Line3D LightRay;
 
         public void BuildModel()
         {
@@ -81,7 +82,7 @@ namespace Simple_Engine.Engine.Illumination
             return new Vector3(eyeSpacePos);
         }
 
-        public void Live_Update(Shader ShaderModel)
+        public void Live_Update(Base_Shader ShaderModel)
         {
             if (CastShadow)
             {
@@ -96,12 +97,12 @@ namespace Simple_Engine.Engine.Illumination
             throw new NotImplementedException();
         }
 
-        public void PostRender(Shader ShaderModel)
+        public void PostRender(Base_Shader ShaderModel)
         {
             throw new NotImplementedException();
         }
 
-        public void PrepareForRender(Shader shaderModel)
+        public void PrepareForRender(Base_Shader shaderModel)
         {
             throw new NotImplementedException();
         }
@@ -140,15 +141,15 @@ namespace Simple_Engine.Engine.Illumination
             throw new NotImplementedException();
         }
 
-        public void UploadDefaults(Shader ShaderModel)
+        public void UploadDefaults(Base_Shader ShaderModel)
         {
-            ShaderModel.SetInt(ShaderModel.MaxLightLocation, Shader.MaximumLight);
+            ShaderModel.SetInt(ShaderModel.MaxLightLocation, Base_Shader.MaximumLight);
             UpLoadLightColor(ShaderModel);
             ShaderModel.SetArray3(ShaderModel.LightPositionsLocation, SceneModel.ActiveScene.Lights.Select(o => o.LightPosition), new Vector3());
             ShaderModel.SetArray3(ShaderModel.AttenuationLightLocation, SceneModel.ActiveScene.Lights.Select(o => o.Attenuation), new Vector3(1, 0, 0));
         }
 
-        private static void UpLoadLightColor(Shader ShaderModel)
+        private static void UpLoadLightColor(Base_Shader ShaderModel)
         {
             ShaderModel.SetArray4(ShaderModel.LightColorLocation, SceneModel.ActiveScene.Lights.Select(o => o.DefaultColor), new Vector4());
         }

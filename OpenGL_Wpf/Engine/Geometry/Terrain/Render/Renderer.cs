@@ -38,9 +38,9 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
 
         public override void RenderModel()
         {
-            PositionLocation = geometryModel.ShaderModel.PositionLayoutId;
-            TextureLocation = geometryModel.ShaderModel.TextureLayoutId;
-            NormalLocation = geometryModel.ShaderModel.NormalLayoutId;
+            PositionLocation = geometryModel.GetShaderModel().PositionLayoutId;
+            TextureLocation = geometryModel.GetShaderModel().TextureLayoutId;
+            NormalLocation = geometryModel.GetShaderModel().NormalLayoutId;
 
             VAO = CreateVAO();
             BindIndicesBuffer(((IDrawable3D)geometryModel).Indeces.ToArray());

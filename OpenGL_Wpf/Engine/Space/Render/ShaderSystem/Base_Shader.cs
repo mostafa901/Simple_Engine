@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Simple_Engine.Engine.Render
+namespace Simple_Engine.Engine.Render.ShaderSystem
 {
     public enum ShaderMapType
     {
@@ -47,7 +47,7 @@ namespace Simple_Engine.Engine.Render
         Color
     }
 
-    public class Shader
+    public abstract class Base_Shader
     {
         #region Properties
 
@@ -61,15 +61,12 @@ namespace Simple_Engine.Engine.Render
         //layoutLocations
         public int PositionLayoutId = 0;
 
-        public int ProgramID;
-
         //4,5,6
         public int SelectedLayoutId = 7;
 
         public int TangentLayoutId = 8;
         public int TextureLayoutId = 1;
         public int VertexColorLayoutId = 9;
-        public int vertexShaderId, fragmentShaderId;
 
         public List<int> AttenuationLightLocation { get; set; }
 
@@ -167,25 +164,19 @@ namespace Simple_Engine.Engine.Render
         public Stack<Action> RunOnUIThread { get; set; } = new Stack<Action>();
 
         private static string INCLUDEdIRECTIVE = "#include";
-        private int geometryShaderId;
 
-        [Obsolete("Use public Shader(ShaderPath shaderModelType)")]
-        public Shader(ShaderMapType mapType, ShaderPath shaderModelType)
-        {
-            ShaderType = mapType;
-            ShaderModelType = shaderModelType;
-        }
+        protected int ProgramId { get; set; }
 
-        public Shader(ShaderPath shaderModelType)
+        public Base_Shader(ShaderPath shaderModelType)
         {
             ShaderModelType = shaderModelType;
         }
 
-        private void InitalizeShader(ShaderPath shaderModelType)
+        protected void InitalizeShader()
         {
             string path = @"./Engine/Space/Render/Source/";
-            Debug.WriteLine($"Loading Shader: {shaderModelType}");
-            switch (shaderModelType)
+            Debug.WriteLine($"Loading Shader: {ShaderModelType}");
+            switch (ShaderModelType)
             {
                 case ShaderPath.Default:
                     {
@@ -221,8 +212,7 @@ namespace Simple_Engine.Engine.Render
                     {
                         path = @"./Engine/Geometry/Terrain/Render/Source/";
 
-                        Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag",
-                         @"./Engine/Space/Render/Source/SingleColor_Geom.geom");
+                        Setup_Shader($"{path}VertexShader_Blend.vert", $"{path}FragmentShader_Blend.frag");
                         break;
                     }
                 case ShaderPath.Cube:
@@ -258,21 +248,15 @@ namespace Simple_Engine.Engine.Render
             }
         }
 
-        public void BindAttribute(int attribute, string variableName)
+        public void Dispose()
         {
-            GL.BindAttribLocation(ProgramID, attribute, variableName);
+            Stop();
+            GC.SuppressFinalize(this);
         }
 
-        public virtual void BindAttributes()
-        {
-            BindAttribute(PositionLayoutId, "aPosition");
-            BindAttribute(TextureLayoutId, "aTextureCoor");
-            BindAttribute(NormalLayoutId, "aNormals");
-            BindAttribute(MatrixLayoutId, "InstanceMatrix");
-            BindAttribute(SelectedLayoutId, "InstanceSelected");
-            BindAttribute(TangentLayoutId, "Tangent");
-            BindAttribute(VertexColorLayoutId, "VertexColor");
-        }
+        protected const string PointsShader = @"./Engine/Space/Render/Source/SingleColor_Geom.geom";
+
+        public abstract void Setup_Shader(string vertexPath, string fragmentPath);
 
         public virtual int CreateShader(string path, ShaderType shaderFileType)
         {
@@ -288,47 +272,40 @@ namespace Simple_Engine.Engine.Render
                 new ArgumentException(infologTest);
             }
 
-            GL.AttachShader(ProgramID, shaderProgram);
             return shaderProgram;
         }
 
-        public void Dispose()
+        public void AttachShader(int programID, int shaderProgram)
         {
-            CleanUp();
-            GC.SuppressFinalize(this);
+            GL.AttachShader(programID, shaderProgram);
         }
 
-        public void GetArrayLocations(string attribute, List<int> storage, int size)
+        public virtual void BindVertexAttributes()
         {
-            for (int i = 0; i < size; i++)
-            {
-                storage.Add(GL.GetUniformLocation(ProgramID, $"{attribute}[{i}]"));
-            }
+            BindAttribute(PositionLayoutId, "aPosition");
+            BindAttribute(TextureLayoutId, "aTextureCoor");
+            BindAttribute(NormalLayoutId, "aNormals");
+            BindAttribute(MatrixLayoutId, "InstanceMatrix");
+            BindAttribute(SelectedLayoutId, "InstanceSelected");
+            BindAttribute(TangentLayoutId, "Tangent");
+            BindAttribute(VertexColorLayoutId, "VertexColor");
         }
 
-        public int GetLocation(string name)
+        public void BindAttribute(int attribute, string variableName)
         {
-            return GL.GetUniformLocation(ProgramID, name);
+            int programID = ProgramId;
+            GL.BindAttribLocation(programID, attribute, variableName);
         }
 
-        public virtual void LinkProgram()
+        public virtual void LinkProgram(int programID)
         {
-            GL.LinkProgram(ProgramID);
-            GL.ValidateProgram(ProgramID);
+            GL.LinkProgram(programID);
+            GL.ValidateProgram(programID);
 
-            string log = GL.GetProgramInfoLog(ProgramID);
+            string log = GL.GetProgramInfoLog(programID);
             if (!string.IsNullOrEmpty(log))
             {
                 Debugger.Break();
-            }
-        }
-
-        public virtual void Live_Update()
-        {
-            while (RunOnUIThread.Any())
-            {
-                var action = RunOnUIThread.Pop();
-                action();
             }
         }
 
@@ -343,7 +320,7 @@ namespace Simple_Engine.Engine.Render
             //Model
             Location_DefaultColor = GetLocation(nameof(Base_Geo.DefaultColor));
             Location_LocalTransform = GetLocation(nameof(Base_Geo.LocalTransform));
-            Location_ShaderType = GetLocation(nameof(ShaderType));
+
             Location_IsSelected = GetLocation("IsSelected");
 
             //Fog
@@ -407,6 +384,28 @@ namespace Simple_Engine.Engine.Render
             GetArrayLocations("LightEyePosition", LightEyePositionLocation, MaximumLight);
         }
 
+        public void GetArrayLocations(string attribute, List<int> storage, int size)
+        {
+            for (int i = 0; i < size; i++)
+            {
+                storage.Add(GL.GetUniformLocation(ProgramId, $"{attribute}[{i}]"));
+            }
+        }
+
+        public int GetLocation(string name)
+        {
+            return GL.GetUniformLocation(ProgramId, name);
+        }
+
+        public virtual void Live_Update()
+        {
+            while (RunOnUIThread.Any())
+            {
+                var action = RunOnUIThread.Pop();
+                action();
+            }
+        }
+
         public void SetArray3(List<int> locationsStore, IEnumerable<Vector3> storage, Vector3 defaultvalue)
         {
             int count = storage.Count();
@@ -456,23 +455,6 @@ namespace Simple_Engine.Engine.Render
             GL.UniformMatrix4(attribLocation, false, ref value);
         }
 
-        public virtual void Setup_Shader(string vertexPath, string fragmentPath, string geometryShaderPath = "")
-        {
-            //Link both Shaders to a program
-            ProgramID = GL.CreateProgram();
-
-            vertexShaderId = CreateShader(vertexPath, OpenTK.Graphics.OpenGL.ShaderType.VertexShader);
-            fragmentShaderId = CreateShader(fragmentPath, OpenTK.Graphics.OpenGL.ShaderType.FragmentShader);
-            if (!string.IsNullOrEmpty(geometryShaderPath))
-            {
-                geometryShaderId = CreateShader(geometryShaderPath, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
-            }
-
-            BindAttributes(); //must be before linking program
-            LinkProgram();
-            LoadAllUniforms();
-        }
-
         public void SetVector2(int attribLocation, Vector2 value)
         {
             GL.Uniform2(attribLocation, value);
@@ -508,13 +490,14 @@ namespace Simple_Engine.Engine.Render
 
         public void Use()
         {
-            if (ProgramID == 0)
+            if (ProgramId == 0)
             {
                 //this is incase the shadermodel is created from a different thread.
-                InitalizeShader(ShaderModelType);
+                InitalizeShader();
+                //Debugger.Break();
             }
 
-            GL.UseProgram(ProgramID);
+            GL.UseProgram(ProgramId);
         }
 
         internal void SetInt(int attribLocation, int value)
@@ -525,18 +508,6 @@ namespace Simple_Engine.Engine.Render
         internal void SetVector3(int location, Vector3 position)
         {
             GL.Uniform3(location, position);
-        }
-
-        protected virtual void CleanUp()
-        {
-            Stop();
-            GL.DetachShader(ProgramID, vertexShaderId);
-            GL.DetachShader(ProgramID, fragmentShaderId);
-            GL.DetachShader(ProgramID, geometryShaderId);
-            GL.DeleteShader(geometryShaderId);
-            GL.DeleteShader(fragmentShaderId);
-            GL.DeleteShader(vertexShaderId);
-            GL.DeleteProgram(ProgramID);
         }
 
         private string LoadShader(string path)
