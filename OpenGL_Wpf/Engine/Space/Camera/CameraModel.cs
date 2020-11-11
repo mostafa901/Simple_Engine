@@ -222,7 +222,8 @@ namespace Simple_Engine.Engine.Space.Camera
                     Vector4 pickedColor = targetfbo.GetPixelColorFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment1, 2);
 
                     int VertexId = targetfbo.GetIntegerFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment2);
-                    Base_Geo3D.SelectedVertex = ((IDrawable3D)model).Positions.ElementAtOrDefault(VertexId);
+                    var model3d = ((IDrawable3D)model);
+                    Base_Geo3D.SelectedVertex = model3d.Positions[model3d.Indeces.ElementAtOrDefault(VertexId)];
 
                     if (model.DefaultColor == pickedColor)
                     {

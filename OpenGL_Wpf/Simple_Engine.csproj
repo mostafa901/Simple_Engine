@@ -354,64 +354,64 @@
     <None Include="Engine\Space\Render\PostProcess\Source\Sepia_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\Color_Frag.frag">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\Color_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\Color_Vert.vert">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\Color_Vert.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\Default_Frag.frag">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\Default_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\Default_Vert.vert">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\Default_Vert.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_Default.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_Default.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_Effects.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_Effects.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_Fog.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_Fog.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_Light.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_Light.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_Shadow.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_Shadow.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_Texture2D.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_Texture2D.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Frag_TextureCube.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Frag_TextureCube.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Vert_2DTexture.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_2DTexture.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Vert_3DTexture.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_3DTexture.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Vert_Default.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_Default.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Vert_Fog.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_Fog.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Vert_Light.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_Light.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\lib\Vert_Shadow.glsl">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_Shadow.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\SingleColor_Frag.frag">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\SingleColor_Geom.geom">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Geom.geom">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\Source\SingleColor_Vert.vert">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Vert.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Extentions\UT_Model" />

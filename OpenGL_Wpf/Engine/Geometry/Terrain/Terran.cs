@@ -34,7 +34,6 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
             DefaultColor = new Vector4(.15f, .16f, .18f, 1);
             TextureModel = new TerrainTexture();
             generateTerrain();
-            //      Indeces.Clear();
         }
 
         public override float GetHeight()

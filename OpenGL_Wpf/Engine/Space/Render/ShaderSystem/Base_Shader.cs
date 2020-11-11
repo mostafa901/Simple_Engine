@@ -163,7 +163,7 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
 
         public Stack<Action> RunOnUIThread { get; set; } = new Stack<Action>();
 
-        private static string INCLUDEdIRECTIVE = "#include";
+        private static string INCLUDEDIRECTIVE = "#include";
 
         protected int ProgramId { get; set; }
 
@@ -174,7 +174,7 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
 
         protected void InitalizeShader()
         {
-            string path = @"./Engine/Space/Render/Source/";
+            string path = @"./Engine/Space/Render/ShaderSystem/Source/";
             Debug.WriteLine($"Loading Shader: {ShaderModelType}");
             switch (ShaderModelType)
             {
@@ -229,7 +229,6 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
                     }
                 case ShaderPath.SingleColor:
                     {
-                        path = @"./Engine/Space/Render/Source/";
                         Setup_Shader($"{path}SingleColor_Vert.vert", $"{path}SingleColor_Frag.frag");
                         break;
                     }
@@ -254,7 +253,7 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
             GC.SuppressFinalize(this);
         }
 
-        protected const string PointsShader = @"./Engine/Space/Render/Source/SingleColor_Geom.geom";
+        protected const string PointsShader = @"./Engine/Space/Render/ShaderSystem/Source/SingleColor_Geom.geom";
 
         public abstract void Setup_Shader(string vertexPath, string fragmentPath);
 
@@ -518,11 +517,11 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
 
             foreach (var line in lines)
             {
-                if (line.StartsWith(INCLUDEdIRECTIVE))
+                if (line.StartsWith(INCLUDEDIRECTIVE))
                 {
                     int index = line.IndexOf("//!");
 
-                    string externalPath = line.Substring(index + 4 + INCLUDEdIRECTIVE.Length + 2, -index - 4 + line.Length - INCLUDEdIRECTIVE.Length - 2 - 1);
+                    string externalPath = line.Substring(index + 4 + INCLUDEDIRECTIVE.Length + 2, -index - 4 + line.Length - INCLUDEDIRECTIVE.Length - 2 - 1);
 
                     string functions = LoadShader(externalPath);
                     sourceBuilder.AppendLine(functions);

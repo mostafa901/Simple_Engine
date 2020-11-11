@@ -26,7 +26,7 @@ namespace Simple_Engine.Engine.GameSystem
         {
             if (severity != DebugSeverity.DebugSeverityNotification)
             {
-                Debugger.Break();
+                //Debugger.Break();
             }
             Debug.WriteLine($"\r\n\r\n\r\n***********OpenGL Message**************\r\n\r\n\r\n");
             Debug.WriteLine($"OpenGL Message: {Marshal.PtrToStringAnsi(message)}");
