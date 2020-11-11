@@ -3,6 +3,7 @@ using Shared_Lib.MVVM;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.ThreeDModels;
 using Simple_Engine.Engine.Illumination;
+using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using System;
 using System.Threading.Tasks;
@@ -79,110 +80,11 @@ namespace Simple_Engine.Engine.Core.Static
                 if (ImGui.BeginMenu("Demo"))
                 {
                     ImGui.MenuItem("Show IMGUI Demo", "", ref showDemo, true);
-                    if (ImGui.BeginMenu("Geometry"))
-                    {
-                        if (ImGui.MenuItem("Add Dragon"))
-                        {
-                            GameFactory.DrawDragon(SceneModel.ActiveScene, null);
-                        }
+                    Render_Geometry();
+                    Render_PostProcess();
+                    Render_Text();
+                    Render_ColorChannel();
 
-                        if (ImGui.MenuItem("Add Fog", "", ref SceneModel.ActiveScene.SceneFog.Active))
-                        {
-                        }
-
-                        if (ImGui.MenuItem("Add Terrain"))
-                        {
-                            var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
-                        }
-
-                        if (ImGui.MenuItem("Add Water"))
-                        {
-                            GameFactory.Draw_Water(SceneModel.ActiveScene);
-                            //GameFactory.DrawEarth(SceneModel.ActiveScene);
-                        }
-                        if (ImGui.MenuItem("Add Sky", "", SkyBox.ActiveSky != null))
-                        {
-                            if (SkyBox.ActiveSky == null)
-                            {
-                                SkyBox.ActiveSky = GameFactory.DrawSkyBox(SceneModel.ActiveScene);
-                            }
-                            else
-                            {
-                                SceneModel.ActiveScene.RemoveModels(SkyBox.ActiveSky);
-                                SkyBox.ActiveSky = null;
-                            }
-                        }
-
-                        if (ImGui.MenuItem("Add Grid", "", Grid.ActiveGrid != null))
-                        {
-                            if (Grid.ActiveGrid == null)
-                            {
-                                GameFactory.DrawGrid(SceneModel.ActiveScene);
-                            }
-                            else
-                            {
-                                SceneModel.ActiveScene.RemoveModels(Grid.ActiveGrid);
-                                Grid.ActiveGrid = null;
-                            }
-                        }
-
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("PostProcess"))
-                    {
-                        ImGui.RadioButton("Normal", ref postProcessSelection, 0);
-                        ImGui.RadioButton("Contrast", ref postProcessSelection, 1);
-                        ImGui.RadioButton("Blur", ref postProcessSelection, 2);
-                        ImGui.RadioButton("Sepia", ref postProcessSelection, 3);
-
-                        if (postProcessSelection == 1)
-                        {
-                            game.contrastEffect.IsActive = true;
-                        }
-                        else
-                        {
-                            game.contrastEffect.IsActive = false;
-                        }
-
-                        if (postProcessSelection == 2)
-                        {
-                            game.hBlureEffect.IsActive = true;
-                        }
-                        else
-                        {
-                            game.hBlureEffect.IsActive = false;
-                        }
-
-                        if (postProcessSelection == 3)
-                        {
-                            game.sepiaEffect.IsActive = true;
-                        }
-                        else
-                        {
-                            game.sepiaEffect.IsActive = false;
-                        }
-
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.BeginMenu("Text"))
-                    {
-                        if (ImGui.MenuItem("Render Text"))
-                        {
-                            int linewidth = 300;
-                            var gui = new Fonts.GuiFont("this is from UI", linewidth, 20);
-                            gui.TextPosition = new OpenTK.Vector2(1 - (float)linewidth / 800);
-                            gui.BuildModel();
-                            var cmd = new cus_CMD();
-                            cmd.Action = (a) =>
-                            {
-                                gui.Text = DisplayManager.UpdatePeriod.ToString();
-                                gui.BuildModel();
-                            };
-                            game.RenderOnUIThread(cmd);
-                            SceneModel.ActiveScene.GuiTextModel = gui;
-                        }
-                        ImGui.EndMenu();
-                    }
                     ImGui.EndMenu();
                 }
 
@@ -192,6 +94,151 @@ namespace Simple_Engine.Engine.Core.Static
             if (showDemo)
             {
                 ImGui.ShowDemoWindow();
+            }
+        }
+
+        private static void Render_Geometry()
+        {
+            if (ImGui.BeginMenu("Geometry"))
+            {
+                if (ImGui.MenuItem("Add Dragon"))
+                {
+                    GameFactory.DrawDragon(SceneModel.ActiveScene, null);
+                }
+
+                if (ImGui.MenuItem("Add Fog", "", ref SceneModel.ActiveScene.SceneFog.Active))
+                {
+                }
+
+                if (ImGui.MenuItem("Add Terrain"))
+                {
+                    var terrain = GameFactory.Draw_Terran(SceneModel.ActiveScene) as Terran;
+                }
+
+                if (ImGui.MenuItem("Add Water"))
+                {
+                    GameFactory.Draw_Water(SceneModel.ActiveScene);
+                    //GameFactory.DrawEarth(SceneModel.ActiveScene);
+                }
+                if (ImGui.MenuItem("Add Sky", "", SkyBox.ActiveSky != null))
+                {
+                    if (SkyBox.ActiveSky == null)
+                    {
+                        SkyBox.ActiveSky = GameFactory.DrawSkyBox(SceneModel.ActiveScene);
+                    }
+                    else
+                    {
+                        SceneModel.ActiveScene.RemoveModels(SkyBox.ActiveSky);
+                        SkyBox.ActiveSky = null;
+                    }
+                }
+
+                if (ImGui.MenuItem("Add Grid", "", Grid.ActiveGrid != null))
+                {
+                    if (Grid.ActiveGrid == null)
+                    {
+                        GameFactory.DrawGrid(SceneModel.ActiveScene);
+                    }
+                    else
+                    {
+                        SceneModel.ActiveScene.RemoveModels(Grid.ActiveGrid);
+                        Grid.ActiveGrid = null;
+                    }
+                }
+
+                ImGui.EndMenu();
+            }
+        }
+
+        private static void Render_PostProcess()
+        {
+            if (ImGui.BeginMenu("PostProcess"))
+            {
+                ImGui.RadioButton("Normal", ref postProcessSelection, 0);
+                ImGui.RadioButton("Contrast", ref postProcessSelection, 1);
+                ImGui.RadioButton("Blur", ref postProcessSelection, 2);
+                ImGui.RadioButton("Sepia", ref postProcessSelection, 3);
+
+                if (postProcessSelection == 1)
+                {
+                    game.contrastEffect.IsActive = true;
+                }
+                else
+                {
+                    game.contrastEffect.IsActive = false;
+                }
+
+                if (postProcessSelection == 2)
+                {
+                    game.hBlureEffect.IsActive = true;
+                }
+                else
+                {
+                    game.hBlureEffect.IsActive = false;
+                }
+
+                if (postProcessSelection == 3)
+                {
+                    game.sepiaEffect.IsActive = true;
+                }
+                else
+                {
+                    game.sepiaEffect.IsActive = false;
+                }
+
+                ImGui.EndMenu();
+            }
+        }
+
+        private static void Render_Text()
+        {
+            if (ImGui.BeginMenu("Text"))
+            {
+                if (ImGui.MenuItem("Render Text"))
+                {
+                    int linewidth = 300;
+                    var gui = new Fonts.GuiFont("this is from UI", linewidth, 20);
+                    gui.TextPosition = new OpenTK.Vector2(1 - (float)linewidth / 800);
+                    gui.BuildModel();
+                    var cmd = new cus_CMD();
+                    cmd.Action = (a) =>
+                    {
+                        gui.Text = DisplayManager.UpdatePeriod.ToString();
+                        gui.BuildModel();
+                    };
+                    game.RenderOnUIThread(cmd);
+                    SceneModel.ActiveScene.GuiTextModel = gui;
+                }
+                ImGui.EndMenu();
+            }
+        }
+
+        private static int ColorChannel = 0;
+
+        private static void Render_ColorChannel()
+        {
+            if (ImGui.BeginMenu("Color Channel"))
+            {
+                ImGui.RadioButton("Normal Color", ref ColorChannel, 0);
+                ImGui.RadioButton("Selection Buffer", ref ColorChannel, 1);
+                ImGui.RadioButton("Vertex Buffer", ref ColorChannel, 2);
+
+                if (ColorChannel == 1)
+                {
+                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment1;
+                }
+
+                if (ColorChannel == 2)
+                {
+                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment2;
+                }
+
+                if (ColorChannel == 0)
+                {
+                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment0;
+                }
+
+                ImGui.EndMenu();
             }
         }
 

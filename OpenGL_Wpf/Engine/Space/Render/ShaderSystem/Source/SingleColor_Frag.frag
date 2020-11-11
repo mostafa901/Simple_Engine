@@ -11,7 +11,17 @@ in vec4 Color;
 void main()
 {
     //vec4 pixelColor =  normalize(vec4((surfaceNormal*.5 +1)*2,1));
-    vec4 pixelColor =  DefaultColor;
+    if(Color != DefaultColor)
+    {
+        FragColor = Finalize(Color);
+        return;
+    }
+    else
+    {
+        FragColor = Finalize(DefaultColor);
+        return;
+    }
+    vec4 pixelColor =  Color;
     //vec4 pixelColor =  Color;
 
     float shadow = AddShadow();

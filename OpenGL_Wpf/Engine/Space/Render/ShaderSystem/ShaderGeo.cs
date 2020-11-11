@@ -1,9 +1,12 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using Simple_Engine.Engine.Core.Abstracts;
 
 namespace Simple_Engine.Engine.Render.ShaderSystem
 {
     public class Geo_Shader : Base_Shader
     {
+        public int Location_SelectedVertex = -1;
+
         public Geo_Shader(ShaderPath shaderModelType) : base(shaderModelType)
         {
             InitalizeShader();
@@ -35,6 +38,15 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
             GL.DeleteShader(fragShaderId);
 
             LoadAllUniforms();
+            Use();
+            SetVector4(Location_DefaultColor, new OpenTK.Vector4(0, 0, 1, 1));
+            Stop();
+        }
+
+        public override void LoadAllUniforms()
+        {
+            base.LoadAllUniforms();
+            Location_SelectedVertex = GetLocation("SelectedVertex");
         }
     }
 }

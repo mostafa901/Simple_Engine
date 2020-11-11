@@ -30,6 +30,8 @@ namespace Simple_Engine.Engine.Space.Camera
         public static ClipPlan ClipPlanY;
         public static ClipPlan ClipPlanZ;
 
+        public ReadBufferMode ColorChannel = ReadBufferMode.ColorAttachment0;
+
         public enum CameraType
         {
             Perspective,
@@ -222,8 +224,17 @@ namespace Simple_Engine.Engine.Space.Camera
                     Vector4 pickedColor = targetfbo.GetPixelColorFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment1, 2);
 
                     int VertexId = targetfbo.GetIntegerFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment2);
-                    var model3d = ((IDrawable3D)model);
-                    Base_Geo3D.SelectedVertex = model3d.Positions[model3d.Indeces.ElementAtOrDefault(VertexId)];
+                    var model3d = ((Base_Geo3D)model);
+
+                    Base_Geo3D.SelectedVertex = model3d.Positions.ElementAtOrDefault(VertexId);
+
+                    if (model3d.GetShaderModel() is Geo_Shader)
+                    {
+                        model3d.GetShaderModel().RunOnUIThread.Push(() =>
+                        {
+                            model3d.GeoPointShader.SetInt(model3d.GeoPointShader.Location_SelectedVertex, VertexId);
+                        });
+                    }
 
                     if (model.DefaultColor == pickedColor)
                     {

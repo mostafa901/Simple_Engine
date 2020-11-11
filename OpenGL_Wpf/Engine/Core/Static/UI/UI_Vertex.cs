@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using Simple_Engine.Engine.Core.Abstracts;
 using Simple_Engine.Engine.GameSystem;
 using Simple_Engine.Engine.Geometry.Core;
@@ -20,7 +21,7 @@ namespace Simple_Engine.Engine.Core.Static
             if (geo == null)
             {
                 geo = new GeometryModel();
-
+                geo.DefaultColor = new Vector4(1, 0, 0, 1);
                 geo.Positions.Add(new Vector3());
                 geo.DrawType = OpenTK.Graphics.OpenGL.PrimitiveType.Points;
                 geo.SetShaderModel(new Vertex_Shader(ShaderPath.Color));
@@ -47,6 +48,11 @@ namespace Simple_Engine.Engine.Core.Static
                     geo.Positions[0] += pos.ToVector();
 
                     // Early out if the window is collapsed, as an optimization.
+                }
+
+                if (ImGui.DragFloat("Point Size", ref DisplayManager.PointSize, 0.1f, 0, 10))
+                {
+                    GL.PointSize(DisplayManager.PointSize);
                 }
                 ImGui.End();
             }

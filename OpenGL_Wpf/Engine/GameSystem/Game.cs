@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using Shared_Lib.MVVM;
 using Simple_Engine.Engine.Core.AnimationSystem;
 using Simple_Engine.Engine.Illumination.Render;
+using Simple_Engine.Engine.Space.Camera;
 using Simple_Engine.Engine.Space.Scene;
 using Simple_Engine.Engine.Water.Render;
 using System;
@@ -84,7 +85,7 @@ namespace Simple_Engine.Engine.GameSystem
             mTargets_FBO.UnbindCurrentBuffer();
 
             //change Color Attachment to 01 to render the selection buffer
-            mTargets_FBO.ResolveResults(0, ReadBufferMode.ColorAttachment0);
+            mTargets_FBO.ResolveResults(0, CameraModel.ActiveCamera.ColorChannel);
             //  Render_PostProcess();
 
             SceneModel.ActiveScene.GuiTextModel?.Render();
