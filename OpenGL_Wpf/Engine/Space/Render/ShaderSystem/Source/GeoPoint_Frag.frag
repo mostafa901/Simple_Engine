@@ -6,18 +6,12 @@
 #include "Frag_Fog.glsl" //! #include "D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Space\Render\ShaderSystem\Source\lib\Frag_Fog.glsl"
 #include "Frag_Shadow.glsl" //! #include "D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Space\Render\ShaderSystem\Source\lib\Frag_Shadow.glsl"
 
+in vec4 Color;
+in float gvid;
 
 void main()
 {
-   
-    vec4 pixelColor =  DefaultColor;
-    //vec4 pixelColor =  Color;
-
-    float shadow = AddShadow();
-
-    pixelColor = AddLight(pixelColor, shadow, surfaceNormal);
-
-    pixelColor= AddFog(pixelColor);
-   
-    FragColor =  Finalize(pixelColor);
+        FragVertexColor = int(gvid); 
+        FragColor = Finalize(Color);
+    
 }

@@ -405,6 +405,9 @@
     <None Include="Engine\Space\Render\ShaderSystem\Source\lib\Vert_Shadow.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Engine\Space\Render\ShaderSystem\Source\GeoPoint_Frag.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

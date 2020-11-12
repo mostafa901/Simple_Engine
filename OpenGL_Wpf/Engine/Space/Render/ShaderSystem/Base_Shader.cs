@@ -44,7 +44,8 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
         SingleColor,
         Shadow,
         PostProcess,
-        Color
+        Color,
+        SingleColorGeo
     }
 
     public abstract class Base_Shader
@@ -230,6 +231,11 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
                 case ShaderPath.SingleColor:
                     {
                         Setup_Shader($"{path}SingleColor_Vert.vert", $"{path}SingleColor_Frag.frag");
+                        break;
+                    }
+                case ShaderPath.SingleColorGeo:
+                    {
+                        Setup_Shader($"{path}SingleColor_Vert.vert", $"{path}GeoPoint_Frag.frag");
                         break;
                     }
                 case ShaderPath.Shadow:

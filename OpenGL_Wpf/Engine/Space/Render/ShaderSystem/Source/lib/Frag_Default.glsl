@@ -6,7 +6,7 @@ layout(location=2) out uint FragVertexColor;
 
 //Model
 in float ModelSelected;
-in float gvid;
+
 
 //Texture
 uniform bool EnableNormalMap;
@@ -38,7 +38,7 @@ vec4 AddToon(vec4 currentPixel)
 vec4 Finalize(vec4 pixelColor)
 {
 	FragDefaultColor = DefaultColor;
-	FragVertexColor = int(gvid);
+	
 	
 	if(ModelSelected>0.0)
     {
