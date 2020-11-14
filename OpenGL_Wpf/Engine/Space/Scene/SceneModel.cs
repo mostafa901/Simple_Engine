@@ -296,7 +296,7 @@ namespace Simple_Engine.Engine.Space.Scene
             GL.Enable(EnableCap.DepthTest); //requires ClearBufferMask.DepthBufferBit @ render frame
             GL.Enable(EnableCap.CullFace); //avoid rendering Faces that are.
             GL.CullFace(CullFaceMode.Back); //back from Camera
-            GL.ShadeModel(ShadingModel.Smooth);
+            GL.ShadeModel(ShadingModel.Flat);
             GL.LineWidth(DisplayManager.LineSize); //greater than 1 will cause error in future opengl versions
             GL.PointSize(DisplayManager.PointSize);
             //GL.Enable(EnableCap.ScissorTest);
