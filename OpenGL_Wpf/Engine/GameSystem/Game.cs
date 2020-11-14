@@ -85,8 +85,9 @@ namespace Simple_Engine.Engine.GameSystem
             mTargets_FBO.UnbindCurrentBuffer();
 
             //change Color Attachment to 01 to render the selection buffer
-            mTargets_FBO.ResolveResults(0, CameraModel.ActiveCamera.ColorChannel);
-            //  Render_PostProcess();
+            mTargets_FBO.ResolveResults(texture_FBO.TextureId, CameraModel.ActiveCamera.ColorChannel);
+
+            Render_PostProcess(mTargets_FBO.TextureId);
 
             SceneModel.ActiveScene.GuiTextModel?.Render();
 

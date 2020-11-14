@@ -9,7 +9,7 @@ in vec4 VertexColor;
 #include "Vert_Fog.glsl" //! #include "D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Space\Render\ShaderSystem\Source\lib\Vert_Fog.glsl"
 #include "Vert_Shadow.glsl" //! #include "D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Space\Render\ShaderSystem\Source\lib\Vert_Shadow.glsl"
 
-out vec3 vid;
+out int vid;
 void main()
 {
     mat4 modelTransform = GetLocalMatrix();
@@ -22,7 +22,7 @@ void main()
     LoadShadowPosition(worldPosition);
     
     gl_Position = ProjectionTransform * positionFromCamera ;
-    vid = aPosition;
+    vid = gl_VertexID;
      
     LoadSurfaceNormal(modelTransform);
    

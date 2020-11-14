@@ -36,7 +36,7 @@ namespace Simple_Engine.Engine.Geometry.Axis.Render
             VAO = CreateVAO();
             var model3D = (IDrawable3D)geometryModel;
             BindIndicesBuffer(model3D.Indeces.ToArray());
-            StoreDataInAttributeList(PositionLocation, model3D.Positions.GetArray(), 3, 0);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, model3D.Positions.GetArray(), 3, 0);
 
             GL.BindVertexArray(0);
         }

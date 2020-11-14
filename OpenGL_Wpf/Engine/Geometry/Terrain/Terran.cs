@@ -27,7 +27,8 @@ namespace Simple_Engine.Engine.Geometry.ThreeDModels
         public override void BuildModel()
         {
             VertexShader = new Vertex_Shader(ShaderPath.Terrain);
-            GeoPointShader = new Geo_Shader(ShaderPath.SingleColorGeo);
+            GeoPointShader = new Geo_Shader(GeometryType.Points, ShaderPath.SingleColorGeo);
+            GeoLineShader = new Geo_Shader(GeometryType.Lines, ShaderPath.SingleColorGeo);
 
             SetShaderModel(VertexShader);
 

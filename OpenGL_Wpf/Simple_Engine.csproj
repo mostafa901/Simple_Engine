@@ -408,10 +408,16 @@
     <None Include="Engine\Space\Render\ShaderSystem\Source\GeoPoint_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Engine\Space\Render\ShaderSystem\Source\LineGeo.geom">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Frag.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Geom.geom">
+    <None Include="Engine\Space\Render\ShaderSystem\Source\PointGeo.geom">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Engine\Space\Render\ShaderSystem\Source\Geo_Vert.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Engine\Space\Render\ShaderSystem\Source\SingleColor_Vert.vert">

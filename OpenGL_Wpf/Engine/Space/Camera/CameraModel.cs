@@ -223,17 +223,31 @@ namespace Simple_Engine.Engine.Space.Camera
 
                     Vector4 pickedColor = targetfbo.GetPixelColorFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment1, 2);
 
-                    int VertexId = targetfbo.GetIntegerFromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment2);
+                    Vector3 VertexId0 = targetfbo.GetVec3FromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment2);
+                    Vector3 VertexId1 = targetfbo.GetVec3FromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment3);
+                    Vector3 VertexId2 = targetfbo.GetVec3FromFrameBufferObject(ref mousePosition, ReadBufferMode.ColorAttachment4);
+
                     var model3d = ((Base_Geo3D)model);
 
-                    Base_Geo3D.SelectedVertex = model3d.Positions.ElementAtOrDefault(VertexId);
+                    Base_Geo3D.SelectedVertex[0] = VertexId0;
+                    Base_Geo3D.SelectedVertex[1] = VertexId1;
+                    Base_Geo3D.SelectedVertex[2] = VertexId2;
 
                     if (model3d.GetShaderModel() is Geo_Shader)
                     {
                         Base_Geo.SelectedModel = model3d;
                         model3d.GetShaderModel().RunOnUIThread.Push(() =>
                         {
-                            model3d.GeoPointShader.SetInt(model3d.GeoPointShader.Location_SelectedVertex, VertexId);
+                            if (model.DrawType == PrimitiveType.Points)
+                            {
+                                model3d.GeoPointShader.SetVector3(model3d.GeoPointShader.Location_SelectedVertex0, VertexId0);
+                            }
+
+                            if (model.DrawType == PrimitiveType.Lines)
+                            {
+                                model3d.GeoLineShader.SetVector3(model3d.GeoLineShader.Location_SelectedVertex0, VertexId0);
+                                model3d.GeoLineShader.SetVector3(model3d.GeoLineShader.Location_SelectedVertex1, VertexId1);
+                            }
                         });
                     }
                     else if (model.DefaultColor == pickedColor)

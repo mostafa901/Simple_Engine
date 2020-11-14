@@ -24,14 +24,14 @@ namespace Simple_Engine.Engine.GameSystem
 
         private static void debugproc(DebugSource source, DebugType type, int id, DebugSeverity severity, int length, IntPtr message, IntPtr userParam)
         {
+            Debug.WriteLine($"\r\n\r\n\r\n***********OpenGL Message**************\r\n\r\n");
+            Debug.WriteLine($"OpenGL Message: {Marshal.PtrToStringAnsi(message)}");
+            Debug.WriteLine($"OpenGL Parameter: {Marshal.PtrToStringAnsi(userParam)}");
+            Debug.WriteLine($"\r\n\r\n***********End OpenGL Message**************\r\n");
             if (severity != DebugSeverity.DebugSeverityNotification)
             {
                 //Debugger.Break();
             }
-            Debug.WriteLine($"\r\n\r\n\r\n***********OpenGL Message**************\r\n\r\n\r\n");
-            Debug.WriteLine($"OpenGL Message: {Marshal.PtrToStringAnsi(message)}");
-            Debug.WriteLine($"OpenGL Parameter: {Marshal.PtrToStringAnsi(userParam)}");
-            Debug.WriteLine($"\r\n\r\n\r\n***********End OpenGL Message**************\r\n\r\n\r\n");
         }
 
         #endregion Debugger

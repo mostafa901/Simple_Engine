@@ -50,7 +50,7 @@ namespace Simple_Engine.Engine.Illumination.Render
             VAO = CreateVAO();
             BindIndicesBuffer(((IDrawable3D)geometryModel).Indeces.ToArray());
 
-            StoreDataInAttributeList(PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
 
             GL.BindVertexArray(0);
         }

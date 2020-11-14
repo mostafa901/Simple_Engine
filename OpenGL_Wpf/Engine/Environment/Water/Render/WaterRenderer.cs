@@ -41,8 +41,8 @@ namespace Simple_Engine.Engine.Water.Render
         {
             VAO = CreateVAO();
             BindIndicesBuffer(Model.Indeces.ToArray());
-            StoreDataInAttributeList(PositionLocation, Model.Positions.GetArray(), 2);
-            StoreDataInAttributeList(TextureLocation, Model.TextureCoordinates.GetArray(), 2);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, Model.Positions.GetArray(), 2);
+            StoreDataInAttributeList(Get_VBO_Texture(), TextureLocation, Model.TextureCoordinates.GetArray(), 2);
 
             GL.BindVertexArray(0);
         }

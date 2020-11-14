@@ -221,7 +221,14 @@ namespace Simple_Engine.Engine.Core.Static
             {
                 ImGui.RadioButton("Normal Color", ref ColorChannel, 0);
                 ImGui.RadioButton("Selection Buffer", ref ColorChannel, 1);
-                ImGui.RadioButton("Vertex Buffer", ref ColorChannel, 2);
+                ImGui.RadioButton("Vertex Buffer0", ref ColorChannel, 2);
+                ImGui.RadioButton("Vertex Buffer1", ref ColorChannel, 3);
+                ImGui.RadioButton("Vertex Buffer2", ref ColorChannel, 4);
+
+                if (ColorChannel == 0)
+                {
+                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment0;
+                }
 
                 if (ColorChannel == 1)
                 {
@@ -232,10 +239,13 @@ namespace Simple_Engine.Engine.Core.Static
                 {
                     CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment2;
                 }
-
-                if (ColorChannel == 0)
+                if (ColorChannel == 3)
                 {
-                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment0;
+                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment3;
+                }
+                if (ColorChannel == 4)
+                {
+                    CameraModel.ActiveCamera.ColorChannel = OpenTK.Graphics.OpenGL.ReadBufferMode.ColorAttachment4;
                 }
 
                 ImGui.EndMenu();

@@ -29,8 +29,65 @@ namespace Simple_Engine.Engine.Render
         public int TangentsLocation;
         public int TextureLocation;
         public int VAO = -1;
+
+        private int VBO_Position = -1; //required when Using Dynamic uploads
+        private int VBO_Normals = -1; //required when Using Dynamic uploads
+        private int VBO_Texture = -1; //required when Using Dynamic uploads
+        private int VBO_Tangent = -1; //required when Using Dynamic uploads
+        private int VBO_Instance = -1;
+
         public int VertexColorLocation;
         public bool EnableNormalTangent = false;
+
+        public int Get_VBO_Position()
+        {
+            if (VBO_Position == -1)
+            {
+                VBO_Position = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            }
+
+            return VBO_Position;
+        }
+
+        public int Get_VBO_Normals()
+        {
+            if (VBO_Normals == -1)
+            {
+                VBO_Normals = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            }
+
+            return VBO_Normals;
+        }
+
+        public int Get_VBO_Texture()
+        {
+            if (VBO_Texture == -1)
+            {
+                VBO_Texture = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            }
+
+            return VBO_Texture;
+        }
+
+        public int Get_VBO_Tangent()
+        {
+            if (VBO_Tangent == -1)
+            {
+                VBO_Tangent = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            }
+
+            return VBO_Tangent;
+        }
+
+        public int Get_VBO_Instance()
+        {
+            if (VBO_Instance == -1)
+            {
+                VBO_Instance = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
+            }
+
+            return VBO_Instance;
+        }
 
         public EngineRenderer(IDrawable _model)
         {
@@ -100,14 +157,9 @@ namespace Simple_Engine.Engine.Render
         public virtual void Draw()
         {
             PreDraw();
-            //if (geometryModel is ISelectable && ((ISelectable)geometryModel).Selected)
-            //{
-            //    RenderStencil();
-            //}
-            //else
-            {
-                DrawModel();
-            }
+
+            DrawModel();
+
             EndDraw();
         }
 
@@ -187,26 +239,25 @@ namespace Simple_Engine.Engine.Render
             GL.Disable(EnableCap.StencilTest);
         }
 
-        public int StoreDataInAttributeList(int attributeLocation, float[] data, int componentCount, int divisor = 0)
+        public int StoreDataInAttributeList(int VBO, int attributeLocation, float[] data, int componentCount, int divisor = 0)
         {
             if (data.Length == 0) return 0;
             var size = data.Length * sizeof(float);
             var pdata = Marshal.AllocHGlobal(size);
             Marshal.Copy(data, 0, pdata, data.Length);
 
-            var v = StoreDataInAttributeList(attributeLocation, size, pdata, componentCount, divisor);
+            var v = StoreDataInAttributeList(VBO, attributeLocation, size, pdata, componentCount, divisor);
             Marshal.FreeHGlobal(pdata);
             return v;
         }
 
-        public int StoreDataInAttributeList(int attributeLocation, byte[] data, int componentCount, int divisor = 0)
+        public int StoreDataInAttributeList(int VBO, int attributeLocation, byte[] data, int componentCount, int divisor = 0)
         {
-            return StoreDataInAttributeList(attributeLocation, data.Length, data, componentCount, divisor);
+            return StoreDataInAttributeList(VBO, attributeLocation, data.Length, data, componentCount, divisor);
         }
 
-        public int StoreDataInAttributeList(int attributeLocation, int size, dynamic data, int componentCount, int divisor)
+        public int StoreDataInAttributeList(int VBO, int attributeLocation, int size, dynamic data, int componentCount, int divisor)
         {
-            var VBO = GL.GenBuffer(); //Create an Id for the Vertex Buffer Object
             VBOs.Add(VBO);
             //define the type of buffer in the GPU and Activate
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);

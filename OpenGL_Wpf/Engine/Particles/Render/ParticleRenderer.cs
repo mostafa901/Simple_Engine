@@ -82,8 +82,8 @@ namespace Simple_Engine.Engine.Particles.Render
         {
             VAO = CreateVAO();
             BindIndicesBuffer(particleModel.Indeces.ToArray());
-            StoreDataInAttributeList(PositionLocation, particleModel.Positions.GetArray(), 2, 0);
-            StoreDataInAttributeList(TextureLocation, particleModel.TextureCoordinates.GetArray(), 2, 0);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, particleModel.Positions.GetArray(), 2, 0);
+            StoreDataInAttributeList(Get_VBO_Texture(), TextureLocation, particleModel.TextureCoordinates.GetArray(), 2, 0);
             //StoreDataInAttributeList(NormalLocation, particleModel.Normals.GetArray(), 2, 0);
             StoreDataInAttributeList(InstancesMatrix, MatrixLocations, 1, 4, 4);
 

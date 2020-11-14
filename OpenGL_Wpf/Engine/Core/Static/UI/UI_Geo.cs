@@ -97,6 +97,11 @@ namespace Simple_Engine.Engine.Core.Static
                             Model.SetShaderModel(Model.GeoPointShader);
                             Model.Dynamic = IDrawable.DynamicFlag.Positions;
                         }
+                        else if (Model.DrawType == PrimitiveType.Lines)
+                        {
+                            Model.SetShaderModel(Model.GeoLineShader);
+                            Model.Dynamic = IDrawable.DynamicFlag.Positions;
+                        }
                         else
                         {
                             Model.SetShaderModel(Model.VertexShader);
