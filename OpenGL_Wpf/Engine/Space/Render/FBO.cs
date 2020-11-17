@@ -38,7 +38,9 @@ namespace Simple_Engine.Engine.Water.Render
 
         private int depthBufferId;
         public int SelectionTextureId;
-        public int VertexSelectionTextureId;
+        public int VertexSelectionTextureId0;
+        public int VertexSelectionTextureId1;
+        public int VertexSelectionTextureId2;
 
         public int StencilDepthId { get; }
         public Vector4 BorderColor { get; set; } = new Vector4();
@@ -58,7 +60,7 @@ namespace Simple_Engine.Engine.Water.Render
             }
             FBOId = CreateFrameBuffer();
 
-            TextureId = CreateRGBTextureAttachment(FramebufferAttachment.ColorAttachment0);
+            TextureId = CreateRGBATextureAttachment(FramebufferAttachment.ColorAttachment0);
 
             ActivateDepthBuffer(withStencil);
 
@@ -75,6 +77,18 @@ namespace Simple_Engine.Engine.Water.Render
             GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
             //check if the mouse is indeed over the model, or just close by another object
             return pixelColor.ToVector4().Round(pixelRound);
+        }
+
+        public Vector3 GetVec3FromFrameBufferObject(ref Point mousePosition, ReadBufferMode channel)
+        {
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, FBOId);
+            GL.ReadBuffer(channel);
+            float[] pixelColor = new float[3];
+            GL.ReadPixels(mousePosition.X, Game.Instance.Height - mousePosition.Y - 1, 1, 1, PixelFormat.Rgb, PixelType.Float, pixelColor);
+
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+            //check if the mouse is indeed over the model, or just close by another object
+            return pixelColor.ToVector3();
         }
 
         public int GetIntegerFromFrameBufferObject(ref Point mousePosition, ReadBufferMode channel)
@@ -157,7 +171,7 @@ namespace Simple_Engine.Engine.Water.Render
             SceneModel.ActiveScene.FBOs.Remove(this);
         }
 
-        public virtual int CreateRGBTextureAttachment(FramebufferAttachment attachment)
+        public virtual int CreateRGBATextureAttachment(FramebufferAttachment attachment)
         {
             //reserve a space for a texture
             var textureId = GL.GenTexture();
@@ -177,6 +191,20 @@ namespace Simple_Engine.Engine.Water.Render
             var textureId = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, textureId);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R32ui, Width, Height, 0, PixelFormat.RedInteger, PixelType.UnsignedInt, IntPtr.Zero);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+
+            //attach this texture to the frame buffer object
+            GL.FramebufferTexture(FramebufferTarget.Framebuffer, attachment, textureId, 0);
+            return textureId;
+        }
+
+        public virtual int CreateVec3TextureAttachment(FramebufferAttachment attachment)
+        {
+            //reserve a space for a texture
+            var textureId = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, textureId);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb32f, Width, Height, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 

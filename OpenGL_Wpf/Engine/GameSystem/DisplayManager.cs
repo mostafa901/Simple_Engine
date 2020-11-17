@@ -34,6 +34,7 @@ namespace Simple_Engine.Engine.GameSystem
         //for example selection buffer we need to disable all blended objects
         public static RenderBufferType CurrentBuffer { get; internal set; }
 
+        public static float LineSize = 2;
         public static float PointSize = 2;
 
         public static void RequestRender(GameState request)

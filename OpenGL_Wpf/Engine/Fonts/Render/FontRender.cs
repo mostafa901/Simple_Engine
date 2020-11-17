@@ -28,8 +28,8 @@ namespace Simple_Engine.Engine.Fonts
 
             VAO = CreateVAO();
 
-            VBOs.Add(StoreDataInAttributeList(PositionLocation, model.Positions.GetArray(), 2));
-            VBOs.Add(StoreDataInAttributeList(TextureLocation, model.TextureCoordinates.GetArray(), 2));
+            VBOs.Add(StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, model.Positions.GetArray(), 2));
+            VBOs.Add(StoreDataInAttributeList(Get_VBO_Texture(), TextureLocation, model.TextureCoordinates.GetArray(), 2));
 
             GL.BindVertexArray(0);
         }

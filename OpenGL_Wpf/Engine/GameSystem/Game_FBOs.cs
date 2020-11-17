@@ -20,11 +20,11 @@ namespace Simple_Engine.Engine.GameSystem
             mTargets_FBO = new FBO_MTargets(Width, Height);
         }
 
-        private void Render_PostProcess()
+        private void Render_PostProcess(int TextureId)
         {
-            contrastEffect.ProcessEffect(mTargets_FBO.TextureId);
-            hBlureEffect.ProcessEffect(mTargets_FBO.TextureId);
-            sepiaEffect.ProcessEffect(mTargets_FBO.TextureId);
+            contrastEffect.ProcessEffect(TextureId);
+            hBlureEffect.ProcessEffect(TextureId);
+            sepiaEffect.ProcessEffect(TextureId);
         }
     }
 }

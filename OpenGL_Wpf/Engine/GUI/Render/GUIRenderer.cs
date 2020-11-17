@@ -38,9 +38,9 @@ namespace Simple_Engine.Engine.GUI.Render
         public override void RenderModel()
         {
             VAO = CreateVAO();
-            StoreDataInAttributeList(PositionLocation, Model.Positions.GetArray(), 2);
-            StoreDataInAttributeList(TextureLocation, Model.TextureCoordinates.GetArray(), 2);
-            StoreDataInAttributeList(NormalLocation, Model.Normals.GetArray(), 3);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, Model.Positions.GetArray(), 2);
+            StoreDataInAttributeList(Get_VBO_Texture(), TextureLocation, Model.TextureCoordinates.GetArray(), 2);
+            StoreDataInAttributeList(Get_VBO_Normals(), NormalLocation, Model.Normals.GetArray(), 3);
             GL.BindVertexArray(0);
         }
 

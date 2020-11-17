@@ -24,8 +24,10 @@ namespace Simple_Engine.Engine.Water.Render
                 DrawBuffersEnum.ColorAttachment0,
                 DrawBuffersEnum.ColorAttachment1,
                 DrawBuffersEnum.ColorAttachment2,
+                DrawBuffersEnum.ColorAttachment3,
+                DrawBuffersEnum.ColorAttachment4,
                 };
-            GL.DrawBuffers(3, buffs);
+            GL.DrawBuffers(5, buffs);
 
             return fboId;
         }
@@ -36,8 +38,10 @@ namespace Simple_Engine.Engine.Water.Render
 
             Setup_Defaults(false);
             BindFrameBuffer();
-            SelectionTextureId = CreateRGBTextureAttachment(FramebufferAttachment.ColorAttachment1);
-            VertexSelectionTextureId = CreateIntTextureAttachment(FramebufferAttachment.ColorAttachment2);
+            SelectionTextureId = CreateRGBATextureAttachment(FramebufferAttachment.ColorAttachment1);
+            VertexSelectionTextureId0 = CreateVec3TextureAttachment(FramebufferAttachment.ColorAttachment2);
+            VertexSelectionTextureId1 = CreateVec3TextureAttachment(FramebufferAttachment.ColorAttachment3);
+            VertexSelectionTextureId2 = CreateVec3TextureAttachment(FramebufferAttachment.ColorAttachment4);
             UnbindCurrentBuffer();
         }
 

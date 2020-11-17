@@ -1,6 +1,8 @@
 ﻿layout(location=0) out vec4 FragColor;
 layout(location=1) out vec4 FragDefaultColor;
-layout(location=2) out uint FragVertexColor;
+layout(location=2) out vec3 FragVertexColor0;
+layout(location=3) out vec3 FragVertexColor1;
+layout(location=4) out vec3 FragVertexColor2;
 
 #include "Frag_Effects.glsl" //! #include "D:\Revit_API\Projects\Simple_Engine\OpenGL_Wpf\Engine\Space\Render\ShaderSystem\Source\lib\Frag_Effects.glsl"
 
@@ -37,10 +39,9 @@ vec4 AddToon(vec4 currentPixel)
 
 vec4 Finalize(vec4 pixelColor)
 {
-	FragDefaultColor = DefaultColor;
+	FragDefaultColor = DefaultColor;	
 	
-	
-	if(ModelSelected>0.0)
+	if(ModelSelected > 0.0)
     {
         pixelColor = AddSelection(pixelColor);
     }

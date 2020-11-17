@@ -13,13 +13,8 @@ namespace Simple_Engine.Engine.Core.Static
 {
     public static class UI_Vertex
     {
-        private static Vector3 Model;
-
-        public static void RenderUI(Vector3 model)
+        public static void RenderUI()
         {
-            if (model == null) return;
-            Model = model;
-
             RenderWindow();
         }
 
@@ -32,26 +27,44 @@ namespace Simple_Engine.Engine.Core.Static
             ImGui.SetNextWindowDockID(1, ImGuiCond.Appearing);
             if (ImGui.Begin("Vertex", ref isWindowOpen, ImGuiWindowFlags.DockNodeHost | ImGuiWindowFlags.NoResize))
             {
-                var pos = Model.ToSystemNumeric();
-
-                if (ImGui.InputFloat3("Position", ref pos))
+                var model = ((Base_Geo3D)Base_Geo.SelectedModel);
+                if (model != null)
                 {
-                    var model = ((Base_Geo3D)Base_Geo.SelectedModel);
-                    if (model != null)
+                    var count = model.DrawType == PrimitiveType.Points ? 1 : 2;
+                    for (int i = 0; i < count; i++)
                     {
-                        var index = model.Positions.IndexOf(Model);
+                        var vpos = Base_Geo3D.SelectedVertex[i];
+                        if (vpos == null) continue;
+                        var pos = vpos.ToSystemNumeric();
 
-                        if (index != -1)
+                        if (ImGui.DragFloat3($"Position V{i}", ref pos, .1f))
                         {
-                            Model = model.Positions[index] = pos.ToVector();
+                            var index = model.Positions.IndexOf(Base_Geo3D.SelectedVertex[i]);
+
+                            if (index != -1)
+                            {
+                                Base_Geo3D.SelectedVertex[i] = pos.ToVector();
+                                model.Positions[index] = Base_Geo3D.SelectedVertex[i];
+                            }
+                        }
+                    }
+
+                    if (model.DrawType == PrimitiveType.Points)
+                    {
+                        if (ImGui.DragFloat("Point Size", ref DisplayManager.PointSize, 0.1f, 0, 20))
+                        {
+                            GL.PointSize(DisplayManager.PointSize);
+                        }
+                    }
+                    if (model.DrawType == PrimitiveType.Lines)
+                    {
+                        if (ImGui.DragFloat("Line Size", ref DisplayManager.LineSize, 0.1f, 0, 20))
+                        {
+                            GL.LineWidth(DisplayManager.LineSize);
                         }
                     }
                 }
 
-                if (ImGui.DragFloat("Point Size", ref DisplayManager.PointSize, 0.1f, 0, 10))
-                {
-                    GL.PointSize(DisplayManager.PointSize);
-                }
                 ImGui.End();
             }
 

@@ -22,11 +22,11 @@ namespace Simple_Engine.Engine.Geometry.Render
             VAO = CreateVAO();
             BindIndicesBuffer(((IDrawable3D)Model).Indeces.ToArray());
 
-            StoreDataInAttributeList(PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
             PositionBufferLength = ((IDrawable3D)Model).Positions.Count;
 
-            StoreDataInAttributeList(TextureLocation, Model.TextureCoordinates.GetArray(), 2);
-            StoreDataInAttributeList(NormalLocation, Model.Normals.GetArray(), 3);
+            StoreDataInAttributeList(Get_VBO_Texture(), TextureLocation, Model.TextureCoordinates.GetArray(), 2);
+            StoreDataInAttributeList(Get_VBO_Normals(), NormalLocation, Model.Normals.GetArray(), 3);
             if (geometryModel.GetShaderModel().EnableInstancing)
             {
                 if (Model.Meshes.Any())
@@ -34,21 +34,18 @@ namespace Simple_Engine.Engine.Geometry.Render
                     StoreDataInAttributeList(InstancesMatrix, MatrixLocations, 1, 4, 4);
                 }
 
-                StoreDataInAttributeList(InstancesSelectedLocation, Model.Meshes.Select(o => (float)Convert.ToInt32(o.Selected)).ToArray(), 1, 1);
+                StoreDataInAttributeList(Get_VBO_Instance(), InstancesSelectedLocation, Model.Meshes.Select(o => (float)Convert.ToInt32(o.Selected)).ToArray(), 1, 1);
             }
             else
             {
-                StoreDataInAttributeList(InstancesSelectedLocation, new float[] { (float)Convert.ToInt32(Model.GetSelected()) }, 1);
+                StoreDataInAttributeList(Get_VBO_Instance(), InstancesSelectedLocation, new float[] { (float)Convert.ToInt32(Model.GetSelected()) }, 1);
             }
             if (Model.NormalTangent.Any())
             {
                 EnableNormalTangent = true;
-                StoreDataInAttributeList(TangentsLocation, Model.NormalTangent.GetArray(), 3);
+                StoreDataInAttributeList(Get_VBO_Tangent(), TangentsLocation, Model.NormalTangent.GetArray(), 3);
             }
-            if (Model.VertixColor.Any())
-            {
-                StoreDataInAttributeList(VertexColorLocation, Model.VertixColor.GetArray(), 4);
-            }
+
             GL.BindVertexArray(0);
         }
 
@@ -59,7 +56,7 @@ namespace Simple_Engine.Engine.Geometry.Render
             GL.EnableVertexAttribArray(PositionLocation);//position
             if (geometryModel.Dynamic.HasFlag(IDrawable.DynamicFlag.Positions))
             {
-                StoreDataInAttributeList(PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
+                StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, ((IDrawable3D)Model).Positions.GetArray(), 3);
             }
             GL.EnableVertexAttribArray(TextureLocation);//texture
             GL.EnableVertexAttribArray(NormalLocation);//normal

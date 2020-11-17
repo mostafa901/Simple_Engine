@@ -259,7 +259,8 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
             GC.SuppressFinalize(this);
         }
 
-        protected const string PointsShader = @"./Engine/Space/Render/ShaderSystem/Source/SingleColor_Geom.geom";
+        protected const string PointsShader = @"./Engine/Space/Render/ShaderSystem/Source/PointGeo.geom";
+        protected const string LinesShader = @"./Engine/Space/Render/ShaderSystem/Source/LineGeo.geom";
 
         public abstract void Setup_Shader(string vertexPath, string fragmentPath);
 

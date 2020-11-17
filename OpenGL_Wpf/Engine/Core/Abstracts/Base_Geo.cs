@@ -67,6 +67,7 @@ namespace Simple_Engine.Engine.Core.Abstracts
 
         public Vertex_Shader VertexShader { get; set; }
         public Geo_Shader GeoPointShader { get; set; }
+        public Geo_Shader GeoLineShader { get; set; }
 
         public bool AllowReflect { get; set; } = false;
         public BoundingBox BBX { get; set; }

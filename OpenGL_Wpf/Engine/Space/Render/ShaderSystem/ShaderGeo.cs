@@ -3,12 +3,23 @@ using Simple_Engine.Engine.Core.Abstracts;
 
 namespace Simple_Engine.Engine.Render.ShaderSystem
 {
+    public enum GeometryType
+    {
+        Lines,
+        Points
+    }
+
     public class Geo_Shader : Base_Shader
     {
-        public int Location_SelectedVertex = -1;
+        public int Location_SelectedVertex0 = -1;
+        public int Location_SelectedVertex1 = -1;
+        public int Location_SelectedVertex2 = -1;
 
-        public Geo_Shader(ShaderPath shaderModelType) : base(shaderModelType)
+        public GeometryType GeoType { get; }
+
+        public Geo_Shader(GeometryType geoType, ShaderPath shaderModelType) : base(shaderModelType)
         {
+            GeoType = geoType;
             InitalizeShader();
         }
 
@@ -18,7 +29,18 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
             ProgramId = GL.CreateProgram();
 
             var vertexShaderId = CreateShader(vertexPath, OpenTK.Graphics.OpenGL.ShaderType.VertexShader);
-            var geoShaderId = CreateShader(PointsShader, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
+            var geoShaderId = -1;
+            switch (GeoType)
+            {
+                case GeometryType.Lines:
+                    geoShaderId = CreateShader(LinesShader, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
+                    break;
+
+                case GeometryType.Points:
+                    geoShaderId = CreateShader(PointsShader, OpenTK.Graphics.OpenGL.ShaderType.GeometryShader);
+                    break;
+            }
+
             var fragShaderId = CreateShader(fragmentPath, OpenTK.Graphics.OpenGL.ShaderType.FragmentShader);
 
             AttachShader(ProgramId, vertexShaderId);
@@ -46,7 +68,9 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
         public override void LoadAllUniforms()
         {
             base.LoadAllUniforms();
-            Location_SelectedVertex = GetLocation("SelectedVertex");
+            Location_SelectedVertex0 = GetLocation("SelectedVertex0");
+            Location_SelectedVertex1 = GetLocation("SelectedVertex1");
+            Location_SelectedVertex2 = GetLocation("SelectedVertex2");
         }
     }
 }

@@ -13,7 +13,6 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
         {
             //Link both Shaders to a program
             ProgramId = GL.CreateProgram();
-            ProgramId = GL.CreateProgram();
 
             var vertexShaderId = CreateShader(vertexPath, OpenTK.Graphics.OpenGL.ShaderType.VertexShader);
             var fragShaderId = CreateShader(fragmentPath, OpenTK.Graphics.OpenGL.ShaderType.FragmentShader);
@@ -25,13 +24,13 @@ namespace Simple_Engine.Engine.Render.ShaderSystem
 
             LinkProgram(ProgramId);
 
-            LoadAllUniforms();
-
             //After linking(whether successfully or not), it is a good idea to detach all shader objects from the program.
             GL.DetachShader(ProgramId, vertexShaderId);
             GL.DetachShader(ProgramId, fragShaderId);
             GL.DeleteShader(vertexShaderId);
             GL.DeleteShader(fragShaderId);
+
+            LoadAllUniforms();
         }
     }
 }

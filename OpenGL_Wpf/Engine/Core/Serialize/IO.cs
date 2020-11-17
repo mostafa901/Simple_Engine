@@ -148,15 +148,15 @@ namespace Simple_Engine.Engine.Core.Serialize
                              line.SetShaderModel(new Vertex_Shader(ShaderPath.SingleColor));
                              line.UploadVAO();
                              GL.BindVertexArray(line.Renderer.VAO);
-                             line.Renderer.StoreDataInAttributeList(line.GetShaderModel().PositionLayoutId, posBuffer, 3, 0);
+                             line.Renderer.StoreDataInAttributeList(line.Renderer.Get_VBO_Position(), line.GetShaderModel().PositionLayoutId, posBuffer, 3, 0);
                              if (normalsBuffer != null && normalsBuffer.Any())
                              {
-                                 line.Renderer.StoreDataInAttributeList(line.GetShaderModel().NormalLayoutId, normalsBuffer, 3, 0);
+                                 line.Renderer.StoreDataInAttributeList(line.Renderer.Get_VBO_Normals(), line.GetShaderModel().NormalLayoutId, normalsBuffer, 3, 0);
                              }
                              if (normalTangentBuffer != null && normalTangentBuffer.Any())
                              {
                                  line.Renderer.EnableNormalTangent = true;
-                                 line.Renderer.StoreDataInAttributeList(line.GetShaderModel().TangentLayoutId, normalTangentBuffer, 3, 0);
+                                 line.Renderer.StoreDataInAttributeList(line.Renderer.Get_VBO_Tangent(), line.GetShaderModel().TangentLayoutId, normalTangentBuffer, 3, 0);
                              }
                              line.Renderer.BindIndicesBuffer<int>(indexBuffer);
 

@@ -26,7 +26,7 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
 
             if (geometryModel.Dynamic.HasFlag(IDrawable.DynamicFlag.Positions))
             {
-                StoreDataInAttributeList(PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
+                StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
             }
 
             // DisableCulling();
@@ -51,9 +51,9 @@ namespace Simple_Engine.Engine.Geometry.Terrain.Render
             VAO = CreateVAO();
             BindIndicesBuffer(((IDrawable3D)geometryModel).Indeces.ToArray());
 
-            StoreDataInAttributeList(PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
-            StoreDataInAttributeList(TextureLocation, geometryModel.TextureCoordinates.GetArray(), 2);
-            StoreDataInAttributeList(NormalLocation, geometryModel.Normals.GetArray(), 3);
+            StoreDataInAttributeList(Get_VBO_Position(), PositionLocation, ((IDrawable3D)geometryModel).Positions.GetArray(), 3);
+            StoreDataInAttributeList(Get_VBO_Texture(), TextureLocation, geometryModel.TextureCoordinates.GetArray(), 2);
+            StoreDataInAttributeList(Get_VBO_Normals(), NormalLocation, geometryModel.Normals.GetArray(), 3);
 
             GL.BindVertexArray(0);
         }
