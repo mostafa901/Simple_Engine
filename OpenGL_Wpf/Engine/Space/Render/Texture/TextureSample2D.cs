@@ -14,7 +14,7 @@ namespace Simple_Engine.Engine.Render.Texture
 
         public TextureSample2D(TextureUnit textureUnit, Vector4 color = new Vector4()) : base(TextureMode.Texture2D)
         {
-            //Bitmap img = Shared_Lib.Extention.Graphics_Ex.Image_Ex.ImageFromColor(10, 10, (int)(color.X * 225), (int)(color.Y * 225), (int)(color.Z * 225), (int)(color.W * 225));
+            //Bitmap img = Shared_Library.Extention.Graphics_Ex.Image_Ex.ImageFromColor(10, 10, (int)(color.X * 225), (int)(color.Y * 225), (int)(color.Z * 225), (int)(color.W * 225));
 
             Bitmap img = new Bitmap(1, 1);
             using (Graphics gfx = Graphics.FromImage(img))

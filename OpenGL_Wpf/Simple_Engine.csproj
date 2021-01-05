@@ -631,9 +631,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared_Library\Shared_Library\Shared_Library.csproj">
+    <ProjectReference Include="..\..\Shared_Library\Shared_Library\Shared_Lib.csproj">
       <Project>{299bc186-d87e-4bc3-bcce-62b1f631feb9}</Project>
-      <Name>Shared_Library</Name>
+      <Name>Shared_Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
