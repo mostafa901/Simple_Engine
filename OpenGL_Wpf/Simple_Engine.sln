@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple_Engine", "Simple_Engine.csproj", "{660B6DE5-27A3-45F9-9CC1-65FC302CE3D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared_Library", "..\..\Shared_Library\Shared_Library\Shared_Library.csproj", "{299BC186-D87E-4BC3-BCCE-62B1F631FEB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared_Lib", "..\..\Shared_Library\Shared_Library\Shared_Lib.csproj", "{299BC186-D87E-4BC3-BCCE-62B1F631FEB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
